@@ -1,0 +1,10 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<item><color android:color="@color/launcher_background" />
+</item>
+ <item
+    android:height="300dp"
+    android:width="300dp"
+    android:drawable="@drawable/logo_android"
+    android:gravity="center" >
+</item>
+</layer-list>

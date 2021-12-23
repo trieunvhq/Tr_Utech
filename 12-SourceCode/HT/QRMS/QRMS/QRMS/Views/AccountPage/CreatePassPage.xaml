@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Views.AccountPage.CreatePassPage"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             xmlns:constants="clr-namespace:QRMS.Constants"
+             xmlns:helper="clr-namespace:QRMS.Helper"
+             ControlTemplate="{StaticResource ContentPageTemplateTitleHotline}"
+             BackgroundColor="#FFDA9F" x:Name="root">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="StackLayout">
+                <Setter Property="Spacing" Value="0" />
+            </Style>
+            <Style x:Key="FrameStyle" TargetType="Frame">
+                <Setter Property="BorderColor" Value="#DCE0E2"/>
+                <Setter Property="HasShadow" Value="False"/>
+                <Setter Property="Padding" Value="0,0,0,0"/>
+                <Setter Property="Margin" Value="0,0,0,0"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="HasShadow" Value="False" />
+            </Style>
+            <Style x:Key="EntryStyle" TargetType="helper:BorderlessEntry">
+                <Setter Property="PlaceholderColor" Value="#ACACB1" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="#17233D" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="ReturnType" Value="Done" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView x:Name="scroll" BackgroundColor="#FFFFFF">
+        <StackLayout Margin="16,0"
+               Spacing="0" VerticalOptions="Start">
+
+            <Label Text="{x:Static resource:AppResources.TaoMatKhauLanDauTien}" FontSize="18" FontAttributes="Bold" Margin="0,24,0,16" />
+
+            <helper:LabelCustoms TextColor="#6C757D" FontSize="15"
+                                x:Name="lbNote1" Margin="0,0,0,20"/>
+           
+            <Label Margin="0,5,0,5">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{x:Static resource:AppResources.MatKhauMoi}"
+                   FontSize="12" FontAttributes="Bold" TextColor="Black"/>
+                        <Span Text=" *" FontSize="12" FontAttributes="Bold" TextColor="Red"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Frame x:Name="framePass" Style="{StaticResource FrameStyle}">
+                <helper:BorderlessEntry  Focused="txtPassword_Focused"
+                            x:Name="txtPassword" 
+                            Placeholder="{x:Static resource:AppResources.NhapMKMoi}"  
+                            Text="{Binding Password, Mode=TwoWay}" 
+                            Style="{StaticResource EntryStyle}"
+                            IsEnabled="{Binding PasswordEnable, Mode=TwoWay}">
+                    <Entry.Effects>
+                        <helper:ShowHidePassEffect />
+                    </Entry.Effects>
+                </helper:BorderlessEntry>
+            </Frame>
+            <Label x:Name="lbNote2" TextColor="#6C757D" FontSize="12" Margin="0,3,0,10"/>
+
+            <Label Margin="0,5,0,5">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{x:Static resource:AppResources.XacNhanLaiMKMoi}"
+                   FontSize="12" FontAttributes="Bold" TextColor="Black"/>
+                        <Span Text=" *" FontSize="12" FontAttributes="Bold" TextColor="Red"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Frame x:Name="framePass2" Style="{StaticResource FrameStyle}">
+                <helper:BorderlessEntry  Focused="txtPassword2_Focused"
+                            x:Name="txtPassword2" 
+                            Placeholder="{x:Static resource:AppResources.NhapLaiMKMoi}"  
+                            Text="{Binding Password, Mode=TwoWay}" 
+                            Style="{StaticResource EntryStyle}"
+                            IsEnabled="{Binding PasswordEnable, Mode=TwoWay}">
+                    <Entry.Effects>
+                        <helper:ShowHidePassEffect />
+                    </Entry.Effects>
+                </helper:BorderlessEntry>
+            </Frame>
+            <Label x:Name="lbNote3" TextColor="#6C757D" FontSize="12" Margin="0,3,0,10"/>
+
+            <helper:ButtonCustoms Text="{x:Static resource:AppResources.XacNhan}" HeightRequest="40" CornerRadius="20"
+                                  x:Name="btnTiepTheo" Margin="0,24,0,56" Clicked="OnNextButtonClicked" GradientOrientation="Horizontal"
+                                  StartColor="#E99942" EndColor="#F5C954"/>
+
+            <Image Source="img_view_mk.png" VerticalOptions="End" HorizontalOptions="End"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

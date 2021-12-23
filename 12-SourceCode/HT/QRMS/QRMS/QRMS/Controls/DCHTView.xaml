@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
+<Grid
+    x:Class="QRMS.Controls.DCHTView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:QRMS.Constants"
+    xmlns:resource="clr-namespace:QRMS.Resources"
+    ColumnSpacing="0"
+    RowSpacing="0">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="5" />
+        <ColumnDefinition Width="10" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="1.3*" />
+        <ColumnDefinition Width="10" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="5" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" /> 
+        <RowDefinition Height="5" />
+    </Grid.RowDefinitions>
+    <Frame
+        Grid.Row="0"
+        Grid.RowSpan="7"
+        Grid.Column="0"
+        Grid.ColumnSpan="5"
+        BackgroundColor="#FF9933"
+        CornerRadius="8"
+        HasShadow="False">
+        <!--<Frame.Opacity>
+            <OnPlatform x:TypeArguments="x:Double" iOS=".16" Android=".6" />
+        </Frame.Opacity>-->
+    </Frame>
+    <Frame
+        Grid.Row="0"
+        Grid.RowSpan="7"
+        Grid.Column="1"
+        Grid.ColumnSpan="4"
+        BackgroundColor="White"
+        CornerRadius="8"
+        HasShadow="False" />
+    <StackLayout Orientation="Horizontal" Spacing="16"
+        Grid.Row="1"
+        Grid.Column="2"
+        Grid.ColumnSpan="2"
+        Margin="0,5,0,10">
+        <Label
+        x:Name="lbTitle"
+        FontAttributes="Bold"
+        FontSize="14"
+        TextColor="#1D1D1F" 
+        WidthRequest="{x:Static constants:MySettings.Haft_W_2_3}" />
+         <Label
+        x:Name="lbTrangThai"  
+        FontSize="12"
+        HorizontalTextAlignment="End"
+        TextColor="#DC3545" 
+        WidthRequest="{x:Static constants:MySettings.Haft_W_1_3}" />
+    </StackLayout>
+
+    
+    <Label
+        Grid.Row="2"
+        Grid.Column="2"
+        Margin="0,5,0,5"
+        FontSize="12"
+        Text="{x:Static resource:AppResources.TravelInsuredPersonName}"
+        TextColor="#6C757D" />
+    <Label
+        Grid.Row="3"
+        Grid.Column="2"
+        Margin="0,5,0,5"
+        FontSize="12"
+        Text="{x:Static resource:AppResources.SCMTCCCDHC}"
+        TextColor="#6C757D" />
+    <Label
+        Grid.Row="4"
+        Grid.Column="2"
+        Margin="0,5,0,5"
+        FontSize="12"
+        Text="{x:Static resource:AppResources.CustomerPhoneInput}"
+        TextColor="#6C757D"
+        VerticalTextAlignment="Center" />
+    <Label
+        Grid.Row="5"
+        Grid.Column="2"
+        Margin="0,5,0,5"
+        FontSize="12"
+        Text="{x:Static resource:AppResources.TravelCustomerEmailInput}"
+        TextColor="#6C757D"  /> 
+    <Label
+        x:Name="lbHoVaTenKhachHang"
+        Grid.Row="2"
+        Grid.Column="3"
+        Margin="0,5,0,5"
+        FontSize="12"
+        HorizontalTextAlignment="End"
+        TextColor="#1D1D1F" />
+    <Label
+        x:Name="lbSoCMTCCCDHC"
+        Grid.Row="3"
+        Grid.Column="3"
+        Margin="0,5,0,5"
+        FontSize="12"
+        HorizontalTextAlignment="End"
+        TextColor="#1D1D1F" />
+    <Label
+        x:Name="lbSoDienThoai"
+        Grid.Row="4"
+        Grid.Column="3"
+        Margin="0,5,0,5"
+        FontSize="12"
+        HorizontalTextAlignment="End"
+        TextColor="#1D1D1F" />
+    <Label
+        x:Name="lbEmail"
+        Grid.Row="5"
+        Grid.Column="3"
+        Margin="0,5,0,5"
+        FontSize="12"
+        HorizontalTextAlignment="End"
+        TextColor="#1D1D1F" />
+     <Button BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5"
+             Clicked="Button_Clicked"/>
+</Grid>

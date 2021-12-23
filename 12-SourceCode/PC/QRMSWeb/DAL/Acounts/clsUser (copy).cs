@@ -50,5 +50,41 @@ namespace DAL
             }
         }
 
-    }
+
+		//Check tài khoản đã tồn tại:
+		public DataTable Tr_User_CheckAcountTonTai(string TaiKhoan_)
+		{
+			SqlCommand scmCmdToExecute = new SqlCommand();
+			scmCmdToExecute.CommandText = "dbo.[Tr_User_CheckAcountTonTai]";
+			scmCmdToExecute.CommandType = CommandType.StoredProcedure;
+			DataTable dtToReturn = new DataTable("User");
+			SqlDataAdapter sdaAdapter = new SqlDataAdapter(scmCmdToExecute);
+
+			// Use base class' connection object
+			scmCmdToExecute.Connection = m_scoMainConnection;
+
+            try
+            {
+                m_scoMainConnection.Open();
+                scmCmdToExecute.Parameters.Add(new SqlParameter("@sTaiKhoan", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, TaiKhoan_));
+
+                // Execute query.
+                sdaAdapter.Fill(dtToReturn);
+                return dtToReturn;
+            }
+            catch (Exception ex)
+            {
+                // some error occured. Bubble it to caller and encapsulate Exception object
+                throw new Exception("pr_tbDangNhap_KiemTraDangNhap", ex);
+            }
+            finally
+            {
+                //Close connection.
+                m_scoMainConnection.Close();
+                scmCmdToExecute.Dispose();
+                sdaAdapter.Dispose();
+            }
+        }
+
+	}
 }

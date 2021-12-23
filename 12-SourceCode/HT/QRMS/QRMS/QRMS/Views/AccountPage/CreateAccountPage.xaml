@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Views.AccountPage.CreateAccountPage"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             xmlns:constants="clr-namespace:QRMS.Constants"
+             xmlns:helper="clr-namespace:QRMS.Helper"
+             ControlTemplate="{StaticResource ContentPageTemplateTitle}"
+             BackgroundColor="#FFDA9F" x:Name="root">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="StackLayout">
+                <Setter Property="Spacing" Value="0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView x:Name="scroll" BackgroundColor="#FFFFFF">
+        <StackLayout Margin="16,0"
+               Spacing="10" VerticalOptions="Start">
+
+            <helper:LabelCustoms Text="{x:Static resource:AppResources.MoiThongTin_}"
+                                 TextColor="#1D1D1F" FontSize="16" Margin="0,24,0,16"/>
+            <control:EntryInputView x:Name="inputHoVaTen" Keyboard="Default" 
+                                    Title="{x:Static resource:AppResources.TravelCustomerNameInput}"
+                                    Text="{Binding NAME}" MaxLength="200"
+                                    ErrorMessage="{x:Static resource:AppResources.TravelCustomerNameError}"
+                                    Placeholder="{x:Static resource:AppResources.TravelCustomerNameError}"/>
+
+            <StackLayout Orientation="Horizontal" Spacing="16">
+                <control:EntryInputView x:Name="inputEmail" WidthRequest="{x:Static constants:MySettings.Haft_W}"
+                                        Title="{x:Static resource:AppResources.EmailKH}"
+                                        Text="{Binding EMAIL}" MaxLength="200"
+                                        ErrorMessage="{x:Static resource:AppResources.NhapEmailKH}"
+                                        Keyboard="Email" Unfocused="inputEmail_Unfocused"
+                                        Placeholder="{x:Static resource:AppResources.NhapEmailKH}"
+                                        VerticalOptions="End" TTSpecicalChar="12"/>
+                <control:EntryInputView x:Name="inputSDT" WidthRequest="{x:Static constants:MySettings.Haft_W}"
+                                        Title="{x:Static resource:AppResources.SDTKH}"
+                                        Text="{Binding PHONE}"
+                                        MaxLength="10" ErrorMessage="{x:Static resource:AppResources.NhapSDTKH}"
+                                        Keyboard="Telephone" TTSpecicalChar="10"
+                                        Placeholder="{x:Static resource:AppResources.NhapSDTKH}"
+                                        VerticalOptions="End"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Spacing="16">
+                <control:DateCustomView x:Name="inputNgaySinh" WidthRequest="{x:Static constants:MySettings.Haft_W}"
+                                        IsMin="2"
+                                        ErrorMessage="{x:Static resource:AppResources.ChuaDu18T}"
+                                        Date="{Binding Cust_Birthday}" Title="{x:Static resource:AppResources.TravelCustomerBirthdayInput}"
+                                        VerticalOptions="End"/>
+                <control:PickerView x:Name="inputGioiTinh" 
+                                        Title="{x:Static resource:AppResources.TravelCustomerGenderInput}"
+                                        ErrorMessage="{x:Static resource:AppResources.TravelCustomerGenderError}"
+                                        ItemsSourceBinding="GioiTinhs"
+                                        SelectedItemBinding="SelectedGioiTinh"
+                                        ItemDisplayBinding="{Binding Value}"
+                                        WidthRequest="{x:Static constants:MySettings.Haft_W}"
+                                        Placeholder="{x:Static resource:AppResources.TravelCustomerGenderError}"
+                                        VerticalOptions="End"/>
+            </StackLayout>
+
+            <control:EntryInputView x:Name="inputSoCMT" Keyboard="Default" WidthRequest="{x:Static constants:MySettings.Haft_W}"
+                                    Title="{x:Static resource:AppResources.SCMTCCCDHC}" 
+                                    Text="{Binding IDENTITY_NO}" MaxLength="50" TTSpecicalChar="10"
+                                    ErrorMessage="{x:Static resource:AppResources.NhapSCMTCCCDHC}"
+                                    Placeholder="{x:Static resource:AppResources.NhapSCMTCCCDHC}"/>
+
+            <Grid ColumnSpacing="0" RowSpacing="0" Margin="0,6,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="{x:Static constants:MySettings.W_6}"/>
+                    <RowDefinition Height="{x:Static constants:MySettings.W_6}"/>
+                    <RowDefinition Height="{x:Static constants:MySettings.W_6}"/>
+                </Grid.RowDefinitions>
+                <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" CornerRadius="10">
+                    <Frame.Opacity>
+                        <OnPlatform x:TypeArguments="x:Double" iOS=".16" Android="1" />
+                    </Frame.Opacity>
+                </Frame>
+
+                <Image Source="{Binding imgMatTruoc}" Aspect="Fill" BackgroundColor="Transparent"
+                           Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="2"/>
+                <Label Grid.Column="1" Grid.Row="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="14" TextColor="Black" Text="{x:Static resource:AppResources.AnhCMT}"/>
+                            <Span FontSize="14" Text="&#x0a;"/>
+                            <Span FontSize="14" TextColor="Black" Text="{x:Static resource:AppResources.MatTruoc}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="14" TextColor="#6C757D" Text="{x:Static resource:AppResources.ChupAnhHoac}">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ChupAnhT_Tapped"/>
+                                </Span.GestureRecognizers>
+                            </Span>
+                            <Span FontSize="14" Text="&#x0a;"/>
+                            <Span FontSize="14" TextColor="Blue" Text="{x:Static resource:AppResources.ChonAnhTuThuVien}">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ChonAnhT_Tapped"/>
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Frame Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" CornerRadius="10">
+                    <Frame.Opacity>
+                        <OnPlatform x:TypeArguments="x:Double" iOS=".16" Android="1" />
+                    </Frame.Opacity>
+                </Frame>
+
+                <Image Source="{Binding imgMatSau}" Aspect="Fill" BackgroundColor="Transparent"
+                           Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Margin="2"/>
+                <Label Grid.Column="3" Grid.Row="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="14" TextColor="Black" Text="{x:Static resource:AppResources.AnhCMT}"/>
+                            <Span FontSize="14" Text="&#x0a;"/>
+                            <Span FontSize="14" TextColor="Black" Text="{x:Static resource:AppResources.MatSau}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Column="3" Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="14" TextColor="#6C757D" Text="{x:Static resource:AppResources.ChupAnhHoac}">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ChupAnhS_Tapped"/>
+                                </Span.GestureRecognizers>
+                            </Span>
+                            <Span FontSize="14" Text="&#x0a;"/>
+                            <Span FontSize="14" TextColor="Blue" Text="{x:Static resource:AppResources.ChonAnhTuThuVien}">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ChonAnhS_Tapped"/>
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
+            <helper:LabelCustoms Text="{x:Static resource:AppResources.DiaChiInTrenGiayChungNhanBH}"
+                                 TextColor="#1D1D1F" FontSize="16" Margin="0,16,0,16"/>
+            <helper:LabelCustoms Text="{x:Static resource:AppResources.DiaChiNaySeDungDeInLenGCBH_}"
+                                 TextColor="#1D1D1F" FontSize="14" Margin="0,0,0,16"/>
+            <control:PickerView x:Name="inputTinhThanh"
+                                   Placeholder="{x:Static resource:AppResources.CustomerProvinceError}"
+                                    Title="{x:Static resource:AppResources.CustomerProvinceInput}"
+                                    ErrorMessage="{x:Static resource:AppResources.CustomerProvinceError}"
+                                    ItemsSourceBinding="TinhThanhs" SelectedItemBinding="SelectedTinhThanh" />
+
+            <control:PickerView x:Name="inputQuanHuyen"
+                                   Placeholder="{x:Static resource:AppResources.CustomerDistrictError}"
+                                    Title="{x:Static resource:AppResources.CustomerDistrictInput}"
+                                    ErrorMessage="{x:Static resource:AppResources.CustomerDistrictError}"
+                                    ItemsSourceBinding="QuanHuyens" SelectedItemBinding="SelectedQuanHuyen" />
+
+            <control:PickerView x:Name="inputXaPhuong"
+                                   Placeholder="{x:Static resource:AppResources.CustomerWardError}"
+                                    Title="{x:Static resource:AppResources.CustomerWardInput}"
+                                    ErrorMessage="{x:Static resource:AppResources.CustomerWardError}"
+                                    ItemsSourceBinding="XaPhuongs" SelectedItemBinding="SelectedXaPhuong" />
+
+            <control:EditorInputView x:Name="inputDiaChi"
+                                        Placeholder="{x:Static resource:AppResources.CustomerAddressError}"
+                                        Keyboard="Default" Title="{x:Static resource:AppResources.CustomerAddressInput}"
+                                        Text="{Binding CUST_ADDRESS}" MaxLength="500"
+                                        ErrorMessage="{x:Static resource:AppResources.CustomerAddressError}" />
+
+            <helper:ButtonCustoms Text="{x:Static resource:AppResources.Next}" HeightRequest="40" CornerRadius="20"
+                                  x:Name="btnTiepTheo" Margin="0,24,0,56" Clicked="OnNextButtonClicked" GradientOrientation="Horizontal"
+                                  StartColor="#E99942" EndColor="#F5C954"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

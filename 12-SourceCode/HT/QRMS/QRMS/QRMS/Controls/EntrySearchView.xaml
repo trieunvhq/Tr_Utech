@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Controls.EntrySearchView"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             Spacing="0" x:Name="root" Orientation="Horizontal">
+    <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+        <control:CustomEntry x:Name="inputEntry" 
+                         Placeholder="{x:Static resource:AppResources.CommonEntryPlaceholder}" ReturnType="Search"
+                         Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" 
+            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="40,0,0,0">
+        </control:CustomEntry>
+        <Image Source="icontimkiem.png" Margin="10,10,10,10" Grid.Column="0" Grid.Row="0"/>
+    </Grid>
+</StackLayout>

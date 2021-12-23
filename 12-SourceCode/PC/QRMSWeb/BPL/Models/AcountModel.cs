@@ -13,9 +13,9 @@ namespace BPL.Models
         public string Role { get; set; }
         public string WarehouseCode { get; set; }
         public string RecordStatus { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<DateTime> CreateDate { get; set; }
         public string CreateUser { get; set; }
-        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public Nullable<DateTime> UpdateDate { get; set; }
         public string UpdateUser { get; set; }
         public bool isTrue { get; set; }
     }

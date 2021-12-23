@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Controls.GiftCodeView"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             ColumnSpacing="0" RowSpacing="0">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="100"/>
+        <ColumnDefinition Width="10"/>
+        <ColumnDefinition Width="2*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="40"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="5"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="25"/>
+        <RowDefinition Height="25"/>
+        <RowDefinition Height="5"/>
+    </Grid.RowDefinitions>
+    <Label BackgroundColor="White" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" Grid.RowSpan="6"/>
+    <Frame HasShadow="True" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" Grid.RowSpan="6" BackgroundColor="White">
+        <Frame.Opacity>
+            <OnPlatform x:TypeArguments="x:Double" iOS=".16" Android="1" />
+        </Frame.Opacity>
+    </Frame>
+    <Image x:Name="switchImage" Grid.Column="4" Grid.Row="1" Margin="5,5,5,5"/>
+    <Label x:Name="lblText1" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" FontSize="16"
+           TextColor="#1D1D1F" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+    <Label x:Name="lblText2" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" FontSize="15"
+           TextColor="#1D1D1F" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+    <Label  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3"  VerticalTextAlignment="Center">
+        <Label.FormattedText>
+            <FormattedString>
+                <Span Text="{x:Static resource:AppResources.DaSuDung}" FontSize="14" TextColor="#6C757D"/>
+                <Span x:Name="lblText3" FontSize="14" TextColor="#DC3545"/>
+                <Span Text="{x:Static resource:AppResources.SoMa}" FontSize="14" TextColor="#6C757D"/>
+            </FormattedString>
+        </Label.FormattedText>
+    </Label>
+    <Label x:Name="lblText4" Grid.Column="2" Grid.Row="4" TextColor="#6C757D" FontSize="14" VerticalTextAlignment="Center"/>
+    <Label Text="{x:Static resource:AppResources.DieuKien}" FontSize="14" TextColor="#007BFF" VerticalTextAlignment="Center" HorizontalTextAlignment="End"
+          x:Name="btnDieuKien" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="4" Margin="10,0,10,0">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+        </Label.GestureRecognizers>
+    </Label>
+    <Label x:Name="lbNen1" BackgroundColor="Red" Grid.Column="0" Grid.Row="0" Grid.RowSpan="6"/>
+    <Label  BackgroundColor="Transparent" 
+            Grid.Column="0" Grid.Row="0" Grid.RowSpan="6"
+           HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+        <Label.FormattedText>
+          <FormattedString>
+              <Span Text="{x:Static resource:AppResources.Giam}" FontAttributes="Bold" FontSize="20" TextColor="White"/>
+              <Span Text="&#10;"/>
+              <Span x:Name="lbNen2" Text="" FontAttributes="Bold" FontSize="20" TextColor="White"/>
+          </FormattedString>
+        </Label.FormattedText>
+    </Label>
+    <Image Source="imgGiftcode.png" Aspect="Fill" Grid.Column="0" Grid.Row="0" Grid.RowSpan="6" Margin="0,0,92,0"/>
+</Grid>

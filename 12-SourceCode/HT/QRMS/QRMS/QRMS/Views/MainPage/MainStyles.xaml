@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helper="clr-namespace:QRMS.Helper"
+             xmlns:local="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="QRMS.Views.MainPage.MainStyles">
+
+    <Color x:Key="ImageButtonBackgroundColor">Color.Transparent</Color>
+    <Color x:Key="EntryPlaceholderColor">#ACACB1</Color>
+    <Color x:Key="EntryTextColor">#17233D</Color>
+    <Color x:Key="BorderBackgroundColor">#DCE0E2</Color>
+    <Color x:Key="ButtonBackgroundColor">#F49A0E</Color>
+    <Color x:Key="ButtonFilterTextColor">#F49A0E</Color>
+    <Color x:Key="ButtonTextColor">#FFFFFF</Color>
+    <Color x:Key="LableColor">#5C5C62</Color>
+    <Color x:Key="LableContentColor">#1D1D1F</Color>
+    <Color x:Key="LableErrorTextColor">#F5323C</Color>
+    <Color x:Key="RadiobuttonColor">#F49A0E</Color>
+    <Color x:Key="bgColor">#FEF8EE</Color>
+    <Color x:Key="PageBackgroundColor">#FFDA9F</Color>
+    
+    <!--  Common style for entries  -->
+    <Style x:Key="EntryStyle" TargetType="helper:BorderlessEntry">
+        <Setter Property="PlaceholderColor" Value="{StaticResource EntryPlaceholderColor}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource EntryTextColor}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="ReturnType" Value="Done" />
+    </Style>
+
+    <Style x:Key="UrlStyle" TargetType="Button">
+        <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource ImageButtonBackgroundColor}"/>
+        <Setter Property="TextColor" Value="{StaticResource LableColor}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <!--<Setter Property="TextDecorations" Value="None"/>-->
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="DatePickerStyle" TargetType="helper:DatepickerCustoms">
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="TextColor" Value="{StaticResource EntryTextColor}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="MinimumDate" Value="01-01-2000"/>
+        <Setter Property="MaximumDate" Value="12-31-2100"/>
+        <Setter Property="Format" Value="dd/MM/yyyy"/>
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="ButtonStyle" TargetType="helper:ButtonCustoms">
+        <Setter Property="TextColor" Value="{StaticResource ButtonTextColor}"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource ButtonBackgroundColor}"/>
+        <!--<Setter Property="BorderWidth" Value="2"/>
+        <Setter Property="BorderColor" Value="{StaticResource ButtonBackgroundColor}"/>-->
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="CornerRadius" Value="20"/>
+        <!--<Setter Property="FontFamily" Value="HelveticaNeue"/>-->
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="GradientOrientation" Value="Horizontal"/>
+        <Setter Property="StartColor" Value="#E99942"/>
+        <Setter Property="EndColor" Value="#F5C954"/>
+    </Style>
+
+    <Style x:Key="FrameFilterStyle" TargetType="Frame">
+        <Setter Property="BorderColor" Value="{StaticResource BorderBackgroundColor}"/>
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="20,0,20,10"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+    
+    <Style x:Key="LableFilterStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableColor}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Margin" Value="20,0,20,0" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="ButtonFilterStyle" TargetType="Button">
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="TextColor" Value="{StaticResource ButtonFilterTextColor}"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource ImageButtonBackgroundColor}"/>
+        <Setter Property="BorderWidth" Value="0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="Margin" Value="0,5,0,10" />
+    </Style> 
+
+    <Style x:Key="FrameSearchStyle" TargetType="Frame">
+        <Setter Property="BorderColor" Value="{StaticResource BorderBackgroundColor}"/>
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="0,5,0,10"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+
+    <Style x:Key="EntrySearchStyle" TargetType="helper:IconEntry">
+        <Setter Property="PlaceholderColor" Value="{StaticResource EntryPlaceholderColor}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource EntryTextColor}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="ReturnType" Value="Done" />
+    </Style>
+
+    <Style x:Key="LableTitleStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableColor}" />
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="LableStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableColor}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalTextAlignment" Value="Start"/>
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+    
+    <Style x:Key="LableContentStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableContentColor}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalTextAlignment" Value="End"/>
+        <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+
+    <Style x:Key="LableTimeStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableColor}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalTextAlignment" Value="Start"/>
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="LableErrorStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableErrorTextColor}" />
+        <Setter Property="FontSize" Value="14" />
+        <!--<Setter Property="FontFamily" Value="HelveticaNeue"/>-->
+        <Setter Property="Margin" Value="20,0,20,10" />
+        <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+
+    <Style x:Key="FrameStyle" TargetType="Frame">
+        <Setter Property="BorderColor" Value="{StaticResource BorderBackgroundColor}"/>
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="20,10,20,10"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        <Setter Property="IsClippedToBounds" Value="True"/>
+        <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+
+    <Style x:Key="ImageStyle" TargetType="Image">
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="HeightRequest" Value="150"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Aspect" Value="Fill"/>
+    </Style>
+
+    <Style x:Key="ImageButtonStyle" TargetType="Button">
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource ImageButtonBackgroundColor}"/>
+        <Setter Property="ContentLayout" Value="top,5"/>
+        <Setter Property="FontSize" Value="{OnPlatform iOS='10', Android='12'}"/>
+        <Setter Property="TextColor" Value="{StaticResource LableContentColor}"/>
+        <!--<Setter Property="HeightRequest" Value="86"/>
+        <Setter Property="WidthRequest" Value="105"/>-->
+        <!--<Setter Property="Aspect" Value="AspectFill"/>-->
+    </Style>
+
+    <Style x:Key="ComboBoxStyle" TargetType="helper:ComboboxCustoms">
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="TextColor" Value="{StaticResource EntryTextColor}"/>
+        <Setter Property="TitleColor" Value="{StaticResource EntryPlaceholderColor}"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="PancakeView" TargetType="local:PancakeView">
+        <Setter Property="BorderColor" Value="{StaticResource BorderBackgroundColor}"/>
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="20,10,20,10"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        <Setter Property="IsClippedToBounds" Value="True"/>
+        <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+</ResourceDictionary>

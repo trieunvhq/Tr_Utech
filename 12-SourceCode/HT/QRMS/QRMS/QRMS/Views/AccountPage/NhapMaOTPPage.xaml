@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Views.AccountPage.NhapMaOTPPage"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             xmlns:constants="clr-namespace:QRMS.Constants"
+             xmlns:helper="clr-namespace:QRMS.Helper" xmlns:forms="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             ControlTemplate="{StaticResource ContentPageTemplateTitleHotline}"
+             BackgroundColor="#FFDA9F" x:Name="root">
+
+    <AbsoluteLayout BackgroundColor="White">
+        <forms:SvgCachedImage Source="thin_background.svg" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1"
+                              Aspect="Fill" />
+        <ScrollView x:Name="scroll" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1">
+            <StackLayout Margin="16,0"
+               Spacing="0" VerticalOptions="Start">
+
+                <Label Text="{x:Static resource:AppResources.XacNhanMaOTPDeKhoiPhucLaiMK}" FontSize="20" FontAttributes="Bold" Margin="0,24,0,16" />
+
+                <Grid  Margin="0,0,0,20" ColumnSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <helper:LabelCustoms Grid.Column="0">
+                        <helper:LabelCustoms.FormattedText>
+                            <FormattedString>
+                                <Span x:Name="span1" Text="{x:Static resource:AppResources.VuiLongXacNhanMaBaoMatOTP_}" TextColor="#6C757D" FontSize="16"/>
+                                <Span Text="{Binding EmailSDT}" TextColor="#FFD537" FontSize="16"/>
+                            </FormattedString>
+                        </helper:LabelCustoms.FormattedText>
+                    </helper:LabelCustoms>
+                    <forms:SvgCachedImage Source="Ellipse.svg" BackgroundColor="Transparent" Grid.Column="1" Margin="3"/>
+                    <Label x:Name="lbThoiGian" BackgroundColor="Transparent" Text="{Binding ThoiGian}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                           TextColor="#FF6700" FontSize="24" FontAttributes="Bold" Grid.Column="1"/>
+                </Grid>
+
+
+                <control:EntryInputView
+                x:Name="inputOTP"
+                    IsTittle="False"
+                ErrorMessage="{x:Static resource:AppResources.NhapMaOTP}"
+                Keyboard="Default"
+                MaxLength="8"
+                Placeholder="{x:Static resource:AppResources.NhapMaOTP}"
+                Text="{Binding OTP}"/>
+
+                <helper:ButtonCustoms Text="{x:Static resource:AppResources.LayMaOTP}" HeightRequest="40" CornerRadius="20"
+                                  x:Name="btnTiepTheo" Margin="0,24,0,56" Clicked="OnNextButtonClicked" GradientOrientation="Horizontal"
+                                  StartColor="#E99942" EndColor="#F5C954"/>
+
+                <forms:SvgCachedImage Source="imgXacNhanMK.svg" Aspect="Fill" VerticalOptions="End" HorizontalOptions="Center"
+                        WidthRequest="{x:Static constants:MySettings.Haft_W_32}" />
+            </StackLayout>
+        </ScrollView>
+    </AbsoluteLayout>
+</ContentPage>

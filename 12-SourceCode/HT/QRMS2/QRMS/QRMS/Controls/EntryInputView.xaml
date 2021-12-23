@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Controls.EntryInputView"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             Spacing="0" x:Name="root">
+    <Label Margin="0,0,0,6" >
+        <Label.FormattedText>
+            <FormattedString>
+                <Span x:Name="lbTiitle" FontSize="12" TextColor="#1D1D1F"   />
+                <Span x:Name="lbTiitle2" FontSize="12" TextColor="Red" />
+            </FormattedString>
+        </Label.FormattedText>
+    </Label>
+    <control:CustomEntry x:Name="inputEntry" TextChanged="OnEntryTextChanged"
+                         Placeholder="{x:Static resource:AppResources.CommonEntryPlaceholder}" ReturnType="Done"
+                         Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" HeightRequest="40"
+          > 
+    </control:CustomEntry>
+    <StackLayout HeightRequest="16">
+        <Label x:Name="lblError" TextColor="#F5323C" FontSize="12" IsVisible="False" />
+    </StackLayout>
+</StackLayout>

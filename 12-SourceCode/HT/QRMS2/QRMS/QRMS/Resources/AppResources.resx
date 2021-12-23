@@ -1,0 +1,3114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="BillInforAlterTNVNautoCrew" xml:space="preserve">
+    <value>Accident insurance of driver assistant driver</value>
+  </data>
+	<data name="BillInforAlterTNVNautoPsgr" xml:space="preserve">
+    <value>Accident insurance of person on vehicle</value>
+  </data>
+	<data name="BilllInforAlterLoad" xml:space="preserve">
+    <value>Civil liability insurance of owner and goods on vehicle</value>
+  </data>
+	<data name="BilllInforAlterTNDSBBauto" xml:space="preserve">
+    <value>Adjust compulsory civil liability insurance fee of motor vehicles</value>
+  </data>
+	<data name="BilllInforAlterTNDSBBmoto" xml:space="preserve">
+    <value>Adjustment of compulsory civil liability insurance premium for motorbikes</value>
+  </data>
+	<data name="BilllInforAlterTNTT" xml:space="preserve">
+    <value>Addittional civil liability insurance</value>
+  </data>
+	<data name="BilllInforAlterTNVNauto" xml:space="preserve">
+    <value>Accident insurance fee of driver/assistant driver and person on vehicle</value>
+  </data>
+	<data name="BilllInforAlterTNVNmoto" xml:space="preserve">
+    <value>Adjustment of accident insurance premiums for motorcyclists/motorcycles</value>
+  </data>
+	<data name="btnActionText" xml:space="preserve">
+    <value>Action</value>
+  </data>
+	<data name="CancerInsurance" xml:space="preserve">
+    <value>Buy cancer insurance</value>
+  </data>
+	<data name="CarMaterialCarOwnerAgainstGoods" xml:space="preserve">
+    <value>Civil liability insurance of owner and goods on vehicle</value>
+  </data>
+	<data name="CarMaterialCivilLiabilityInsurance" xml:space="preserve">
+    <value>Addittional civil liability insurance</value>
+  </data>
+	<data name="CarMaterialCompulsoryCivilLiabilityInsurance" xml:space="preserve">
+    <value>Compulsory civil liability insurance</value>
+  </data>
+	<data name="CarMaterialDeductionError" xml:space="preserve">
+    <value>Select deductible</value>
+  </data>
+	<data name="GiaTriBaoHiem" xml:space="preserve">
+    <value>Giá trị bảo hiểm</value>
+  </data>
+	<data name="ChiPhiMoRongViecChoThueNhaSauTonThat" xml:space="preserve">
+    <value>Chi phí mở rộng việc cho thuê nhà sau tổn thất</value>
+  </data>
+	<data name="CarMaterialDeductionInput" xml:space="preserve">
+    <value>Deduction (VND)</value>
+  </data>
+	<data name="CarMaterialDriverError" xml:space="preserve">
+    <value>Enter number of drivers</value>
+  </data>
+	<data name="CarMaterialDriverInsurance" xml:space="preserve">
+    <value>Accident insurance of driver/assistant driver</value>
+  </data>
+  <data name="MuaBHDuLichQuocTe" xml:space="preserve">
+    <value>Mua bảo hiểm du lịch quốc tế</value>
+  </data> 
+	<data name="CarMaterialFixed" xml:space="preserve">
+    <value>Fixed limit</value>
+  </data>
+	<data name="CarMaterialFlexible" xml:space="preserve">
+    <value>Flexible limit</value>
+  </data>
+	<data name="CarMaterialGoodsInsuranceAmountError" xml:space="preserve">
+    <value>Select liability limit/tons of goods</value>
+  </data>
+	<data name="CarMaterialGoodsInsuranceAmountInput" xml:space="preserve">
+    <value>Liability limit/tons of goods</value>
+  </data>
+	<data name="GiaTriXe" xml:space="preserve">
+    <value>Giá trị xe</value>
+  </data>
+	<data name="SoTienBaoHiem" xml:space="preserve">
+    <value>Số tiền bảo hiểm</value>
+  </data>
+	<data name="CarMaterialGoodsIsOwner" xml:space="preserve">
+    <value>Goods on vehicle with owner</value>
+  </data>
+	<data name="CarMaterialGoodsTypeError" xml:space="preserve">
+    <value>Select vehicle model/type of goods</value>
+  </data>
+	<data name="CarMaterialGoodsTypeInput" xml:space="preserve">
+    <value>Vehicle model/goods type</value>
+  </data>
+	<data name="CarMaterialInsuranceError" xml:space="preserve">
+    <value>Enter insurance money amount</value>
+  </data>
+	<data name="CarMaterialInsuranceInput" xml:space="preserve">
+    <value>Insurance money amount (VND)</value>
+  </data>
+	<data name="CarMaterialPassengerError" xml:space="preserve">
+    <value>Enter number of pasengers</value>
+  </data>
+	<data name="CarMaterialPassengerInsurance" xml:space="preserve">
+    <value>Accident insurance of person on vehicle</value>
+  </data>
+	<data name="CarMaterialResponsibilityLevel" xml:space="preserve">
+    <value>Buy by insurance limit</value>
+  </data>
+	<data name="CarMaterialResponsibilityLevelError" xml:space="preserve">
+    <value>Select liability limit</value>
+  </data>
+	<data name="CarMaterialResponsibilityLevelPlaceholder" xml:space="preserve">
+    <value>-- Select liability limit --</value>
+  </data>
+	<data name="CarMaterialResponsibilityMaxError" xml:space="preserve">
+    <value>Enter maximum aggregate limit (VND)</value>
+  </data>
+	<data name="CarMaterialResponsibilityMaxInput" xml:space="preserve">
+    <value>Maximum aggregate limit (VND)</value>
+  </data>
+	<data name="CarMaterialResponsibilityPassengerError" xml:space="preserve">
+    <value>Enter additional liability of passenger (VND)</value>
+  </data>
+	<data name="CarMaterialResponsibilityPassengerInput" xml:space="preserve">
+    <value>Additional liability limit of passenger (VND)</value>
+  </data>
+	<data name="CarMaterialResponsibilityPersonError" xml:space="preserve">
+    <value>Enter additional liability of person (VND)</value>
+  </data>
+	<data name="CarMaterialResponsibilityPersonInput" xml:space="preserve">
+    <value>Additional liability limit of person (VND)</value>
+  </data>
+	<data name="CarMaterialResponsibilityPropertyError" xml:space="preserve">
+    <value>Enter additional liability of property (VND)</value>
+  </data>
+	<data name="CarMaterialResponsibilityPropertyInput" xml:space="preserve">
+    <value>Additional liability limit of property (VND)</value>
+  </data>
+	<data name="CarMaterialValueError" xml:space="preserve">
+    <value>Enter vehicle value</value>
+  </data>
+	<data name="CarMaterialValueInput" xml:space="preserve">
+    <value>Vehicle value (VND)</value>
+  </data>
+	<data name="CommonEntryPlaceholder" xml:space="preserve">
+    <value>Enter information</value>
+  </data>
+	<data name="CommonPickerPlaceholder" xml:space="preserve">
+    <value>-- Select information--</value>
+  </data>
+	<data name="CommonPickerShortPlaceholder" xml:space="preserve">
+    <value>-- Select information--</value>
+  </data>
+	<data name="CommonUnit" xml:space="preserve">
+    <value>VND</value>
+  </data>
+	<data name="ContractAgentInput" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+	<data name="ContractCancelReason" xml:space="preserve">
+    <value>Reason for cancellation</value>
+  </data>
+	<data name="ContractInformation" xml:space="preserve">
+    <value>Insurance policy information</value>
+  </data>
+	<data name="ContractInsuranceExpireDate" xml:space="preserve">
+    <value>Expiry date of insurance</value>
+  </data>
+	<data name="ContractInsuranceValidityDate" xml:space="preserve">
+    <value>Effective date of coverage</value>
+  </data>
+	<data name="ContractIssueDateInput" xml:space="preserve">
+    <value>Date of issue</value>
+  </data>
+	<data name="CustomerAddressError" xml:space="preserve">
+    <value>Enter address</value>
+  </data>
+	<data name="CustomerAddressInput" xml:space="preserve">
+    <value>Address</value>
+  </data>
+	<data name="CustomerAgentNameError" xml:space="preserve">
+    <value>Enter presentative name</value>
+  </data>
+	<data name="CustomerAgentNameInput" xml:space="preserve">
+    <value>Representative</value>
+  </data>
+	<data name="CustomerBeneficiary" xml:space="preserve">
+    <value>Beneficiary</value>
+  </data>
+	<data name="CustomerBeneficiaryIdentityError" xml:space="preserve">
+    <value>Enter ID card/Citizen ID/Tax code of beneficiary</value>
+  </data>
+	<data name="CustomerBeneficiaryIdentityInput" xml:space="preserve">
+    <value>ID card/Citizen ID/Tax code of beneficiary</value>
+  </data>
+	<data name="CustomerBeneficiaryNameError" xml:space="preserve">
+    <value>Enter beneficiary name</value>
+  </data>
+	<data name="CustomerBeneficiaryNameInput" xml:space="preserve">
+    <value>Beneficiary name/beneficiary company name</value>
+  </data>
+	<data name="CustomerBeneficiaryOther" xml:space="preserve">
+    <value>Other beneficiary</value>
+  </data>
+	<data name="CustomerBeneficiaryOwner" xml:space="preserve">
+    <value>The beneficiary is also the owner of the vehicle</value>
+  </data>
+	<data name="CustomerBeneficiaryPhoneError" xml:space="preserve">
+    <value>Enter phone number</value>
+  </data>
+	<data name="CustomerBeneficiaryPhoneInput" xml:space="preserve">
+    <value>Beneficiary's phone number</value>
+  </data>
+	<data name="CustomerCompanyError" xml:space="preserve">
+    <value>Enter business name</value>
+  </data>
+	<data name="CustomerCompanyInput" xml:space="preserve">
+    <value>Business name</value>
+  </data>
+	<data name="CustomerDistrictError" xml:space="preserve">
+    <value>Select district information</value>
+  </data>
+	<data name="CustomerDistrictInput" xml:space="preserve">
+    <value>District</value>
+  </data>
+	<data name="CustomerDOBError" xml:space="preserve">
+    <value>Select date of birth</value>
+  </data>
+	<data name="CustomerDOBInput" xml:space="preserve">
+    <value>Date of birth</value>
+  </data>
+	<data name="CustomerEmailError" xml:space="preserve">
+    <value>Enter email</value>
+  </data>
+	<data name="CustomerEmailInput" xml:space="preserve">
+    <value>Email</value>
+  </data>
+	<data name="CustomerIdentityError" xml:space="preserve">
+    <value>Enter passport number/ID card</value>
+  </data>
+	<data name="CustomerIdentityInput" xml:space="preserve">
+    <value>Passport number/ID card</value>
+  </data>
+	<data name="CustomerInformation" xml:space="preserve">
+    <value>Customer information</value>
+  </data>
+	<data name="ThongTinKhongHopLe" xml:space="preserve">
+    <value>Invalid information</value>
+  </data>
+	<data name="CustomerNameError" xml:space="preserve">
+    <value>Enter registered vehicle owner's name</value>
+  </data>
+	<data name="CustomerNameInput" xml:space="preserve">
+    <value>Registered vehicle owner's name</value>
+  </data>
+	<data name="CustomerPhoneError" xml:space="preserve">
+    <value>Enter phone number</value>
+  </data>
+	<data name="CustomerPhoneInput" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+	<data name="CustomerProvinceError" xml:space="preserve">
+    <value>Select province/City information</value>
+  </data>
+	<data name="CustomerProvinceInput" xml:space="preserve">
+    <value>Province/City</value>
+  </data>
+	<data name="CustomerSexError" xml:space="preserve">
+    <value>Select gender information</value>
+  </data>
+	<data name="CustomerSexInput" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+	<data name="CustomerTaxIdentityError" xml:space="preserve">
+    <value>Enter tax code</value>
+  </data>
+	<data name="CustomerTaxIdentityInput" xml:space="preserve">
+    <value>Tax code</value>
+  </data>
+	<data name="CustomerType" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+	<data name="CustomerWardError" xml:space="preserve">
+    <value>Select wards information</value>
+  </data>
+	<data name="CustomerWardInput" xml:space="preserve">
+    <value>Wards</value>
+  </data>
+	<data name="DOB" xml:space="preserve">
+    <value>Date of birth</value>
+  </data>
+	<data name="Enterprise" xml:space="preserve">
+    <value>Enterprise</value>
+  </data>
+	<data name="FatalDiseaseInsurance" xml:space="preserve">
+    <value>Buy fatal disease insurance</value>
+  </data>
+	<data name="Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+	<data name="HealthInsuranceNews" xml:space="preserve">
+    <value>Health insurance</value>
+  </data>
+	<data name="IdentityIssueOffice" xml:space="preserve">
+    <value>Issue office</value>
+  </data>
+	<data name="IdentityIssueOfficeError" xml:space="preserve">
+    <value>Enter the issue office</value>
+  </data>
+	<data name="InsuranceContractDetail" xml:space="preserve">
+    <value>Insurance policy information</value>
+  </data>
+	<data name="IssueDateError" xml:space="preserve">
+    <value>Select date of issue</value>
+  </data>
+	<data name="NavigationBack" xml:space="preserve">
+    <value> 〈          </value>
+  </data>
+	<data name="NavigationNext" xml:space="preserve">
+    <value>               〉</value>
+  </data>
+	<data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+	<data name="Personal" xml:space="preserve">
+    <value>Personal</value>
+  </data>
+	<data name="ReceiptInformation" xml:space="preserve">
+    <value>Fee adjustment and invoice information</value>
+  </data>
+	<data name="ReceiptInformationAdditionalTerms" xml:space="preserve">
+    <value>Additional terms</value>
+  </data>
+	<data name="ReceiptInformationAdjustment" xml:space="preserve">
+    <value>Adjustment amount (VND)</value>
+  </data>
+	<data name="ReceiptInformationAdjustmentAmount" xml:space="preserve">
+    <value>Amount of money</value>
+  </data>
+	<data name="ReceiptInformationAfterAdjustment" xml:space="preserve">
+    <value>Amount after adjustment</value>
+  </data>
+	<data name="ReceiptInformationBuyerCompanyAddressError" xml:space="preserve">
+    <value>Enter company address</value>
+  </data>
+	<data name="ReceiptInformationBuyerCompanyAddressInput" xml:space="preserve">
+    <value>Company address</value>
+  </data>
+	<data name="ReceiptInformationBuyerCompanyError" xml:space="preserve">
+    <value>Enter company name</value>
+  </data>
+	<data name="ReceiptInformationBuyerCompanyInput" xml:space="preserve">
+    <value>Company name</value>
+  </data>
+	<data name="ReceiptInformationBuyerIdentityError" xml:space="preserve">
+    <value>Enter ID card/Citizen ID</value>
+  </data>
+	<data name="ReceiptInformationBuyerIdentityInput" xml:space="preserve">
+    <value>ID card/Citizen ID</value>
+  </data>
+	<data name="ReceiptInformationBuyerNameError" xml:space="preserve">
+    <value>Enter insurance buyer's name</value>
+  </data>
+	<data name="ReceiptInformationBuyerNameInput" xml:space="preserve">
+    <value>Insurance buyer's name</value>
+  </data>
+	<data name="ReceiptInformationBuyerTaxError" xml:space="preserve">
+    <value>Enter tax code</value>
+  </data>
+	<data name="ReceiptInformationBuyerTaxInput" xml:space="preserve">
+    <value>Tax code</value>
+  </data>
+	<data name="ReceiptInformationCompulsoryCivilLiabilityInsurance" xml:space="preserve">
+    <value>Compulsory civil liability insurance</value>
+  </data>
+	<data name="ReceiptInformationCompulsoryInsurance" xml:space="preserve">
+    <value>Compulsory civil liability insurance fee</value>
+  </data>
+	<data name="ReceiptInformationDecrease" xml:space="preserve">
+    <value>Fee decrease</value>
+  </data>
+	<data name="ReceiptInformationDeductible" xml:space="preserve">
+    <value>Deductible</value>
+  </data>
+	<data name="ReceiptInformationDriver" xml:space="preserve">
+    <value>Number of drivers/assistant drivers</value>
+  </data>
+	<data name="ReceiptInformationFeeAdjustment" xml:space="preserve">
+    <value>Adjust the fee increase or decrease</value>
+  </data>
+	<data name="ReceiptInformationGetInvoice" xml:space="preserve">
+    <value>Get invoice</value>
+  </data>
+	<data name="ReceiptInformationIncrease" xml:space="preserve">
+    <value>Increase fee</value>
+  </data>
+	<data name="ReceiptInformationInsuranceAmount" xml:space="preserve">
+    <value>Insurance money amount (VND)</value>
+  </data>
+	<data name="ReceiptInformationInsuranceFee" xml:space="preserve">
+    <value>Insurance fees</value>
+  </data>
+	<data name="ReceiptInformationInsurancePerCase" xml:space="preserve">
+    <value>Insurance money amount/person/case</value>
+  </data>
+	<data name="ReceiptInformationMaterialInsurance" xml:space="preserve">
+    <value>Physical damage coverage of motor vehicle</value>
+  </data>
+	<data name="ReceiptInformationPassenger" xml:space="preserve">
+    <value>Number of persons on vehicle</value>
+  </data>
+	<data name="ReceiptInformationPersonAmount" xml:space="preserve">
+    <value>Insurance money amount/person/case</value>
+  </data>
+	<data name="ReceiptInformationRate" xml:space="preserve">
+    <value>Ratio (%)</value>
+  </data>
+	<data name="ReceiptInformationTotal" xml:space="preserve">
+    <value>The total amount</value>
+  </data>
+	<data name="ReceiptInformationVAT" xml:space="preserve">
+    <value>Value added Tax (VAT)</value>
+  </data>
+	<data name="ReceiptInformationVehicleValue" xml:space="preserve">
+    <value>Vehicle value</value>
+  </data>
+	<data name="TravelAddInsuredPerson" xml:space="preserve">
+    <value>Add insured person</value>
+  </data>
+	<data name="TravelBeneficiaryInformation" xml:space="preserve">
+    <value>Beneficiary information</value>
+  </data>
+	<data name="TravelBeneficiaryNote" xml:space="preserve">
+    <value>(Beneficiary of insurance benefits in case of death of the insured)</value>
+  </data>
+	<data name="SexFemale" xml:space="preserve">
+    <value>Female</value>
+  </data>
+	<data name="SexMale" xml:space="preserve">
+    <value>Male</value>
+  </data>
+	<data name="SexOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+	<data name="SK_CustomerRelation" xml:space="preserve">
+    <value>Relationship with insurance buyers</value>
+  </data>
+	<data name="SK_CustomerRelationError" xml:space="preserve">
+    <value>Choose relationship with insurance buyers </value>
+  </data>
+	<data name="SK_FixedPackages" xml:space="preserve">
+    <value>Insurance package</value>
+  </data>
+	<data name="SK_FixedPackagesError" xml:space="preserve">
+    <value>Please choose a insurance package</value>
+  </data>
+	<data name="SK_FlexPackage" xml:space="preserve">
+    <value>Flexible insurance package</value>
+  </data>
+	<data name="SK_InsuredPersonInfo" xml:space="preserve">
+    <value>Insured person information</value>
+  </data>
+	<data name="SK_InsuredPersonName" xml:space="preserve">
+    <value>Insured person name</value>
+  </data>
+	<data name="SK_InsuredPersonNameError" xml:space="preserve">
+    <value>Enter insured person's name</value>
+  </data>
+	<data name="SK_SelectPackage" xml:space="preserve">
+    <value>Select insurance package</value>
+  </data>
+	<data name="TravelCustomerBirthdayError" xml:space="preserve">
+    <value>Enter date of birth</value>
+  </data>
+	<data name="TravelCustomerBirthdayInput" xml:space="preserve">
+    <value>Date of birth</value>
+  </data>
+	<data name="TravelCustomerEmailError" xml:space="preserve">
+    <value>Enter email</value>
+  </data>
+	<data name="TravelCustomerEmailInput" xml:space="preserve">
+    <value>Email</value>
+  </data>
+	<data name="TravelCustomerGenderError" xml:space="preserve">
+    <value>Select gender information</value>
+  </data>
+	<data name="TravelCustomerGenderInput" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+	<data name="TravelCustomerIdentityError" xml:space="preserve">
+    <value>Enter passport number/ID card</value>
+  </data>
+	<data name="TravelCustomerIdentityInput" xml:space="preserve">
+    <value>Passport number/ID card</value>
+  </data>
+	<data name="TravelCustomerInformation" xml:space="preserve">
+    <value>Customer information</value>
+  </data>
+	<data name="TravelCustomerNameError" xml:space="preserve">
+    <value>Enter customer first and last name</value>
+  </data>
+	<data name="TravelCustomerNameInput" xml:space="preserve">
+    <value>Customer first and last name</value>
+  </data>
+	<data name="TravelCustomerPhoneError" xml:space="preserve">
+    <value>Enter phone number</value>
+  </data>
+	<data name="TravelCustomerPhoneInput" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+	<data name="TravelDepartDate" xml:space="preserve">
+    <value>Departure day </value>
+  </data>
+	<data name="TravelDomesticInsurance" xml:space="preserve">
+    <value>Domestic travel insurance</value>
+  </data>
+	<data name="TravelForeignerInsurance" xml:space="preserve">
+    <value>Insurance for foreigners traveling in Vietnam</value>
+  </data>
+	<data name="TravelFrom" xml:space="preserve">
+    <value>Departure point</value>
+  </data>
+	<data name="TravelInsurancePackage" xml:space="preserve">
+    <value>Insurance package</value>
+  </data>
+	<data name="TravelInsuredPersonInformation" xml:space="preserve">
+    <value>Insured person information</value>
+  </data>
+	<data name="TravelInternationalInsurance" xml:space="preserve">
+    <value>International travel insurance</value>
+  </data>
+	<data name="TravelIsBuyer" xml:space="preserve">
+    <value>Beneficiary is insurance buyer</value>
+  </data>
+	<data name="TravelIsForeigner" xml:space="preserve">
+    <value>Foreigners residing in Vietnam</value>
+  </data>
+	<data name="TravelIsInsuredPerson" xml:space="preserve">
+    <value>Beneficiary is insured person</value>
+  </data>
+	<data name="TravelIsOther" xml:space="preserve">
+    <value>Beneficiary is other</value>
+  </data>
+	<data name="TravelIsVietnamese" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
+	<data name="TravelNews" xml:space="preserve">
+    <value>Travel insurance</value>
+  </data>
+	<data name="TravelNumberPeople" xml:space="preserve">
+    <value>Number of people in the group</value>
+  </data>
+	<data name="TravelRelationshipWithInsuranceBuyersError" xml:space="preserve">
+    <value>Select relationship with Insurance buyers</value>
+  </data>
+	<data name="TravelRelationshipWithInsuranceBuyersInput" xml:space="preserve">
+    <value>Relationship with insurance buyers</value>
+  </data>
+	<data name="TravelReturnDate" xml:space="preserve">
+    <value>Return day</value>
+  </data>
+	<data name="TravelTo" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+	<data name="TravelTripInformation" xml:space="preserve">
+    <value>Trip information</value>
+  </data>
+	<data name="TravelVietnameseInsurance" xml:space="preserve">
+    <value>Insurance for Vietnamese traveling abroad</value>
+  </data>
+	<data name="TravelNumberDate" xml:space="preserve">
+    <value>Number of days</value>
+  </data>
+	<data name="UploadDocumentFront" xml:space="preserve">
+    <value>Front</value>
+  </data>
+	<data name="UploadDocumentLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+	<data name="UploadDocumentRear" xml:space="preserve">
+    <value>Backside</value>
+  </data>
+	<data name="UploadDocumentRegistration" xml:space="preserve">
+    <value>Photos of vehicle certificate</value>
+  </data>
+	<data name="UploadDocumentRegistrationDocument" xml:space="preserve">
+    <value>registration certificate</value>
+  </data>
+	<data name="UploadDocumentRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
+	<data name="UploadDocumentTitle" xml:space="preserve">
+    <value>Upload file</value>
+  </data>
+	<data name="UploadDocumentVehicleImage" xml:space="preserve">
+    <value>Photos of vehicle to buy insurance</value>
+  </data>
+	<data name="VehicleBrandError" xml:space="preserve">
+    <value>Select trademark</value>
+  </data>
+	<data name="VehicleBrandInput" xml:space="preserve">
+    <value>Trademark</value>
+  </data>
+	<data name="VehicleChassisError" xml:space="preserve">
+    <value>Enter chassis number</value>
+  </data>
+	<data name="VehicleChassisInput" xml:space="preserve">
+    <value>Chassis number</value>
+  </data>
+	<data name="VehicleEngineError" xml:space="preserve">
+    <value>Enter engine number</value>
+  </data>
+	<data name="VehicleEngineInput" xml:space="preserve">
+    <value>Engine number</value>
+  </data>
+	<data name="VehicleFirstRegError" xml:space="preserve">
+    <value>Enter first registration date</value>
+  </data>
+	<data name="VehicleFirstRegInput" xml:space="preserve">
+    <value>First registration date</value>
+  </data>
+	<data name="VehicleInformation" xml:space="preserve">
+    <value>Vehicle information</value>
+  </data>
+	<data name="VehicleManufactureDateError" xml:space="preserve">
+    <value>Enter manufacturing date</value>
+  </data>
+	<data name="VehicleManufactureDateInput" xml:space="preserve">
+    <value>Manufacturing date</value>
+  </data>
+	<data name="VehicleModelError" xml:space="preserve">
+    <value>Select model number</value>
+  </data>
+	<data name="VehicleModelInput" xml:space="preserve">
+    <value>Model number</value>
+  </data>
+	<data name="VehicleOriginError" xml:space="preserve">
+    <value>Select source</value>
+  </data>
+	<data name="VehicleOriginInput" xml:space="preserve">
+    <value>Source</value>
+  </data>
+	<data name="VehiclePayloadError" xml:space="preserve">
+    <value>Enter tonnage</value>
+  </data>
+	<data name="VehiclePayloadInput" xml:space="preserve">
+    <value>Tonnage(Ton)</value>
+  </data>
+	<data name="TrongTai_Tan" xml:space="preserve">
+    <value>Trọng tải (Tấn)</value>
+  </data>
+	<data name="VehiclePlateError" xml:space="preserve">
+    <value>Enter vehicle registration plate</value>
+  </data>
+	<data name="VehiclePlateInput" xml:space="preserve">
+    <value>Vehicle registration plate</value>
+  </data>
+	<data name="VehiclePurposeError" xml:space="preserve">
+    <value>Select usage</value>
+  </data>
+	<data name="VehiclePurposeInput" xml:space="preserve">
+    <value>Usage</value>
+  </data>
+	<data name="VehicleSeatCountError" xml:space="preserve">
+    <value>Enter number of seats</value>
+  </data>
+	<data name="VehicleSeatCountInput" xml:space="preserve">
+    <value>Number of seats</value>
+  </data>
+	<data name="VehicleTypeError" xml:space="preserve">
+    <value>Select vehicle model</value>
+  </data>
+	<data name="VehicleTypeInput" xml:space="preserve">
+    <value>Vehicle model</value>
+  </data>
+	<data name="IdentityIssueDate" xml:space="preserve">
+    <value>Date of issue</value>
+  </data>
+	<data name="TravelDepartDateError" xml:space="preserve">
+    <value>Select departure day</value>
+  </data>
+	<data name="TravelFromError" xml:space="preserve">
+    <value>Select departure point</value>
+  </data>
+	<data name="TravelNumberDateError" xml:space="preserve">
+    <value>Enter number of days</value>
+  </data>
+	<data name="TravelNumberPeopleError" xml:space="preserve">
+    <value>Enter number of people in the group</value>
+  </data>
+	<data name="TravelReturnDateError" xml:space="preserve">
+    <value>Select return date</value>
+  </data>
+	<data name="TravelToError" xml:space="preserve">
+    <value>Select destination</value>
+  </data>
+	<data name="ContractInsuranceExpireDateError" xml:space="preserve">
+    <value>Choose expiration date</value>
+  </data>
+	<data name="ContractInsuranceValidityDateError" xml:space="preserve">
+    <value>Choose validity date</value>
+  </data>
+	<data name="ContractIssueDateError" xml:space="preserve">
+    <value>Choose issue date</value>
+  </data>
+	<data name="TravelCompanyBuyerError" xml:space="preserve">
+    <value>Enter company name</value>
+  </data>
+	<data name="TravelCompanyBuyerInput" xml:space="preserve">
+    <value>Company name</value>
+  </data>
+	<data name="TravelExchangeRateError" xml:space="preserve">
+    <value>Enter exchange rate</value>
+  </data>
+	<data name="TravelExchangeRateInput" xml:space="preserve">
+    <value>Exchange rate</value>
+  </data>
+	<data name="TravelFeeAdjustmentAfter" xml:space="preserve">
+    <value>Amount after adjustment</value>
+  </data>
+	<data name="TravelFeeAdjustmentBefor" xml:space="preserve">
+    <value>Amount before adjustment</value>
+  </data>
+	<data name="TravelFeeAdjustmentCheck" xml:space="preserve">
+    <value>Adjust the fee increase or decrease</value>
+  </data>
+	<data name="TravelFeeAdjustmentError" xml:space="preserve">
+    <value>Select fee adjustment information</value>
+  </data>
+	<data name="TravelFeeAdjustmentInput" xml:space="preserve">
+    <value>Fee adjustment</value>
+  </data>
+	<data name="TravelFeeDeductError" xml:space="preserve">
+    <value>Enter amount of money</value>
+  </data>
+	<data name="TravelFeeDeductInput" xml:space="preserve">
+    <value>Amount of money</value>
+  </data>
+	<data name="TravelFeeInformation" xml:space="preserve">
+    <value>Insurance fee information</value>
+  </data>
+	<data name="TravelFeeInsuranceInput" xml:space="preserve">
+    <value>Insurance fee (VNĐ)</value>
+  </data>
+	<data name="TravelFeeRateError" xml:space="preserve">
+    <value>Enter ratio</value>
+  </data>
+	<data name="TravelFeeRateInput" xml:space="preserve">
+    <value>Ratio (%)</value>
+  </data>
+	<data name="TravelGetInvoice" xml:space="preserve">
+    <value>Get invoice</value>
+  </data>
+	<data name="TravelInsuranceAmountInput" xml:space="preserve">
+    <value>Insurance money </value>
+  </data>
+	<data name="TravelInsuranceBuyerError" xml:space="preserve">
+    <value>Enter insurance buyer's name</value>
+  </data>
+	<data name="TravelInsuranceBuyerInput" xml:space="preserve">
+    <value>Insurance buyer's name</value>
+  </data>
+	<data name="TravelTaxBuyerError" xml:space="preserve">
+    <value>Enter tax code</value>
+  </data>
+	<data name="TravelTaxBuyerInput" xml:space="preserve">
+    <value>Tax code</value>
+  </data>
+	<data name="TravelAdjustment" xml:space="preserve">
+    <value>Fee increase and decrease</value>
+  </data>
+	<data name="TravelContract" xml:space="preserve">
+    <value>Insurance policy number</value>
+  </data>
+	<data name="TravelContractDetailInformation" xml:space="preserve">
+    <value>Contract detail information</value>
+  </data>
+	<data name="TravelContractStatus" xml:space="preserve">
+    <value>Policy status</value>
+  </data>
+	<data name="TravelGeneralInformation" xml:space="preserve">
+    <value>General information</value>
+  </data>
+	<data name="TravelInternationalContractInformation" xml:space="preserve">
+    <value>International travel insurance information</value>
+  </data>
+	<data name="TravelTotalAmount" xml:space="preserve">
+    <value>Total payment amount</value>
+  </data>
+	<data name="Pay" xml:space="preserve">
+    <value>Select payment method</value>
+  </data>
+	<data name="PayCash" xml:space="preserve">
+    <value>Payment in cash</value>
+  </data>
+	<data name="PayCreditCard" xml:space="preserve">
+    <value>Pay online by international debit card</value>
+  </data>
+	<data name="PayDebitCard" xml:space="preserve">
+    <value>Online payment by domestic card</value>
+  </data>
+	<data name="PayError" xml:space="preserve">
+    <value>Select payment method</value>
+  </data>
+	<data name="PayTutorial" xml:space="preserve">
+    <value>Please select payment methods below</value>
+  </data>
+	<data name="PayVCB" xml:space="preserve">
+    <value>Online payment via VCB payment gateway</value>
+  </data>
+	<data name="UploadDocumentCMT" xml:space="preserve">
+    <value>Image of ID card/Citizen ID</value>
+  </data>
+	<data name="TravelRelationshipWithBenError" xml:space="preserve">
+    <value>Select relationship with the beneficiary information</value>
+  </data>
+	<data name="TravelRelationshipWithBenInput" xml:space="preserve">
+    <value>Relationship with the beneficiary </value>
+  </data>
+	<data name="TravelInternationalFeeInsuranceInput" xml:space="preserve">
+    <value>Foreign currency insurance fee (USD/EUR)</value>
+  </data>
+	<data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+	<data name="TravelDangerConfirm" xml:space="preserve">
+    <value>Participation in sports, competitions of a professional nature, dangerous games</value>
+  </data>
+	<data name="TravelModel" xml:space="preserve">
+    <value>Travel method</value>
+  </data>
+	<data name="TravelPoint" xml:space="preserve">
+    <value>Point</value>
+  </data>
+	<data name="TravelSelectedInformation" xml:space="preserve">
+    <value>Selected information</value>
+  </data>
+	<data name="TravelSelectedInformationA" xml:space="preserve">
+    <value>a. There are swimming, climbing or river cruises</value>
+  </data>
+	<data name="TravelSelectedInformationB" xml:space="preserve">
+    <value>b. Other cases</value>
+  </data>
+	<data name="TravelTrip" xml:space="preserve">
+    <value>Trip</value>
+  </data>
+	<data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+	<data name="IsEmailError" xml:space="preserve">
+    <value>Email is in invalid format</value>
+  </data>
+	<data name="TravelReceiptInformationInsuranceAmountError" xml:space="preserve">
+    <value>Enter insurance money</value>
+  </data>
+	<data name="TravelReceiptInformationInsuranceAmountError2" xml:space="preserve">
+    <value>Re enter insurance money</value>
+  </data>
+	<data name="TravelReceiptInformationInsuranceAmountInput" xml:space="preserve">
+    <value>Insurance money</value>
+  </data>
+	<data name="TravelReceiptInformationInsuranceAmountLimitError" xml:space="preserve">
+    <value>The sum insured is in the range of VND 5 million to VND 100 million</value>
+  </data>
+	<data name="TravelDomesticContractInformation" xml:space="preserve">
+    <value>Domestic travel insurance information</value>
+  </data>
+	<data name="HealthCancerInsuranceInformation" xml:space="preserve">
+    <value>Cancer insurance information</value>
+  </data>
+	<data name="HealthDiseaseInsuranceInformation" xml:space="preserve">
+    <value>Disease insurance information</value>
+  </data>
+	<data name="Certificate" xml:space="preserve">
+    <value>Certificate</value>
+  </data>
+	<data name="SoGiayChungNhanCMT_CCCD" xml:space="preserve">
+    <value>Số giấy chứng nhận/CMT/CCCD/Số điện thoại</value>
+  </data>
+	<data name="BaoHiemVatChatOto" xml:space="preserve">
+    <value>Bảo hiểm vật chất Ô tô</value>
+  </data>
+	<data name="TrongHieuLuc" xml:space="preserve">
+    <value>Trong hiệu lực</value>
+  </data>
+	<data name="GiayChungNhanBaoHiem" xml:space="preserve">
+    <value>Giấy chứng nhận bảo hiểm</value>
+  </data>
+	<data name="SoGiayChungNhan" xml:space="preserve">
+    <value>Số giấy chứng nhận</value>
+  </data>
+	<data name="NgayHieuLuc" xml:space="preserve">
+    <value>Ngày hiệu lực</value>
+  </data>
+	<data name="NgayKetThuc" xml:space="preserve">
+    <value>Ngày kết thúc</value>
+  </data>
+	<data name="SK_BenefitName" xml:space="preserve">
+    <value>First and last name</value>
+  </data>
+	<data name="SK_BenefitNameError" xml:space="preserve">
+    <value>Enter first and last name</value>
+  </data>
+	<data name="SK_HealthQuestion" xml:space="preserve">
+    <value>Appraisal question</value>
+  </data>
+	<data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+	<data name="SK_AnotherInsured" xml:space="preserve">
+    <value>Buy more</value>
+  </data>
+	<data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+	<data name="CancelProcess" xml:space="preserve">
+    <value>Cancel process</value>
+  </data>
+	<data name="SK_NotPassMess" xml:space="preserve">
+    <value>The insured does not pass the appraisal question and will be removed from the list of insureds. Please choose action!</value>
+  </data>
+	<data name="ContractExpireDate" xml:space="preserve">
+    <value>Expiry date of insurance</value>
+  </data>
+	<data name="ContractIssueDate" xml:space="preserve">
+    <value>Date of issue</value>
+  </data>
+	<data name="ContractStartDate" xml:space="preserve">
+    <value>Effective date of coverage</value>
+  </data>
+	<data name="SK_ContractInfo" xml:space="preserve">
+    <value>Insurance policy information</value>
+  </data>
+	<data name="SK_FeeError" xml:space="preserve">
+    <value>Enter insurance fee</value>
+  </data>
+	<data name="SK_ResetField" xml:space="preserve">
+    <value>Re-enter information</value>
+  </data>
+	<data name="SK_InsuredExist" xml:space="preserve">
+    <value>This person has been already participated in another insurance contract. Please enter new one</value>
+  </data>
+	<data name="TravelReturnDateAndDepartDateError" xml:space="preserve">
+    <value>Return date must be greater than departure date</value>
+  </data>
+	<data name="TravelFromInputError" xml:space="preserve">
+    <value>Enter point departure</value>
+  </data>
+	<data name="TravelToInputError" xml:space="preserve">
+    <value>Enter destination</value>
+  </data>
+	<data name="TravelListInsuredPerson" xml:space="preserve">
+    <value>List of insured people</value>
+  </data>
+	<data name="TravelInsuredPersonName" xml:space="preserve">
+    <value>First and last name</value>
+  </data>
+	<data name="TravelInsuredPersonNumber" xml:space="preserve">
+    <value>Person</value>
+  </data>
+	<data name="TravelListInsuredPersonError" xml:space="preserve">
+    <value>List is empty</value>
+  </data>
+	<data name="SK_Caner" xml:space="preserve">
+    <value>Health insurance caner</value>
+  </data>
+	<data name="SK_Fatal" xml:space="preserve">
+    <value>Fatal disease insurance</value>
+  </data>
+	<data name="TravelInsurancePackageError" xml:space="preserve">
+    <value>Select insurance package</value>
+  </data>
+	<data name="ReceiptInformationCarMaterial" xml:space="preserve">
+    <value>Physical damage coverage of vehicle</value>
+  </data>
+	<data name="TravelRateInputError1" xml:space="preserve">
+    <value>Enter a rate between {0}% and {1}%</value>
+  </data>
+	<data name="TravelRateInputError2" xml:space="preserve">
+    <value>Enter rate from {0}% or more</value>
+  </data>
+	<data name="TravelRateInputError3" xml:space="preserve">
+    <value>Enter rate no more than {0}%</value>
+  </data>
+	<data name="TravelGroup" xml:space="preserve">
+    <value>Group</value>
+  </data>
+	<data name="SK_CompanyName" xml:space="preserve">
+    <value>Business name</value>
+  </data>
+	<data name="SK_CompanyNameError" xml:space="preserve">
+    <value>Enter business name</value>
+  </data>
+	<data name="SK_RepresentativeName" xml:space="preserve">
+    <value>Representative</value>
+  </data>
+	<data name="SK_RepresentativeNameError" xml:space="preserve">
+    <value>Enter representative name</value>
+  </data>
+	<data name="CarMaterialResponsibilityMax" xml:space="preserve">
+    <value>Maximum aggregate limit</value>
+  </data>
+	<data name="CarMaterialResponsibilityPassenger" xml:space="preserve">
+    <value>Additional liability limit of passenger</value>
+  </data>
+	<data name="CarMaterialResponsibilityPerson" xml:space="preserve">
+    <value>Additional liability limit of person</value>
+  </data>
+	<data name="CarMaterialResponsibilityProperty" xml:space="preserve">
+    <value>Additional liability limit of property</value>
+  </data>
+	<data name="ReceiptInformationPersonAmountInput" xml:space="preserve">
+    <value>Insurance money amount/person/case(VND)</value>
+  </data>
+	<data name="ReceiptInformationPersonAmountError" xml:space="preserve">
+    <value>Choose insurance money amount/person/case(VND)</value>
+  </data>
+	<data name="Currency" xml:space="preserve">
+    <value>Currency </value>
+  </data>
+	<data name="CurrencyError" xml:space="preserve">
+    <value>Select currency</value>
+  </data>
+	<data name="PayConfirm" xml:space="preserve">
+    <value>Payment confirmation</value>
+  </data>
+	<data name="InputCompanyAddress" xml:space="preserve">
+    <value>Company address</value>
+  </data>
+	<data name="InputCompanyAddressError" xml:space="preserve">
+    <value>Enter company address</value>
+  </data>
+	<data name="BillAddressCompanyError" xml:space="preserve">
+    <value>Enter company address</value>
+  </data>
+	<data name="BillAddressCompanyInput" xml:space="preserve">
+    <value>Company address</value>
+  </data>
+	<data name="BillAddressError" xml:space="preserve">
+    <value>Enter billing address</value>
+  </data>
+	<data name="BillAddressInput" xml:space="preserve">
+    <value>Invoice receiving address</value>
+  </data>
+	<data name="TravelFeeInsuranceForeignCurrencyInput" xml:space="preserve">
+    <value>Foreign currency insurance fee</value>
+  </data>
+	<data name="TravelReceiptInformationInsuranceAmountLimitError2" xml:space="preserve">
+    <value>The insurance amount ranges from 10 million VND to 100 million VND</value>
+  </data>
+	<data name="TravelReceiptInformationInsuranceAmountLimitError3" xml:space="preserve">
+    <value>The amount of insurance is between 1 thousand USD and 30 thousand USD</value>
+  </data>
+	<data name="ReceiptInformationBeforeAdjustment" xml:space="preserve">
+    <value>Amount before adjustment</value>
+  </data>
+	<data name="ChuaNhapThongTin" xml:space="preserve">
+    <value>Please select information</value>
+  </data>
+	<data name="ChuaChonThongTin" xml:space="preserve">
+    <value>Please select information</value>
+  </data>
+	<data name="MuaBHNhaTuNhan" xml:space="preserve">
+    <value>Buy private home insurance</value>
+  </data>
+	<data name="BHNhaTuNhan" xml:space="preserve">
+    <value>Private home insurance</value>
+  </data>
+	<data name="DieuKhoanDieuChinh" xml:space="preserve">
+    <value>ANNUAL CONDITIONS ADJUSTMENT – APPLICATION TO ONE YEAR LONG TERM INSURANCE POLICY</value>
+  </data>
+	<data name="ThongTinBenMuaBaoHiem" xml:space="preserve">
+    <value>Insurance buyer information</value>
+  </data>
+	<data name="ContractAfterAlter" xml:space="preserve">
+    <value>Total insurance fee after increase and decrease (VAT not included)</value>
+  </data>
+	<data name="ContractTotalAlter" xml:space="preserve">
+    <value>Total increase/decrease</value>
+  </data>
+	<data name="ContractTotalBasic" xml:space="preserve">
+    <value>Total basic insurance money amount (VAT not included)</value>
+  </data>
+	<data name="ClientAPIError" xml:space="preserve">
+    <value>There is something wrong from us</value>
+  </data>
+	<data name="ServerAPIError" xml:space="preserve">
+    <value>There is somthing wrong form the server</value>
+  </data>
+	<data name="ServerConnectionLost" xml:space="preserve">
+    <value>Connection to server has been lost</value>
+  </data>
+	<data name="EmailFormatError" xml:space="preserve">
+    <value>Email is in invalid format</value>
+  </data>
+	<data name="SK_InsPersonPhoneError" xml:space="preserve">
+    <value>Enter phone number</value>
+  </data>
+	<data name="CancelAlterRequest" xml:space="preserve">
+    <value>Cancellation of additional modification request</value>
+  </data>
+	<data name="ContractAlterRequest" xml:space="preserve">
+    <value>Request for additional modifications</value>
+  </data>
+	<data name="YeuCauSuaDoi" xml:space="preserve">
+    <value>Yêu cầu sửa đổi</value>
+  </data>
+	<data name="TaoYeuCau" xml:space="preserve">
+    <value>Tạo yêu cầu</value>
+  </data>
+	<data name="LuaChonHinhThucSuaDoi" xml:space="preserve">
+    <value>Lựa chọn hình thức sửa đổi</value>
+  </data>
+	<data name="SuaDoiBoSungThongTinDon" xml:space="preserve">
+    <value>Sửa đổi bổ sung thông tin đơn</value>
+  </data>
+	<data name="HuyDonBaoHiem" xml:space="preserve">
+    <value>Hủy đơn bảo hiểm</value>
+  </data>
+	<data name="BanChacChanMuonHuyDonBH" xml:space="preserve">
+    <value>Bạn chắc chắn muốn gửi yêu cầu 
+hủy đơn bảo hiểm số                           ?</value>
+  </data>
+	<data name="DeNghiPjcoSuaDoiBoSungDon" xml:space="preserve">
+    <value>Đề nghị bảo hiểm Pjico sửa đổi bổ sung đơn bảo hiểm                        theo nội dung sau:</value>
+  </data>
+	<data name="NhapYeuCauSDBS" xml:space="preserve">
+    <value>Nhập yêu cầu sửa đổi bổ sung</value>
+  </data>
+  
+	<data name="MuaBHVatChatOto" xml:space="preserve">
+    <value>Mua bảo hiểm vật chất Ô tô</value>
+  </data>
+      
+	<data name="BHVatChatOto" xml:space="preserve">
+    <value>Bảo hiểm vật chất Ô tô</value>
+  </data>
+  
+	<data name="DaTiepNhanYeuCau" xml:space="preserve">
+    <value>Pjico đã tiếp nhận yêu cầu</value>
+  </data>
+	<data name="YeuCauSuaDoiBoSungDuocTiepNhan" xml:space="preserve">
+    <value>Yêu cầu sửa đổi bổ sung đơn bảo hiểm của bạn đã được Pjico tiếp nhận và xử lý. Chúng tôi sẽ liên hệ phản hồi lại trong vòng 48h làm việc.
+Trong trường hợp khẩn cấp vui lòng gọi điến đến hotline 1900545455  để được hỗ trợ kịp thời.</value>
+  </data>
+	<data name="ContractCancelRequest" xml:space="preserve">
+    <value>Request to cancel</value>
+  </data>
+	<data name="EditAlterRequest" xml:space="preserve">
+    <value>Correction requires additional modifications</value>
+  </data>
+	<data name="TuChoi" xml:space="preserve">
+    <value>Refuse</value>
+  </data>
+	<data name="Duyet" xml:space="preserve">
+    <value>Approval</value>
+  </data>
+	<data name="XacNhanSuaDoi" xml:space="preserve">
+    <value>Cofirm edit</value>
+  </data>
+	<data name="YeuCauHuy" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+	<data name="Alter" xml:space="preserve">
+    <value>Alter</value>
+  </data>
+	<data name="CancelContract" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+	<data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+	<data name="Completed" xml:space="preserve">
+    <value>Complete Issuing</value>
+  </data>
+	<data name="Confirmed" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+	<data name="Incomplete" xml:space="preserve">
+    <value>Incomplete</value>
+  </data>
+	<data name="IssueNew" xml:space="preserve">
+    <value>Issue new</value>
+  </data>
+	<data name="NoConfirm" xml:space="preserve">
+    <value>Refuse</value>
+  </data>
+	<data name="Payed" xml:space="preserve">
+    <value>Payment complete</value>
+  </data>
+	<data name="Renewal" xml:space="preserve">
+    <value>Renewals</value>
+  </data>
+	<data name="TaiTucDonBaoHiemNay" xml:space="preserve">
+    <value>Tái tục đơn bảo hiểm này</value>
+  </data>
+	<data name="Renewed" xml:space="preserve">
+    <value>Renewed</value>
+  </data>
+	<data name="RequestCancelled" xml:space="preserve">
+    <value>Request for &lt;{0}&gt; for &lt;{1}&gt; has been cancelled.</value>
+  </data>
+	<data name="RequestConfirm" xml:space="preserve">
+    <value>Request for &lt;{0}&gt; for &lt;{1}&gt; has been approved.</value>
+  </data>
+	<data name="RequestDenied" xml:space="preserve">
+    <value>Request for &lt;{0}&gt; for &lt;{1}&gt; has been denied.</value>
+  </data>
+	<data name="RequestWait4Confirm" xml:space="preserve">
+    <value>Request for &lt;{0}&gt; for &lt;{1}&gt; is waiting for approval.</value>
+  </data>
+	<data name="Updated" xml:space="preserve">
+    <value>Complete alter</value>
+  </data>
+	<data name="WaitConfirm" xml:space="preserve">
+    <value>Waiting for approval</value>
+  </data>
+	<data name="Info" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+	<data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+	<data name="Approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
+	<data name="SendRequest" xml:space="preserve">
+    <value>Send request</value>
+  </data>
+	<data name="XoaYeuCauSDBS" xml:space="preserve">
+    <value>Cancellation of additional modification request</value>
+  </data>
+	<data name="ReceiptInformationAddress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+	<data name="ReceiptInformationCompany" xml:space="preserve">
+    <value>Company name</value>
+  </data>
+	<data name="ReceiptInformationInvoice" xml:space="preserve">
+    <value>Invoice information</value>
+  </data>
+	<data name="ReceiptInformationName" xml:space="preserve">
+    <value>Insurance buyer's name</value>
+  </data>
+	<data name="CancelAlter" xml:space="preserve">
+    <value>Cancel request</value>
+  </data>
+	<data name="RequestConfirming" xml:space="preserve">
+    <value>Confirm the approvement of request for &lt;{0}&gt; of contract &lt;{1}&gt;</value>
+  </data>
+	<data name="RequestDenying" xml:space="preserve">
+    <value>Deny the request for &lt;{0}&gt; of contract &lt;{1}&gt;</value>
+  </data>
+	<data name="Agree" xml:space="preserve">
+    <value>Agree</value>
+  </data>
+	 
+	<data name="ChonThongTin" xml:space="preserve">
+    <value>Vui lòng chọn thông tin</value>
+  </data>
+	<data name="TraCuu" xml:space="preserve">
+    <value>Search</value>
+  </data>
+	<data name="ThongBaoTieuDeGYC" xml:space="preserve">
+    <value>Submit request for additional modifications</value>
+  </data>
+	<data name="ThongBaoTieuDeHMVQ" xml:space="preserve">
+    <value>Your limit has been exceeded</value>
+  </data>
+	<data name="NoiDungTieuDeHMVQ" xml:space="preserve">
+    <value>Please send a request to your manager for assistance</value>
+  </data>
+	<data name="CustomerBeneficiaryAddressError" xml:space="preserve">
+    <value>Enter beneficiary address</value>
+  </data>
+	<data name="CustomerBeneficiaryAddressInput" xml:space="preserve">
+    <value>Beneficiary address</value>
+  </data>
+	<data name="NoiDung1_1" xml:space="preserve">
+    <value>Limit approval request of the insurance  number </value>
+  </data>
+	<data name="NoiDung1_2" xml:space="preserve">
+    <value> has been approved</value>
+  </data>
+	<data name="NoiDung2_1" xml:space="preserve">
+    <value>The insurance  number [</value>
+  </data>
+	<data name="NoiDung2_2" xml:space="preserve">
+    <value>] will be denied request [limit approval]</value>
+  </data>
+	<data name="NoiDung3_1" xml:space="preserve">
+    <value>Require to  [amend] for  the  insurance  number [</value>
+  </data>
+	<data name="NoiDung3_2" xml:space="preserve">
+    <value>] will be sent to superior for approval</value>
+  </data>
+	<data name="NoiDung4_1" xml:space="preserve">
+    <value>Require to  [amend] for  the  insurance  number [</value>
+  </data>
+	<data name="NoiDung4_2" xml:space="preserve">
+    <value>] has been approved</value>
+  </data>
+	<data name="NoiDung5_1" xml:space="preserve">
+    <value>The insurance  number [</value>
+  </data>
+	<data name="NoiDung5_2" xml:space="preserve">
+    <value>] will be denied request amendment</value>
+  </data>
+	<data name="NoiDung6_1" xml:space="preserve">
+    <value>The insurance  number [</value>
+  </data>
+	<data name="NoiDung6_2" xml:space="preserve">
+    <value>] require to be canceled</value>
+  </data>
+	<data name="NoiDung7_1" xml:space="preserve">
+    <value>Require to  [cancel] for  the  insurance  number [</value>
+  </data>
+	<data name="NoiDung7_2" xml:space="preserve">
+    <value>] has been approved</value>
+  </data>
+	<data name="NoiDung8_1" xml:space="preserve">
+    <value>The insurance  number [</value>
+  </data>
+	<data name="NoiDung8_2" xml:space="preserve">
+    <value>] will be denied request [cancel]</value>
+  </data>
+	<data name="TieuDe9" xml:space="preserve">
+    <value>Refusal of the request</value>
+  </data>
+	<data name="NoiDung9_1" xml:space="preserve">
+    <value>The insurance  number [</value>
+  </data>
+	<data name="NoiDung9_2" xml:space="preserve">
+    <value>] will be denied request</value>
+  </data>
+	<data name="NoiDung10_1" xml:space="preserve">
+    <value>Limit approval request of the insurance  number </value>
+  </data>
+	<data name="NoiDung10_2" xml:space="preserve">
+    <value> has been approved</value>
+  </data>
+	<data name="TieuDe10" xml:space="preserve">
+    <value>Request to cancel insurance policy</value>
+  </data>
+	<data name="LyDoHuy" xml:space="preserve">
+    <value>Reason for cancellation</value>
+  </data>
+	<data name="LichSuSDDonBH" xml:space="preserve">
+    <value>Policy modification history</value>
+  </data>
+	<data name="XemChiTietToanBoDon" xml:space="preserve">
+    <value>View details of the entire application</value>
+  </data>
+	<data name="LichSuSuaDonBH" xml:space="preserve">
+    <value>Insurance policy repair history</value>
+  </data>
+	<data name="TieuDe11" xml:space="preserve">
+    <value>Denied an insurance claim</value>
+  </data>
+	<data name="NoiDung11_1" xml:space="preserve">
+    <value>TravelAdjustment</value>
+  </data>
+	<data name="NoiDung11_2" xml:space="preserve">
+    <value>] request will be denied [new grant request]</value>
+  </data>
+	<data name="NoiDung12_1" xml:space="preserve">
+    <value>Request [cancel] insurance policy [</value>
+  </data>
+	<data name="NoiDung12_2" xml:space="preserve">
+    <value>] approved</value>
+  </data>
+	<data name="HideInformation" xml:space="preserve">
+    <value>Hide information</value>
+  </data>
+	<data name="OriginalContract" xml:space="preserve">
+    <value>Original insurance policy</value>
+  </data>
+	<data name="UpdateContractCount" xml:space="preserve">
+    <value>Amendment and addition times</value>
+  </data>
+	<data name="CarCompulsory" xml:space="preserve">
+    <value>Car compulsory insurance</value>
+  </data>
+	<data name="CarMaterial" xml:space="preserve">
+    <value>Physical damage coverage of Motor vehicle</value>
+  </data>
+	<data name="MotoCompulsory" xml:space="preserve">
+    <value>Moto compulsory insurance</value>
+  </data>
+	<data name="MotoMaterial" xml:space="preserve">
+    <value>Moto material insurance</value>
+  </data>
+	<data name="NoiDung13_1" xml:space="preserve">
+    <value>Request [amendment] insurance policy [</value>
+  </data>
+	<data name="NoiDung13_2" xml:space="preserve">
+    <value>] is pending approval</value>
+  </data>
+	<data name="NoiDung14_1" xml:space="preserve">
+    <value>Request [cancel] insurance policy [</value>
+  </data>
+	<data name="NoiDung14_2" xml:space="preserve">
+    <value>] is pending approval</value>
+  </data>
+	<data name="GuiYeuCauSDBS" xml:space="preserve">
+    <value>Send request for additional modifications</value>
+  </data>
+	<data name="ApproveIssueNew" xml:space="preserve">
+    <value>Approve issue new</value>
+  </data>
+	<data name="KhongCoThongTin" xml:space="preserve">
+    <value>Empty</value>
+  </data>
+	<data name="NoiDung15_1" xml:space="preserve">
+    <value>The insurance  number [</value>
+  </data>
+	<data name="NoiDung15_2" xml:space="preserve">
+    <value>] has been denied request amendment</value>
+  </data>
+	<data name="TieuDe16" xml:space="preserve">
+    <value>Cancellation of additional modification request</value>
+  </data>
+	<data name="NoiDung16_1" xml:space="preserve">
+    <value>Request [additional amendment] application [</value>
+  </data>
+	<data name="NoiDung16_2" xml:space="preserve">
+    <value>] will be deleted</value>
+  </data>
+	<data name="XoaYeuCau" xml:space="preserve">
+    <value>Delete request</value>
+  </data>
+	<data name="ShowInformation" xml:space="preserve">
+    <value>Show information</value>
+  </data>
+	<data name="DiseaseType" xml:space="preserve">
+    <value>Disease type</value>
+  </data>
+	<data name="SK_HealthCancerInsurance" xml:space="preserve">
+    <value>Insurance  cancer</value>
+  </data>
+	<data name="SK_HealthFatalDiseaseInsurance" xml:space="preserve">
+    <value>Insurance  fatal disease</value>
+  </data>
+	<data name="NoiDung17_1" xml:space="preserve">
+    <value>Successfully submitted request [amendment] of insurance policy [</value>
+  </data>
+	<data name="NoiDung18_1" xml:space="preserve">
+    <value>Submit a request for [amendment] insurance policy [</value>
+  </data>
+	<data name="RateFormat" xml:space="preserve">
+    <value>Rate is number</value>
+  </data>
+	<data name="CMTDaDangKyBH" xml:space="preserve">
+    <value>Identity registered this insurance</value>
+  </data>
+	<data name="SuaYeuCau" xml:space="preserve">
+    <value>Edit request</value>
+  </data>
+	<data name="GiaTriTaiSanBenTrongNgoiNha" xml:space="preserve">
+    <value>Giá trị tài sản bên trong ngôi nhà</value>
+  </data>
+	<data name="GiaTriTaiSanBenTrongNgoiNhaVND" xml:space="preserve">
+    <value>Giá trị tài sản bên trong ngôi nhà (VNĐ)</value>
+  </data>
+	<data name="GiaTriTaiSanBenTrongNgoiNhaVND_Chon" xml:space="preserve">
+    <value>Chọn giá trị tài sản bên trong ngôi nhà (VNĐ)</value>
+  </data>
+	<data name="PhiBaoHiemChuaVAT" xml:space="preserve">
+    <value>Insurance fee without VAT</value>
+  </data>
+	<data name="ChiPhiMoRongChoViecThueNhaSauTonThat" xml:space="preserve">
+    <value>Expansion costs for rental housing after loss</value>
+  </data>
+	<data name="BaoHiemChoNgoiNha" xml:space="preserve">
+    <value>House insurance</value>
+  </data>
+	<data name="GiaTriNgoiNha" xml:space="preserve">
+    <value>House value</value>
+  </data>
+	<data name="BaoHiemChoTaiSanBenTrongNgoiNha" xml:space="preserve">
+    <value>Insurance for property inside the house</value>
+  </data>
+	<data name="TongPhiBaoHiemChuaVAT" xml:space="preserve">
+    <value>Total insurance premium without VAT</value>
+  </data>
+	<data name="QuyenSoHuu" xml:space="preserve">
+    <value>Ownership</value>
+  </data>
+	<data name="ChonQuyenSoHuu" xml:space="preserve">
+    <value>Select ownership</value>
+  </data>
+	<data name="LoaiHinhNgoiNha" xml:space="preserve">
+    <value>House type </value>
+  </data>
+	<data name="ChonLoaiHinhNgoiNha" xml:space="preserve">
+    <value>Select the type of house</value>
+  </data>
+	<data name="PhanLoaiNgoiNha" xml:space="preserve">
+    <value>House classification</value>
+  </data>
+	<data name="ChonPhanLoaiNgoiNha" xml:space="preserve">
+    <value>Select a house category</value>
+  </data>
+	<data name="ThoiGianSuDungNgoiNha" xml:space="preserve">
+    <value>House using time</value>
+  </data>
+	<data name="ChonThoiGianSuDungNgoiNha" xml:space="preserve">
+    <value>Select a time to use the house</value>
+  </data>
+	<data name="TenNganHang" xml:space="preserve">
+    <value>Bank name</value>
+  </data>
+	<data name="ChonTenNganHang" xml:space="preserve">
+    <value>Select a bank name</value>
+  </data>
+	<data name="DiaChiNganHang" xml:space="preserve">
+    <value>Bank address</value>
+  </data>
+	<data name="ChonDiaChiNganHang" xml:space="preserve">
+    <value>Select a bank address</value>
+  </data>
+	<data name="SoHopDongVay" xml:space="preserve">
+    <value>Loan contract number</value>
+  </data>
+	<data name="ChonSoHopDongVay" xml:space="preserve">
+    <value>Select loan contract number</value>
+  </data>
+	<data name="CustomerBeneficiaryError" xml:space="preserve">
+    <value>Select beneficiary</value>
+  </data>
+	<data name="ContractAgentError" xml:space="preserve">
+    <value>Enter agent</value>
+  </data>
+	<data name="GiaTriNgoiNhaError" xml:space="preserve">
+    <value>Enter the value of the house</value>
+  </data>
+	<data name="PhiBaoHiemChuaVATError" xml:space="preserve">
+    <value>Enter insurance fee without VAT</value>
+  </data>
+	<data name="GiaTriTaiSanBenTrongNgoiNhaError" xml:space="preserve">
+    <value>Select value of property inside the house</value>
+  </data>
+	<data name="ReceiptInformationRateError" xml:space="preserve">
+    <value>Enter ratio</value>
+  </data>
+	<data name="Chon" xml:space="preserve">
+    <value>--Select--</value>
+  </data>
+	<data name="HomeInformation" xml:space="preserve">
+    <value>Home information</value>
+  </data>
+	<data name="HomeInsuranceInformation" xml:space="preserve">
+    <value>Home insurance information</value>
+  </data>
+	<data name="InsuranceFee" xml:space="preserve">
+    <value>Insurance fees</value>
+  </data>
+	<data name="CapDaiLy" xml:space="preserve">
+    <value>Agent level</value>
+  </data>
+	<data name="CapDaiLyLoi" xml:space="preserve">
+    <value>Enter agent level</value>
+  </data>
+	<data name="TuNgay" xml:space="preserve">
+    <value>From date</value>
+  </data>
+	<data name="DenNgay" xml:space="preserve">
+    <value>To date</value>
+  </data>
+	<data name="TuNgayLoi" xml:space="preserve">
+    <value>Enter from date</value>
+  </data>
+	<data name="DenNgayLoi" xml:space="preserve">
+    <value>Enter to date</value>
+  </data>
+	<data name="TongDoanhThu" xml:space="preserve">
+    <value>Total revenue</value>
+  </data>
+	<data name="MuaNgay" xml:space="preserve">
+    <value>Buy now</value>
+  </data>
+	<data name="BHBBXM" xml:space="preserve">
+    <value>Bảo hiểm bắt buộc xe máy</value>
+  </data>
+	<data name="BHBBOTO" xml:space="preserve">
+    <value>Bảo hiểm bắt buộc ô tô</value>
+  </data>
+	<data name="BHTNOTO" xml:space="preserve">
+    <value>Bảo hiểm tự nguyện ô tô</value>
+  </data>
+	<data name="BHUT" xml:space="preserve">
+    <value>Bảo hiểm ung thư</value>
+  </data>
+	<data name="BHBHN" xml:space="preserve">
+    <value>Bảo hiểm bệnh hiểm nghèo</value>
+  </data>
+	<data name="BHDLTN" xml:space="preserve">
+    <value>Bảo hiểm du lịch trong nước</value>
+  </data>
+	<data name="BHNNNTVN" xml:space="preserve">
+    <value>Bảo hiểm người nước ngoài du lịch tại Việt Nam</value>
+  </data>
+	<data name="BHNVNTNN" xml:space="preserve">
+    <value>Bảo hiểm người Việt Nam du lịch tại nước ngoài</value>
+  </data>
+	<data name="BHDLQT" xml:space="preserve">
+    <value>Bảo hiểm du lịch quốc tế</value>
+  </data>
+	<data name="BHNTN" xml:space="preserve">
+    <value>Bảo hiểm nhà tư nhân</value>
+  </data>
+	<data name="LyDoGuiYC" xml:space="preserve">
+    <value>Reason for request</value>
+  </data>
+	<data name="LyDoHuyInput" xml:space="preserve">
+    <value>Enter reason for cancellation</value>
+  </data>
+	<data name="PhiKhongHopLe" xml:space="preserve">
+    <value>Invalid fee</value>
+  </data>
+	<data name="HeThongChuaChay" xml:space="preserve">
+    <value>Is there a fire protection system?</value>
+  </data>
+	<data name="NhapNamBatDauSuDung" xml:space="preserve">
+    <value>Enter start using year</value>
+  </data>
+	<data name="TheChapTaiNganHang" xml:space="preserve">
+    <value>Is the house mortgaged at the bank?</value>
+  </data>
+	<data name="InfoSDBS" xml:space="preserve">
+    <value>Information request for additional modifications insurance policy</value>
+  </data>
+	<data name="SDBSPendingApprove" xml:space="preserve">
+    <value>Request for additional modifications is pending approval</value>
+  </data>
+	<data name="InsurPolicy" xml:space="preserve">
+    <value>Insurance policy</value>
+  </data>
+	<data name="WillDeniedSDBS" xml:space="preserve">
+    <value>will be denied request for additional modifications</value>
+  </data>
+	<data name="CancelPendingApproval" xml:space="preserve">
+    <value>Cancellation request is pending approval</value>
+  </data>
+	<data name="ValidateFeeAdjustment" xml:space="preserve">
+    <value>Select fee adjustment</value>
+  </data>
+	<data name="WarningSubject" xml:space="preserve">
+    <value>Please select subject</value>
+  </data>
+	<data name="TongPhiSauTangGiam" xml:space="preserve">
+    <value>Total fee after increase/decrease</value>
+  </data>
+	<data name="TongVATSauTangGiam" xml:space="preserve">
+    <value>Total VAT after increase and decrease</value>
+  </data>
+	<data name="GuiCapTrenPheDuyet" xml:space="preserve">
+    <value>The request to cancel the insurance policy has been sent to the superior for approval</value>
+  </data>
+	<data name="LyDo" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+	<data name="NhapLyDoHuyDon" xml:space="preserve">
+    <value>Enter the reason for the cancellation</value>
+  </data>
+	<data name="VeTrangChu" xml:space="preserve">
+    <value>Go to my home page</value>
+  </data>
+	<data name="HospitalAddress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+	<data name="HospitalList" xml:space="preserve">
+    <value>Hospital list</value>
+  </data>
+	<data name="HospitalName" xml:space="preserve">
+    <value>Hospital name</value>
+  </data>
+	<data name="HospitalPhone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+	<data name="NearestHospital" xml:space="preserve">
+    <value>Nearest hospital</value>
+  </data>
+	<data name="SearchGCNPlaceholder" xml:space="preserve">
+    <value>Enter Certificate/ID card number/Tax code/Phone number</value>
+  </data>
+	<data name="IDCardCitizenId" xml:space="preserve">
+    <value>ID card/Citizen ID</value>
+  </data>
+	<data name="InsuranceExpirationDate" xml:space="preserve">
+    <value>Insurance expiration date</value>
+  </data>
+	<data name="AgentAddress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+	<data name="AgentPhone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+	<data name="BranchName" xml:space="preserve">
+    <value>Branch name</value>
+  </data>
+	<data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+	<data name="NearestUnit" xml:space="preserve">
+    <value>Nearest unit</value>
+  </data>
+	<data name="Unit" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+	<data name="Professional" xml:space="preserve">
+    <value>Professional</value>
+  </data>
+	<data name="System" xml:space="preserve">
+    <value>System</value>
+  </data>
+	<data name="DaXoaYCSDBSCuaDonBaoHiem" xml:space="preserve">
+    <value>The insurance policy amendment request has been removed [</value>
+  </data>
+	<data name="DonBaoHiemDaDuocPheDuyetHuy" xml:space="preserve">
+    <value>The insurance policy has been approved for cancellation!</value>
+  </data>
+	<data name="LoiKetNoiService" xml:space="preserve">
+    <value>Service connection error</value>
+  </data>
+	<data name="HoanThanhYC" xml:space="preserve">
+    <value>Request completed</value>
+  </data>
+	<data name="QuenMatKhau" xml:space="preserve">
+    <value>Quên mật khẩu?</value>
+  </data>
+	<data name="BanLaThanhVienMoi" xml:space="preserve">
+    <value>Bạn là thành viên mới?  </value>
+  </data>
+	<data name="TaoTaiKhoan" xml:space="preserve">
+    <value>Tạo tài khoản</value>
+  </data>
+	<data name="EmailKH" xml:space="preserve">
+    <value>Email khách hàng</value>
+  </data>
+	<data name="NhapEmailKH" xml:space="preserve">
+    <value>Nhập Email khách hàng</value>
+  </data>
+	<data name="SDTKH" xml:space="preserve">
+    <value>Số điện thoại khách hàng</value>
+  </data>
+	<data name="NhapSDTKH" xml:space="preserve">
+    <value>Nhập số điện thoại khách hàng</value>
+  </data>
+	<data name="SCMTCCCDHC" xml:space="preserve">
+    <value>Số CMT/CCCD/Hộ chiếu</value>
+  </data>
+	<data name="NhapSCMTCCCDHC" xml:space="preserve">
+    <value>Nhập số CMT/CCCD/Hộ chiếu</value>
+  </data>
+	<data name="TaoTaiKhoanMoi" xml:space="preserve">
+    <value>Tạo tài khoản mới</value>
+  </data>
+	<data name="NgayThangNam" xml:space="preserve">
+    <value>Ngày/tháng/năm</value>
+  </data>
+	<data name="IdentityIssueOfficeError" xml:space="preserve">
+    <value>Nhập nơi cấp</value>
+  </data>
+	<data name="ChupAnhHoac" xml:space="preserve">
+    <value>Chụp ảnh hoặc</value>
+  </data>
+	<data name="ChonAnhTuThuVien" xml:space="preserve">
+    <value>Chọn ảnh từ thư viện</value>
+  </data>
+	<data name="AnhCMT" xml:space="preserve">
+    <value>Ảnh CMT/CCCD</value>
+  </data>
+	<data name="MatTruoc" xml:space="preserve">
+    <value>Mặt trước</value>
+  </data>
+	<data name="MatSau" xml:space="preserve">
+    <value>Mặt sau</value>
+  </data>
+	<data name="ChaoMungDenVoiPjico" xml:space="preserve">
+    <value>Chào mừng đến với Pjico</value>
+  </data>
+	<data name="ChaoMungQuayLaiVoiPjico" xml:space="preserve">
+    <value>Chào mừng quay lại với Pjico</value>
+  </data>
+	<data name="DangNhapDeTiepTuc" xml:space="preserve">
+    <value>Đăng nhập để tiếp tục</value>
+  </data>
+	<data name="TaoMatKhauDangNhap" xml:space="preserve">
+    <value>Tạo mật khẩu đăng nhập</value>
+  </data>
+	<data name="TaoMatKhauLanDauTien" xml:space="preserve">
+    <value>Tạo mật khẩu lần đầu tiên</value>
+  </data>
+	<data name="ThongTinMatKhauCuaBan_" xml:space="preserve">
+    <value>Thông tin mật khẩu của bạn nên bao gồm ít nhất 8 ký tự bao gồm chữ "</value>
+  </data>
+	<data name="MatKhauMoi" xml:space="preserve">
+    <value>Mật khẩu mới</value>
+  </data>
+	<data name="CoItNhat8KyTuBao_" xml:space="preserve">
+    <value>Có ít nhất 8 ký tự bao gồm chữ hoa/thường,c biệt</value>
+  </data>
+	<data name="XacNhanLaiMKMoi" xml:space="preserve">
+    <value>Xác nhận lại mật khẩu mới</value>
+  </data>
+	<data name="CaHaiMKPhaiTrungNhau" xml:space="preserve">
+    <value>Cả hai mật khẩu phải trùng nhau</value>
+  </data>
+	<data name="NhapMKMoi" xml:space="preserve">
+    <value>Nhập mật khẩu mới</value>
+  </data>
+	<data name="NhapLaiMKMoi" xml:space="preserve">
+    <value>Nhập lại mật khẩu mới</value>
+  </data>
+	<data name="TaoMatKhau" xml:space="preserve">
+    <value>Tạo mật khẩu</value>
+  </data>
+	<data name="TaoTaiKhoanThanhCong" xml:space="preserve">
+    <value>Tạo tài khoản thành công</value>
+  </data>
+	<data name="TaoTaiKhoanThanhCong_" xml:space="preserve">
+    <value>Tài khoản đã được tạo thành công. Vui lòng sử dụng tên đăng nhập là email hoặc số điện thoại của bạn vừa đăng ký để đăng nhập và sử dụng ứng dụng.</value>
+  </data>
+	<data name="DangNhap" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+	<data name="TrangChu" xml:space="preserve">
+    <value>Trang chủ</value>
+  </data>
+	<data name="TinTuc" xml:space="preserve">
+    <value>Tin tức</value>
+  </data>
+	<data name="ThongBao" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+	<data name="TaiKhoan" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+	<data name="ThongBaoDangNhap" xml:space="preserve">
+    <value>Tên đăng nhập hoặc mật khẩu của bạn không đúng . Vui lòng nhập lại thông tin</value>
+  </data>
+	<data name="ThongBaoDangNhap1" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+	<data name="ThongBaoDangNhap2" xml:space="preserve">
+    <value>Lỗi server</value>
+  </data>
+	<data name="ThongBaoDangNhap3" xml:space="preserve">
+    <value>Hệ thống bảo trì</value>
+  </data>
+	<data name="ThongBaoDangNhap4" xml:space="preserve">
+    <value>Không thể tạo token</value>
+  </data>
+	<data name="ThongBaoDangNhap5" xml:space="preserve">
+    <value>Tên tài khoản hoặc mật khẩu không đúng</value>
+  </data>
+	<data name="ThongBaoTaoTaiKhoan1" xml:space="preserve">
+    <value>Lỗi server</value>
+  </data>
+	<data name="ThongBaoTaoTaiKhoan2" xml:space="preserve">
+    <value>Email/ Số điện thoại/ CMTND/hộ chiếu của bạn đăng ký đã tồn tại trong hệ thống</value>
+  </data>
+	<data name="ThongBaoTaoTaiKhoan3" xml:space="preserve">
+    <value>Thêm mới account thất bại</value>
+  </data>
+	<data name="ThongBaoTaoTaiKhoan4" xml:space="preserve">
+    <value>Thêm mới customer thất bại</value>
+  </data>
+	<data name="ThongBaoTaoTaiKhoan5" xml:space="preserve">
+    <value>Email đã tồn tại</value>
+  </data>
+	<data name="ThongBaoTaoTaiKhoan6" xml:space="preserve">
+    <value>Số điện thoại đã tồn tại</value>
+  </data>
+	<data name="ThongBaoTaoTaiKhoan7" xml:space="preserve">
+    <value>Số CMND đã tồn tại</value>
+  </data>
+	<data name="ThongBaoTaoTaiKhoan8" xml:space="preserve">
+    <value>Account không tồn tại</value>
+  </data>
+	<data name="ThongTinNhanHoaDon" xml:space="preserve">
+    <value>Thông tin nhận hóa đơn</value>
+  </data>
+	<data name="LichSuDonMuaBH" xml:space="preserve">
+    <value>Lịch sử đơn mua bảo hiểm</value>
+  </data>
+	<data name="MatKhauVaBaoMat" xml:space="preserve">
+    <value>Mật khẩu và Bảo mật</value>
+  </data>
+	<data name="QuanLyThongBao" xml:space="preserve">
+    <value>Quản lý thông báo</value>
+  </data>
+	<data name="CauHoiThuongGap" xml:space="preserve">
+    <value>Câu hỏi thường gặp</value>
+  </data>
+	<data name="HoTro" xml:space="preserve">
+    <value>Hỗ trợ</value>
+  </data>
+	<data name="NgonNgu" xml:space="preserve">
+    <value>Ngôn ngữ</value>
+  </data>
+	<data name="ThongTinUngDung" xml:space="preserve">
+    <value>Thông tin ứng dụng</value>
+  </data>
+	<data name="DieuKienVaChinhSach" xml:space="preserve">
+    <value>Điều kiện và Chính sách</value>
+  </data>
+	<data name="DanhGiaCuaBan" xml:space="preserve">
+    <value>Đánh giá của bạn</value>
+  </data>
+	<data name="SeThatTuyetNeu_" xml:space="preserve">
+    <value>Sẽ thật tuyệt nếu chúng tôi nhận được đánh giá của bạn nhằm nâng cao chất lượng dịch vụ</value>
+  </data>
+	<data name="VietDanhGiaCuaBan" xml:space="preserve">
+    <value>Viết đánh giá của bạn cho sản phẩm</value>
+  </data>
+	<data name="TienIchKhac" xml:space="preserve">
+    <value>Tiện ích khác</value>
+  </data>
+	<data name="SanPhamKhac" xml:space="preserve">
+    <value>Sản phẩm khác</value>
+  </data>
+	<data name="MuaBHTrachNhiemDanSuOto" xml:space="preserve">
+    <value>Mua bảo hiểm trách nhiệm dân sự Ô tô</value>
+  </data>
+	<data name="NhapNgayThangNam" xml:space="preserve">
+    <value>ngày/tháng/năm</value>
+  </data>
+	<data name="BHOto" xml:space="preserve">
+    <value>Bảo hiểm Ô tô</value>
+  </data>
+	<data name="BHTrachNhiemDanSuOto" xml:space="preserve">
+    <value>Bảo hiểm trách nhiệm dân sự Ô tô</value>
+  </data>
+	<data name="CoXeDaDangKy" xml:space="preserve">
+    <value>Có, xe đã đăng ký</value>
+  </data>
+	<data name="XeChuaCoBien" xml:space="preserve">
+    <value>Xe chưa có biển</value>
+  </data>
+	<data name="XeDaDangKyVaCoBienKiemSoat" xml:space="preserve">
+    <value>Xe đã đăng ký và có biển kiểm soát?</value>
+  </data>
+	<data name="ThongTinThoiHanBaoHiem" xml:space="preserve">
+    <value>Thông tin thời hạn bảo hiểm</value>
+  </data>
+	<data name="NgayHetHieuLucBaoHiem" xml:space="preserve">
+    <value>Ngày hết hiệu lực bảo hiểm</value>
+  </data>
+	<data name="PhiBaoHiemTrachNhiemDanSuBB" xml:space="preserve">
+    <value>Phí hiểm bảo trách nhiệm dân sự bắt buộc</value>
+  </data>
+	<data name="GoiBHGiaTriGiaTang" xml:space="preserve">
+    <value>Gói bảo hiểm giá trị gia tăng</value>
+  </data>
+	<data name="BHTaiNanTrachNhiemDanSuTuNguyenTangThem" xml:space="preserve">
+    <value>Bảo hiểm tai nạn trách nhiệm dân sự tự nguyện tăng thêm</value>
+  </data>
+	<data name="BHTaiNanTrachNhiemDanSu_" xml:space="preserve">
+    <value>Bảo hiểm tai nạn trách nhiệm dân sự của chủ xe với hàng hoá trên xe</value>
+  </data>
+	<data name="SoLaiPhuXe" xml:space="preserve">
+    <value>Số lái/phụ xe</value>
+  </data>
+	<data name="SoLaiPhuXeError" xml:space="preserve">
+    <value>Nhập số lái/phụ xe</value>
+  </data>
+	<data name="ReceiptInformationPassengerError" xml:space="preserve">
+    <value>Nhập số người ngồi trên xe</value>
+  </data>
+	<data name="LoaiXeHangHoa" xml:space="preserve">
+    <value>Loại xe/hàng hoá</value>
+  </data>
+	<data name="LoaiXeHangHoaError" xml:space="preserve">
+    <value>Chọn loại xe/hàng hoá</value>
+  </data>
+	<data name="MucTrachNhiemTanHangHoa" xml:space="preserve">
+    <value>Mức trách nhiệm/tấn hàng hoá</value>
+  </data>
+	<data name="MucTrachNhiemTanHangHoaError" xml:space="preserve">
+    <value>Chọn mức trách nhiệm/tấn hàng hoá</value>
+  </data>
+	<data name="MoiThongTin_" xml:space="preserve">
+    <value>Mọi thông tin khai báo đều được đảm bảo an toàn bảo mật thông tin và cam kết không cung cấp cho bên thứ ba.</value>
+  </data>
+	<data name="DiaChiInTrenGiayChungNhanBH" xml:space="preserve">
+    <value>Địa chỉ in trên giấy chứng nhận bảo hiểm:</value>
+  </data>
+	<data name="BHTaiNanLaiPhiXe" xml:space="preserve">
+    <value>Bảo hiểm tai nạn lái/phụ xe</value>
+  </data>
+	<data name="BHTaiNanLaiXePhuXe" xml:space="preserve">
+    <value>Bảo hiểm tai nạn lái xe/phụ xe</value>
+  </data>
+	<data name="BHTrachNhiemDanSuTNTT" xml:space="preserve">
+    <value>Bảo hiểm trách nhiệm dân sự tự nguyện tăng thêm</value>
+  </data>
+	<data name="BHTrachNhiemDanSuCuaChuXeVoiHHTX" xml:space="preserve">
+    <value>Bảo hiểm trách nhiệm dân sự của chủ xe với hàng hoá trên xe</value>
+  </data>
+	<data name="ThueGiaTriGiaTang" xml:space="preserve">
+    <value>Thuế giá trị gia tăng (VAT)</value>
+  </data>
+	<data name="NhapVaChonMa" xml:space="preserve">
+    <value>Nhập và chọn mã</value>
+  </data>
+	<data name="XacNhanMua" xml:space="preserve">
+    <value>Xác nhận mua</value>
+  </data>
+	<data name="LuuVaThoat" xml:space="preserve">
+    <value>Lưu và thoát</value>
+  </data>
+	<data name="ChonGiftCodePjico" xml:space="preserve">
+    <value>Chọn Gift Code Pjico</value>
+  </data>
+	<data name="DonToiThieu" xml:space="preserve">
+    <value>đơn tối thiểu </value>
+  </data>
+	<data name="DaSuDung" xml:space="preserve">
+    <value>Đã sử dụng: </value>
+  </data>
+	<data name="SoMa" xml:space="preserve">
+    <value> số mã</value>
+  </data>
+	<data name="DieuKien" xml:space="preserve">
+    <value>Điều kiện</value>
+  </data>
+	<data name="Giam" xml:space="preserve">
+    <value>Giảm</value>
+  </data>
+	<data name="NhapMaGiftCode" xml:space="preserve">
+    <value>Nhập mã Gift Code</value>
+  </data>
+	<data name="ApDung" xml:space="preserve">
+    <value>Áp dụng</value>
+  </data>
+	<data name="DongYSuDungGiftCode" xml:space="preserve">
+    <value>Đồng ý sử dụng Gift Code</value>
+  </data>
+	<data name="MaGiftCodeCuaBanKhongHopLe" xml:space="preserve">
+    <value>Mã Gift Code của bạn không hợp lệ</value>
+  </data>
+	<data name="MaGiftCode" xml:space="preserve">
+    <value>Mã Gift Code </value>
+  </data>
+	<data name="DaDuocApDungChoDonCuaBan" xml:space="preserve">
+    <value> đã được áp dụng cho đơn của bạn</value>
+  </data>
+	<data name="HSD" xml:space="preserve">
+    <value>HSD: </value>
+  </data>
+	<data name="ThongTinNguoiMua" xml:space="preserve">
+    <value>Thông tin người mua</value>
+  </data>
+	<data name="BanMuonMuaSPnayChoAi" xml:space="preserve">
+    <value>Bạn muốn mua sản phẩm bảo hiểm này cho?</value>
+  </data>
+	<data name="MuaChoChinhToi" xml:space="preserve">
+    <value>Mua cho chính tôi</value>
+  </data>
+	<data name="MuaChoNguoiKhac" xml:space="preserve">
+    <value>Mua cho người khác</value>
+  </data>
+	<data name="NgayHetHanHieuLucDangKiem" xml:space="preserve">
+    <value>Ngày hết hạn hiệu lực đăng kiểm</value>
+  </data>
+	<data name="NgayHetHanHieuLucDangKiemEror" xml:space="preserve">
+    <value>Nhập ngày hết hạn hiệu lực đăng kiểm</value>
+  </data>
+	<data name="BatBuocOto" xml:space="preserve">
+  <value>Compulsory civil liability insurance of motor vehicles</value>
+</data>
+	<data name="TrangThaiDon" xml:space="preserve">
+  <value>Policy status</value>
+</data>
+	<data name="BatBuoc" xml:space="preserve">
+  <value>Compulsory civil liability insurance</value>
+</data>
+	<data name="PhiBatBuoc" xml:space="preserve">
+  <value>Compulsory civil liability insurance fee (VND)</value>
+</data>
+	<data name="TaiNanLaiXe" xml:space="preserve">
+  <value>Accident insurance of driver/assistant driver</value>
+</data>
+	<data name="TienBaoHiem_Vu" xml:space="preserve">
+  <value>Insurance money amount/person/case(VND)</value>
+</data>
+	<data name="ChonTienBaoHiem" xml:space="preserve">
+  <value>-- Select information --</value>
+</data>
+	<data name="NhapTienBaoHiem" xml:space="preserve">
+  <value>Enter insurance money amount</value>
+</data>
+	<data name="NhapTienBaoHiem_Error" xml:space="preserve">
+  <value>Enter insurance money</value>
+</data>
+	<data name="SoLaiPhuXe" xml:space="preserve">
+  <value>Number of drivers/assistant drivers</value>
+</data>
+	<data name="NhapSoLaiPhuXe" xml:space="preserve">
+  <value>Enter number of drivers/assistant drivers</value>
+</data>
+	<data name="SoTienBHNamTrongKhoangTu5Den100Trieu" xml:space="preserve">
+  <value>Số tiền nằm trong khoảng từ 5 triệu đến 100 triệu VNĐ</value>
+</data>
+	<data name="VehicleSeatCountError2" xml:space="preserve">
+    <value>Nhập lại số chỗ ngồi</value>
+  </data>
+	<data name="CarMaterialValueError2" xml:space="preserve">
+    <value>Nhập lại giá trị xe</value>
+  </data>
+	<data name="CarMaterialInsuranceError2" xml:space="preserve">
+    <value>Nhập lại số tiền bảo hiểm</value>
+  </data>
+	<data name="VehiclePayloadError2" xml:space="preserve">
+    <value>Nhập lại trọng tải (kg)</value>
+  </data>
+	<data name="NhapSoLaiPhuXe_Error" xml:space="preserve">
+  <value>Enter number of drivers/assistant drivers</value>
+</data>
+	<data name="NhapSoNguoiNgoi2" xml:space="preserve">
+  <value>Nhập lại số người ngồi trên xe</value>
+</data>
+	<data name="NhapThongTinHanMucKhach2" xml:space="preserve">
+  <value>Nhập lại thông tin hạn mức về hành khách</value>
+</data>
+	<data name="NhapThongTinHanMucToiDa2" xml:space="preserve">
+  <value>Nhập lại thông tin hạn mức tối đa</value>
+</data>
+	<data name="NhapThongTinNguoi2" xml:space="preserve">
+  <value>Nhập lại thông tin hạn mức về người</value>
+</data>
+	<data name="NhapThongTinHanMucTaiSan2" xml:space="preserve">
+  <value>Nhập lại thông tin hạn mức về tài sản</value>
+</data>
+	<data name="NhapSoLaiPhuXe_Error2" xml:space="preserve">
+  <value>Nhập lại số lái/phụ xe</value>
+</data>
+	<data name="BaoHiemTaiNanNguoiNgoi" xml:space="preserve">
+  <value>Accident insurance of person on vehicle</value>
+</data>
+	<data name="SoTienNguoiNgoi" xml:space="preserve">
+  <value>Insurance money amount/person/case(VND)</value>
+</data>
+	<data name="ChonSoTienNguoiNgoi" xml:space="preserve">
+  <value>-- Select information --</value>
+</data>
+	<data name="NhapTienNguoiNgoi" xml:space="preserve">
+  <value>Enter insurance money amount</value>
+</data>
+	<data name="NhapTienNguoiNgoi_Error" xml:space="preserve">
+  <value>Enter insurance money</value>
+</data>
+	<data name="SoNguoiNgoi" xml:space="preserve">
+  <value>Number of persons on vehicle</value>
+</data>
+	<data name="NhapSoNguoiNgoi" xml:space="preserve">
+  <value>Enter number of persons on vehicle</value>
+</data>
+	<data name="NhapSoNguoiNgoi_Error" xml:space="preserve">
+  <value>Enter number of persons on vehicle</value>
+</data>
+	<data name="TangThem" xml:space="preserve">
+  <value>Addittional civil liability insurance</value>
+</data>
+	<data name="MucCoDinh" xml:space="preserve">
+  <value>Buy by fixed limit</value>
+</data>
+	<data name="MucLinhHoat" xml:space="preserve">
+  <value>Buy by flexible limit</value>
+</data>
+	<data name="MucBaoHiem" xml:space="preserve">
+  <value>Insurance rate</value>
+</data>
+	<data name="lbTiepTuc" xml:space="preserve">
+  <value>Next</value>
+</data>
+	<data name="btTiepTuc" xml:space="preserve">
+  <value>Next 〉</value>
+</data>
+	<data name="QuayLai" xml:space="preserve">
+  <value>〈 Back</value>
+</data>
+	<data name="ChonDoiTuong" xml:space="preserve">
+  <value>Select subject</value>
+</data>
+	<data name="Muc_1" xml:space="preserve">
+  <value>Level {0} ({1}/person/case; {2}/asset/case)</value>
+</data>
+	<data name="Muc_2" xml:space="preserve">
+  <value>Level {0} ({1}/person/case; {2}/asset/case; {3} maximum)</value>
+</data>
+	<data name="BaoHiemHangHoa" xml:space="preserve">
+  <value>Civil liability insurance of owner and goods on vehicle</value>
+</data>
+	<data name="LoaiXe_HangHoa" xml:space="preserve">
+  <value>Vehicle model/goods type</value>
+</data>
+	<data name="cbLoaiXe_HangHoa" xml:space="preserve">
+  <value>-- Select information --</value>
+</data>
+	<data name="LoaiXe_HangHoa_Error" xml:space="preserve">
+  <value>Select vehicle model/goods type information</value>
+</data>
+	<data name="MucTN_HangHoa" xml:space="preserve">
+  <value>Liability limit/tons of goods</value>
+</data>
+	<data name="cbMucTN_HangHoa" xml:space="preserve">
+  <value>-- Select information --</value>
+</data>
+	<data name="MucTN_HangHoa_Error" xml:space="preserve">
+  <value>Select liability limit/tons of goods information</value>
+</data>
+	<data name="HangHoa_ChuXe" xml:space="preserve">
+  <value>Goods on the vehicle with the owner</value>
+</data>
+	<data name="MucKhauTru" xml:space="preserve">
+  <value>Deductible (VND)</value>
+</data>
+	<data name="KhauTruTuongUng" xml:space="preserve">
+  <value>〈Corresponding deductible〉Corresponding</value>
+</data>
+	<data name="HMTN_TangThemNguoi" xml:space="preserve">
+  <value>Additional liability limit of person (VND)</value>
+</data>
+	<data name="NhapThongTin" xml:space="preserve">
+  <value>Enter information</value>
+</data>
+	<data name="NhapThongTinNguoi" xml:space="preserve">
+  <value>Enter limit of person information</value>
+</data>
+	<data name="HMTN_TangThemTaiSan" xml:space="preserve">
+  <value>Additional liability limit of property (VND)</value>
+</data>
+	<data name="NhapThongTinHanMucTaiSan" xml:space="preserve">
+  <value>Enter limit of property information (VND)</value>
+</data>
+	<data name="HMTN_TangThemKhach" xml:space="preserve">
+  <value>Additional liability limit of passenger (VND)</value>
+</data>
+	<data name="NhapThongTinHanMucKhach" xml:space="preserve">
+  <value>Enter limit of passenger information (VND)</value>
+</data>
+	<data name="TongMucToiDa" xml:space="preserve">
+  <value>Maximum aggregate limit (VND)</value>
+</data>
+	<data name="NhapThongTinHanMucToiDa" xml:space="preserve">
+  <value>Enter maximum aggregate limit information (VND)</value>
+</data>
+	<data name="TrongTai" xml:space="preserve">
+    <value>Trọng tải</value>
+  </data>
+	<data name="ChonMucBaoHiem" xml:space="preserve">
+  <value>-- Select information --</value>
+</data>
+	<data name="LoaiHangHoa" xml:space="preserve">
+  <value>Loại hàng hoá</value>
+</data>
+	<data name="LoaiHangHoaError" xml:space="preserve">
+  <value>Chọn loại hàng hoá</value>
+</data>
+	<data name="KhongDuocVuotQuaLaiXePhuXe" xml:space="preserve">
+  <value>Không được vượt quá số lượng: {0}</value>
+</data>
+	<data name="LoaiHinhVaPhamViBH" xml:space="preserve">
+  <value>Loại hình và phạm vi bảo hiểm</value>
+</data>
+	<data name="NgayBatDauHieuLuc" xml:space="preserve">
+    <value>Ngày bắt đầu hiệu lực</value>
+  </data>
+	<data name="NgayHetHieuLuc" xml:space="preserve">
+    <value>Ngày hết hiệu lực</value>
+  </data>
+	<data name="MucTrachNhiemNguoiVu" xml:space="preserve">
+  <value>Mức trách nhiệm/người/vụ</value>
+</data>
+	<data name="MucTrachNhiemTaiSanVu" xml:space="preserve">
+  <value>Mức trách nhiệm/tài sản/vụ</value>
+</data>
+	<data name="HanMUcTrachNhiemTanHangHoa" xml:space="preserve">
+  <value>Hạn mức trách nhiệm/tấn hàng hoá</value>
+</data>
+	<data name="TongPhiBHCoBanChuaVAT" xml:space="preserve">
+  <value>Tổng phí bảo hiểm cơ bản chưa VAT</value>
+</data>
+	<data name="KhuyenMai" xml:space="preserve">
+  <value>Khuyến mãi </value>
+</data>
+	<data name="DieuKhoan1" xml:space="preserve">
+  <value>Quý khách cần đọc hiểu </value>
+</data>
+	<data name="DieuKhoan2" xml:space="preserve">
+  <value>điều khoản sử dụng</value>
+</data>
+	<data name="DieuKhoan3" xml:space="preserve">
+  <value> và  </value>
+</data>
+	<data name="DieuKhoan4" xml:space="preserve">
+  <value>quy tắc bảo hiểm</value>
+</data>
+	<data name="DieuKhoanSuDung_Title" xml:space="preserve">
+  <value>Điều khoản sử dụng</value>
+</data>
+	<data name="QuyTacBaoHiem_Title" xml:space="preserve">
+  <value>Quy tắc bảo hiểm</value>
+</data>
+	<data name="DieuKhoan5" xml:space="preserve">
+  <value> của sản phẩm này trước khi thanh toán</value>
+</data>
+	<data name="ThanhToan" xml:space="preserve">
+  <value>Thanh toán</value>
+</data>
+	<data name="MacDinh" xml:space="preserve">
+  <value> [Mặc định]</value>
+</data>
+	<data name="ThemMoiThongTinNhanHoaDon" xml:space="preserve">
+  <value>Thêm mới thông tin nhận hóa đơn</value>
+</data>
+	<data name="DatLanDiaChiNhanHoaDonMacDinh" xml:space="preserve">
+  <value>Đặt làm địa chỉ nhận hóa đơn mặc định</value>
+</data>
+	<data name="XacNhan" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
+	<data name="XoaThongTinNhanHoaDonNay" xml:space="preserve">
+  <value>Xóa thông tin nhận hóa đơn này</value>
+</data>
+	<data name="XoaDiaChiNhanHoaDon" xml:space="preserve">
+  <value>Xóa địa chỉ nhận hóa đơn</value>
+</data>
+	<data name="BanXacNhanMuonXoaDiaChiNhanHoaDon" xml:space="preserve">
+  <value>Bạn xác nhận muốn xóa địa chỉ nhận hóa đơn?</value>
+</data>
+	<data name="Thoat" xml:space="preserve">
+  <value>Thoát</value>
+</data>
+	<data name="Xoa" xml:space="preserve">
+  <value>Xoá</value>
+</data>
+	<data name="Co" xml:space="preserve">
+  <value>Có</value>
+</data>
+	<data name="Khong" xml:space="preserve">
+  <value>Không</value>
+</data>
+	<data name="KhongDuocLonHonSoChoNgoi" xml:space="preserve">
+  <value>Không được lớn hơn số chỗ ngồi</value>
+</data>
+	<data name="HinhThucMuaBaoHiem" xml:space="preserve">
+  <value>Hình thức mua bảo hiểm</value>
+</data>
+	<data name="ThanhToanBangTheNoiDia" xml:space="preserve">
+  <value>Thanh toán bằng thẻ nội địa</value>
+</data>
+	<data name="ThanhToanBangTheNoiDia2" xml:space="preserve">
+  <value>Thẻ ATM,tài khoản được mở tại ngân hàng Việt Nam</value>
+</data>
+	<data name="ThanhToanBangTheGhiNoQuocTe" xml:space="preserve">
+  <value>Thanh toán bằng thẻ ghi nợ quốc tế</value>
+</data>
+	<data name="ThanhToanBangTheGhiNoQuocTe2" xml:space="preserve">
+  <value>Thẻ phát hành bởi các tổ chức như Visa, mastercard</value>
+</data>
+	<data name="ThanhToanQuaCongVCB" xml:space="preserve">
+  <value>Thanh toán qua cổng Vietcombank</value>
+</data>
+	<data name="ThanhToanQuaCongVCB2" xml:space="preserve">
+  <value>Dành riêng cho khách hàng Vietcombank</value>
+</data>
+	<data name="ThanhToanQuaCongNAPAS" xml:space="preserve">
+  <value>Thanh toán qua cổng NAPAS</value>
+</data>
+	<data name="ThanhToanQuaCongNAPAS2" xml:space="preserve">
+  <value>Cổng NAPAS thanh toán</value>
+</data>
+	<data name="ChinhSuaThongTinNhanHoaDon" xml:space="preserve">
+  <value>Chỉnh sửa thông tin nhận hóa đơn</value>
+</data>
+	<data name="DongYVaDongLai" xml:space="preserve">
+  <value>Đồng ý và đóng lại</value>
+</data>
+	<data name="ThanhToanThanhCong" xml:space="preserve">
+  <value>Thanh toán thành công</value>
+</data>
+	<data name="DieuKhoanSuDung" xml:space="preserve">
+  <value>Điều khoản sử dụng</value>
+</data>
+	<data name="QuyTacBaoHiem" xml:space="preserve">
+  <value>Quy tắc bảo hiểm</value>
+</data>
+	<data name="DonBaoHiemSo" xml:space="preserve">
+  <value>Đơn bảo hiểm số </value>
+</data>
+	<data name="CuaBanDaDuocThanhToanThanhCong_" xml:space="preserve">
+  <value> của bạn đã được thanh toán thành công và được Pjico xử lý. Chúng tôi sẽ gửi lại giấy chứng nhận bảo hiểm về email mà bạn đã dùng để đăng ký khi hoàn tất đơn.</value>
+</data>
+	<data name="DeNghiPjcoSuaDoiBoSungDon1" xml:space="preserve">
+    <value>Đề nghị bảo hiểm Pjico sửa đổi bổ sung đơn bảo hiểm </value>
+  </data>
+	<data name="DeNghiPjcoSuaDoiBoSungDon2" xml:space="preserve">
+    <value> theo nội dung sau:</value>
+  </data>
+	<data name="BaoHiemXeMay" xml:space="preserve">
+    <value>Bảo hiểm xe máy</value>
+  </data>
+	<data name="BHTNDSXM" xml:space="preserve">
+  <value>Bảo hiểm trách nhiệm dân sự xe máy</value>
+</data>
+	<data name="MuaBHTNDSXM" xml:space="preserve">
+  <value>Mua bảo hiểm trách nhiệm dân sự Xe máy</value>
+</data>
+	<data name="ThoiGianThamGiaBH" xml:space="preserve">
+  <value>Thời gian tham gia bảo hiểm</value>
+</data>
+	<data name="ChonThoiGianThamGiaBH" xml:space="preserve">
+  <value>Chọn thời gian tham gia bảo hiểm</value>
+</data>
+	<data name="DiaChiNaySeDungDeInLenGCBH_" xml:space="preserve">
+  <value>Địa chỉ này sẽ dùng để in lên GCNBH. Quý khách vui lòng nhập địa chỉ trên giấy đăng ký xe hoặc địa chỉ thường trú</value>
+</data>
+
+<data name="ChuaDu18T" xml:space="preserve">
+  <value>Bạn chưa đủ 18 tuổi</value>
+</data>
+	<data name="SCMTCCCDHCKHL" xml:space="preserve">
+    <value>Số CMT/CCCD/Hộ chiếu không hợp lệ</value>
+  </data>
+<data name="ThongTinNguoiMuaBaoHiem" xml:space="preserve">
+  <value>Thông người mua bảo hiểm</value>
+</data>
+
+<data name="NhapMaTruyCap" xml:space="preserve">
+  <value>Nhập mã truy cập</value>
+</data>
+<data name="NhapMatKhau" xml:space="preserve">
+  <value>Nhập mật khẩu</value>
+</data>
+<data name="TaiKhoanDaBiKhoa" xml:space="preserve">
+  <value>Tài khoản đã bị khóa</value>
+</data>
+<data name="TenTaiKhoanHocMatKhauKhongDung" xml:space="preserve">
+  <value>Tên tài khoản hoặc mật khẩu không đúng</value>
+</data>
+<data name="KhongTheTaoToken" xml:space="preserve">
+  <value>Không thể tạo token</value>
+</data>
+<data name="HeThongBaoTri" xml:space="preserve">
+  <value>Hệ thống bảo trì</value>
+</data>
+<data name="LoiServer" xml:space="preserve">
+  <value>Lỗi server</value>
+</data>
+
+<data name="TaiKhoanKhongDung" xml:space="preserve">
+  <value>SĐT hoặc Email không đúng</value>
+</data>
+        
+	<data name="YeuCauSuaDoiBoSungDuocTiepNhan1" xml:space="preserve">
+    <value>Yêu cầu sửa đổi bổ sung đơn bảo hiểm của bạn đã được Pjico tiếp nhận và xử lý. Chúng tôi sẽ liên hệ phản hồi lại trong vòng </value>
+  </data>
+	<data name="YeuCauSuaDoiBoSungDuocTiepNhan2" xml:space="preserve">
+    <value>48h</value>
+  </data>
+	<data name="YeuCauSuaDoiBoSungDuocTiepNhan3" xml:space="preserve">
+    <value> làm việc.
+Trong trường hợp khẩn cấp vui lòng gọi điến đến hotline </value>
+  </data>
+	<data name="YeuCauSuaDoiBoSungDuocTiepNhan4" xml:space="preserve">
+    <value>1900545455</value>
+  </data>
+	<data name="YeuCauSuaDoiBoSungDuocTiepNhan5" xml:space="preserve">
+    <value>để được hỗ trợ kịp thời.</value>
+  </data>
+  <data name="BHSKBHN" xml:space="preserve">
+    <value>Bảo hiểm sức khoẻ bệnh hiểm nghèo</value>
+  </data> 
+  <data name="BHSKBUT" xml:space="preserve">
+    <value>Bảo hiểm sức khoẻ bệnh ung thư</value>
+  </data> 
+  <data name="BHNTN" xml:space="preserve">
+    <value>Bảo hiểm nhà tư nhân</value>
+  </data> 
+  <data name="BHDLTN" xml:space="preserve">
+    <value>Bảo hiểm du lịch trong nước</value>
+  </data> 
+  <data name="BHDLQT" xml:space="preserve">
+    <value>Bảo hiểm du lịch quốc tế</value>
+  </data>
+
+  <data name="BHNVNDLTNN" xml:space="preserve">
+    <value>Bảo hiểm người VN du lịch tại nước ngoài</value>
+  </data>
+  <data name="BHNNNDLTVN" xml:space="preserve">
+    <value>Bảo hiểm người nước ngoài du lịch tại VN</value>
+  </data> 
+  <data name="BHSK" xml:space="preserve">
+    <value>Bảo hiểm sức khoẻ</value>
+  </data> 
+  <data name="GiayDKXe1" xml:space="preserve">
+    <value>Giấy đăng ký xe</value>
+  </data> 
+  <data name="GiayDKXe2" xml:space="preserve">
+    <value>mặt trước</value>
+  </data> 
+  <data name="GiayDKXe3" xml:space="preserve">
+    <value>mặt sau</value>
+  </data> 
+  <data name="TaiLenAnhXe" xml:space="preserve">
+    <value>Tải lên ảnh xe</value>
+  </data> 
+  <data name="BHVCX" xml:space="preserve">
+    <value>Bảo hiểm vật chất xe</value>
+  </data>
+  
+  <data name="HTNDBH" xml:space="preserve">
+    <value>Họ và tên người được bảo hiểm</value>
+  </data> 
+  <data name="HTNDBHError" xml:space="preserve">
+    <value>Nhập họ và tên người được bảo hiểm</value>
+  </data> 
+  <data name="VuiLongChonThongTinNhanHoaDonKhac_" xml:space="preserve">
+    <value>Vui lòng chọn thông tin nhận hóa đơn khác làm thông tin mặc định</value>
+  </data> 
+	<data name="ReceiptInformationPersonAmountError2" xml:space="preserve">
+    <value>Chọn số tiền bảo hiểm/người/vụ</value>
+  </data>
+  <data name="KhongDuocNhoHon" xml:space="preserve">
+	<value>Không được nhỏ hơn </value>
+  </data>
+  <data name="DanhSachGara" xml:space="preserve">
+	<value>Danh sách Gara</value>
+  </data>
+  <data name="GaraGanNhat" xml:space="preserve">
+	<value>Gara gần nhất</value>
+  </data> 
+  <data name="TraCuuBoiThuong" xml:space="preserve">
+	<value>Tra cứu bồi thường</value>
+  </data> 
+  
+  <data name="MangLuoiBenhVien" xml:space="preserve">
+  <value>Mạng lưới bệnh viện</value>
+</data>
+
+<data name="MangLuoiPjico" xml:space="preserve">
+  <value>Mạng lưới Pjico</value>
+</data>
+
+<data name="MangLuoiCayXang" xml:space="preserve">
+  <value>Mạng lưới cây xăng</value>
+</data>
+
+<data name="MangLuoiGara" xml:space="preserve">
+  <value>Mạng lưới Gara</value>
+</data>
+
+<data name="HangXe" xml:space="preserve">
+  <value>Hãng xe</value>
+</data>
+
+<data name="LoaiGiayChungNhan" xml:space="preserve">
+  <value>Loại giấy chứng nhận</value>
+</data>
+
+<data name="DonViCap" xml:space="preserve">
+  <value>Đơn vị cấp</value>
+</data>
+
+	<data name="AnhMatTruocGocTraiXe" xml:space="preserve">
+  <value>Ảnh mặt trước góc trái xe</value>
+</data>
+
+	<data name="AnhMatTruocGocPhaiXe" xml:space="preserve">
+  <value>Ảnh mặt trước góc phải xe</value>
+</data>
+
+	<data name="AnhMatSauGocTraiXe" xml:space="preserve">
+  <value>Ảnh mặt sau góc trái xe</value>
+</data>
+
+	<data name="AnhMatSauGocPhaiXe" xml:space="preserve">
+  <value>Ảnh mặt sau góc phải xe</value>
+</data>
+
+	<data name="AnhSoKhungXe" xml:space="preserve">
+  <value>Ảnh số khung xe</value>
+</data>
+
+	<data name="AnhTemDangKiem" xml:space="preserve">
+  <value>Ảnh tem đăng kiểm xe</value>
+</data>
+
+	<data name="AnhToanBoKinhChanGio" xml:space="preserve">
+  <value>Ảnh toàn bộ kính chắn gió</value>
+</data>
+
+	<data name="AnhDongHoTablo" xml:space="preserve">
+  <value>Ảnh đồng hồ taplo khi xe nổ máy</value>
+</data>
+
+	<data name="MuaBaoHiemSucKhoeBenhHiemNgheo" xml:space="preserve">
+  <value>Mua bảo hiểm sức khỏe bệnh hiểm nghèo</value>
+</data>	
+	<data name="HoVaTenNguoiThuHuong" xml:space="preserve">
+  <value>Họ và tên người thụ hưởng</value>
+</data>	
+	<data name="HoVaTenNguoiThuHuongNhap" xml:space="preserve">
+  <value>Nhập họ và tên người thụ hưởng</value>
+</data>	
+	<data name="ThanhToanThanhCong_DangChoXyLy" xml:space="preserve">
+  <value>Đơn bảo hiểm số của bạn đã được thanh toán thành công và đang được Pjico xử lý.</value>
+</data>	
+  <data name="SDTKhongHopLe" xml:space="preserve">
+    <value>Số điện thoại không hợp lệ</value>
+  </data> 
+  <data name="KhongDatDieuKienBH" xml:space="preserve">
+    <value>Không đạt điều kiện bảo hiểm</value>
+  </data> 
+  <data name="KhongDatDieuKienBH_" xml:space="preserve">
+    <value>Người được bảo hiểm không vượt qua câu hỏi thẩm định và sẽ không được tiếp tục mua bảo hiểm do chính sách của công ty bảo hiểm.s</value>
+  </data> 
+  <data name="QuayVeCauHoiThamDinh" xml:space="preserve">
+    <value>Quay về câu hỏi thẩm định</value>
+  </data> 
+  <data name="MuaTiepBoQuaCauHoiThamDinh" xml:space="preserve">
+    <value>Mua tiếp, bỏ qua câu hỏi thẩm định</value>
+  </data> 
+	<data name="SoTienBHNguoiThu" xml:space="preserve">
+    <value>Số tiền bảo hiểm người thứ </value>
+  </data>
+	<data name="PhiBHNguoiThu" xml:space="preserve">
+    <value>Phí bảo hiểm người thứ </value>
+  </data>
+	<data name="GoiBHNguoiThu" xml:space="preserve">
+    <value>Gói bảo hiểm người thứ </value>
+  </data>
+	<data name="DoTuoiKhongPhuHop" xml:space="preserve">
+    <value>Độ tuổi không phù hợp</value>
+  </data>
+  <data name="MuaBaoHiemSucKhoeBenhUngThu" xml:space="preserve">
+    <value>Mua bảo hiểm sức khỏe bệnh ung thư</value>
+  </data> 
+  <data name="MSTDaTonTai" xml:space="preserve">
+    <value>Mã số thuế đã tồn tại</value>
+  </data> 
+  <data name="MuaBHDuLichTrongNuoc" xml:space="preserve">
+    <value>Mua bảo hiểm du lịch trong nước</value>
+  </data> 
+	<data name="YeuHuyDuocTiepNhan1" xml:space="preserve">
+    <value>Yêu cầu hủy đơn bảo hiểm của bạn đã được Pjico tiếp nhận và xử lý. Chúng tôi sẽ liên hệ phản hồi lại trong vòng </value>
+  </data>
+	<data name="DeNghiTaiTuc1" xml:space="preserve">
+    <value>Đề nghị bảo hiểm Pjico tái tục đơn bảo hiểm </value>
+  </data>
+	<data name="DeNghiTaiTuc2" xml:space="preserve">
+    <value> theo nội dung sau:</value>
+  </data>
+  
+	<data name="YeuTaiTucTiepNhan1" xml:space="preserve">
+    <value>Yêu cầu tái tục đơn bảo hiểm của bạn đã được Pjico tiếp nhận và xử lý. Chúng tôi sẽ liên hệ phản hồi lại trong vòng </value>
+  </data>
+	<data name="NhapYeuCauTaiTuc" xml:space="preserve">
+    <value>Nhập yêu cầu tái tục</value>
+  </data>
+  <data name="TrongChuyenDiCoThamGiaCacMon_" xml:space="preserve">
+    <value>Trong chuyến đi có tham gia các môn thể thao, thi đấu có tính chất chuyên nghiệp, trò chơi nguy hiểm?</value>
+  </data>
+  
+	<data name="DeNghiPjcoHuyDon1" xml:space="preserve">
+    <value>Đề nghị bảo hiểm Pjico hủy đơn bảo hiểm </value>
+  </data>
+  
+	<data name="NhapYeuCauHuy" xml:space="preserve">
+    <value>Nhập yêu cầu hủy đơn</value>
+  </data>
+
+  <data name="TrongChuyenDiCoThamGiaTheThao_" xml:space="preserve">
+    <value>Trong chuyến đi có tham gia các môn thể thao nào không?</value>
+  </data> 
+  <data name="TrongChuyenDiCoThamGiaTheThao_1" xml:space="preserve">
+    <value>Có tắm biển, leo núi, du thuyền trên sông nước</value>
+  </data> 
+  <data name="TrongChuyenDiCoThamGiaTheThao_2" xml:space="preserve">
+    <value>Các trường hợp khác</value>
+  </data> 
+	<data name="TrongChuyenDiCoThamGia_" xml:space="preserve">
+    <value>Trong chuyến đi có tham gia tắm biển, leo núi, du thuyền trên sông nước</value>
+  </data>
+	<data name="ChuongTrinhBH" xml:space="preserve">
+    <value>Chương trình bảo hiểm</value>
+  </data>
+	<data name="ChonChuongTrinhBH" xml:space="preserve">
+    <value>Chọn chương trình bảo hiểm</value>
+  </data>
+	<data name="TyGiaQuyDoi" xml:space="preserve">
+    <value>Tỉ giá quy đổi</value>
+  </data>
+	<data name="ReceiptInformationPersonAmountError3" xml:space="preserve">
+    <value>Nhập lại số tiền bảo hiểm/người/vụ</value>
+  </data>
+	<data name="PhiBaoHiemTienVietNam" xml:space="preserve">
+    <value>Phí bảo hiểm tiền Việt Nam</value>
+  </data>
+  <data name="MuaBHVN_NN" xml:space="preserve">
+    <value>Mua bảo hiểm người VN du lịch tại nước ngoài</value>
+  </data> 
+  <data name="MuaBHNN_VN" xml:space="preserve">
+    <value>Mua bảo hiểm người nước ngoài du lịch tại VN</value>
+  </data> 
+	<data name="TTBHNguoiNuocNgoaiTaiVN" xml:space="preserve">
+    <value>Thông tin bảo hiểm người nước ngoài du lịch tại VN</value>
+  </data>
+	<data name="TTBHNVNDLTNN" xml:space="preserve">
+    <value>Thông tin bảo hiểm người VN du lịch tại nước ngoài</value>
+  </data>
+	<data name="SoTienBHNamTrongKhoangTu10Den100Trieu" xml:space="preserve">
+  <value>Số tiền nằm trong khoảng từ 10 triệu đến 100 triệu VNĐ</value>
+</data>
+	<data name="SoTienBHNamTrongKhoangTu10Den100Trieu2" xml:space="preserve">
+  <value>Số tiền nằm trong khoảng từ 1.000USD đến 30.000USD</value>
+</data>
+
+
+  <data name="QuyenSoHuuNgoiNha" xml:space="preserve">
+    <value>Quyền sở hữu ngôi nhà</value>
+  </data>
+  <data name="QuyenSoHuuNgoiNha_Chon" xml:space="preserve">
+    <value>Chọn quyền sở hữu ngôi nhà</value>
+  </data>
+  <data name="LoaiHinhNgoiNha" xml:space="preserve">
+    <value>Loại hình ngôi nhà</value>
+  </data>
+  <data name="LoaiHinhNgoiNha_Chon" xml:space="preserve">
+    <value>Chọn loại hình ngôi nhà</value>
+  </data>
+  <data name="PhanLoaiNgoiNha" xml:space="preserve">
+    <value>Phân loại ngôi nhà</value>
+  </data>
+  <data name="PhanLoaiNgoiNha_Chon" xml:space="preserve">
+    <value>Chọn phân loại ngôi nhà</value>
+  </data>
+  <data name="ThoiDiemBatDauSuDungNgoiNha" xml:space="preserve">
+    <value>Thời điểm bắt đầu sử dụng ngôi nhà</value>
+  </data>
+  <data name="ThoiDiemBatDauSuDungNgoiNha_Nhap" xml:space="preserve">
+    <value>Nhập thời điểm bắt đầu sử dụng ngôi nhà</value>
+  </data>
+  <data name="DiaChiNgoiNha" xml:space="preserve">
+    <value>Địa chỉ ngôi nhà</value>
+  </data>
+  <data name="DiaChiNgoiNha_Nhap" xml:space="preserve">
+    <value>Nhập địa chỉ ngôi nhà</value>
+  </data>
+  <data name="NgoiNhaCoHeThongPhongChayChuaChayKhong" xml:space="preserve">
+    <value>Ngôi nhà có hệ thống phòng cháy chữa cháy không?</value>
+  </data>
+  <data name="NgoiNhaCoDangDuocTheChapTaiNganHangKhong" xml:space="preserve">
+    <value>Ngôi nhà có đang được thế chấp tại ngân hàng không?</value>
+  </data>
+	<data name="SoHopDongVay_Nhap" xml:space="preserve">
+    <value>Nhập số hợp đồng vay</value>
+  </data>
+	<data name="TenNganHang_Nhap" xml:space="preserve">
+    <value>Nhập tên ngân hàng</value>
+  </data>
+	<data name="NhapNamBatDauSuDungNgoiNha" xml:space="preserve">
+    <value>Nhập năm bắt đầu sử dụng ngôi nhà (ex:2021)</value>
+  </data>
+	<data name="SaiDinhDangNamSuDung" xml:space="preserve">
+    <value>Sai định dạng (ex:2021)</value>
+  </data>
+	<data name="GiaTriNgoiNhaVND" xml:space="preserve">
+    <value>Giá trị ngôi nhà (VNĐ)</value>
+  </data>
+	<data name="GiaTriNgoiNhaVND_Nhap" xml:space="preserve">
+    <value>Nhập giá trị ngôi nhà (VNĐ)</value>
+  </data>
+	<data name="SoTienBaoHiemVND" xml:space="preserve">
+    <value>Số tiền bảo hiểm (VNĐ)</value>
+  </data>
+	<data name="SoTienBaoHiemVND_Nhap" xml:space="preserve">
+    <value>Nhập số tiền bảo hiểm (VNĐ)</value>
+  </data>
+	<data name="SoTienBaoHiemVND_Chon" xml:space="preserve">
+    <value>Chon số tiền bảo hiểm (VNĐ)</value>
+  </data>
+	<data name="PhiBaoHiemVND" xml:space="preserve">
+    <value>Phí bảo hiểm (VNĐ)</value>
+  </data>
+	<data name="PhiBaoHiemVND_Nhap" xml:space="preserve">
+    <value>Nhập phí bảo hiểm (VNĐ)</value>
+  </data>
+	<data name="GoiBaoHiemGiaTriGiaTang" xml:space="preserve">
+    <value>Gói bảo hiểm giá trị gia tăng</value>
+  </data>
+	<data name="ThoiDiemBatDauSuDungNgoiNha_Sai1" xml:space="preserve">
+    <value>Thời điểm bắt đầu sử dụng ngôi nhà không được lớn hơn hiện tại</value>
+  </data>
+	<data name="ThoiDiemBatDauSuDungNgoiNha_Sai2" xml:space="preserve">
+    <value>Thời điểm bắt đầu sử dụng ngôi nhà không được lớn hơn 30 năm</value>
+  </data>
+	<data name="SoTienBaoHiemPhaiNhoHonGiaTriNgoiNha" xml:space="preserve">
+    <value>Số tiền bảo hiểm phải nhỏ hơn giá trị ngôi nhà</value>
+  </data>
+
+	<data name="BanQuenMatKhau" xml:space="preserve">
+    <value>Bạn quên mật khẩu?</value>
+  </data>
+	<data name="DungLoLang_" xml:space="preserve">
+    <value>Đừng lo lắng, chỉ cần nhập địa chỉ email hoặc số điện thoại của bạn và chúng tôi sẽ thiết lập cho bạn một mật khẩu mới ngay lập tức</value>
+  </data>
+	<data name="DiaChiEmailSDT" xml:space="preserve">
+    <value>Địa chỉ email/số điện thoại</value>
+  </data>
+	<data name="DiaChiEmailSDTNhap" xml:space="preserve">
+    <value>Nhập địa chỉ email/số điện thoại</value>
+  </data>
+	<data name="LayMaOTP" xml:space="preserve">
+    <value>Lấy mã OTP</value>
+  </data>
+	<data name="LayLaiMK" xml:space="preserve">
+    <value>Lấy lại mật khẩu</value>
+  </data>
+  
+	<data name="XacNhanMaOTPDeKhoiPhucLaiMK" xml:space="preserve">
+    <value>Xác nhận mã OTP để khôi phục lại mật khẩu</value>
+  </data>
+	<data name="VuiLongXacNhanMaBaoMatOTP_" xml:space="preserve">
+    <value>Vui lòng xác nhận mã bảo mật OTP đã được gửi tới số điện thoại của bạn: </value>
+  </data>
+	<data name="VuiLongXacNhanMaBaoMatOTP_2_" xml:space="preserve">
+    <value>Vui lòng xác nhận mã bảo mật OTP đã được gửi tới email của bạn: </value>
+  </data>
+	<data name="0904999999" xml:space="preserve">
+    <value>0904999999</value>
+  </data>
+	<data name="NeuBanKhongNhanDcMa" xml:space="preserve">
+    <value>Nếu bạn không nhận được mã! </value>
+  </data>
+	<data name="GuiLai" xml:space="preserve">
+    <value>Gửi lại</value>
+  </data>
+	<data name="XacNhanMatKhau" xml:space="preserve">
+    <value>Xác nhận mật khẩu</value>
+  </data>
+	<data name="NhapMaOTP" xml:space="preserve">
+    <value>Nhập mã OTP</value>
+  </data>
+	<data name="TaoMatKhauMoi" xml:space="preserve">
+    <value>Tạo mật khẩu mới</value>
+  </data> 
+  
+	<data name="EmailKhongDung" xml:space="preserve">
+    <value>Email không đúng</value>
+  </data>  
+	<data name="SDTKhongDung" xml:space="preserve">
+    <value>Số điện thoại không đúng</value>
+  </data>  
+	<data name="KhongTimThayTaiKhoanCoID" xml:space="preserve">
+    <value>Không tìm thấy tài khoản có ID = </value>
+  </data>  
+	<data name="TaoMatKhauMoiThatBai" xml:space="preserve">
+    <value>Tạo mật khẩu mới thất bại</value>
+  </data> 
+	<data name="LoiKhongXacDinh" xml:space="preserve">
+    <value>Lỗi không xác định</value>
+  </data> 
+  
+	<data name="ChiaSeCamNghiCuaBan" xml:space="preserve">
+    <value>Chia sẻ cảm nghĩ của bạn</value>
+  </data>  
+	<data name="ChiaSeDanhGiaCuaBan" xml:space="preserve">
+    <value>Chia sẻ đánh giá của bạn</value>
+  </data> 
+	<data name="ChiaSeDanhGia" xml:space="preserve">
+    <value>Chia sẻ đánh giá</value>
+  </data> 
+	<data name="BoQua" xml:space="preserve">
+    <value>Bỏ qua</value>
+  </data> 
+  
+	<data name="DonChuaHoanThanh" xml:space="preserve">
+    <value>Đơn chưa hoàn thành</value>
+  </data> 
+	<data name="ThoatUngDung" xml:space="preserve">
+    <value>Thoát ứng dụng</value>
+  </data> 
+	<data name="KinhChaoQuyKhach" xml:space="preserve">
+    <value>Kính chào quý khách</value>
+  </data> 
+	<data name="ChinhSuaVaCapNhatThongTinMoi" xml:space="preserve">
+    <value>Chỉnh sửa và cập nhật thông tin mới</value>
+  </data>
+  
+	<data name="ThongTinChuTaiKhoan" xml:space="preserve">
+    <value>Thông tin chủ tài khoản</value>
+  </data> 
+	<data name="CapNhat" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data> 
+	<data name="TenChuTaiKhoan" xml:space="preserve">
+    <value>Tên chủ tài khoản</value>
+  </data>
+	<data name="TinMoi" xml:space="preserve">
+    <value>Tin mới</value>
+  </data> 
+	<data name="ThongBaoMoi" xml:space="preserve">
+    <value>Thông báo chung</value>
+  </data>  
+  
+	<data name="SuDungMatKhau" xml:space="preserve">
+    <value>Sử dụng mật khẩu</value>
+  </data> 
+	<data name="ThayDoiMatKhau" xml:space="preserve">
+    <value>Thay đổi mật khẩu</value>
+  </data> 
+	<data name="DangNhapBangVanTay" xml:space="preserve">
+    <value>Đăng nhập bằng vân tay</value>
+  </data> 
+	<data name="DangNhapBangKhuonMat" xml:space="preserve">
+    <value>Đăng nhập bằng khuôn mặt</value>
+  </data> 
+	<data name="BaoMat" xml:space="preserve">
+    <value>Bảo mật</value>
+  </data>  
+	<data name="MatKhauHienTai" xml:space="preserve">
+    <value>Mật khẩu hiện tại</value>
+  </data>  
+	<data name="NhapMatKhauHienTai" xml:space="preserve">
+    <value>Nhập mật khẩu hiện tại</value>
+  </data> 
+	<data name="ChoPhepNhanThongBaoTrenManHinhChinh" xml:space="preserve">
+    <value>Cho phép thông báo trên màn hình chính</value>
+  </data>   
+	<data name="ChoPhepNhanThongBaoTuPjico" xml:space="preserve">
+    <value>Cho phép nhận thông báo từ Pjico</value>
+  </data>
+  
+	<data name="ChonNgonNgu" xml:space="preserve">
+    <value>Chọn ngôn ngữ</value>
+  </data>  
+	<data name="TiengViet" xml:space="preserve">
+    <value>Tiếng Việt</value>
+  </data>   
+	<data name="TiengAnh" xml:space="preserve">
+    <value>Tiếng Anh</value>
+  </data>   
+	<data name="PhienBan" xml:space="preserve">
+    <value>Phiên bản</value>
+  </data>  
+	<data name="DieuKienSuDung" xml:space="preserve">
+    <value>Điều kiện sử dụng</value>
+  </data>  
+	<data name="ChinhSachBaoMatVaChiaSeThongTin" xml:space="preserve">
+    <value>Chính sách bảo mật và chia sẻ thông tin</value>
+  </data>
+
+  
+	<data name="LichSuDonBaoHiem" xml:space="preserve">
+    <value>Lịch sử đơn bảo hiểm</value>
+  </data> 
+	<data name="ThoatUngDung" xml:space="preserve">
+    <value>Thoát ứng dụng</value>
+  </data>  
+	<data name="DangNhapBangTaiKhoanKhac" xml:space="preserve">
+    <value>Đăng nhập bằng tài khoản khác</value>
+  </data>   
+	<data name="ChuaChonXepHang" xml:space="preserve">
+    <value>Chưa chọn xếp hạng</value>
+  </data>  
+	<data name="DanhSachTrong" xml:space="preserve">
+    <value>Danh sách trống</value>
+  </data>
+  
+	<data name="DangXuat" xml:space="preserve">
+    <value>Đăng xuất</value>
+  </data>
+	<data name="BanCoChacChanMuonDangXuat" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn đăng xuất?</value>
+  </data> 
+	<data name="DonBaoHiemSoCuaBanDaDuocThanhToanThanhCongVaDangDuoc_" xml:space="preserve">
+    <value>Đơn bảo hiểm số của bạn đã được thanh toán thành công và đang được Pjico xử lý.</value>
+  </data> 
+  
+  
+	<data name="BienSoXeDaTonTai" xml:space="preserve">
+    <value>Biển số xe đã tồn tại</value>
+  </data> 
+	<data name="SoKhungDaTonTai" xml:space="preserve">
+    <value>Số khung đã tồn tại</value>
+  </data> 
+	<data name="SoMayDaTonTai" xml:space="preserve">
+    <value>Số máy đã tồn tại</value>
+  </data> 
+	<data name="SanPhamBaoHiem" xml:space="preserve">
+    <value>Sản phẩm bảo hiểm</value>
+  </data> 
+	<data name="TienIchBaoHiem" xml:space="preserve">
+    <value>Tiện ích bảo hiểm</value>
+  </data> 
+</root>

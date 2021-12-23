@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="QRMS.Views.LoginPage.LoginStyles"
+                    xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
+                    xmlns:helper="clr-namespace:QRMS.Helper">
+
+    <Color x:Key="EntryPlaceholderColor">#ACACB1</Color>
+    <Color x:Key="EntryTextColor">#17233D</Color>
+    <Color x:Key="BorderBackgroundColor">#DCE0E2</Color>
+    <!--<Color x:Key="ButtonBackgroundColor">#F49A0E</Color>-->
+    <Color x:Key="ButtonBackgroundColor">#F49A0E</Color>
+    <Color x:Key="ButtonTextColor">#FFFFFF</Color>
+    <Color x:Key="LableColor">#1D1D1F</Color>
+    <Color x:Key="LableErrorTextColor">#F5323C</Color>
+    <Color x:Key="PageBackgroundColor">#FFDA9F</Color>
+
+
+    <!--  Common style for entries  -->
+    <Style x:Key="EntryStyle" TargetType="helper:BorderlessEntry">
+        <Setter Property="PlaceholderColor" Value="{StaticResource EntryPlaceholderColor}" />
+        <Setter Property="BackgroundColor" Value="Transparent" /> 
+        <Setter Property="TextColor" Value="{StaticResource EntryTextColor}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="ReturnType" Value="Done" />
+    </Style>
+
+    <Style x:Key="LableTitleStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableColor}" />
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Margin" Value="20,0,20,10" />
+        <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+    </Style>
+
+    <Style x:Key="LableStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableColor}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Margin" Value="20,0,20,0" />
+    </Style>
+
+    <Style x:Key="LableErrorStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LableErrorTextColor}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="20,-10,20,10" />
+    </Style>
+
+    <Style x:Key="ButtonStyle" TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource ButtonTextColor}"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource ButtonBackgroundColor}"/>
+        <Setter Property="BorderWidth" Value="0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="CornerRadius" Value="20"/>
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        <Setter Property="Margin" Value="20,10,20,30" />
+    </Style>
+
+    <Style x:Key="FrameStyle" TargetType="Frame">
+        <Setter Property="BorderColor" Value="{StaticResource BorderBackgroundColor}"/>
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="20,0,20,10"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+</ResourceDictionary>

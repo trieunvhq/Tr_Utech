@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Controls.ComboboxView"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             Spacing="0">
+    <Label x:Name="lblTitle" Margin="0,0,0,6" FontSize="12" TextColor="#1D1D1F"/>
+    <pancake:PancakeView x:Name="borderView" BorderColor="#DCE0E2" BorderThickness="1" CornerRadius="6"
+                          HeightRequest="40">
+        <pancake:PancakeView.Triggers>
+            <DataTrigger TargetType="pancake:PancakeView" Binding="{Binding Source={x:Reference inputPicker}, Path=IsFocused}" Value="True">
+                <Setter Property="BorderColor" Value="#F49A0E" />
+            </DataTrigger>
+            <DataTrigger TargetType="pancake:PancakeView" Binding="{Binding Source={x:Reference inputPicker}, Path=IsFocused}" Value="False">
+                <Setter Property="BorderColor" Value="#DCE0E2" />
+            </DataTrigger>
+        </pancake:PancakeView.Triggers>
+        
+        <Grid x:Name="container" HorizontalOptions="FillAndExpand" BackgroundColor="#FFFFFF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <control:CustomPicker
+                Grid.Column="0" Grid.ColumnSpan="2"
+                x:Name="inputPicker"
+                Title="{x:Static resource:AppResources.CommonPickerShortPlaceholder}"
+                ItemDisplayBinding="{Binding NAME}"
+                FontSize="14" Margin="12,10,0,10"
+                HorizontalOptions="FillAndExpand"/>
+            
+            <Image BackgroundColor="Transparent"
+                Grid.Column="1" HeightRequest="9" VerticalOptions="CenterAndExpand" HorizontalOptions="End" 
+                Source="icon_down.png" Margin="10,0,12,0"> 
+            </Image>
+            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="2"/>
+        </Grid> 
+    </pancake:PancakeView>
+    <StackLayout HeightRequest="16">
+        <Label x:Name="lblError" TextColor="#F5323C" FontSize="12" IsVisible="False" />
+    </StackLayout>
+</StackLayout>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Controls.EditorInputView"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             Spacing="0" x:Name="root">
+    <Label x:Name="lblTitle" Margin="0,0,0,6" FontSize="12" TextColor="#1D1D1F"   />
+    <Frame CornerRadius="6" BorderColor="#dddddd" Padding="7,7,7,7" HasShadow="False"
+          x:Name="frame" HeightRequest="80" >
+
+        <control:CustomEditor2 x:Name="inputEditor" BorderColor="Transparent" BorderThickness="0" Padding="0"
+               VerticalOptions="Fill" AutoSize="TextChanges"  Placeholder="{x:Static resource:AppResources.CommonEntryPlaceholder}"
+                        FontSize="14" TextChanged="OnEntryTextChanged" BackgroundColor="Transparent"
+                        Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
+
+        <!--<ScrollView HeightRequest="80"> 
+            
+        </ScrollView>-->
+    </Frame> 
+    <StackLayout HeightRequest="16">
+
+        <Label x:Name="lblError" TextColor="#F5323C" FontSize="12" IsVisible="False" />
+    </StackLayout>
+</StackLayout>

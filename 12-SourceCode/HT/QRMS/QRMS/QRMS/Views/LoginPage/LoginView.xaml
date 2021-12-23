@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helper="clr-namespace:QRMS.Helper"
+             xmlns:converters="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:forms="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="QRMS.Views.LoginPage.LoginView"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:constants="clr-namespace:QRMS.Constants"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:local="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{OnPlatform iOS='#FFDA9F', Android='Transparent'}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="LoginStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <AbsoluteLayout x:Name="abs">
+            <Grid BackgroundColor="White" AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label BackgroundColor="White" Grid.Row="1"/>
+                <Label x:Name="lb1" BackgroundColor="White" Grid.Row="0"/>
+            </Grid>
+            <ScrollView AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
+
+                <Grid x:Name="grid" RowSpacing="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+              BackgroundColor="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <local:PancakeView BackgroundGradientAngle="0"
+                                   BackgroundGradientStartColor="#FFDA9F" 
+                                   BackgroundGradientEndColor="#FAFDFF"
+                                   HasShadow="False" 
+                                   Grid.Row="0"
+                                   VerticalOptions="FillAndExpand" 
+                                   HorizontalOptions="FillAndExpand"/>
+
+                    <Image Grid.Row="1" Source="logo.png"
+                       Margin="20,50,20,30"/>
+
+                    <StackLayout Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                         
+                        <Label  Style="{StaticResource LableStyle}" >
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Tài khoản" />
+                                    <Span Text=" *" TextColor="Red"  FontAttributes="Bold"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Frame x:Name="frameUser" Style="{StaticResource FrameStyle}"  BackgroundColor="White" >
+                            <helper:BorderlessEntry 
+                            x:Name="txtUserName" Unfocused="EntryUser_Unfocused" Focused="EntryUser_Focused"
+                            Placeholder="Mật khẩu"  
+                            Style="{StaticResource EntryStyle}"/>
+                        </Frame>
+                        <Label x:Name="lblUserEmptyError" Text="" Style="{StaticResource LableErrorStyle}"/>
+                         
+
+                        <Label  Style="{StaticResource LableStyle}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Mật khẩu" />
+                                    <Span Text=" *" TextColor="Red"  FontAttributes="Bold"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+
+                        <Frame x:Name="framePass" Style="{StaticResource FrameStyle}">
+                            <helper:BorderlessEntry  
+                            x:Name="txtPassword" Unfocused="EntryPass_Unfocused" Focused="EntryPass_Focused"
+                            Placeholder="Mật khẩu"   
+                            Style="{StaticResource EntryStyle}">
+                                <Entry.Effects>
+                                    <helper:ShowHidePassEffect />
+                                </Entry.Effects>
+                            </helper:BorderlessEntry>
+                        </Frame>
+                        <Label x:Name="lblPassEmptyError" Text="" Style="{StaticResource LableErrorStyle}" />
+                         
+                        <helper:ButtonCustoms x:Name="btnLogin" Text="Đăng nhập"
+                                    Clicked="btnLogin_Clicked"
+                                    Style="{StaticResource ButtonStyle}" 
+                                    GradientOrientation="Horizontal"
+                                    StartColor="#E99942" EndColor="#F5C954"/> 
+                    </StackLayout> 
+                </Grid>
+
+            </ScrollView>
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
+</ContentPage>

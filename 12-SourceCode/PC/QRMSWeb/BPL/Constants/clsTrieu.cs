@@ -23,6 +23,42 @@ namespace BPL
             return sb.ToString();
         }
 
+        //public static DateTime toDateTime(object str)
+        //{
+        //    if (str == null)
+        //        return 0;
+
+        //    string str_2_ = str.ToString();
+
+        //    if (str_2_ == "")
+        //        return 0;
+
+        //    double temp_ = 0;
+        //    try
+        //    {
+        //        temp_ = Convert.ToDouble(new DataTable().Compute(str.ToString(), null));
+        //        //Convert.ToDouble(str);
+        //    }
+        //    catch
+        //    {
+        //        try
+        //        {
+        //            try { temp_ = Convert.ToDouble(str); }
+        //            catch
+        //            {
+        //                str_2_ = str_2_.Replace(",", "*");
+        //                str_2_ = str_2_.Replace(".", ",");
+        //                str_2_ = str_2_.Replace("*", ".");
+        //                temp_ = Convert.ToDouble(str_2_);
+        //            }
+        //        }
+        //        catch
+        //        {
+        //            return 0;
+        //        }
+        //    }
+        //    return temp_;
+        //}
 
         public static bool CheckIsNumber(string Value)
         {

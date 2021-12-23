@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Xam.Plugins.Settings" Version="2.5.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Controls\" />
+    <None Remove="Helper\" />
+    <None Remove="Constants\" />
+    <None Remove="Resources\" />
+    <None Remove="Xam.Plugins.Settings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
+    <Folder Include="Helper\" />
+    <Folder Include="Constants\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+</Project>

@@ -1,23 +1,34 @@
-﻿using QRMS.ViewModels;
-using QRMS.Views;
+﻿using QRMS.Constants;
+using QRMS.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace QRMS
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Shell
     {
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
-        }
+            //Routing.RegisterRoute(nameof(Views.InformationPage.NewsView), typeof(Views.InformationPage.NewsView));
+            BindingContext = new AppShellViewModel();
 
-        private async void OnMenuItemClicked(object sender, EventArgs e)
+            if(MySettings.Temp1 == "")
+            {
+                Renewals.Icon = "icon_TB_1";
+            }
+            else
+            {
+                Renewals.Icon = "icon_TB_2";
+            }    
+        }
+        public void Load()
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+
         }
     }
 }
