@@ -1,25 +1,21 @@
-﻿using LIB;
+﻿ 
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Helper;
 using QRMS.Models; 
 using QRMS.Views.AccountPage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System; 
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace QRMS.Views.LoginPage
+namespace QRMS.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginView : ContentPage
-    { 
-        public LoginView()
+    public partial class LoginPage : ContentPage
+    {
+        public LoginPage()
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
@@ -27,15 +23,15 @@ namespace QRMS.Views.LoginPage
 
         protected override void OnAppearing()
         {
-            base.OnAppearing();  
+            base.OnAppearing();
         }
-         
-         
+
+
         void BtnTaoTaiKhoanMoi_Clicked(System.Object sender, System.EventArgs e)
-        { 
+        {
             Application.Current.MainPage.Navigation.PushAsync(new CreateAccountPage());
         }
-       
+
 
         private void EntryPass_Unfocused(object sender, FocusEventArgs e)
         {
@@ -43,7 +39,7 @@ namespace QRMS.Views.LoginPage
         }
 
         private void EntryPass_Focused(object sender, FocusEventArgs e)
-        { 
+        {
             framePass.BorderColor = Color.FromHex("#F49A0E");
             framePass.BackgroundColor = Color.Default;
         }
@@ -53,7 +49,7 @@ namespace QRMS.Views.LoginPage
         }
 
         private void EntryUser_Focused(object sender, FocusEventArgs e)
-        { 
+        {
             frameUser.BorderColor = Color.FromHex("#F49A0E");
             frameUser.BackgroundColor = Color.Default;
         }
@@ -71,13 +67,13 @@ namespace QRMS.Views.LoginPage
                         lblPassEmptyError.IsVisible = false;
 
                         lblUserEmptyError.Text = "Nhập tài khoản";
-                        lblPassEmptyError.Text ="Nhập mật khẩu";
+                        lblPassEmptyError.Text = "Nhập mật khẩu";
                         Controls.LoadingUtility.Show();
                         MySettings.FULL_NAME = "";
-                     
+
                         var isError = false;
                         if (string.IsNullOrEmpty(txtUserName.Text))
-                        { 
+                        {
                             frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
                             frameUser.BorderColor = Color.FromHex("#F5323C");
 
@@ -85,24 +81,24 @@ namespace QRMS.Views.LoginPage
                             isError = true;
                         }
                         else
-                        { 
+                        {
                             frameUser.BorderColor = Color.FromHex("#F49A0E");
                             frameUser.BackgroundColor = Color.Default;
                         }
                         if (string.IsNullOrEmpty(txtPassword.Text))
-                        { 
+                        {
                             framePass.BackgroundColor = Color.FromHex("#FEEEEF");
                             framePass.BorderColor = Color.FromHex("#F5323C");
                             lblPassEmptyError.IsVisible = true;
                             isError = true;
                         }
                         else
-                        { 
+                        {
                             framePass.BorderColor = Color.FromHex("#F49A0E");
                             framePass.BackgroundColor = Color.Default;
                         }
                         if (string.IsNullOrWhiteSpace(txtUserName.Text))
-                        { 
+                        {
                             frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
                             frameUser.BorderColor = Color.FromHex("#F5323C");
                             lblUserEmptyError.IsVisible = true;
@@ -115,7 +111,7 @@ namespace QRMS.Views.LoginPage
                                 if (MobileLib.IsEmail(txtUserName.Text) == false)
                                 {
                                     lblUserEmptyError.Text = "Tài khoản không đúng";
-                                 
+
                                     frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
                                     frameUser.BorderColor = Color.FromHex("#F5323C");
                                     lblUserEmptyError.IsVisible = true;
@@ -129,7 +125,7 @@ namespace QRMS.Views.LoginPage
                                 else
                                 {
                                     lblUserEmptyError.Text = "Tài khoản không đúng";
-                                    
+
                                     frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
                                     frameUser.BorderColor = Color.FromHex("#F5323C");
                                     lblUserEmptyError.IsVisible = true;
@@ -188,7 +184,7 @@ namespace QRMS.Views.LoginPage
                                     {
                                         Device.BeginInvokeOnMainThread(() =>
                                         {
-                                            Controls.LoadingUtility.Hide();  
+                                            Controls.LoadingUtility.Hide();
                                         });
                                     }
                                 });
@@ -210,7 +206,7 @@ namespace QRMS.Views.LoginPage
                 {
                     Controls.LoadingUtility.Hide();
                 });
-                
+
                 DependencyService.Get<ILogger>().Log(ex.ToString());
 
                 // Log ex to db
@@ -229,6 +225,6 @@ namespace QRMS.Views.LoginPage
                 var actionName = $"{namespaceInFile}.{className}.{methodName}()";
                 LogExAPI.AddLogEx(token, appType, osType, actionName, ex.ToString(), null);
             }
-        } 
+        }
     }
 }

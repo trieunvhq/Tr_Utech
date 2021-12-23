@@ -248,7 +248,7 @@ namespace QRMS.Views.AccountPage
 
         void OnDangXuatClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new LoginPage.LoginView());
+            Application.Current.MainPage = new NavigationPage(new LoginPage());
         }
     }
 }

@@ -157,7 +157,7 @@ namespace QRMS.ViewModels.Account
                 conn.SaveChanges();
             }
             Resources.AppResources.Culture = new System.Globalization.CultureInfo("en");
-            Application.Current.MainPage = new QRMS.Views.LoginPage.LoginView();
+            Application.Current.MainPage = new QRMS.Views.LoginPage();
         }
 
         private void TiengvietViewcell_Tapped(object sender, EventArgs e)
@@ -181,7 +181,7 @@ namespace QRMS.ViewModels.Account
                 conn.SaveChanges();
             }
             Resources.AppResources.Culture = new System.Globalization.CultureInfo("vi");
-            Application.Current.MainPage = new QRMS.Views.LoginPage.LoginView();
+            Application.Current.MainPage = new QRMS.Views.LoginPage();
         }
 
         private void Back_Clicked(object obj)

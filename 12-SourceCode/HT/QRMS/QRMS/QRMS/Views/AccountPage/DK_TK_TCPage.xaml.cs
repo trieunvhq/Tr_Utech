@@ -12,8 +12,7 @@ using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using Xamarin.Forms.Xaml;
-using QRMS.Views.LoginPage;
+using Xamarin.Forms.Xaml; 
 using System.Collections.Generic;
 using Page = Xamarin.Forms.Page;
 using Application = Xamarin.Forms.Application;
@@ -44,7 +43,7 @@ namespace QRMS.Views.AccountPage
                 else if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
                     stack = Application.Current.MainPage.Navigation.NavigationStack.Skip(1).ToList();
 
-                Application.Current.MainPage.Navigation.PushAsync(new QRMS.Views.LoginPage.LoginView());
+                Application.Current.MainPage.Navigation.PushAsync(new QRMS.Views.LoginPage());
 
                 foreach (var item in stack)
                 {

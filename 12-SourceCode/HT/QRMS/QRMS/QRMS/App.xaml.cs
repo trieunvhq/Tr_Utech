@@ -1,17 +1,12 @@
-﻿using Flurl.Http;
-using Microsoft.EntityFrameworkCore;
- 
+﻿using Microsoft.EntityFrameworkCore;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Helper;
 using QRMS.Models;
-using QRMS.Views.LoginPage;
-using System;
+using QRMS.Views;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -49,7 +44,7 @@ namespace QRMS
             });
 
             Application.Current.UserAppTheme = OSAppTheme.Light;
-            MainPage = new NavigationPage(new LoginView());
+            MainPage = new NavigationPage(new LoginPage());
         }
 
         protected override void OnStart()

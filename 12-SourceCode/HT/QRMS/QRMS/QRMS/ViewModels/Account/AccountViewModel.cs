@@ -6,7 +6,6 @@ using QRMS.Helper;
 using QRMS.Models;
 using QRMS.Models.QMK;
 using QRMS.Views.AccountPage;
-using QRMS.Views.LoginPage;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

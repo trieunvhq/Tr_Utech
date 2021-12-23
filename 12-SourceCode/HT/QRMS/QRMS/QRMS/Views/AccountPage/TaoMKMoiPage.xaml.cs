@@ -115,28 +115,13 @@ namespace QRMS.Views.AccountPage
                                                 switch (submit.Result.RespondCode)
                                                 {
                                                     case "0":
-                                                        //List<Xamarin.Forms.Page> stack = new List<Xamarin.Forms.Page>();
-                                                        //if (Xamarin.Forms.Application.Current.MainPage.Navigation.ModalStack.Count > 0)
-                                                        //    stack = Xamarin.Forms.Application.Current.MainPage.Navigation.ModalStack.Skip(1).ToList();
-                                                        //else if (Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
-                                                        //    stack = Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack.Skip(1).ToList();
-
-                                                        //Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new QRMS.Views.LoginPage.LoginView());
-
-                                                        //foreach (var item in stack)
-                                                        //{
-                                                        //    Xamarin.Forms.Application.Current.MainPage.Navigation.RemovePage(item);
-                                                        //}
-
-
                                                         MySettings.IsPass = true;
                                                         MySettings.IsVanTay = false;
                                                         MySettings.IsKhuonMat = false;
-                                                        Xamarin.Forms.Application.Current.MainPage = new QRMS.Views.LoginPage.LoginView();
+                                                        Xamarin.Forms.Application.Current.MainPage = new QRMS.Views.LoginPage();
                                                         break;
                                                     case "1":
                                                         Xamarin.Forms.Application.Current.MainPage.DisplayAlert(AppResources.ThongBaoDangNhap1, AppResources.KhongTimThayTaiKhoanCoID, "OK");
-
                                                         break;
                                                     case "2":
                                                         Xamarin.Forms.Application.Current.MainPage.DisplayAlert(AppResources.ThongBaoDangNhap1, AppResources.TaoMatKhauMoiThatBai, "OK");
