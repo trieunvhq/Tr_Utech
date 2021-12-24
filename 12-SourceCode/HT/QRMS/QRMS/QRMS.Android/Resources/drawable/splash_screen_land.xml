@@ -2,8 +2,8 @@
 <item><color android:color="@color/launcher_background" />
 </item>
  <item
-    android:height="300dp"
-    android:width="300dp"
+    android:height="251dp"
+    android:width="163dp"
     android:drawable="@drawable/logo"
     android:gravity="center" >
 </item>
