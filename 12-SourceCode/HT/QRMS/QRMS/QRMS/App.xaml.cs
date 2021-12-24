@@ -44,7 +44,7 @@ namespace QRMS
             });
 
             Application.Current.UserAppTheme = OSAppTheme.Light;
-            MainPage = new LoginPage();
+            MainPage = new NavigationPage(new LoginPage());
         }
 
         protected override void OnStart()

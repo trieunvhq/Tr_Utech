@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using QRMS.Constants;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
@@ -11,6 +13,9 @@ namespace QRMS.Views
         {
             InitializeComponent();
 
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
+            On<iOS>().SetUseSafeArea(true);
+            Shell.SetTabBarIsVisible(this, false);
             row_trencung.Height = 20;
 
             if (Device.Idiom == TargetIdiom.Phone)
