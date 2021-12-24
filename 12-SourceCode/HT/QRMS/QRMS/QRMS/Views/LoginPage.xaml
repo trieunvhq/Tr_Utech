@@ -39,15 +39,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-
-                    <local:PancakeView BackgroundGradientAngle="0"
-                                   BackgroundGradientStartColor="#FFDA9F" 
-                                   BackgroundGradientEndColor="#FAFDFF"
-                                   HasShadow="False" 
-                                   Grid.Row="0"
-                                   VerticalOptions="FillAndExpand" 
-                                   HorizontalOptions="FillAndExpand"/>
-
+                     
                     <Image Grid.Row="1" Source="logo.png"
                        Margin="20,50,20,30"/>
 
@@ -97,7 +89,7 @@
                                     Clicked="btnLogin_Clicked"
                                     Style="{StaticResource ButtonStyle}" 
                                     GradientOrientation="Horizontal"
-                                    StartColor="#E99942" EndColor="#F5C954"/> 
+                                    StartColor="#00a79d" EndColor="#05aff2"/> 
                     </StackLayout> 
                 </Grid>
 
