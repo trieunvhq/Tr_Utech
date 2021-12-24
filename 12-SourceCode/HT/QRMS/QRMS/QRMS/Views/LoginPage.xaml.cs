@@ -3,8 +3,7 @@ using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Helper;
-using QRMS.Models; 
-using QRMS.Views.AccountPage;
+using QRMS.Models;  
 using System; 
 
 using Xamarin.Forms;
@@ -26,12 +25,7 @@ namespace QRMS.Views
             base.OnAppearing();
         }
 
-
-        void BtnTaoTaiKhoanMoi_Clicked(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage.Navigation.PushAsync(new CreateAccountPage());
-        }
-
+         
 
         private void EntryPass_Unfocused(object sender, FocusEventArgs e)
         {
@@ -63,6 +57,12 @@ namespace QRMS.Views
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
+
+                        Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+
+                        Controls.LoadingUtility.Hide();
+                        return;
+
                         lblUserEmptyError.IsVisible = false;
                         lblPassEmptyError.IsVisible = false;
 
