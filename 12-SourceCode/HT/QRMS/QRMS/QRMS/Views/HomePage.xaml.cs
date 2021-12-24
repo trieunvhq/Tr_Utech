@@ -16,6 +16,7 @@ namespace QRMS.Views
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
+
             row_trencung.Height = 20;
 
             if (Device.Idiom == TargetIdiom.Phone)
