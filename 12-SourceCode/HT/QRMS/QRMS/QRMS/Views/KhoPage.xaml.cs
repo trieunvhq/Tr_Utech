@@ -53,16 +53,10 @@ namespace QRMS.Views
 
         void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
+            Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        void BtnHeThong_CLicked(System.Object sender, System.EventArgs e)
-        {
-        }
-
-        void BtnKho_CLicked(System.Object sender, System.EventArgs e)
-        {
-        }
-
+       
         void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
         }
