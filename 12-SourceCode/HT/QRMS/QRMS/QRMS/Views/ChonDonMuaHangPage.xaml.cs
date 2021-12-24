@@ -60,5 +60,9 @@ namespace QRMS.Views
         void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
         }
+
+        void BtnLayDonMuaHang_CLicked(System.Object sender, System.EventArgs e)
+        {
+        }
     }
 }
