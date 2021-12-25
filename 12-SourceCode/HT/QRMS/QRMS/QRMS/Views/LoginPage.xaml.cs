@@ -67,7 +67,7 @@ namespace QRMS.Views
                         MySettings.FULL_NAME = "";
 
                         var isError = false;
-                        if (string.IsNullOrEmpty(txtUserName.Text))
+                        if (string.IsNullOrWhiteSpace(txtUserName.Text))
                         {
                             frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
                             frameUser.BorderColor = Color.FromHex("#F5323C");
@@ -80,7 +80,7 @@ namespace QRMS.Views
                             frameUser.BorderColor = Color.FromHex("#F49A0E");
                             frameUser.BackgroundColor = Color.Default;
                         }
-                        if (string.IsNullOrEmpty(txtPassword.Text))
+                        if (string.IsNullOrWhiteSpace(txtPassword.Text))
                         {
                             framePass.BackgroundColor = Color.FromHex("#FEEEEF");
                             framePass.BorderColor = Color.FromHex("#F5323C");
@@ -91,43 +91,7 @@ namespace QRMS.Views
                         {
                             framePass.BorderColor = Color.FromHex("#F49A0E");
                             framePass.BackgroundColor = Color.Default;
-                        }
-                        if (string.IsNullOrWhiteSpace(txtUserName.Text))
-                        {
-                            frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
-                            frameUser.BorderColor = Color.FromHex("#F5323C");
-                            lblUserEmptyError.IsVisible = true;
-                            isError = true;
-                        }
-                        else
-                        {
-                            if (txtUserName.Text.Contains("@"))
-                            {
-                                if (MobileLib.IsEmail(txtUserName.Text) == false)
-                                {
-                                    lblUserEmptyError.Text = "Tài khoản không đúng";
-
-                                    frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
-                                    frameUser.BorderColor = Color.FromHex("#F5323C");
-                                    lblUserEmptyError.IsVisible = true;
-                                    isError = true;
-                                }
-                            }
-                            else if (!string.IsNullOrEmpty(txtUserName.Text))
-                            {
-                                if (txtUserName.Text.Length == 10)
-                                { }
-                                else
-                                {
-                                    lblUserEmptyError.Text = "Tài khoản không đúng";
-
-                                    frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
-                                    frameUser.BorderColor = Color.FromHex("#F5323C");
-                                    lblUserEmptyError.IsVisible = true;
-                                    isError = true;
-                                }
-                            }
-                        }
+                        } 
                         if (isError)
                         {
                             Device.BeginInvokeOnMainThread(() =>
