@@ -1,10 +1,10 @@
-﻿ 
+﻿
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Helper;
-using QRMS.Models;  
-using System; 
+using QRMS.Models;
+using System;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,7 +25,7 @@ namespace QRMS.Views
             base.OnAppearing();
         }
 
-         
+
 
         private void EntryPass_Unfocused(object sender, FocusEventArgs e)
         {
@@ -56,12 +56,7 @@ namespace QRMS.Views
                 _ = Controls.LoadingUtility.ShowAsync().ContinueWith(bb =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
-                    {
-
-                        Application.Current.MainPage.Navigation.PushAsync(new HomePage());
-
-                        Controls.LoadingUtility.Hide();
-                        return;
+                    { 
 
                         lblUserEmptyError.IsVisible = false;
                         lblPassEmptyError.IsVisible = false;
@@ -157,7 +152,7 @@ namespace QRMS.Views
                                 var ipAddress = MobileInfo.GetIP();
                                 var deviceName = MobileInfo.GetDeviceInfo();
                                 string UserName_ = txtUserName.Text.ToLower();
-                                var submit = APIHelper.PostObjectToAPIAsync<BaseModel<CusConfigModel>>
+                                var submit = APIHelper.PostObjectToAPIAsync<BaseModel<User>>
                                            (Constaint.ServiceAddress, Constaint.APIurl.login,
                                            new
                                            {
@@ -173,10 +168,15 @@ namespace QRMS.Views
                                     {
                                         Device.BeginInvokeOnMainThread(async () =>
                                         {
-                                            switch (submit.Result.ErrorCode)
+                                            if (submit != null && submit.Result != null)
                                             {
-                                                case "0":
-                                                    break;
+                                                if (submit.Result.data != null
+                                              && submit.Result.ErrorCode == "0")
+                                                { 
+                                                    Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+                                                }
+                                                else
+                                                { }
                                             }
                                         });
                                     }
@@ -223,7 +223,6 @@ namespace QRMS.Views
                 var className = GetType().Name;
                 var methodName = "Login_Clicked";
                 var actionName = $"{namespaceInFile}.{className}.{methodName}()";
-                LogExAPI.AddLogEx(token, appType, osType, actionName, ex.ToString(), null);
             }
         }
     }
