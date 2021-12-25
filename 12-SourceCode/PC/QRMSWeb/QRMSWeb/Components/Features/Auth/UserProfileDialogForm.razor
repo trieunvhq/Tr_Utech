@@ -1,0 +1,219 @@
+﻿@using QRMSWeb.Services
+@using QRMSWeb.Models
+@using QRMSWeb.Utils
+@using QRMSWeb.Helper
+@using Newtonsoft.Json;
+
+@inject HttpClient _httpClient
+@inject IJSRuntime _jsRuntime
+
+<div class="modal fade bd-example-modal-xl" id="dialogUserProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="min-width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông tin người sử dụng</h5>
+                <button type="button" class="close" aria-label="Close" @onclick="OnCloseDialog1">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0px;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body contain-body-input-form">
+                                @if (loading)
+                                {
+                                    <div class="text-center">
+                                        Đang tải...
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form autocomplete="off">
+                                        <div class="row">
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Tài khoản (*)</label>
+                                                <div class="col-12">
+                                                    <input disabled class="form-control" type="text"
+                                                           value="@_userModel.USERNAME">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Họ và tên (*)</label>
+                                                <div class="col-12">
+                                                    <input disabled class="form-control" value="@_userModel.FULL_NAME" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Ngày sinh (*)</label>
+                                                <div class="input-group pjc-date-picker col-12"
+                                                     data-target-input="nearest">
+                                                    <input type="text" disabled autocomplete="off"
+                                                           class="form-control datetimepicker-input" data-target="#"
+                                                           id="aaa" placeholder="ngày/tháng/năm"
+                                                           value="@CommonUtils.GetDateVNFormated(_userModel.DOB)">
+                                                    <div class="input-group-append" data-target="#" data-toggle="datetimepicker">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Giới tính</label>
+                                                <div class="col-12">
+                                                    <input disabled class="form-control" value="@_userModel.GENDER_NAME" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Số CMND/CCCD (*)</label>
+                                                <div class="col-12">
+                                                    <input disabled class="form-control"
+                                                           value="@_userModel.IDENTITY_NO"
+                                                           type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Ngày cấp (*)</label>
+                                                <div class="input-group pjc-date-picker col-12"
+                                                     data-target-input="nearest">
+                                                    <input type="text" disabled autocomplete="off"
+                                                           class="form-control datetimepicker-input" data-target=""
+                                                           id="abv" placeholder="ngày/tháng/năm"
+                                                           value="@CommonUtils.GetDateVNFormated(_userModel.IDENTITY_ISSUE_DATE)">
+                                                    <div class="input-group-append" data-target="" data-toggle="datetimepicker">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Nơi cấp (*)</label>
+                                                <div class="col-12">
+                                                    <input disabled class="form-control"
+                                                           type="text"
+                                                           value="@_userModel.IDENTITY_ISSUE_OFFICE">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Điện thoại (*)</label>
+                                                <div class="col-12">
+                                                    <input disabled class="form-control" type="text"
+                                                           value="@_userModel.MOBILE">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label class="col-12 col-form-labelt label-input-form">Email (*)</label>
+                                                <div class="col-12">
+                                                    <input type="text" disabled class="form-control" value="@_userModel.EMAIL" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row btn-row">
+                    <div class="col-12 d-flex flex-row align-items-center justify-content-end">
+                        <div class="button-items">
+                            <button type="button" class="btn btn-warning waves-effect waves-light mr-0" @onclick="OnCloseDialog1">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+    [Parameter]
+    public int showCount { get; set; } = 0;
+    [Parameter]
+    public Func<Task> OnCloseDiaLog { get; set; }
+
+    public int showCountOld { get; set; } = 0;
+
+    private UserService _userService;
+    private UserModel _userModel = new UserModel();
+    private bool loading = true;
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            _userService = new UserService(_httpClient);
+        }
+        catch (Exception e)
+        {
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+        }
+    }
+
+    private async Task OnInitData()
+    {
+        try
+        {
+
+            _userModel = await AuthHelper.GetUser();
+
+            if (_userModel == null)
+            {
+                await AuthHelper.GetCurrentUserInf();
+                _userModel = (await AuthHelper.GetUser()) ?? new UserModel();
+
+                //throw new Exception("Không tìm thấy thông tin người sử dụng");
+            }
+
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+        }
+
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender || showCountOld != CommonUtils.ShowCountUserProfile)
+            {
+                if (AuthHelper.IsLogined)
+                {
+                    showCountOld = CommonUtils.ShowCountUserProfile;
+                    await OnInitData();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            await _jsRuntime.InvokeVoidAsync("closeModal", "dialogUserProfile");
+        }
+    }
+
+
+    private async Task OnCloseDialog1()
+    {
+
+        await _jsRuntime.InvokeVoidAsync("closeModal", "dialogUserProfile");
+        OnCloseDiaLog?.Invoke();
+    }
+
+
+}

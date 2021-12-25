@@ -1,0 +1,112 @@
+﻿@using QRMSWeb.Helper
+@using Newtonsoft.Json;
+
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
+@inject IJSRuntime _jsRuntime
+@inject NavigationManager _navigationManager
+@inject HttpClient _httpClient
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        //Task.Run(async() => {
+        //});
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (!_navigationManager.Uri.Contains("/auth/login"))
+            {
+                bool firstLoad = String.IsNullOrEmpty(AuthTokenInstance.Instance.GetToken());
+                var userString = await _localStorageService.GetItemAsync<string>("userLogin");
+
+                if (!string.IsNullOrEmpty(userString)) {
+                    AuthHelper.SetUser(JsonConvert.DeserializeObject<UserModel>(userString));
+                } else
+                {
+                    AuthHelper.SetUser(null);
+                    AuthHelper.IsLogined = false;
+                }
+
+
+                var accessToken = await _localStorageService.GetItemAsync<string>("accessToken");
+
+                AuthTokenInstance.Instance.SetToken(accessToken);
+
+                if (String.IsNullOrEmpty(accessToken))
+                {
+                    AuthHelper.IsLogined = false;
+                    AuthHelper.SetUser(null);
+                    _navigationManager.NavigateTo("/auth/login", true);
+                }
+                else
+                {
+
+                    if (!_navigationManager.Uri.Contains("/auth/login") && !String.IsNullOrEmpty(accessToken))
+                    {
+                        AuthHelper.IsLogined = true;
+
+                        await AuthHelper.GetCurrentUserInf();
+                        if (AuthHelper.GetUser() != null) {
+
+                            var userLogin = JsonConvert.SerializeObject(await AuthHelper.GetUser());
+                            await _localStorageService.SetItemAsync<string>("userLogin", userLogin);
+                        } else
+                        {
+                            await _localStorageService.SetItemAsync<string>("userLogin", "");
+                        }
+
+                        await _localStorageService.SetItemAsStringAsync("accessToken", AuthHelper.RefreshToken);
+
+                        AuthTokenInstance.Instance.SetToken(AuthHelper.RefreshToken);
+
+                        await validateAuthOnFunctionAction();
+                        if (firstLoad)
+                        {
+                            _navigationManager.NavigateTo(_navigationManager.Uri, true);
+                        }
+                    }
+
+
+                }
+            }
+            else
+            {
+                AuthTokenInstance.Instance.SetToken("");
+                AuthHelper.SetUser(null);
+                await _localStorageService.SetItemAsStringAsync("accessToken", "");
+            }
+            await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
+
+        }
+    }
+
+    private async Task validateAuthOnFunctionAction()
+    {
+        try
+        {
+
+
+            var curUrl = _navigationManager.Uri;
+            var curRoutes = _navigationManager.ToAbsoluteUri(curUrl).LocalPath.Split("/");
+            var function_name = ((curRoutes.Length > 1 ? curRoutes[1] : "") ?? "").ToLower().Trim();
+            var action_name = ((curRoutes.Length > 2 ? curRoutes[2] : "") ?? "").ToLower().Trim();
+            if (!AuthHelper.checkPermisionOnUrl(function_name, action_name))
+            {
+                throw new Exception("AccessDenied");
+            }
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
+
+
+}

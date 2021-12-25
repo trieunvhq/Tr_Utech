@@ -1,0 +1,556 @@
+@using QRMSWeb.Components.Common.TopBar
+@using QRMSWeb.Components.Features.Auth
+
+@using QRMSWeb.Helper;
+
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
+@inject IJSRuntime _jsRuntime
+@inject NavigationManager _navigationManager
+@inject HttpClient _httpClient
+
+<div class="topbar" style="white-space: nowrap;  width:100%;background-color: #007bff!important; height:50px">
+
+    <div class="topbar-left" style="">
+        <a href="index.html" class="logo">
+            <span>
+                <img src="/assets/images/logo_pjc_1.jpg" alt="" height="60">
+            </span>
+        </a>
+    </div>
+    <div class="row" style="height: 50px;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary text-white" id="main_navbar" style="height:50px; width:100% ">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a href="/Home" class="nav-link active text-white">
+                            <span> Trang chủ </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[]{"FT_040", "FT_041", "FT_042", "FT_043", "FT_044", "FT_045", "FT_046", "FT_047", "FT_048", "FT_049", "FT_050", "FT_051", "FT_052", "FT_053", "FT_054","FT_055", "FT_056", "FT_057","FT_058", "FT_059", "FT_060", "FT_061", "FT_062", "FT_063","FT_064", "FT_065", "FT_066","FT_067", "FT_068", "FT_069"}) ? "" : "d-none")">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Đơn bảo hiểm
+                        </a>
+                        <ul class="dropdown-menu ">
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[]{"FT_040", "FT_041", "FT_042", "FT_043", "FT_044", "FT_045", "FT_046", "FT_047", "FT_048"}) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>BH Xe cơ giới </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[]{"FT_040", "FT_041", "FT_042"}) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Ôtô bắt buộc </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_040","BF_0144") ? "" : "d-none")">
+                                                <a class="nav-link active" asp-controller="InsuranceContractVehicle" asp-action="Index">
+                                                    <span> Đơn BH chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_041","BF_0147") ? "" : "d-none")">
+                                                <a class="nav-link active" asp-controller="InsuranceContractVehicle" asp-action="Complete">
+                                                    <span> Đơn BH hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_042","BF_0151") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractVehicle/Reinstatement">
+                                                    <span> Đơn BH tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_043", "FT_044", "FT_045" }) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Vật chất ô tô </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_043","BF_0153") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractVehicleMaterial/Index">
+                                                    <span> Đơn BH chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_044","BF_0156") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractVehicleMaterial/Complete">
+                                                    <span> Đơn BH hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_045","BF_0160") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractVehicleMaterial/Reinstatement">
+                                                    <span> Đơn BH tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_046", "FT_047", "FT_048" }) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Xe máy bắt buộc </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_046","BF_0162") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractMotor/Index">
+                                                    <span> Đơn BH chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_047","BF_0165") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractMotor/Complete">
+                                                    <span> Đơn BH hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_048","BF_0169") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractMotor/Reinstatement">
+                                                    <span> Đơn BH tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_049", "FT_050", "FT_051", "FT_052", "FT_053", "FT_054","FT_055", "FT_056", "FT_057","FT_058", "FT_059", "FT_060" }) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>BH Du lịch</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_049", "FT_050", "FT_051" }) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Du lịch quốc tế </span>
+                                        </a>
+                                        <ul class="dropdown-menu ">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_049","BF_0171") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelInternational/Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_050","BF_0174") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelInternational/Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_051","BF_0178") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelInternational/Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_052", "FT_053", "FT_054" }) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Du lịch trong nước </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_052","BF_0180") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelDomestic/Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_053","BF_0183") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelDomestic/Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_054","BF_0187") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelDomestic/Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_055", "FT_056", "FT_057" }) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Du lịch người Việt Nam du lịch nước ngoài </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_055","BF_0189") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelVNOutAbroad/Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_056","BF_0192") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelVNOutAbroad/Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_057","BF_0196") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelVNOutAbroad/Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_058", "FT_059", "FT_060" }) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Du lịch người nước ngoài du lịch tại Việt Nam</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_058","BF_0198") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelForeignerInVN/Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_059","BF_0201") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelForeignerInVN/Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_060","BF_0205") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractTravelForeignerInVN/Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_061", "FT_062", "FT_063","FT_064", "FT_065", "FT_066" }) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>BH Sức khỏe</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_061", "FT_062", "FT_063" }) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Sức khỏe bệnh hiểm nghèo </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_061","BF_0207") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractHealthFatalDisease/Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_062","BF_0210") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractHealthFatalDisease/Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_063","BF_0214") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractHealthFatalDisease/Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_064", "BF_0219", "FT_066" }) ? "" : "d-none")">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Sức khỏe bệnh ung thư </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_064","BF_0216") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractHealthCancer/Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_065","BF_0219") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractHealthCancer/Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li class="@(AuthHelper.checkFunctionPermission("FT_066","BF_0223") ? "" : "d-none")">
+                                                <a class="nav-link active" href="/InsuranceContractHealthCancer/Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_067", "FT_068", "FT_069" }) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>BH Nhà tư nhân</span>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li class="@(AuthHelper.checkFunctionPermission("FT_067","BF_0225") ? "" : "d-none")">
+                                        <a class="nav-link active" href="/InsuranceContractPrivateHouse/Index">
+                                            <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                        </a>
+                                    </li>
+                                    <li class="@(AuthHelper.checkFunctionPermission("FT_068","BF_0228") ? "" : "d-none")">
+                                        <a class="nav-link active" href="/InsuranceContractPrivateHouse/Complete">
+                                            <span> Đơn bảo hiểm hoàn thành </span>
+                                        </a>
+                                    </li>
+                                    <li class="@(AuthHelper.checkFunctionPermission("FT_069","BF_0232") ? "" : "d-none")">
+                                        <a class="nav-link active" href="/InsuranceContractPrivateHouse/Reinstatement">
+                                            <span> Đơn bảo hiểm tái tục </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_070", "FT_071", "FT_072", "FT_073","FT_074", "FT_075","FT_076", "FT_077","FT_078", "FT_079", "FT_080", "FT_081", "FT_082", "FT_083","FT_084", "FT_085","FT_086", "FT_087" }) ? "" : "d-none")">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Quản lý phí bảo hiểm
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_070", "FT_071", "FT_072", "FT_073","FT_074", "FT_075","FT_076", "FT_077","FT_078", "FT_079" }) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span> Phí bảo hiểm xe cơ giới </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_070","BF_0234") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/CarInsFee/Index">
+                                            <span> Phí bảo hiểm TNDS bắt buộc Ô tô </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_071","BF_0239") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/AssetCarInsFee/Index">
+                                            <span> Phí bảo hiểm vật chất Ô tô </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_072","BF_0244") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/MotobikeInsFee/Index">
+                                            <span> Phí bảo hiểm TNDS bắt buộc Xe máy </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_073","BF_0249") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/TnvnAutoPsgrPrice/Index">
+                                            <span> Phí bảo hiểm tai nạn cho lái xe, phụ xe và người ngồi trên xe </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_074","BF_0254") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/CivilAccidentInsuranceFeeIncreasedLiability/Index">
+                                            <span> Phí Bảo Hiểm TNDS Tăng Thêm - Mức trách nhiệm </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_075","BF_0259") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/CivilAccidentInsuranceFeeIncreasedFeeRatio/Index">
+                                            <span> Phí Bảo Hiểm TNDS Tăng Thêm - Tỷ lệ phí </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_076","BF_0264") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/VehicleInsuranceFeeLiability/Index">
+                                            <span> Phí bảo hiểm hàng chủ xe với hàng hóa trên xe - Mức trách nhiệm </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_077","BF_0269") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/VehicleInsuranceFeePreInsForCarOwner/Index">
+                                            <span> Phí bảo hiểm hàng hóa trên xe cùng chủ </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_078","BF_0274") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/VehicleInsuranceFeeRatio/Index">
+                                            <span> Phí bảo hiểm TNDS đối với hàng hóa vận chuyển trên xe - Tỷ lệ phí </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_079","BF_0279") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/AdditionalTermFees/Index">
+                                            <span> Phí Điều Khoản Bổ Sung </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_080", "FT_081" }) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span> Phí bảo hiểm sức khoẻ </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_080","BF_0284") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/CancerInsFee/Index">
+                                            <span> Phí bảo hiểm bệnh ung thư </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_081","BF_0289") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/FatalInsFee/Index">
+                                            <span> Phí bảo hiểm bệnh hiểm nghèo </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_082", "FT_083","FT_084", "FT_085","FT_086" }) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span> Phí bảo hiểm du lịch </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_082","BF_0294") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/InternationalTravelInsProgram/Index">
+                                            <span> Gói bảo hiểm </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_083","BF_0298") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/TravelInternationalInsFee/Index">
+                                            <span> Phí bảo hiểm du lịch quốc tế </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_084","BF_0303") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/TravelDomesticInsFee/Index">
+                                            <span> Phí bảo hiểm du lịch trong nước </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_085","BF_0308") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/VietnamTravelForForeignerInsFee/Index">
+                                            <span> Phí bảo hiểm người Việt Nam du lịch nước ngoài </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_086","BF_0313") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/InternationalTravelForVietnameseInsFee/Index">
+                                            <span> Phí bảo hiểm người nước ngoài du lịch Việt Nam </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_087" }) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span> Phí bảo hiểm nhà </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_087","BF_0318") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/HomeInsFee/Index">
+                                            <span> Phí bảo hiểm nhà tư nhân </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_088", "FT_089","FT_090", "FT_091","FT_092", "FT_093" }) ? "" : "d-none")">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Báo cáo
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_088","BF_0323") ? "" : "d-none")">
+                                <a class="nav-link active " href="/ReportCustomerBuyVehicleInsurance/Index">
+                                    <span>Bảng kê thông tin Khách hàng mua bảo hiểm Ôtô </span>
+                                </a>
+                            </li>
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_089","BF_0324") ? "" : "d-none")">
+                                <a class="nav-link active " href="/ReportSellInsurance/Index">
+                                    <span>Báo cáo bán bảo hiểm </span>
+                                </a>
+                            </li>
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_090","BF_0325") ? "" : "d-none")">
+                                <a class="nav-link active " href="/ReportKetQuaKinhDoanhCuaDaiLy/Index">
+                                    <span>Báo cáo Kết quả kinh doanh dịch vụ Đại lý BH PJICO </span>
+                                </a>
+                            </li>
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_091","BF_0326") ? "" : "d-none")">
+                                <a class="nav-link active " href="/ReportBienBanDoiChieuPhiBaoHiem/Index">
+                                    <span>Biên bản đối chiếu phí bảo hiểm</span>
+                                </a>
+                            </li>
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_092","BF_0327") ? "" : "d-none")">
+                                <a class="nav-link active " href="/ReportDoanhThuBaoHiemDaiLy/Index">
+                                    <span>Doanh thu bảo hiểm đại lý</span>
+                                </a>
+                            </li>
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_093","BF_0328") ? "" : "d-none")">
+                                <a class="nav-link active " href="/ReportTHSLXuatBanBaoHiem/Index">
+                                    <span>Tổng hợp số liệu xuất bán bảo hiểm </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_094", "FT_095", "FT_096", "FT_097", "FT_098", "FT_099" }) ? "" : "d-none") ">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Quản lý thông tin tra cứu
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_094","BF_0329") ? "" : "d-none")">
+                                <a class="nav-link active " href="/LookupInsuranceContract/Index">
+                                    <span>Giấy chứng nhận </span>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item dropdown @(AuthHelper.checkFuncType(new string[] { "FT_095", "FT_096" }) ? "" : "d-none")">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>Gara </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_095","BF_0331") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/Garage/Index">
+                                            <span>Hãng Gara </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_096","BF_0335") ? "" : "d-none")">
+                                        <a class="nav-link active " href="/LookupGaraNetwork/Index">
+                                            <span>Mạng lưới Gara </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_097","BF_0339") ? "" : "d-none")">
+                                <a class="nav-link active " href="/LookupPjicoNetWork/Index">
+                                    <span>Mạng lưới PJICO </span>
+                                </a>
+                            </li>
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_098","BF_0341") ? "" : "d-none")">
+                                <a class="nav-link active " href="/LookupHealthFacilityNetwork/Index">
+                                    <span>Mạng lưới cơ sở y tế </span>
+                                </a>
+                            </li>
+                            <li class="nav-item @(AuthHelper.checkFunctionPermission("FT_099","BF_0345") ? "" : "d-none")">
+                                <a class="nav-link active " href="/LookupGasStationNetwork/Index" target="_blank">
+                                    <span>Mạng lưới cây xăng </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+            <!--
+            <div id="user">
+                <component type="typeof(TopBar)"
+                           render-mode="ServerPrerendered" />
+            </div>
+             -->
+        </nav>
+
+    </div>
+
+</div>
+<!--
+<component type="typeof(UserProfileDialogForm)" render-mode="ServerPrerendered" />
+<component type="typeof(ChangePasswordDialogForm)" render-mode="ServerPrerendered" />
+    -->
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        //Task.Run(async() => {
+        //});
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            /*
+            if (!_navigationManager.Uri.Contains("/auth/login"))
+            {
+
+                AuthHelper.IsLogined = true;
+                var accessToken = await _localStorageService.GetItemAsync<string>("accessToken");
+
+                AuthTokenInstance.Instance.SetToken(accessToken);
+
+                await AuthHelper.GetCurrentUserInf();
+                if (AuthHelper.GetUser() != null)
+                {
+
+                    var userLogin = JsonConvert.SerializeObject(await AuthHelper.GetUser());
+                    await _localStorageService.SetItemAsync<string>("userLogin", userLogin);
+                }
+                else
+                {
+                    await _localStorageService.SetItemAsync<string>("userLogin", "");
+                }
+
+
+            }
+            else
+            {
+                AuthHelper.SetUser(null);
+                await _localStorageService.SetItemAsStringAsync("accessToken", "");
+            }
+            */
+            await InvokeAsync(StateHasChanged);
+
+        }
+    }
+
+}

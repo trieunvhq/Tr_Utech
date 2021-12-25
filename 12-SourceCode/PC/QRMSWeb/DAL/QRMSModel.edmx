@@ -4,7 +4,146 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QRMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QRMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PurchaseOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseOrderNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PurchaseOrderDate" Type="datetime" />
+          <Property Name="ExportStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PrintStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="GetDataStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserCreate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserUpdate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PurchaseOrderItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseOrderID" Type="int" Nullable="false" />
+          <Property Name="PurchaseOrderNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PurchaseOrderDate" Type="date" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ItemType" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PrintStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserCreate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SaleOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SaleOrderNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SaleOrderDate" Type="datetime" />
+          <Property Name="ExportStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="GetDataStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserCreate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserUpdate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SaleOrderItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SaleOrderID" Type="int" Nullable="false" />
+          <Property Name="SaleOrderNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SaleOrderDate" Type="datetime" />
+          <Property Name="DeliveryDate" Type="datetime" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="200" />
+          <Property Name="LocationCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ItemType" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserCreate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TransferInstruction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransferOrderNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="InstructionDate" Type="datetime" />
+          <Property Name="GetDataStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TransferStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LocationCode_From" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName_From" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseCode_From" Type="nvarchar" MaxLength="50" />
+          <Property Name="WarehouseName_From" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseType_From" Type="char" MaxLength="1" />
+          <Property Name="LocationCode_To" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName_To" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseCode_To" Type="nvarchar" MaxLength="50" />
+          <Property Name="WarehouseName_To" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseType_To" Type="char" MaxLength="1" />
+          <Property Name="TransferType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="600" />
+          <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserCreate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TransferInstructionItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransferOrderID" Type="int" Nullable="false" />
+          <Property Name="TransferOrderNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="InstructionDate" Type="datetime" />
+          <Property Name="GetDataStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TransferStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LocationCode_From" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName_From" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseCode_From" Type="nvarchar" MaxLength="50" />
+          <Property Name="WarehouseName_From" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseType_From" Type="char" MaxLength="1" />
+          <Property Name="LocationCode_To" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName_To" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseCode_To" Type="nvarchar" MaxLength="50" />
+          <Property Name="WarehouseName_To" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseType_To" Type="char" MaxLength="1" />
+          <Property Name="TransferType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ItemType" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="600" />
+          <Property Name="RecordStatus" Type="char" MaxLength="1" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserCreate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
@@ -25,10 +164,15 @@
           <Property Name="UpdateUser" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="QRMSModelStoreContainer">
+          <EntitySet Name="PurchaseOrder" EntityType="Self.PurchaseOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseOrderItem" EntityType="Self.PurchaseOrderItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SaleOrder" EntityType="Self.SaleOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SaleOrderItem" EntityType="Self.SaleOrderItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransferInstruction" EntityType="Self.TransferInstruction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransferInstructionItem" EntityType="Self.TransferInstructionItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QRMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -53,7 +197,152 @@
         </EntityType>
         <EntityContainer Name="QRMSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="PurchaseOrders" EntityType="QRMSModel.PurchaseOrder" />
+          <EntitySet Name="PurchaseOrderItems" EntityType="QRMSModel.PurchaseOrderItem" />
+          <EntitySet Name="SaleOrders" EntityType="QRMSModel.SaleOrder" />
+          <EntitySet Name="SaleOrderItems" EntityType="QRMSModel.SaleOrderItem" />
+          <EntitySet Name="TransferInstructions" EntityType="QRMSModel.TransferInstruction" />
+          <EntitySet Name="TransferInstructionItems" EntityType="QRMSModel.TransferInstructionItem" />
         </EntityContainer>
+        <EntityType Name="PurchaseOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseOrderNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseOrderDate" Type="DateTime" Precision="3" />
+          <Property Name="ExportStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PrintStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GetDataStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PurchaseOrderItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseOrderID" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseOrderNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseOrderDate" Type="DateTime" Precision="0" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PrintStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SaleOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleOrderNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SaleOrderDate" Type="DateTime" Precision="3" />
+          <Property Name="ExportStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GetDataStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SaleOrderItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleOrderID" Type="Int32" Nullable="false" />
+          <Property Name="SaleOrderNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SaleOrderDate" Type="DateTime" Precision="3" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LocationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TransferInstruction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransferOrderNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InstructionDate" Type="DateTime" Precision="3" />
+          <Property Name="GetDataStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TransferStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LocationCode_From" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName_From" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseCode_From" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseName_From" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseType_From" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LocationCode_To" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseCode_To" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseName_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseType_To" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TransferType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TransferInstructionItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransferOrderID" Type="Int32" Nullable="false" />
+          <Property Name="TransferOrderNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InstructionDate" Type="DateTime" Precision="3" />
+          <Property Name="GetDataStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TransferStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LocationCode_From" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName_From" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseCode_From" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseName_From" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseType_From" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LocationCode_To" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseCode_To" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseName_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseType_To" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TransferType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="RecordStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -77,6 +366,151 @@
                 <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrders">
+            <EntityTypeMapping TypeName="QRMSModel.PurchaseOrder">
+              <MappingFragment StoreEntitySet="PurchaseOrder">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
+                <ScalarProperty Name="GetDataStatus" ColumnName="GetDataStatus" />
+                <ScalarProperty Name="PrintStatus" ColumnName="PrintStatus" />
+                <ScalarProperty Name="ExportStatus" ColumnName="ExportStatus" />
+                <ScalarProperty Name="PurchaseOrderDate" ColumnName="PurchaseOrderDate" />
+                <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrderItems">
+            <EntityTypeMapping TypeName="QRMSModel.PurchaseOrderItem">
+              <MappingFragment StoreEntitySet="PurchaseOrderItem">
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
+                <ScalarProperty Name="PrintStatus" ColumnName="PrintStatus" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="PurchaseOrderDate" ColumnName="PurchaseOrderDate" />
+                <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+                <ScalarProperty Name="PurchaseOrderID" ColumnName="PurchaseOrderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleOrders">
+            <EntityTypeMapping TypeName="QRMSModel.SaleOrder">
+              <MappingFragment StoreEntitySet="SaleOrder">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
+                <ScalarProperty Name="GetDataStatus" ColumnName="GetDataStatus" />
+                <ScalarProperty Name="ExportStatus" ColumnName="ExportStatus" />
+                <ScalarProperty Name="SaleOrderDate" ColumnName="SaleOrderDate" />
+                <ScalarProperty Name="SaleOrderNo" ColumnName="SaleOrderNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleOrderItems">
+            <EntityTypeMapping TypeName="QRMSModel.SaleOrderItem">
+              <MappingFragment StoreEntitySet="SaleOrderItem">
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="SaleOrderDate" ColumnName="SaleOrderDate" />
+                <ScalarProperty Name="SaleOrderNo" ColumnName="SaleOrderNo" />
+                <ScalarProperty Name="SaleOrderID" ColumnName="SaleOrderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransferInstructions">
+            <EntityTypeMapping TypeName="QRMSModel.TransferInstruction">
+              <MappingFragment StoreEntitySet="TransferInstruction">
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TransferType" ColumnName="TransferType" />
+                <ScalarProperty Name="WarehouseType_To" ColumnName="WarehouseType_To" />
+                <ScalarProperty Name="WarehouseName_To" ColumnName="WarehouseName_To" />
+                <ScalarProperty Name="WarehouseCode_To" ColumnName="WarehouseCode_To" />
+                <ScalarProperty Name="LocationName_To" ColumnName="LocationName_To" />
+                <ScalarProperty Name="LocationCode_To" ColumnName="LocationCode_To" />
+                <ScalarProperty Name="WarehouseType_From" ColumnName="WarehouseType_From" />
+                <ScalarProperty Name="WarehouseName_From" ColumnName="WarehouseName_From" />
+                <ScalarProperty Name="WarehouseCode_From" ColumnName="WarehouseCode_From" />
+                <ScalarProperty Name="LocationName_From" ColumnName="LocationName_From" />
+                <ScalarProperty Name="LocationCode_From" ColumnName="LocationCode_From" />
+                <ScalarProperty Name="TransferStatus" ColumnName="TransferStatus" />
+                <ScalarProperty Name="GetDataStatus" ColumnName="GetDataStatus" />
+                <ScalarProperty Name="InstructionDate" ColumnName="InstructionDate" />
+                <ScalarProperty Name="TransferOrderNo" ColumnName="TransferOrderNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransferInstructionItems">
+            <EntityTypeMapping TypeName="QRMSModel.TransferInstructionItem">
+              <MappingFragment StoreEntitySet="TransferInstructionItem">
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="TransferType" ColumnName="TransferType" />
+                <ScalarProperty Name="WarehouseType_To" ColumnName="WarehouseType_To" />
+                <ScalarProperty Name="WarehouseName_To" ColumnName="WarehouseName_To" />
+                <ScalarProperty Name="WarehouseCode_To" ColumnName="WarehouseCode_To" />
+                <ScalarProperty Name="LocationName_To" ColumnName="LocationName_To" />
+                <ScalarProperty Name="LocationCode_To" ColumnName="LocationCode_To" />
+                <ScalarProperty Name="WarehouseType_From" ColumnName="WarehouseType_From" />
+                <ScalarProperty Name="WarehouseName_From" ColumnName="WarehouseName_From" />
+                <ScalarProperty Name="WarehouseCode_From" ColumnName="WarehouseCode_From" />
+                <ScalarProperty Name="LocationName_From" ColumnName="LocationName_From" />
+                <ScalarProperty Name="LocationCode_From" ColumnName="LocationCode_From" />
+                <ScalarProperty Name="TransferStatus" ColumnName="TransferStatus" />
+                <ScalarProperty Name="GetDataStatus" ColumnName="GetDataStatus" />
+                <ScalarProperty Name="InstructionDate" ColumnName="InstructionDate" />
+                <ScalarProperty Name="TransferOrderNo" ColumnName="TransferOrderNo" />
+                <ScalarProperty Name="TransferOrderID" ColumnName="TransferOrderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

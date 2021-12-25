@@ -26,5 +26,11 @@ namespace DAL
         }
     
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual DbSet<PurchaseOrderItem> PurchaseOrderItems { get; set; }
+        public virtual DbSet<SaleOrder> SaleOrders { get; set; }
+        public virtual DbSet<SaleOrderItem> SaleOrderItems { get; set; }
+        public virtual DbSet<TransferInstruction> TransferInstructions { get; set; }
+        public virtual DbSet<TransferInstructionItem> TransferInstructionItems { get; set; }
     }
 }

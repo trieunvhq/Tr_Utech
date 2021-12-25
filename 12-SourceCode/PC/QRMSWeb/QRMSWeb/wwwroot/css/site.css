@@ -1,6 +1,7 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. 
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@600&display=swap');
+    */
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -11,11 +12,22 @@ a.navbar-brand {
 a {
   color: #0366d6;
 }
-
+.colorpicker-element .input-group-addon i {
+    height: 20px !important;
+    width: 20px !important;
+}
+.colorpicker {
+    z-index: 9999 !important;
+}
+.form-detail {
+    min-height: 70vh !important;
+}
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+	padding-top: 3px !important;
+	padding-bottom: 3px !important;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -61,6 +73,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  font-size:1rem !important;
 }
 .footer {
   position: absolute;
@@ -68,4 +81,255 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+/* Global custom styles
+-------------------------------------------------- */
+.table-action-button {
+  width: 27px;
+  height: 27px;
+}
+
+.content-tab {
+    margin-top: 25px;
+}
+
+select {
+    text-overflow: ellipsis;
+}
+
+
+.btn-group-sm > .btn, .btn-sm {
+    padding: 0 !important;
+    margin-top: 2px !important;
+    font-size: .875rem !important;
+    line-height: 1.5 !important;
+    border-radius: 0.2rem !important;
+}
+
+/*Table*/
+table {
+    /*width: 100%;*/
+	table-layout: fixed;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    border: 1px solid #DEE2E6;
+}
+
+thead {
+   /*display: table; /* to take the same width as tr */
+    /*width: calc(100% - 17px); /* - 17px because of the scrollbar width */
+}
+
+tbody {
+   /* display: block; /* to enable vertical scrolling */
+    /*max-height: 200px;  e.g. */
+   /*overflow: auto; /* keeps the scrollbar even if it doesn't need it; display purpose */
+}
+
+
+tr {
+    /*display: table; /* display purpose; th's border */
+   /* width: 100%;*/
+   /* box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
+   
+}
+
+td {
+    /*text-align: center;*/
+    vertical-align: middle !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+thead>tr {
+    height:40px;
+    background-color:gainsboro;
+}
+
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 3px !important;
+}
+
+h4, h4 {
+    font-size: 1.5rem;
+	margin-left: 0px;
+	padding-top: 0px;
+}
+
+.btn-row {
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.button-items .btn {    
+    padding-bottom: 3px !important;
+    padding-top: 3px !important;
+}
+
+
+.col-form-label {
+    padding-top: calc(0.375rem + 1px);
+    padding-bottom: calc(0.375rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5;
+    padding-left: 15px !important;
+    padding-right: 5px !important;
+}
+.label-input-form {
+	margin-bottom: 1px;
+}
+.col-form-labelt {
+	padding-right:0px !important;
+}
+.search-date-label-after {
+	margin-left: -30px !important;
+}
+/*
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	padding-left: 3px !important;
+    padding-right: 0px !important;
+}
+*/
+
+.page-title-box {
+    background: url(/assets/images/bg.jpg);
+    margin: 0 -30px 23px -30px;
+    padding: 10px 30px 100px 20px;
+    box-shadow: 0 2px 3px rgb(0 0 0 / 8%);
+    color: #ffffff;
+    background-size: cover;
+}
+.page-content-wrapper {
+    margin-top: -118px;
+    margin-left: -30px;
+    margin-right: -30px;
+}
+.form-group {
+    margin-bottom: 0.15rem !important;
+    margin-top: 0.15rem !important;
+}
+
+.space_search_area {
+	margin-bottom: -1.5rem;
+}
+
+.contain_body {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+.search-row-input {
+    margin-right: -60px !important;
+    margin-left: 0px !important;
+}
+
+.search-body-form {
+	margin-right: -17px;
+}
+.contain-body-form {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.contain-body-input-form {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.search-date-row {
+	padding-left: 153px;
+    margin: 0px;
+    padding-right: 0px;
+}
+.control-label-date-seach {
+	    margin-top: -16px !important;
+}
+.label-date-to {
+	padding-left: 41px;
+}
+
+.title-p-item-1 {
+	font-size: 1.2rem;
+    color: dodgerblue;
+        margin-left: 2.4rem;
+    margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
+}
+.title-p-item-2 {
+	font-size: 1.3rem;
+    color: dodgerblue;
+	margin-left: 2.4rem;
+    margin-bottom: -0.75rem;
+    margin-top: 0.5rem;
+}
+
+p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.form-control {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 1 !important;
+    height: 30px !important;
+}
+
+.col-form-label {
+    line-height: 1 !important;
+}
+.pjc-date-picker {
+    /* margin-top: 8px;*/
+}
+select.form-control:not([size]):not([multiple]) {
+    height: 2rem !important;
+}
+.text-area-form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.text-area-form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+.submenu > li > a {
+    padding-left: 40px !important;
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+    font-size: 13px !important;
 }

@@ -160,8 +160,9 @@ namespace HDLIB
         /// </summary>
         /// <param name="self"></param>
         /// <param name="parent"></param>
-        public static void CopyPropertiesFrom(this object self, object parent)
+        public static void CopyPropertiesFrom(this object self, object parent, bool hasCopyNullValue = false)
         {
+            if (self == null || parent == null) { return; }
             var fromProperties = parent.GetType().GetProperties();
             var toProperties = self.GetType().GetProperties();
 
@@ -172,15 +173,87 @@ namespace HDLIB
                     if (fromProperty.Name == toProperty.Name && fromProperty.PropertyType == toProperty.PropertyType)
                     {
                         var parentVal = fromProperty.GetValue(parent);
-                        if (parentVal == null)
+                        if (!hasCopyNullValue && parentVal == null)
                         {
-                            break;
+                           break;
                         }
-                        toProperty.SetValue(self,parentVal);
+                        toProperty.SetValue(self, parentVal);
                         break;
                     }
                 }
             }
+        }
+
+        public static string Dump(this object self)
+        {
+            var fromProperties = self.GetType().GetProperties();
+
+            string dump = "";
+
+            foreach (var fromProperty in fromProperties)
+            {
+                var value = fromProperty.GetValue(self);
+                dump += $"{fromProperty}: {value} \n";
+            }
+            return dump;
+        }
+
+
+        public static void CopyPropertiesFrom(this object self, object parent,string prefix,string subfix)
+        {
+            if (self == null || parent == null) { return; }
+            var fromProperties = parent.GetType().GetProperties();
+            var toProperties = self.GetType().GetProperties();
+
+            foreach (var fromProperty in fromProperties)
+            {
+                    string fromFixed = $"{prefix}{fromProperty.Name}{subfix}";
+                foreach (var toProperty in toProperties)
+                {
+                    if (fromFixed == toProperty.Name && fromProperty.PropertyType == toProperty.PropertyType)
+                    {
+                        var parentVal = fromProperty.GetValue(parent);
+                        if (parentVal == null)
+                        {
+                            break;
+                        }
+                        toProperty.SetValue(self, parentVal);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public static void CopyPropertiesFromWithPreSubFixTo(this object self, object parent, string prefix, string subfix)
+        {
+            var fromProperties = parent.GetType().GetProperties();
+            var toProperties = self.GetType().GetProperties();
+
+            foreach (var fromProperty in fromProperties)
+            {
+                
+                foreach (var toProperty in toProperties)
+                {
+                    string fromFixed = $"{prefix}{toProperty.Name}{subfix}";
+                    if (fromFixed == fromProperty.Name && fromProperty.PropertyType == toProperty.PropertyType)
+                    {
+                        var parentVal = fromProperty.GetValue(parent);
+                        if (parentVal == null)
+                        {
+                            break;
+                        }
+                        toProperty.SetValue(self, parentVal);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public static T CopyPropertiesTo<T>(this object self, bool hasCopyNullValue = false) where T:class,new()
+        {
+            T child = new T();
+            child.CopyPropertiesFrom(self, hasCopyNullValue);
+            return child;
         }
 
         public static void MatchPropertiesFrom(this object self, object parent)
@@ -239,7 +312,31 @@ namespace HDLIB
                 }
             }
         }
-        
+
+        public static T CopyNonNullProperty<T>(this object self, T other) where T : class, new()
+        {
+            var fromProperties = self.GetType().GetProperties();
+            
+            foreach (var fromProperty in fromProperties)
+            {
+                var value = fromProperty.GetValue(self);
+
+                if (value != null)
+                {
+                    other.GetType().GetProperty(fromProperty.Name)?.SetValue(other, value); 
+                }
+            }
+
+            return other;
+        }
+
+        public static T MatchPropertiesTo<T>(this object self) where T : class,new()
+        {
+            T child = new T();
+            child.MatchPropertiesFrom(self);
+            return child;
+        }
+
         public static string AssignIfNullOrEmpty(this string Value, string AssignValue)
         {
             return string.IsNullOrEmpty(Value) ? AssignValue : Value;

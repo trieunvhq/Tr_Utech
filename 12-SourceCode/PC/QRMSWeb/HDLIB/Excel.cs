@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 using OfficeOpenXml;
 using ClosedXML.Excel;
 using System.Timers;
+using HDLIB.Common;
 
 namespace HDLIB
 {
@@ -186,7 +184,7 @@ namespace HDLIB
                 }
                 catch (Exception ex)
                 {
-                    HDLIB.Logging.LogError(ex);
+                    Logging.LogError(ex);
                     xlsxFile = string.Empty;
                 }
                 finally
@@ -207,7 +205,7 @@ namespace HDLIB
             }
             catch (Exception ex)
             {
-                HDLIB.Logging.LogError(ex);
+                Logging.LogError(ex);
                 return string.Empty;
             }
         }
@@ -266,7 +264,7 @@ namespace HDLIB
             }
             catch (Exception ex)
             {
-                HDLIB.Logging.LogError(ex);
+                Logging.LogError(ex);
                 return false;
             }
         }
@@ -312,7 +310,7 @@ namespace HDLIB
             }
             catch (Exception ex)
             {
-                HDLIB.Logging.LogError(ex);
+                Logging.LogError(ex);
                 return null;
             }
         }
@@ -341,7 +339,7 @@ namespace HDLIB
             }
             catch (Exception ex)
             {
-                HDLIB.Logging.LogError(ex);
+                Logging.LogError(ex);
                 return null;
             }
         }
@@ -396,7 +394,7 @@ namespace HDLIB
             }
             catch (Exception ex)
             {
-                HDLIB.Logging.LogError(ex);
+                Logging.LogError(ex);
             }
             finally
             {

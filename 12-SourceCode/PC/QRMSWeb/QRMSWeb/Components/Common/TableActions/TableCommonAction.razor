@@ -1,0 +1,105 @@
+﻿<div class="d-flex align-items-center">
+    @if (ShowDetail)
+    {
+        <button @onclick="OnClickDetail" type="button"
+                class="btn btn-sm btn-outline-success waves-effect waves-light mr-2 table-action-button !important"
+                data-toggle="tooltip" data-placement="bottom" title="Xem chi tiết">
+            <span>
+                <i style="font-size: 18px;" class="mdi mdi-menu"></i>
+            </span>
+        </button>
+    }
+
+    @if (ShowEdit)
+    {
+        <button @onclick="OnClickUpdate" type="button"
+                class="btn btn-sm btn-outline-primary waves-effect waves-light mr-2 table-action-button"
+                data-toggle="tooltip" data-placement="bottom" title="Cập nhật">
+            <span>
+                <i style="font-size: 16px;" class="mdi mdi-square-edit-outline"></i>
+            </span>
+        </button>
+    }
+    @if (ShowDelete)
+    {
+        <button @onclick="OnClickDelete" type="button"
+                class="btn btn-sm btn-outline-danger waves-effect waves-light mr-2 table-action-button"
+                data-toggle="tooltip" data-placement="bottom" title="Xóa">
+            <span>
+                <i style="font-size: 16px;" class="mdi mdi mdi-delete"></i>
+            </span>
+        </button>
+    }
+    @if (ShowRenewals)
+    {
+        <button @onclick="OnClickRenewals" type="button"
+                class="btn btn-sm btn-outline-primary waves-effect waves-light mr-2 table-action-button"
+                data-toggle="tooltip" data-placement="bottom" title="Tái tục">
+            <span>
+                <i style="font-size: 16px;" class="mdi mdi-recycle"></i>
+            </span>
+        </button>
+    }
+    <!--
+    @if (ShowLock)
+    {
+        <button @onclick="OnClickLock" type="button"
+                class="btn btn-sm btn-outline-primary waves-effect waves-light mr-2 table-action-button"
+                data-toggle="tooltip" data-placement="bottom" title="Khóa">
+            <span>
+                <i style="font-size: 16px; color:blue;" class="mdi mdi-lock-open-outline"></i>
+            </span>
+        </button>
+    }
+    @if (ShowUnlock)
+    {
+        <button @onclick="OnClickUnlock" type="button"
+                class="btn btn-sm btn-outline-primary waves-effect waves-light mr-2 table-action-button"
+                data-toggle="tooltip" data-placement="bottom" title="Mở khóa">
+            <span>
+                <i style="font-size: 16px;color:black;" class="mdi mdi-lock-outline"></i>
+            </span>
+        </button>
+    }
+    -->
+</div>
+
+@code {
+
+    [Parameter]
+    public bool ShowDetail { get; set; } = true;
+
+    [Parameter]
+    public bool ShowEdit { get; set; } = true;
+
+    [Parameter]
+    public bool ShowDelete { get; set; } = true;
+
+    [Parameter]
+    public bool ShowRenewals { get; set; } = false;
+
+    [Parameter]
+    public bool ShowLock { get; set; } = false;
+
+    [Parameter]
+    public bool ShowUnlock { get; set; } = false;
+
+    [Parameter]
+    public Action OnClickDetail { get; set; }
+
+    [Parameter]
+    public Action OnClickUpdate { get; set; }
+
+    [Parameter]
+    public Action OnClickDelete { get; set; }
+
+    [Parameter]
+    public Action OnClickRenewals { get; set; }
+
+    [Parameter]
+    public Action OnClickLock { get; set; }
+
+    [Parameter]
+    public Action OnClickUnlock { get; set; }
+
+}

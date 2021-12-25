@@ -1,0 +1,42 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <!--
+    <h4 class="page-title">@Title</h4>
+        -->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">Trang chủ</a>
+                </li>
+                @for (int index = 0; index < levels?.Count; index++)
+                {
+                    <li class="breadcrumb-item @getActiveClassName(index)">
+                        <a href="@levels[index].path">@levels[index].name</a>
+                    </li>
+                }
+            </ol>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public List<BreadcrumbLevel> levels { get; set; }
+
+    private string getActiveClassName(int index)
+    {
+        string className = "";
+
+        if (index == levels.Count - 1)
+        {
+            className = "active";
+        }
+
+        return className;
+    }
+
+}

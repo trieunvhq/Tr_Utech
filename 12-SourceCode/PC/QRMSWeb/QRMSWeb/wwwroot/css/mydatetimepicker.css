@@ -1,0 +1,66 @@
+﻿/*
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" / >
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" >
+*/
+
+// solution 1:
+
+.pjc-date-picker {
+    font-size: 0.875em;
+}
+.pjc-date-time-picker {
+    font-size: 0.875em;
+}
+.datepicker-dropdown {
+    z-index: -9999;
+}
+input:read-only {
+    background-color: #FFF !important;
+}
+input[type=text]:disabled {
+    background: #e9ecef !important;
+}
+/* solution 2: the original pjc-date-picker use 20px so replace with the following:*/
+.datepicker td, .datepicker th {
+    width: 1em;
+    height: 1em;
+}
+.datepicker td, .datepicker th {
+    width: 1em;
+    height: 1em;
+}
+
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    width: 410px !important;
+    /*height: 280px !important;*/
+    display: inline-block !important;
+}
+    
+.input-group.date .dropdown-menu {
+    display: block;
+}
+.bootstrap-datetimepicker-widget table td.active.today:before {
+    border-bottom-color: #ffd800 !important;
+    background-color: goldenrod !important;
+    background: #FF7F32 !important;
+}
+
+.bootstrap-datetimepicker-widget table td.today:before {
+    content: '';
+    display: inline-block;
+    border: solid transparent;
+    border-width: 0 0 7px 7px;
+    border-bottom-color: #ff0000 !important;
+    border-top-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+}
+
+.datepicker,
+.table-condensed {
+    width: 400px !important;
+    /* height: 400px !important;*/
+}

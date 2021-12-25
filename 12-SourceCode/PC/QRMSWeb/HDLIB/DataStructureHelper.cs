@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace WinFormAPI
+namespace HDLIB
 {
     public class DataStructureHelper
     {
@@ -21,19 +21,6 @@ namespace WinFormAPI
             writer.Close();
             writer.Dispose();
         }
-
-        //public static void SaveObjectToXmlFileStream(string filePath, Type objectType, object obj)
-        //{
-        //    // Create an instance of the XmlSerializer class;
-        //    // specify the type of object to serialize.
-        //    XmlSerializer serializer =
-        //    new XmlSerializer(objectType);
-        //    FileStream fs = new FileStream();
-        //    TextWriter writer = new StreamWriter(filePath);
-        //    serializer.Serialize(writer, obj);
-        //    writer.Close();
-        //    writer.Dispose();
-        //}
 
         public static object LoadObjectFromXmlFile(string filePath, Type objectType)
         {

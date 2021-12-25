@@ -1,0 +1,36 @@
+﻿
+@using QRMSWeb.Components.Features.Auth
+@using QRMSWeb.Helper;
+@using QRMSWeb.Components.Common.AuthWrapper
+
+@using Newtonsoft.Json;
+
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
+@inject IJSRuntime _jsRuntime
+@inject NavigationManager _navigationManager
+@inject HttpClient _httpClient
+
+
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        //Task.Run(async() => {
+        //});
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            
+            await InvokeAsync(StateHasChanged);
+
+        }
+    }
+
+}

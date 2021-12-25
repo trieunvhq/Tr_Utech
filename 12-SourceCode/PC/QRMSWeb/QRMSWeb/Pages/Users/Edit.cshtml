@@ -1,0 +1,15 @@
+﻿@using QRMSWeb.Components.Features.Users
+@{
+    ViewData["Title"] = "Cập nhật tài khoản";
+    ViewBag.AccountID = ViewContext.RouteData.Values["id"];
+
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <component type="typeof(UserForm)"
+                   param-AccountID="@(ViewBag.AccountID)"
+                   param-IsUpdate="@(true)"
+                   render-mode="ServerPrerendered"/>
+    </div>
+</div>

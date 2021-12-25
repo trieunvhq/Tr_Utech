@@ -1,0 +1,416 @@
+/*
+ Template Name: Agroxa - Responsive Bootstrap 4 Admin Dashboard
+ Author: Themesbrand
+ Website: www.themesbrand.com
+ File: Main Css File
+*/
+/* ============
+TABLES OF CSS
+---------------
+
+01. General
+02. Bootstrap-custom
+03. Helper
+04. Waves Effect
+05. Menu
+06. Buttons
+07. Cards
+08. Email
+09. Summernote
+10. Alerts
+11. Demo Only
+12. Pagination
+13. Progress
+14. Popover - Tooltips
+15. Sweet Alerts
+16. Tabs
+17. Form-elements
+18. Form-validation
+19. Form-advanced
+20. Form-editors
+21. Form-upload
+22. Calendar
+23. Tables
+24. Maps
+25. Range-slider
+26. Session-timeout
+27. Charts
+28. Widgets
+29. TImeline
+30. Directory
+31. Invoice
+32. Account Pages
+33. Dashboard Page
+34. Responsive
+
+
+*/
+/*
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+    */
+@import url("../fonts/fonts.googleapis.com/css.css");
+/* ======
+01. General
+   ====== */
+/* ==============
+  General
+===================*/
+body {
+  background-repeat: repeat;
+  background: #f3f3f3;
+  font-family: "Roboto", sans-serif;
+  color: #5b626b;
+  font-size: 13.5px; }
+
+html {
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100%; }
+
+h1, h2, h3 {
+  margin: 10px 0; }
+
+p {
+  line-height: 1.7; }
+
+a {
+  color: #949a9e; }
+  a:hover {
+    outline: 0;
+    text-decoration: none; }
+  a:active {
+    outline: 0;
+    text-decoration: none; }
+  a:focus {
+    outline: 0;
+    text-decoration: none; }
+
+.footer {
+  bottom: 0;
+  text-align: center;
+  padding: 20px 30px;
+  position: absolute;
+  right: 0;
+  left: 240px;
+  background-color: #fafafa;
+  box-shadow: 0px -1px 2px 0px rgba(0, 0, 0, 0.05); }
+
+/* Social */
+
+/* ======
+02. Bootstrap-custom
+   ====== */
+/* ==============
+  Bootstrap-custom
+===================*/
+
+.bg-white {
+  background-color: #ffffff !important; }
+
+.text-danger {
+  color: #f16c69 !important; }
+
+.text-muted {
+  color: #949a9e !important; }
+
+.text-dark {
+  color: #2a3142 !important; }
+
+/* ======
+03. Helper
+   ====== */
+/* ==============
+  Helper Classes
+===================*/
+
+/* ======
+04. Waves Effect
+   ====== */
+/* ==============
+  Waves Effect
+===================*/
+/*!
+ * Waves v0.7.6
+ * http://fian.my.id/Waves 
+ * 
+ * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
+ * Released under the MIT license 
+ * https://github.com/fians/Waves/blob/master/LICENSE */
+
+/* ======
+05. Menu
+   ====== */
+/* Metis Menu css */
+
+/* Footer */
+.footer {
+  border-top: 1px solid rgba(148, 154, 158, 0.2);
+  bottom: 0;
+  text-align: center !important;
+  padding: 19px 30px 20px;
+  position: absolute;
+  right: 0;
+  left: 240px;
+  color: #949a9e; }
+
+/* Notification */
+
+/************* page title *************/
+
+/************* dark sidebar *************/
+
+/************* layouts sidebar user *************/
+
+/************* small sidebar *************/
+
+/************* page title white *************/
+
+/* ======
+06. Buttons
+   ====== */
+/* ==============
+  Buttons
+===================*/
+
+button:focus {
+  outline: none; }
+
+/* button Outline */
+
+/* ======
+07. Cards
+   ====== */
+
+/* ======
+08. Email
+   ====== */
+/* ==============
+  Email
+===================*/
+
+/* ======
+09. Summernote
+   ====== */
+/* ==============
+  Summernote
+===================*/
+
+/* ======
+10. Alerts
+   ====== */
+/* =============
+   Alerts
+============= */
+
+/* ======
+11. Demo Only
+   ====== */
+/* ==============
+ Demo Only css
+===================*/
+
+/* ======
+12. Pagination
+   ====== */
+/* ==============
+  Pagination
+===================*/
+
+/* ======
+13. Progress
+   ====== */
+
+/* ======
+14. Popover - Tooltips
+   ====== */
+/* ==============
+  Popover & Tooltips
+===================*/
+
+/* ======
+15. Sweet Alerts
+   ====== */
+/* =========== */
+/* Sweet Alert */
+/* =========== */
+
+/* ======
+16. Tabs
+   ====== */
+/* =============
+   Tabs & Accordions
+============= */
+
+/* ======
+17. Form-elements
+   ====== */
+/* ==============
+  Form-elements
+===================*/
+
+/* ======
+18. Form-validation
+   ====== */
+/* ==============
+  Form-Validation
+===================*/
+.error {
+  color: #ff0000; }
+
+/* ======
+19. Form-advanced
+   ====== */
+/* ==============
+  Form-Advanced
+===================*/
+/* Datepicker */
+
+/* Bootstrap-touchSpin */
+
+/* Color Picker */
+
+/* md date Picker */
+
+/* Select 2 */
+
+/* CSS Switch */
+
+/* Bootstrap filestyle */
+
+/* Bootstrap Touchspin */
+
+/* Prism editor */
+
+/* ======
+20. Form-editors
+   ====== */
+/* ==============
+  Form Editor
+===================*/
+
+/* ======
+21. Form-upload
+   ====== */
+/* ==============
+  Form-Upload
+===================*/
+/* Dropzone */
+
+/* ======
+22. Calendar
+   ====== */
+/* ==============
+  Calendar
+===================*/
+
+/* ======
+23. Tables
+   ====== */
+/* ==============
+  Tables
+===================*/
+
+/* == Responsive Table ==*/
+
+/* ======
+24. Maps
+   ====== */
+/* ==============
+  Maps
+===================*/
+
+/* ======
+25. Range-slider
+   ====== */
+/* ==============
+  Range slider
+===================*/
+
+/* ======
+26. Session-timeout
+   ====== */
+/* ==============
+  Session Timeout
+===================*/
+
+/* ======
+27. Charts
+   ====== */
+/* ==============
+  Charts
+===================*/
+
+/* Morris chart */
+
+/* Flot chart */
+
+/* Chartist chart */
+
+/* C3 chart */
+
+/* Sparkline chart */
+
+/* ======
+28. Widgets
+   ====== */
+/* ==============
+  Widgets
+===================*/
+
+/* ======
+29. TImeline
+   ====== */
+/* ==============
+  Timeline
+===================*/
+/* Activity */
+
+/* Timeline */
+
+/* ======
+30. Directory
+   ====== */
+
+/* ======
+31. Invoice
+   ====== */
+/* ==== =====
+Invoice
+============= */
+
+/* ==============
+  Print css
+===================*/
+@media print {
+   .footer {
+    display: none; }
+  .content {
+    margin-top: 0;
+    padding-top: 0; } }
+
+/* ======
+32. Account Pages
+   ====== */
+/* ==============
+  Account Pages
+===================*/
+
+/* ======
+33. Dashboard Page
+   ====== */
+
+/* ======
+34. Responsive
+   ====== */
+
+@media (min-width: 768px) and (max-width: 991px) {
+  body {
+    overflow-x: hidden; } }
+
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden; }
+  .footer {
+    left: 0 !important; } }
+
+/*# sourceMappingURL=style.css.map */

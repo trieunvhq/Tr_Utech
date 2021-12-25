@@ -1,0 +1,309 @@
+﻿@using QRMSWeb.Components.Common.Breadcrumb
+@using QRMSWeb.Services
+@using QRMSWeb.Models
+@using QRMSWeb.Utils
+@using QRMSWeb.Helper
+@using System.Text.RegularExpressions
+@using QRMSWeb.Constants
+
+@using Newtonsoft.Json
+@inject NavigationManager UriHelper
+@inject HttpClient _httpClient
+@inject IJSRuntime _jsRuntime
+
+<Breadcrumb Title="Cập nhật tài khoản" levels="@Levels" />
+
+<div class="page-content-wrapper">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body contain-body-input-form">
+                    @if (loading)
+                    {
+                        <div class="text-center">
+                            Đang tải...
+                        </div>
+                    }
+                    else
+                    {
+                        <form @onsubmit:preventDefault @onsubmit="@OnSubmitForm" autocomplete="off">
+                            <div class="row">
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Tài khoản (*)</label>
+                                    <div class="col-12">
+                                        <input class="form-control" type="text" disabled
+                                               @bind="_UserModel.USERNAME"
+                                               autocomplete="off"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Họ và tên (*)</label>
+                                    <div class="col-12">
+                                        <input class="form-control"
+                                               autocomplete="off"
+                                               @bind="_UserModel.FULL_NAME"
+                                               type="text" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Ngày sinh (*)</label>
+                                    <div class="input-group pjc-date-picker col-12"
+                                         id="birthdayDate21" data-target-input="nearest">
+                                        <input type="text" autocomplete="off"
+                                               class="form-control datetimepicker-input" data-target="#birthdayDate21"
+                                               id="birthdayDate" placeholder="ngày/tháng/năm"
+                                               value="@CommonUtils.GetDateVNFormated(_UserModel.DOB)">
+                                        <div class="input-group-append" data-target="#birthdayDate21" data-toggle="datetimepicker">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Giới tính (*)</label>
+                                    <div class="col-12">
+                                        <select @bind="_UserModel.GENDER_ID" class="form-control">
+                                            <option value="">---</option>
+                                            <option value="1">Nam</option>
+                                            <option value="0">Nữ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!--<div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Mật khẩu (*)</label>
+                                    <div class="col-12">
+                                        <input class="form-control"
+                                               @bind="PASSWORD_HASH"
+                                               type="password"
+
+                                               placeholder="">
+                                    </div>
+                                </div>-->
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Số CMND/CCCD (*)</label>
+                                    <div class="col-12">
+                                        <input class="form-control"
+                                               autocomplete="off"
+                                               @bind="_UserModel.IDENTITY_NO"
+                                               type="text" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Ngày cấp (*)</label>
+                                    <div class="input-group pjc-date-picker col-12"
+                                         id="purveyDate21" data-target-input="nearest">
+                                        <input type="text" autocomplete="off"
+                                               class="form-control datetimepicker-input" data-target="#purveyDate21"
+                                               id="purveyDate" placeholder="ngày/tháng/năm"
+                                               value="@CommonUtils.GetDateVNFormated(_UserModel.IDENTITY_ISSUE_DATE)">
+                                        <div class="input-group-append" data-target="#purveyDate21" data-toggle="datetimepicker">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Nơi cấp (*)</label>
+                                    <div class="col-12">
+                                        <input class="form-control"
+                                               type="text"
+                                               autocomplete="off"
+                                               @bind="_UserModel.IDENTITY_ISSUE_OFFICE"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Điện thoại (*)</label>
+                                    <div class="col-12">
+                                        <input class="form-control" type="text"
+                                               @bind="_UserModel.MOBILE"
+                                               autocomplete="off"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Email (*)</label>
+                                    <div class="col-12">
+                                        <input class="form-control"
+                                               autocomplete="off"
+                                               @bind="_UserModel.EMAIL"
+                                               type="text" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+                            <div class="row btn-row">
+                                <div class="col-12 d-flex flex-row align-items-center justify-content-end">
+                                    <div class="button-items">
+                                        <button type="button" class="btn btn-primary waves-effect mr-3" disabled="@isSubmitting" onclick="window.history.back()">Quay lại</button>
+                                        <button type="submit" disabled="@isSubmitting" class="btn btn-primary waves-effect waves-light mr-3">Cập nhật</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public object AccountID { get; set; }
+    [Parameter]
+    public bool IsDetail { get; set; } = false;
+
+    [Parameter]
+    public bool IsUpdate { get; set; } = false;
+
+
+    private bool isSubmitting = false;
+
+    private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
+{
+        new BreadcrumbLevel() {name = "Danh sách tài khoản", path = "/users"},
+        new BreadcrumbLevel() {name = "Cập nhật tài khoản", path = "/users/edit"}
+    };
+
+    private int? divisionId = null;
+    private UserService _userService;
+
+    private UserModel _UserModel;
+    private bool loading = true;
+
+    private string PASSWORD_HASH { get; set; }
+
+
+    private void OnChangeWard(ChangeEventArgs evt)
+    {
+        _UserModel.WARD_ID = CommonUtils.ConvertStringNumberVNToInt(evt.Value.ToString());
+    }
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            _userService = new UserService(_httpClient);
+        }
+        catch (Exception e)
+        {
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/users");
+        }
+    }
+    private async Task OnInitData()
+    {
+        try
+        {
+            _UserModel = await _userService.GetAccountByID(int.Parse(AccountID?.ToString() ?? "0"));
+            if (_UserModel == null)
+            {
+                throw new Exception("Không tìm thấy tài khoản");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/users");
+        }
+
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                await _jsRuntime.InvokeVoidAsync("disableAutofill");
+                divisionId = await AuthHelper.GetDivisionIdOfUserNotAdmin();
+                await OnInitData();
+                await _jsRuntime.InvokeVoidAsync("vnDatePicker");
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/users");
+        }
+    }
+
+    private async Task OnSubmitForm()
+    {
+        isSubmitting = true;
+        HttpResponseMessage response = null;
+
+        try
+        {
+            _UserModel = ObjectHelper.TrimALlStringValueOfProperties(_UserModel);
+            if (_UserModel.INSURANCE_AGENT_ID == 0) _UserModel.INSURANCE_AGENT_ID = null;
+            if (_UserModel.ROLE_ID == 0) _UserModel.ROLE_ID = null;
+            if (_UserModel.DEPARTMENT_ID == 0) _UserModel.DEPARTMENT_ID = null;
+            if (_UserModel.PROVINCE_ID == 0) _UserModel.PROVINCE_ID = null;
+            if (_UserModel.DISTRICT_ID == 0) _UserModel.DISTRICT_ID = null;
+            if (_UserModel.WARD_ID == 0) _UserModel.WARD_ID = null;
+            var birthDayDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "birthdayDate");
+            var purveyDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "purveyDate");
+            _UserModel.DOB = CommonUtils.ConvertDateVNFormatedToDate(birthDayDate);
+            _UserModel.IDENTITY_ISSUE_DATE = CommonUtils.ConvertDateVNFormatedToDate(purveyDate);
+            _UserModel.MOBILE = _UserModel.MOBILE?.Trim();
+            _UserModel.EMAIL = _UserModel.EMAIL?.Trim();
+            response = await _userService.UpdateAccount(_UserModel);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var responseData = JsonConvert.DeserializeObject<ResponseData<Object>>(responseBody);
+
+            if (!String.IsNullOrEmpty(responseData.ErrorCode) && responseData.ErrorCode != "0")
+            {
+                isSubmitting = false;
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", responseData.Message, "error");
+            }
+            else
+            {
+                isSubmitting = false;
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", responseData.Message, "success");
+                await Task.Delay(2000);
+                UriHelper.NavigateTo("/users", true);
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+            isSubmitting = false;
+        }
+
+        isSubmitting = false;
+    }
+
+    private void OnCancelEditing()
+    {
+        UriHelper.NavigateTo("/users", true);
+    }
+    public static bool isPasswordStrong(string password)
+    {
+        return Regex.Match(password, @"^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$").Success;
+    }
+    public static bool isPhoneNumber(string password)
+    {
+        return Regex.Match(password, @"^\d+$").Success;
+    }
+    public static bool isEmail(string email)
+    {
+        return Regex.Match(email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$").Success;
+    }
+    public static bool isCMND(string cmnd)
+    {
+        return Regex.Match(cmnd, @"^\d+$").Success;
+    }
+}

@@ -50,7 +50,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContext.cs" />
+    <Compile Include="Factory.Web\User\UserLogManagement.cs" />
+    <Compile Include="Factory.Web\User\UserManagement.cs" />
+    <Compile Include="Factory.Web\User\LoginLogManagement.cs" />
+    <Compile Include="BaseManagerment.cs" />
+    <Compile Include="DataContext.cs" />
+    <Compile Include="FactoryDAL\Account\AccountManagement.cs" />
+    <Compile Include="GlobalVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseOrder.cs">
+      <DependentUpon>QRMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrderItem.cs">
+      <DependentUpon>QRMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="QRMSModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -66,12 +80,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QRMSModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="SaleOrder.cs">
+      <DependentUpon>QRMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SaleOrderItem.cs">
+      <DependentUpon>QRMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransferInstruction.cs">
+      <DependentUpon>QRMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransferInstructionItem.cs">
+      <DependentUpon>QRMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>QRMSModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="clsDBInteractionBase.cs" />
-    <Compile Include="Acounts\clsUser.cs" />
-    <Compile Include="Acounts\clsUser %28copy%29.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HDLIB\HDLIB.csproj">
@@ -108,7 +131,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DALFactory\" />
     <Folder Include="Acounts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

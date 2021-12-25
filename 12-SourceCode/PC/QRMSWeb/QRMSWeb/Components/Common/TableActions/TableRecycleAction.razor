@@ -1,0 +1,39 @@
+﻿<div class="d-flex align-items-center">
+  
+    <button @onclick="OnClickDetail" type="button" class="btn btn-sm btn-outline-success waves-effect waves-light mr-2 table-action-button !important">
+        <span>
+            <i style="font-size: 18px;" class="mdi mdi-menu"></i>
+        </span>
+    </button>
+    <button @onclick="OnClickUpdate" type="button" class="btn btn-sm btn-outline-primary waves-effect waves-light mr-2 table-action-button">
+        <span>
+            <i style="font-size: 16px;" class="mdi mdi-square-edit-outline"></i>
+        </span>
+    </button>
+    <button @onclick="OnClickDelete" type="button" class="btn btn-sm btn-outline-danger waves-effect waves-light mr-2 table-action-button">
+        <span>
+            <i style="font-size: 16px;" class="mdi mdi mdi-delete"></i>
+        </span>
+    </button>
+    <button @onclick="OnClickRecycle" type="button" class="btn btn-sm btn-outline-info waves-effect waves-light mr-2 table-action-button">
+        <span>
+            <i style="font-size: 18px;" class="mdi mdi-recycle"></i>
+        </span>
+    </button>
+</div>
+
+@code {
+
+    [Parameter]
+    public Action OnClickRecycle { get; set; }
+    
+    [Parameter]
+    public Action OnClickDetail { get; set; }
+
+    [Parameter]
+    public Action OnClickUpdate { get; set; }
+
+    [Parameter]
+    public Action OnClickDelete { get; set; }
+
+}

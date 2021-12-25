@@ -1,0 +1,323 @@
+﻿@using QRMSWeb.Components.Common.Breadcrumb
+@using QRMSWeb.Components.Common.SampleTable
+@using QRMSWeb.Components.Common.TableActions
+@using QRMSWeb.Services
+@using QRMSWeb.Models
+@using QRMSWeb.Helper
+
+@using Microsoft.AspNetCore.Http.Extensions
+@inject NavigationManager _navigationManager
+@inject NavigationManager UriHelper
+@inject HttpClient _httpClient
+@inject IJSRuntime _jsRuntime
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
+
+<Breadcrumb Title="Danh sách tài khoản" levels="@Levels" />
+
+<div class="page-content-wrapper">
+    <div class="row">
+        <div class="col-12 space_search_area">
+            <div class="card">
+                <div class="card-body contain_body">
+                    <h4>Tìm kiếm</h4>
+                    <UserSearchForm OnRefresh="@OnRefresh"
+                                       OnSearch="@OnSearch"
+                                       @bind-Fullname="@fullname"
+                                       @bind-InsuranceAgentName="@insuranceAgentName"
+                                       @bind-Username="@username" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body contain_body">
+                    @if (loading)
+                    {
+                        <div class="text-center">
+                            Đang tải...
+                        </div>
+                    }
+                    else
+                    {
+                        <TableList data="@accounts"
+                                   TotalPage="@TotalPage"
+                                   CurrentPage="@CurrentPage"
+                                   OnClickPage="@OnClickPage"
+                                   TableLabelsList="@labels"
+                                   RowPerPage=@RowPerPage
+                                   MinColumnActionWidth="142"
+                                   IndexColSize="60">
+                            <AddButton>
+                                <div class="d-flex flex-row justify-content-end">
+                                    <button @onclick="OnClickAdd" type="button" class="btn btn-primary waves-effect waves-light">
+                                        Thêm mới
+                                    </button>
+                                </div>
+                            </AddButton>
+
+                            <TableActionButton Context="item">
+                                <TableCommonAction OnClickUpdate="() => OnClickEdit(item)"
+                                                   OnClickDetail="() => OnClickDetail(item)"
+                                                   OnClickDelete="() => OnClickDelete(item)"
+                                                   OnClickLock="() => OnClickLock(item)"
+                                                   OnClickUnlock="() => OnClickUnlock(item)"
+                                                   ShowLock="@(!item.IsLocked)"
+                                                   ShowUnlock="@(item.IsLocked)"
+                                                   ShowDelete="@(!item.IsInUsing)" />
+                            </TableActionButton>
+                        </TableList>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    private string username = "";
+    private string fullname = "";
+    private string insuranceAgentName = "";
+    private int TotalPage = 0;
+    private int CurrentPage = 1;
+    private const int RowPerPage = 10;
+
+    private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
+{
+        new BreadcrumbLevel() {name = "Danh sách tài khoản", path = "/accounts"}
+    };
+
+    private List<TableLabels> labels = new List<TableLabels>()
+{
+        new TableLabels {label = "Tên tài khoản", dataIndex = "USERNAME",columnWidth=120},
+        new TableLabels {label = "Họ và tên", dataIndex = "FULL_NAME",columnWidth=250},
+        new TableLabels {label = "Số CMND/CCCD", dataIndex = "IDENTITY_NO",columnWidth=150},
+        new TableLabels {label = "Số điện thoại", dataIndex = "MOBILE",columnWidth=150 },
+        new TableLabels {label = "Email", dataIndex = "EMAIL",columnWidth=200},
+        new TableLabels {label = "Chức vụ", dataIndex = "ROLE_NAME",columnWidth=150},
+        new TableLabels {label = "Phòng ban", dataIndex = "DEPARMENT_NAME",columnWidth=300},
+        new TableLabels {label = "Mã đơn vị", dataIndex = "INSURANCE_AGENT_CODE",columnWidth=150},
+        new TableLabels {label = "Đơn vị", dataIndex = "INSURANCE_AGENT_NAME",columnWidth=400},
+    };
+
+    private bool loading = true;
+    private List<UserModel> accounts = new List<UserModel>();
+    private UserService _userService;
+
+    private async Task OnSearch()
+    {
+        loading = true;
+        CurrentPage = 1;
+        await storeParamSearch();
+        await SearchAccount();
+    }
+
+    private async Task OnRefresh()
+    {
+        try
+        {
+            username = "";
+            fullname = "";
+            insuranceAgentName = "";
+            await storeParamSearch();
+            loading = true;
+            CurrentPage = 1;
+
+            await SearchAccount();
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+        }
+    }
+    private async Task storeParamSearch()
+    {
+        await _localStorageService.SetItemAsStringAsync("search_account_userName", !String.IsNullOrWhiteSpace(username) ? username : "");
+        await _localStorageService.SetItemAsStringAsync("search_account_fullName", !String.IsNullOrWhiteSpace(fullname) ? fullname : "");
+        await _localStorageService.SetItemAsStringAsync("search_account_insuranceAgentName", !String.IsNullOrWhiteSpace(insuranceAgentName) ? insuranceAgentName : "");
+    }
+    private async Task retryParamSearch()
+    {
+        username = await _localStorageService.GetItemAsStringAsync("search_account_userName") ?? "";
+        fullname = await _localStorageService.GetItemAsStringAsync("search_account_fullName") ?? "";
+        insuranceAgentName = await _localStorageService.GetItemAsStringAsync("search_account_insuranceAgentName") ?? "";
+    }
+    protected override void OnInitialized()
+    {
+        try
+        {
+
+            _userService = new UserService(_httpClient);
+        }
+        catch (Exception e)
+        {
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/accounts");
+        }
+    }
+
+    private async Task SearchAccount()
+    {
+        try
+        {
+            await retryParamSearch();
+            var response = await _userService.SearchAccount(CurrentPage, RowPerPage, username, fullname, insuranceAgentName);
+            accounts = response.rows ?? new List<UserModel>();
+            TotalPage = response.pages;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            accounts = new List<UserModel>();
+            TotalPage = 0;
+        }
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                await _jsRuntime.InvokeVoidAsync("disableAutofill");
+                await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
+                await SearchAccount();
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/accounts");
+        }
+    }
+
+    private async Task OnClickPage(int page)
+    {
+        try
+        {
+            loading = true;
+            CurrentPage = page;
+            await InvokeAsync(StateHasChanged);
+            await SearchAccount();
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+
+    private void OnClickDetail(UserModel account)
+    {
+        UriHelper.NavigateTo($"/accounts/detail/{account.ID}", true);
+    }
+
+    private void OnClickEdit(UserModel account)
+    {
+        UriHelper.NavigateTo($"/accounts/edit/{account.ID}", true);
+    }
+
+    private async Task OnClickDelete(UserModel account)
+    {
+        try
+        {
+            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
+                "Thông báo",
+                $"Bạn có muốn xóa tài khoản {account.FULL_NAME}",
+                "xóa",
+                "Huỷ", "", "", "");
+
+            if (confirmRemove)
+            {
+                var responseData = await _userService.DeleteAccount(account);
+                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
+                if ("0".Equals(errCode))
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã xóa thành công", "success");
+                    await SearchAccount();
+                }
+                else if ("-2".Equals(errCode))
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Tài khoản đang được sử dụng", "error");
+                }
+                else
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Xóa thất bại", "error");
+
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+    private async Task OnClickLock(UserModel account)
+    {
+        try
+        {
+            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
+                "Thông báo",
+                $"Bạn có muốn khóa tài khoản {account.FULL_NAME}",
+                "Khóa",
+                "Huỷ", "", "", "");
+
+            if (confirmRemove)
+            {
+                var responseData = await _userService.LockAccount(account);
+                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
+                if ("0".Equals(errCode))
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã khóa thành công", "success");
+                    await SearchAccount();
+                }
+                else
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Khóa thất bại", "error");
+
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+    private async Task OnClickUnlock(UserModel account)
+    {
+        try
+        {
+            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
+                "Thông báo",
+                $"Bạn có muốn mở khóa tài khoản {account.FULL_NAME}",
+                "Mở khóa",
+                "Huỷ", "", "", "");
+
+            if (confirmRemove)
+            {
+                var responseData = await _userService.UnlockAccount(account);
+                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
+                if ("0".Equals(errCode))
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã mở khóa thành công", "success");
+                    await SearchAccount();
+                }
+                else
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Mở khóa thất bại", "error");
+
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+
+    private void OnClickAdd()
+    {
+        UriHelper.NavigateTo("/accounts/create", true);
+    }
+}

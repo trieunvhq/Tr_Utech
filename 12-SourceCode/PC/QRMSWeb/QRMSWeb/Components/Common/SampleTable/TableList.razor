@@ -1,0 +1,300 @@
+﻿@using System.Reflection
+@using System.Collections.ObjectModel
+@using System.Globalization
+@using System.Web
+@using Microsoft.Extensions.Configuration;
+@using QRMSWeb.Utils
+@using QRMSWeb.Helper
+@typeparam TItem
+
+<div class="btn-row mr-0" style="width:100%;">
+    @AddButton
+</div>
+<div class="table-responsive">
+    <table id="tech-companies-1" class="table table-striped" style="min-width: @(CalculateTableWidth())">
+        <thead>
+            <tr>
+                @if(IndexColSize > 0) { 
+                    <th style="width: @(IndexColSize.ToString() + "px;")">
+                        #
+                    </th>
+                }
+                @foreach (TableLabels item in TableLabelsList)
+                {
+                    <th style="width: @((item.columnWidth > 0 ? item.columnWidth : MinColumnWidth) + "px")">
+                        @item.label
+                    </th>
+                }
+
+                @if (ShowActions && TableActionButton != null && MinColumnActionWidth > 0)
+                {
+                    <th style="width: @(MinColumnActionWidth + "px")">
+                        <div class="d-flex flex-row justify-content-center">
+                            Thao tác
+                        </div>
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (var itemIndex = 0; itemIndex < data.Count; itemIndex++)
+            {
+                var item = data.ElementAt(itemIndex);
+            <tr>
+                @if (IndexColSize > 0)
+                {
+                    <td colspan="1" style="text-align:center">
+                        @((itemIndex + 1) + (CurrentPage > 0 ? CurrentPage - 1 : CurrentPage) * RowPerPage)
+                    </td>
+                }
+                    @for (int index = 0; index < TableLabelsList.Count; index++)
+                    {
+                        var _label = TableLabelsList[index];
+                        @if ("image".Equals(_label.dataType))
+                        {
+                            <td colspan="1" style="">
+                                @if (item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null) != null && item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null) != "")
+                                {
+                                    <div class="d-flex flex-row justify-content-center">
+                                        <img src="@item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null)"
+                                             width="60"
+                                             height="60">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-flex flex-row justify-content-center">
+                                    </div>
+                                }
+                            </td>
+                        }
+                        else if ("checkbox".Equals(_label.dataType))
+                        {
+                            <td colspan="1" style="text-align: @(!String.IsNullOrEmpty(_label.align) ? _label.align : "center")">
+                                <div class="d-flex flex-row justify-content-center">
+                                    <input type="checkbox"
+                                           checked="@(GetCheckBoxValue(item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null)))"
+                                           style="width: 20px; height: 20px;"
+                                           class="form-control"
+                                           disabled>
+                                </div>
+                            </td>
+                        }
+                        else if ("html".Equals(_label.dataType))
+                        {
+                            <td colspan="1" style="text-align: @(!String.IsNullOrEmpty(_label.align) ? _label.align : "left") ">
+                                @(new MarkupString(
+                                        HttpUtility.HtmlDecode((item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null))?.ToString() ?? string.Empty)))
+                            </td>
+                        }
+                        else if ("date".Equals(_label.dataType))
+                        {
+                            <td colspan="1" style="text-align: @(!String.IsNullOrEmpty(_label.align) ? _label.align : "center")">
+                                @CommonUtils.GetDateVNFormated(item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null))
+                            </td>
+                        }
+                        else if ("date_time".Equals(_label.dataType))
+                        {
+                            <td colspan="1" style="text-align: @(!String.IsNullOrEmpty(_label.align) ? _label.align : "center")">
+                                @CommonUtils.GetDateTimeVNFormated(item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null))
+                            </td>
+                        }
+                        else if ("number".Equals(_label.dataType))
+                        {
+                            <td colspan="1" style="text-align: @(!String.IsNullOrEmpty(_label.align) ? _label.align : "right");">
+                                @CommonUtils.GetNumberFormatValue(item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null))
+                            </td>
+
+                        }
+                        else if ("number_decimal".Equals(_label.dataType))
+                        {
+                            <td colspan="1" style="text-align: @(!String.IsNullOrEmpty(_label.align) ? _label.align : "right");">
+                                @CommonUtils.GetNumberFullFormatValue(item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null))
+                            </td>
+                        }
+                        else
+                        {
+                            <td colspan="1" style=" word-wrap: break-word; text-align: @(!String.IsNullOrEmpty(_label.align) ? _label.align : "left")">
+                                @if (_label.Link != null && _label.Link.Length > 0)
+                                {
+                                    <a href="@GetLink(_label, item)">
+                                        @item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null)
+                                    </a>
+                                }
+                                else if (_label.DialogClickOnLink != null && _label.DialogClickOnLink.Length > 0)
+                                {
+
+                                    <a class="waves-effect waves-light mr-2" style=" color: blue;" data-toggle="modal" data-target="#@_label.DialogClickOnLink[0]" @onclick="() => OnClickOnLinkDialog(GetDialogParams(_label, item))">
+                                        <u> @item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null) </u>
+                                    </a>
+                                }
+                                else
+                                {
+                                    @item.GetType().GetProperty(_label.dataIndex)?.GetValue(item, null)
+                                }
+                            </td>
+                        }
+                    }
+
+                    @if (ShowActions && TableActionButton != null && MinColumnActionWidth > 0)
+                    {
+                        <td colspan="1">
+                            <div class="row" style="padding-left:0.5em;">
+                                @TableActionButton(item)
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (ShowPagination && TotalPage > 1)
+    {
+        <Pagination CurrentPage="@(CurrentPage)"
+                    OnClickPage="@PaginationClicked"
+                    TotalPage="@TotalPage" />
+    }
+    else if (TotalPage <= 0)
+    {
+        <div class="col-12 col-md-12" style="text-align: center;}">
+            (Không có dữ liệu)
+        </div>
+    }
+</div>
+@code {
+
+    [Parameter]
+    public int CurrentPage { get; set; }
+
+    [Parameter]
+    public int TotalPage { get; set; }
+
+    [Parameter]
+    public Func<int, Task> OnClickPage { get; set; }
+
+    [Parameter]
+    public Func<string[], Task> OnDialogLinkClick { get; set; }
+
+    [Parameter]
+    public int MinColumnWidth { get; set; } = 90;
+
+    [Parameter]
+    public int MinColumnActionWidth { get; set; } = 110;
+
+    [Parameter]
+    public List<TableLabels> TableLabelsList { get; set; }
+
+    [Parameter]
+    public List<TItem> data { get; set; } = new List<TItem>();
+
+    [Parameter]
+    public RenderFragment<TItem> RowTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment AddButton { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> TableActionButton { get; set; }
+
+    [Parameter]
+    public RenderFragment RenderFragment { get; set; }
+
+    [Parameter]
+    public bool ShowActions { get; set; } = true;
+
+    [Parameter]
+    public bool ShowPagination { get; set; } = true;
+
+    [Parameter]
+    public int RowPerPage { get; set; } = 10;
+
+    [Parameter]
+    public int IndexColSize { get; set; } = 45;
+
+
+
+    bool GetCheckBoxValue(object data)
+    {
+        if (data == null) return false;
+
+        string value = data.ToString();
+
+        return value?.ToLower() == "y";
+    }
+
+    string GetImageValue(string Image_data)
+    {
+        if (Image_data == null) return "";
+        return ImageHelper.Base64WithContentType(Image_data);
+    }
+
+    private string GetLink(TableLabels label, TItem item)
+    {
+        string link = "";
+        try
+        {
+
+            if (label.Link.Length > 0)
+            {
+                link = label.Link[0];
+            }
+            for (int idx = 1; idx < label.Link.Length; idx++)
+            {
+                link = link.Replace("{" + (idx - 1).ToString() + "}", Uri.EscapeDataString((item.GetType().GetProperty(label.Link[idx])?.GetValue(item, null) ?? "").ToString()));
+            }
+            //link = Uri.EscapeDataString(link);
+        }
+        catch (Exception)
+        {
+
+        }
+        return link;
+
+    }
+    private string[] GetDialogParams(TableLabels label, TItem item)
+    {
+        List<string> _params = new List<string>();
+        try
+        {
+            if (label.DialogClickOnLink.Length > 0)
+            {
+                _params.Add(label.DialogClickOnLink[0]);
+            }
+            for (int idx = 1; idx < label.DialogClickOnLink.Length; idx++)
+            {
+                _params.Add((item.GetType().GetProperty(label.DialogClickOnLink[idx])?.GetValue(item, null) ?? "").ToString());
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+        return _params.ToArray();
+    }
+    private void OnClickOnLinkDialog(string[] _params)
+    {
+        OnDialogLinkClick?.Invoke(_params);
+    }
+    private void PaginationClicked(int pageNumber)
+    {
+        OnClickPage?.Invoke(pageNumber);
+    }
+
+    private string CalculateTableWidth()
+    {
+        int columnWidth = (MinColumnWidth > 0) ? MinColumnWidth : 50;
+
+        // Plus 1 for interaction buttons
+        var tableWidth = (TableLabelsList.Count + 1) * columnWidth;
+        tableWidth = IndexColSize < 0 ? 20 : IndexColSize;
+        foreach (TableLabels item in TableLabelsList)
+        {
+            var col_size = item.columnWidth>0 ? item.columnWidth : MinColumnWidth;
+            tableWidth += col_size;
+        }
+        tableWidth += MinColumnActionWidth < 0 ? 0 : MinColumnActionWidth;
+        return $"{tableWidth}px";
+    }
+
+}

@@ -1,0 +1,490 @@
+﻿<!-- ========== Left Sidebar Start ========== -->
+<div class="left side-menu">
+<div class="slimscroll-menu" id="remove-scroll">
+
+<!--- Sidemenu -->
+<div id="sidebar-menu" style="padding-top: 0pt;" >
+<!-- Left Menu Start -->
+<ul class="metismenu" id="side-menu">
+<li>
+    <a href="/" class="waves-effect">
+        <i class="mdi mdi-home"></i><span> Trang chủ </span>
+    </a>
+</li>
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-source-fork"></i>
+        <span>
+            Đơn vị
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-controller="Divn" asp-action="Index">Quản lý đơn vị</a>
+        </li>
+        <li>
+            <a asp-controller="DepartmentDivn" asp-action="Index">Phòng ban trực thuộc</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a asp-action="Index" asp-controller="Department" class="waves-effect">
+        <i class="mdi mdi-label"></i><span> Quản lý phòng ban </span>
+    </a>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-pentagon-outline"></i>
+        <span>
+            Chức vụ
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="Roles">Quản lý chức vụ</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="AccountType">Phòng ban và chức vụ</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-account"></i>
+        <span>
+            Tài khoản
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="Accounts">Quản lý tài khoản</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="AccountAgency">Quản lý Tài Khoản Đại Lý</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="AccountCustomer">Quản lý Tài Khoản Khách Hàng</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-paperclip"></i>
+        <span>
+            Đơn bảo hiểm
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="Insurance">Quản lý đơn bảo hiểm chờ phê duyệt</a>
+        </li>
+        <li>
+            <a asp-action="Complete" asp-controller="Insurance">Quản lý đơn bảo hiểm hoàn thành</a>
+        </li>
+
+        <li>
+            <a asp-action="Reinstatement" asp-controller="Insurance">Quản lý tái tục</a>
+        </li>
+    </ul>
+</li>
+
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-source-fork"></i>
+        <span>
+            Phân quyền
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="PermissionActions">Quản lý quyền</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="Permission">Quản lý phân quyền</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-source-fork"></i>
+        <span>
+            Đại lý
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="Agency">Quản lý đại lý</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="AgencyRank">Rank đại lý</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="AgencyRankLimit">Hạn mức rank đại lý</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="AgencyProduct">Sản phẩm đại lý</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-motorbike"></i>
+        <span>
+            Xe
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="VehicleBrand">Hãng xe</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="VehicleModel">Kiểu xe</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="VehicleType">Loại xe</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-black-mesa"></i>
+        <span>
+            Khách hàng
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="Customers">Quản lý khách hàng</a>
+        </li>
+        <li>
+            <a asp-action="Potential" asp-controller="Customers">Quản lý khách hàng tiềm năng</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-multiplication"></i>
+        <span>
+            Sản phẩm
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="InsuranceType">Loại bảo hiểm</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="ProductInsurance">Sản phẩm bảo hiểm</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-multiplication"></i>
+        <span>
+            Hoa hồng
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="ProductCommission">Hoa hồng theo sản phẩm</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="AgencyCommission">Hoa hồng theo đại lý</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-bell"></i>
+        <span>
+            Thông báo
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="SystemNotification">Thông báo hệ thống</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="BusinessNotification">Thông báo nghiệp vụ</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href="javascript:void(0);" class="waves-effect">
+        <i class="mdi mdi-cash-usd"></i>
+        <span>
+            Quản lý phí bảo hiểm
+            <span class="float-right menu-arrow">
+                <i class="mdi mdi-plus"></i>
+            </span>
+        </span>
+    </a>
+    <ul class="submenu">
+        <li>
+            <a asp-action="Index" asp-controller="CarInsFee">Phí bảo hiểm TNDS bắt buộc Ôtô</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="MotobikeInsFee">Phí bảo hiểm TNDS bắt buộc Xe máy</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="TnvnAutoPsgrPrice">Phí bảo hiểm tai nạn cho lái xe, phụ xe và người ngồi trên xe</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="CivilAccidentInsuranceFeeIncreasedLiability">Phí Bảo Hiểm TNDS tăng thêm - Mức trách nhiệm</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="CivilAccidentInsuranceFeeIncreasedFeeRatio">Phí Bảo Hiểm TNDS tăng thêm - Tỷ lệ phí</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="VehicleInsuranceFeeLiability">Phí bảo hiểm hàng chủ xe với hàng hóa trên xe - Mức trách nhiệm</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="VehicleInsuranceFeePreInsForCarOwner">Phí bảo hiểm hàng chủ xe với hàng hóa trên xe - Cùng chủ</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="VehicleInsuranceFeeRatio">Phí bảo hiểm TNDS đối với hàng hóa vận chuyển trên xe - Tỷ lệ phí</a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="AdditionalTermFees">Phí Điều Khoản Bổ Sung</a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a asp-action="Index" asp-controller="Settings" class="waves-effect">
+        <i class="mdi mdi-settings"></i> <span> Thiết Lập </span>
+    </a>
+</li>
+
+</ul>
+
+</div>
+<!-- Sidebar -->
+<div class="clearfix"></div>
+
+</div>
+<!-- Sidebar -left -->
+
+</div>
+<!-- Left Sidebar End -->
+
+@code {
+
+    List<SidebarItem> _sidebarItems = new List<SidebarItem>()
+    {
+        new SidebarItem()
+        {
+            Name = "Đơn vị",
+            Icon = "mdi mdi-source-fork",
+            Path = "javascript:void(0);",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Quản lý đơn vị", Path = "/Divn"},
+                new SubSidebarItem() {Name = "Phòng ban trực thuộc", Path = "/DepartmentDivn"}
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Quản lý phòng ban",
+            Icon = "mdi mdi-label",
+            Path = "/Department",
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Chức vụ",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-pentagon-outline",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Quản lý chức vụ", Path = "/Roles"},
+                new SubSidebarItem() {Name = "Phòng ban và chức vụ", Path = "/AccountType"}
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Tài khoản",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-account",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Quản lý tài khoản", Path = "/Accounts"},
+                new SubSidebarItem() {Name = "Quản lý Tài Khoản Đại Lý", Path = "/AccountAgency"},
+                new SubSidebarItem() {Name = "Quản lý Tài Khoản Khách Hàng", Path = "/AccountCustomer"},
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Đơn bảo hiểm",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-paperclip",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Quản lý đơn bảo hiểm", Path = "/Insurance"},
+                new SubSidebarItem() {Name = "Quản lý đơn bảo hiểm hoàn thành", Path = "/Insurance/Complete"},
+                new SubSidebarItem() {Name = "Quản lý tái tục", Path = "/Insurance/Reinstatement"},
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Phân quyền",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-source-fork",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Quản lý quyền", Path = "/Insurance"},
+                new SubSidebarItem() {Name = "Quản lý phân quyền", Path = "/Insurance/Complete"}
+            }
+        },
+        new SidebarItem()
+        {
+            Name = "Đại lý",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-source-fork",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Quản lý đại lý", Path = "/Agency"},
+                new SubSidebarItem() {Name = "Cấp đại lý", Path = "/AgencyRank"},
+                new SubSidebarItem() {Name = "Hạn mức cấp đại lý", Path = "/AgencyRankLimit"},
+                new SubSidebarItem() {Name = "Sản phẩm đại lý", Path = "/AgencyProduct"},
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Xe",
+            Icon = "mdi mdi-motorbike",
+            Path = "javascript:void(0);",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Hãng xe", Path = "/VehicleBrand"},
+                new SubSidebarItem() {Name = "Kiểu xe", Path = "/VehicleModel"},
+                new SubSidebarItem() {Name = "Loại xe", Path = "/VehicleType"},
+                
+            }
+        },
+        new SidebarItem()
+        {
+            Name = "Khách hàng",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-black-mesa",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Quản lý khách hàng", Path = "/Customers"},
+                new SubSidebarItem() {Name = "Quản lý khách hàng tiềm năng", Path = "/Customers/Potential"},
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Sản phẩm",
+            Icon = "mdi mdi-multiplication",
+            Path = "javascript:void(0);",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Loại bảo hiểm", Path = "/InsuranceType"},
+                new SubSidebarItem() {Name = "Sản phẩm bảo hiểm", Path = "/ProductInsurance"},
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Hoa hồng",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-multiplication",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Hoa hồng theo sản phẩm", Path = "/ProductCommission"},
+                new SubSidebarItem() {Name = "Hoa hồng theo đại lý", Path = "/AgencyCommission"},
+            }
+        },
+
+        new SidebarItem()
+        {
+             Name = "Thông báo",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-bell",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Thông báo hệ thống", Path = "/SystemNotification"},
+                new SubSidebarItem() {Name = "Thông báo nghiệp vụ", Path = "/BusinessNotification"},
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Phí bảo hiểm",
+            Path = "javascript:void(0);",
+            Icon = "mdi mdi-cash-usd",
+            Children = new List<SubSidebarItem>()
+            {
+                new SubSidebarItem() {Name = "Phí bảo hiểm TNDS bắt buộc Ôtô", Path = "/CarInsFee"},
+                new SubSidebarItem() {Name = "Phí bảo hiểm TNDS bắt buộc Xe máy", Path = "/MotobikeInsFee"},
+                new SubSidebarItem() {Name = "Phí bảo hiểm tai nạn cho lái xe, phụ xe và người ngồi trên xe", Path = "/TnvnAutoPsgrPrice"},
+                new SubSidebarItem() {Name = "Phí Bảo Hiểm TNDS tăng thêm - Mức trách nhiệm", Path = "/CivilAccidentInsuranceFeeIncreasedLiability"},
+                new SubSidebarItem() {Name = "Phí Bảo Hiểm TNDS tăng thêm - Tỷ lệ phí", Path = "/CivilAccidentInsuranceFeeIncreasedFeeRatio"},
+                new SubSidebarItem() {Name = "Phí bảo hiểm hàng chủ xe với hàng hóa trên xe - Mức trách nhiệm", Path = "/VehicleInsuranceFeeLiability"},
+                new SubSidebarItem() {Name = "Phí bảo hiểm hàng chủ xe với hàng hóa trên xe - Cùng chủ", Path = "/VehicleInsuranceFeePreInsForCarOwner"},
+                new SubSidebarItem() {Name = "Phí bảo hiểm TNDS đối với hàng hóa vận chuyển trên xe - Tỷ lệ phí", Path = "/VehicleInsuranceFeeRatio"},
+                new SubSidebarItem() {Name = "Phí Điều Khoản Bổ Sung", Path = "/AdditionalTermFees"},
+            }
+        },
+        
+        new SidebarItem()
+        {
+            Name = "Thiết Lập",
+            Path = "/Settings",
+            Icon = "mdi mdi-settings"       
+        },
+    };
+
+}

@@ -1,0 +1,150 @@
+@using System.Reflection
+@using System.Collections.ObjectModel
+@typeparam TItem
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-end">
+        @AddButton
+    </div>
+</div>
+<div class="table-responsive table-bordered ">
+    <table id="tech-companies-1" class="table  table-striped">
+        <thead>
+        <tr>
+            @foreach (TableLabels item in TableLabelsList)
+            {
+                if (@item.dataType != "sub-header")
+                {
+                    <th data-priority="1" id="i"
+                        style="vertical-align: middle;"
+                        colspan="@(item.dataType == "sub-header-wrapper" ? item.dataIndex : 1)"
+                        rowspan="@(item.dataType == "sub-header-wrapper" ? 1 : 2)">
+                        <div class="d-flex flex-row justify-content-center">
+                            @item.label
+                        </div>
+                    </th>
+                }
+            }
+            <th data-priority="1"
+                style="vertical-align: middle;"
+                rowspan="2"
+                >
+                <div class="d-flex flex-row justify-content-center">
+                    Thao tác
+                </div>
+            </th>
+        </tr>
+
+        <tr>
+            @foreach (TableLabels item in TableLabelsList)
+            {
+                if (item.dataType == "sub-header")
+                {
+                    <th data-priority="1"  style="vertical-align: middle;">
+                        <div class="d-flex flex-row justify-content-center">
+                            @item.label
+                        </div>
+                    </th>
+                }
+            }
+        </tr>
+        </thead>
+        <tbody>
+
+        @foreach (var item in data)
+        {
+            <tr>
+                @for (int index = 0; index < TableLabelsList.Count; index++)
+                {
+                    @if (TableLabelsList[index].dataType == "image")
+                    {
+                        <td data-priority="@index" colspan="1" data-columns="tech-companies-1-col-4">
+                            <div class="d-flex flex-row justify-content-center">
+                                <img src="@item.GetType().GetProperty(TableLabelsList[index].dataIndex)?.GetValue(item, null)"
+                                     width="60"
+                                     height="60"
+                                     alt="@item.GetType().GetProperty(TableLabelsList[index].dataIndex)?.GetValue(item, null)">
+                            </div>
+                        </td>
+                    }
+                    else if (TableLabelsList[index].dataType == "checkbox")
+                    {
+                        <td data-priority="@index" colspan="1" data-columns="tech-companies-1-col-4">
+                            <div class="d-flex flex-row justify-content-center">
+                                <input type="checkbox"
+                                       disabled
+									   style="width: 20px; height: 20px;"
+									   class="form-control"
+                                       checked="@(GetCheckBoxValue(item.GetType().GetProperty(TableLabelsList[index].dataIndex)?.GetValue(item, null)))">
+                            </div>
+                        </td>
+                    }
+                    else if (TableLabelsList[index].dataType != "sub-header-wrapper")
+                    {
+                        <td data-priority="@index" colspan="1" data-columns="tech-companies-1-col-4">
+                            <div class="d-flex flex-row justify-content-center">
+                                @item.GetType().GetProperty(TableLabelsList[index].dataIndex)?.GetValue(item, null)
+                            </div>
+                        </td>
+                    }
+                }
+
+                <td data-priority="3" colspan="1" data-columns="tech-companies-1-col-4">
+                    <div class="d-flex flex-row justify-content-center">
+                        @TableActionButton(item)
+                    </div>
+
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <Pagination CurrentPage="@(CurrentPage)"
+                OnClickPage="@PaginationClicked"
+                TotalPage="@TotalPage"/>
+</div>
+
+@code {
+
+    [Parameter]
+    public int CurrentPage { get; set; }
+
+    [Parameter]
+    public int TotalPage { get; set; }
+
+    [Parameter]
+    public Func<int, Task> OnClickPage { get; set; }
+
+    [Parameter]
+    public List<TableLabels> TableLabelsList { get; set; }
+
+    [Parameter]
+    public List<TItem> data { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> RowTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment AddButton { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> TableActionButton { get; set; }
+
+    [Parameter]
+    public RenderFragment RenderFragment { get; set; }
+
+    private void PaginationClicked(int pageNumber)
+    {
+        OnClickPage?.Invoke(pageNumber);
+    }
+
+    bool GetCheckBoxValue(object data)
+    {
+        if (data == null) return false;
+
+        string value = data.ToString();
+
+        return value?.ToLower() == "y";
+    }
+
+}
