@@ -27,6 +27,7 @@ namespace DAL
         public string LocationName { get; set; }
         public string SupplierCode { get; set; }
         public string SupplierName { get; set; }
+        public string InputStatus { get; set; }
         public string PrintStatus { get; set; }
         public string RecordStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }

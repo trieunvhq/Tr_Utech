@@ -13,6 +13,7 @@
           <Property Name="PurchaseOrderNo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PurchaseOrderDate" Type="datetime" />
           <Property Name="ExportStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="InputStatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="PrintStatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="GetDataStatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
@@ -31,13 +32,14 @@
           <Property Name="PurchaseOrderDate" Type="date" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ItemName" Type="nvarchar" MaxLength="200" />
-          <Property Name="ItemType" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="ItemType" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="Unit" Type="nvarchar" MaxLength="50" />
           <Property Name="LocationCode" Type="nvarchar" MaxLength="50" />
           <Property Name="LocationName" Type="nvarchar" MaxLength="200" />
           <Property Name="SupplierCode" Type="nvarchar" MaxLength="50" />
           <Property Name="SupplierName" Type="nvarchar" MaxLength="200" />
+          <Property Name="InputStatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="PrintStatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" />
@@ -73,11 +75,52 @@
           <Property Name="CustomerName" Type="nvarchar" MaxLength="200" />
           <Property Name="LocationCode" Type="nvarchar" MaxLength="50" />
           <Property Name="LocationName" Type="nvarchar" MaxLength="200" />
-          <Property Name="ItemType" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="ItemType" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ItemName" Type="nvarchar" MaxLength="200" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserCreate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TransactionHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransactionType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrderNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="LocationCode_From" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName_From" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseCode_From" Type="nvarchar" MaxLength="50" />
+          <Property Name="WarehouseName_From" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseType_From" Type="char" MaxLength="1" />
+          <Property Name="LocationCode_To" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName_To" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseCode_To" Type="nvarchar" MaxLength="50" />
+          <Property Name="WarehouseName_To" Type="nvarchar" MaxLength="200" />
+          <Property Name="WarehouseType_To" Type="char" MaxLength="1" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ItemType" Type="nvarchar" MaxLength="2" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="EXT_OtherCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="EXT_Serial" Type="nvarchar" MaxLength="50" />
+          <Property Name="EXT_PartNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="EXT_LotNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="EXT_MfDate" Type="datetime" />
+          <Property Name="EXT_RecDate" Type="datetime" />
+          <Property Name="EXT_ExpDate" Type="datetime" />
+          <Property Name="EXT_QRCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="200" />
           <Property Name="RecordStatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UserCreate" Type="nvarchar" MaxLength="50" />
@@ -134,7 +177,7 @@
           <Property Name="TransferType" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ItemName" Type="nvarchar" MaxLength="200" />
-          <Property Name="ItemType" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="ItemType" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="Unit" Type="nvarchar" MaxLength="50" />
           <Property Name="Remark" Type="nvarchar" MaxLength="600" />
@@ -168,6 +211,7 @@
           <EntitySet Name="PurchaseOrderItem" EntityType="Self.PurchaseOrderItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SaleOrder" EntityType="Self.SaleOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SaleOrderItem" EntityType="Self.SaleOrderItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionHistory" EntityType="Self.TransactionHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransferInstruction" EntityType="Self.TransferInstruction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransferInstructionItem" EntityType="Self.TransferInstructionItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -176,33 +220,15 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QRMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Ctype" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="WarehouseCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RecordStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityContainer Name="QRMSEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="PurchaseOrders" EntityType="QRMSModel.PurchaseOrder" />
           <EntitySet Name="PurchaseOrderItems" EntityType="QRMSModel.PurchaseOrderItem" />
           <EntitySet Name="SaleOrders" EntityType="QRMSModel.SaleOrder" />
           <EntitySet Name="SaleOrderItems" EntityType="QRMSModel.SaleOrderItem" />
+          <EntitySet Name="TransactionHistories" EntityType="QRMSModel.TransactionHistory" />
           <EntitySet Name="TransferInstructions" EntityType="QRMSModel.TransferInstruction" />
           <EntitySet Name="TransferInstructionItems" EntityType="QRMSModel.TransferInstructionItem" />
+          <EntitySet Name="Users" EntityType="QRMSModel.User" />
         </EntityContainer>
         <EntityType Name="PurchaseOrder">
           <Key>
@@ -212,6 +238,7 @@
           <Property Name="PurchaseOrderNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PurchaseOrderDate" Type="DateTime" Precision="3" />
           <Property Name="ExportStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="InputStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="PrintStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="GetDataStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
@@ -230,13 +257,14 @@
           <Property Name="PurchaseOrderDate" Type="DateTime" Precision="0" />
           <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ItemName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LocationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LocationName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SupplierCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SupplierName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="InputStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="PrintStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -272,11 +300,52 @@
           <Property Name="CustomerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LocationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LocationName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ItemName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TransactionHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="LocationCode_From" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName_From" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseCode_From" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseName_From" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseType_From" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LocationCode_To" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseCode_To" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseName_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseType_To" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ItemType" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EXT_OtherCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EXT_Serial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EXT_PartNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EXT_LotNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EXT_MfDate" Type="DateTime" Precision="3" />
+          <Property Name="EXT_RecDate" Type="DateTime" Precision="3" />
+          <Property Name="EXT_ExpDate" Type="DateTime" Precision="3" />
+          <Property Name="EXT_QRCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UserCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -333,7 +402,7 @@
           <Property Name="TransferType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ItemName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
@@ -343,32 +412,31 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="UserUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-      </Schema>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ctype" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RecordStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="QRMSModelStoreContainer" CdmEntityContainer="QRMSEntities">
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="QRMSModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Ctype" ColumnName="Ctype" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
-                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PurchaseOrders">
             <EntityTypeMapping TypeName="QRMSModel.PurchaseOrder">
               <MappingFragment StoreEntitySet="PurchaseOrder">
@@ -379,6 +447,7 @@
                 <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
                 <ScalarProperty Name="GetDataStatus" ColumnName="GetDataStatus" />
                 <ScalarProperty Name="PrintStatus" ColumnName="PrintStatus" />
+                <ScalarProperty Name="InputStatus" ColumnName="InputStatus" />
                 <ScalarProperty Name="ExportStatus" ColumnName="ExportStatus" />
                 <ScalarProperty Name="PurchaseOrderDate" ColumnName="PurchaseOrderDate" />
                 <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
@@ -395,6 +464,7 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
                 <ScalarProperty Name="PrintStatus" ColumnName="PrintStatus" />
+                <ScalarProperty Name="InputStatus" ColumnName="InputStatus" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
                 <ScalarProperty Name="LocationName" ColumnName="LocationName" />
@@ -448,6 +518,48 @@
                 <ScalarProperty Name="SaleOrderDate" ColumnName="SaleOrderDate" />
                 <ScalarProperty Name="SaleOrderNo" ColumnName="SaleOrderNo" />
                 <ScalarProperty Name="SaleOrderID" ColumnName="SaleOrderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionHistories">
+            <EntityTypeMapping TypeName="QRMSModel.TransactionHistory">
+              <MappingFragment StoreEntitySet="TransactionHistory">
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="EXT_QRCode" ColumnName="EXT_QRCode" />
+                <ScalarProperty Name="EXT_ExpDate" ColumnName="EXT_ExpDate" />
+                <ScalarProperty Name="EXT_RecDate" ColumnName="EXT_RecDate" />
+                <ScalarProperty Name="EXT_MfDate" ColumnName="EXT_MfDate" />
+                <ScalarProperty Name="EXT_LotNo" ColumnName="EXT_LotNo" />
+                <ScalarProperty Name="EXT_PartNo" ColumnName="EXT_PartNo" />
+                <ScalarProperty Name="EXT_Serial" ColumnName="EXT_Serial" />
+                <ScalarProperty Name="EXT_OtherCode" ColumnName="EXT_OtherCode" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="WarehouseType_To" ColumnName="WarehouseType_To" />
+                <ScalarProperty Name="WarehouseName_To" ColumnName="WarehouseName_To" />
+                <ScalarProperty Name="WarehouseCode_To" ColumnName="WarehouseCode_To" />
+                <ScalarProperty Name="LocationName_To" ColumnName="LocationName_To" />
+                <ScalarProperty Name="LocationCode_To" ColumnName="LocationCode_To" />
+                <ScalarProperty Name="WarehouseType_From" ColumnName="WarehouseType_From" />
+                <ScalarProperty Name="WarehouseName_From" ColumnName="WarehouseName_From" />
+                <ScalarProperty Name="WarehouseCode_From" ColumnName="WarehouseCode_From" />
+                <ScalarProperty Name="LocationName_From" ColumnName="LocationName_From" />
+                <ScalarProperty Name="LocationCode_From" ColumnName="LocationCode_From" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -510,6 +622,26 @@
                 <ScalarProperty Name="InstructionDate" ColumnName="InstructionDate" />
                 <ScalarProperty Name="TransferOrderNo" ColumnName="TransferOrderNo" />
                 <ScalarProperty Name="TransferOrderID" ColumnName="TransferOrderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="QRMSModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RecordStatus" ColumnName="RecordStatus" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Ctype" ColumnName="Ctype" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

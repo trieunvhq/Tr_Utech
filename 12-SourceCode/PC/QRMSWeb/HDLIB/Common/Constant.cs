@@ -18,6 +18,14 @@ namespace HDLIB.Common
     {
         public const string PRIVATE_KEY = "123456123456123456123456";
     }
+
+    public class InputStatus
+    {
+        public const string Enough = "Y";
+        public const string NotEnough = "D";
+        public const string NotYetEntered = "N";
+    }
+
     public class RecordStatus
     {
         public const string New = "N";

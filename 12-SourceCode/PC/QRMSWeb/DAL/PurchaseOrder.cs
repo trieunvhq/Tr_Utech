@@ -18,6 +18,7 @@ namespace DAL
         public string PurchaseOrderNo { get; set; }
         public Nullable<System.DateTime> PurchaseOrderDate { get; set; }
         public string ExportStatus { get; set; }
+        public string InputStatus { get; set; }
         public string PrintStatus { get; set; }
         public string GetDataStatus { get; set; }
         public string RecordStatus { get; set; }

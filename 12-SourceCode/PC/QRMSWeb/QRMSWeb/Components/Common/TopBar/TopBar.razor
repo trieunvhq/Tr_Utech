@@ -4,37 +4,33 @@
 @using QRMSWeb.Helper
 @using QRMSWeb.Utils
 
-@inject NavigationManager _navigationManager
-@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
-@inject IJSRuntime _jsRuntime
 <!-- Top Bar Start -->
-<nav class="navbar navbar-expand-lg navbar-light bg-primary text-white" id="main_navbar" style="height:50px; padding: 0px;">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent @(AuthHelper.IsLogined ? "" : "d-none")">
+<nav class="navbar border-bottom navbar-expand-lg navbar-light bg-white text-dark pr-3" id="main_navbar" style="height:50px;">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white arrow-none waves-effect nav-user waves-light" href="#"
-                   role="button" data-bs-toggle="dropdown" data-toggle="tooltip" data-placement="bottom" title="@FullName">
-                    <img src="/assets/images/users/img_avatar.png"
-                         alt="@FullName" class="rounded-circle">
+                <a class="nav-link dropdown-toggle text-dark arrow-none waves-effect nav-user waves-light" href="#"
+                   role="button" data-bs-toggle="dropdown" data-toggle="tooltip" data-placement="bottom" title="">
+                    Tài khoản
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="nav-item">
-                        <a class="nav-link" role="button" @onclick="OnClickUserProfile">
+                    <!--<li class="nav-item">
+                        <a class="nav-link active" role="button">
                             <i class="fa fa-user-o" style="color:blue; font-size:15px" aria-hidden="true"></i>
                             <span>Thông tin người sử dụng </span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" @onclick="@OnClickChangePassword">
+                        <a class="nav-link active">
                             <i class="fas fa-key" style="color: blue; font-size: 15px"></i>
 
                             Thay đổi mật khẩu
                         </a>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li><hr class="dropdown-divider"></li>-->
                     <li class="nav-item">
-                        <a class="nav-link" @onclick="@OnClickLogout">
+                        <a class="nav-link active">
                             <i class="mdi mdi-power" style="color: blue;font-size: 15px"></i>
                             Đăng xuất
                         </a>
@@ -45,62 +41,3 @@
     </div>
 </nav>
 <!-- Top Bar End -->
-
-
-@code {
-    string FullName { get; set; }
-    async Task OnClickLogout()
-    {
-        await _localStorageService.RemoveItemAsync("accessToken");
-        AuthTokenInstance.Instance.SetToken(null);
-        AuthHelper.SetUser(null);
-        _navigationManager.NavigateTo(" /auth/login", true);
-    }
-    async Task OnClickUserProfile()
-    {
-        CommonUtils.ShowCountUserProfile++;
-        if (CommonUtils.ShowCountUserProfile > 1000)
-        {
-            CommonUtils.ShowCountUserProfile = 0;
-        }
-
-        await _jsRuntime.InvokeVoidAsync("ShowModal", "dialogUserProfile");
-
-        // await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "OnClickUserProfile click", "warning");
-    }
-    async Task OnClickChangePassword()
-    {
-        await _jsRuntime.InvokeVoidAsync("ShowModal", "dialogChangeUserPassword");
-    }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        try
-        {
-            if (firstRender)
-            {
-                if (!_navigationManager.Uri.Contains("/auth/login"))
-                {
-
-                    AuthHelper.IsLogined = true;
-                    var accessToken = await _localStorageService.GetItemAsync<string>("accessToken");
-
-                    AuthTokenInstance.Instance.SetToken(accessToken);
-
-                    //await AuthHelper.GetCurrentUserInf();
-
-                }
-                else
-                {
-                    AuthHelper.SetUser(null);
-                    await _localStorageService.SetItemAsStringAsync("accessToken", "");
-                }
-                await InvokeAsync(StateHasChanged);
-                FullName = (await AuthHelper.GetUser())?.FULL_NAME;
-            }
-        }
-        catch (Exception e)
-        {
-
-        }
-    }
-}

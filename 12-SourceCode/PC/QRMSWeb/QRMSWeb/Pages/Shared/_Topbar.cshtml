@@ -1,0 +1,490 @@
+﻿<div class="topbar" style="white-space: nowrap;  width:100%;background-color: #007bff!important; height:50px">
+    <div class="topbar-left" style=";">
+        <a href="index.html" class="logo">
+            <span>
+                <img src="/assets/images/logo_pjc_1.jpg" alt="" height="60">
+            </span>
+        </a>
+    </div>
+    <div class="row" style="height: 50px;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary text-white" id="main_navbar" style="height:50px; width:100% ">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" asp-action="Index" asp-controller="Home">
+                            <span> Trang chủ </span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Đơn bảo hiểm
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>BH Xe cơ giới </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Ôtô bắt buộc </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractVehicle" asp-action="Index">
+                                                    <span> Đơn BH chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractVehicle" asp-action="Complete">
+                                                    <span> Đơn BH hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractVehicle" asp-action="Reinstatement">
+                                                    <span> Đơn BH tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Vật chất ô tô </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractVehicleMaterial" asp-action="Index">
+                                                    <span> Đơn BH chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractVehicleMaterial" asp-action="Complete">
+                                                    <span> Đơn BH hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractVehicleMaterial" asp-action="Reinstatement">
+                                                    <span> Đơn BH tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Xe máy bắt buộc </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractMotor" asp-action="Index">
+                                                    <span> Đơn BH chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractMotor" asp-action="Complete">
+                                                    <span> Đơn BH hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractMotor" asp-action="Reinstatement">
+                                                    <span> Đơn BH tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>BH Du lịch</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Du lịch quốc tế </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelInternational" asp-action="Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelInternational" asp-action="Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelInternational" asp-action="Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Du lịch trong nước </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelDomestic" asp-action="Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelDomestic" asp-action="Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelDomestic" asp-action="Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Du lịch người Việt Nam du lịch nước ngoài </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelVNOutAbroad" asp-action="Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelVNOutAbroad" asp-action="Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelVNOutAbroad" asp-action="Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Du lịch người nước ngoài du lịch tại Việt Nam</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelForeignerInVN" asp-action="Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelForeignerInVN" asp-action="Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractTravelForeignerInVN" asp-action="Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>BH Sức khỏe</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Sức khỏe bệnh hiểm nghèo </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractHealthFatalDisease" asp-action="Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractHealthFatalDisease" asp-action="Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractHealthFatalDisease" asp-action="Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                            <span> Đơn BH Sức khỏe bệnh ung thư </span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractHealthCancer" asp-action="Index">
+                                                    <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractHealthCancer" asp-action="Complete">
+                                                    <span> Đơn bảo hiểm hoàn thành </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link active" asp-controller="InsuranceContractHealthCancer" asp-action="Reinstatement">
+                                                    <span> Đơn bảo hiểm tái tục </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>BH Nhà tư nhân</span>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <a class="nav-link active" asp-controller="InsuranceContractPrivateHouse" asp-action="Index">
+                                            <span> Đơn bảo hiểm chờ phê duyệt </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link active" asp-controller="InsuranceContractPrivateHouse" asp-action="Complete">
+                                            <span> Đơn bảo hiểm hoàn thành </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link active" asp-controller="InsuranceContractPrivateHouse" asp-action="Reinstatement">
+                                            <span> Đơn bảo hiểm tái tục </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Quản lý phí bảo hiểm
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span> Phí bảo hiểm xe cơ giới </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="CarInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm TNDS bắt buộc Ô tô </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="AssetCarInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm vật chất Ô tô </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="MotobikeInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm TNDS bắt buộc Xe máy </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="TnvnAutoPsgrPrice" asp-action="Index">
+                                            <span> Phí bảo hiểm tai nạn cho lái xe, phụ xe và người ngồi trên xe </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="CivilAccidentInsuranceFeeIncreasedLiability" asp-action="Index">
+                                            <span> Phí Bảo Hiểm TNDS Tăng Thêm - Mức trách nhiệm </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="CivilAccidentInsuranceFeeIncreasedFeeRatio" asp-action="Index">
+                                            <span> Phí Bảo Hiểm TNDS Tăng Thêm - Tỷ lệ phí </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="VehicleInsuranceFeeLiability" asp-action="Index">
+                                            <span> Phí bảo hiểm hàng chủ xe với hàng hóa trên xe - Mức trách nhiệm </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="VehicleInsuranceFeePreInsForCarOwner" asp-action="Index">
+                                            <span> Phí bảo hiểm hàng hóa trên xe cùng chủ </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="VehicleInsuranceFeeRatio" asp-action="Index">
+                                            <span> Phí bảo hiểm TNDS đối với hàng hóa vận chuyển trên xe - Tỷ lệ phí </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="AdditionalTermFees" asp-action="Index">
+                                            <span> Phí Điều Khoản Bổ Sung </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span> Phí bảo hiểm sức khoẻ </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="CancerInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm bệnh ung thư </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="FatalInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm bệnh hiểm nghèo </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span> Phí bảo hiểm du lịch </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="InternationalTravelInsProgram" asp-action="Index">
+                                            <span> Gói bảo hiểm </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="TravelInternationalInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm du lịch quốc tế </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="TravelDomesticInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm du lịch trong nước </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="VietnamTravelForForeignerInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm người Việt Nam du lịch nước ngoài </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="InternationalTravelForVietnameseInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm người nước ngoài du lịch Việt Nam </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span> Phí bảo hiểm nhà ở </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="HomeInsFee" asp-action="Index">
+                                            <span> Phí bảo hiểm nhà ở tư nhân </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Báo cáo
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="ReportCustomerBuyVehicleInsurance" asp-action="Index">
+                                    <span>Bảng kê thông tin Khách hàng mua bảo hiểm Ôtô </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="ReportSellInsurance" asp-action="Index">
+                                    <span>Báo cáo bán bảo hiểm </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="ReportKetQuaKinhDoanhCuaDaiLy" asp-action="Index">
+                                    <span>Báo cáo Kết quả kinh doanh dịch vụ Đại lý BH PJICO </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="ReportBienBanDoiChieuPhiBaoHiem" asp-action="Index">
+                                    <span>Biên bản đối chiếu phí bảo hiểm</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="ReportDoanhThuBaoHiemDaiLy" asp-action="Index">
+                                    <span>Doanh thu bảo hiểm đại lý</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="ReportTHSLXuatBanBaoHiem" asp-action="Index">
+                                    <span>Tổng hợp số liệu xuất bán bảo hiểm </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Quản lý thông tin tra cứu
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="LookupInsuranceContract" asp-action="Index">
+                                    <span>Giấy chứng nhận </span>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span>Gara </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="Garage" asp-action="Index">
+                                            <span>Hãng Gara </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active " asp-controller="LookupGaraNetwork" asp-action="Index">
+                                            <span>Mạng lưới Gara </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="LookupPjicoNetWork" asp-action="Index">
+                                    <span>Mạng lưới PJICO </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active " asp-controller="LookupHealthFacilityNetwork" asp-action="Index">
+                                    <span>Mạng lưới cơ sở y tế </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active " target="_blank" asp-controller="LookupGasStationNetwork" asp-action="Index">
+                                    <span>Mạng lưới cây xăng </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+            <div id="user">
+                
+            </div>
+        </nav>
+
+
+
+    </div>
+</div>
+

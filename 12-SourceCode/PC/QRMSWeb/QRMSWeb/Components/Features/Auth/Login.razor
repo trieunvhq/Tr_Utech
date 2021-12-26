@@ -1,124 +1,48 @@
-﻿@using QRMSWeb.Services
-@using QRMSWeb.Helper
-@using QRMSWeb.Components.Common.AuthWrapper
-
-@inject HttpClient _httpClient;
-@inject IJSRuntime _jsRuntime;
-@inject NavigationManager _navigationManager;
-@inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
-<!-- Background -->
+﻿<!-- Background -->
 <div class="account-pages"></div>
 <!-- Begin page -->
 <div class="wrapper-page">
 
-    <div class="card">
-        <div class="card-body ">
-
+    <div class="card border-0" style="align-items: center">
+        <div class="border card-body" style="width:60%; " >
             <h3 class="text-center m-0">
                 <a href="javascript:void(1)" class="logo logo-admin">
-                    <img src="/assets/images/logo_pjc_1.jpg" height="60" alt="logo">
+                    <img src="/assets/images/logoUTECH.png" height="60" alt="logo">
                 </a>
             </h3>
-
             <div class="p-3">
-                <h4 class="text-muted font-18 m-b-5 text-center">Chào mừng quay trở lại !</h4>
-                <p class="text-muted text-center">Vui lòng đăng nhập để vào hệ thống PJICO.</p>
-
-                <form class="form-horizontal mt-30 contain-body-form" @onsubmit:preventDefault @onsubmit="@OnSubmitForm" autocomplete="off" style="margin-left:30px; margin-right:30px;">
-
+                <h4 class="text-muted font-18 m-b-5 text-center">ĐĂNG NHẬP HỆ THỐNG</h4>
+                <form class="form-horizontal mt-30 contain-body-form" autocomplete="off" style="margin-left:30px; margin-right:30px;">
                     <div class="form-group">
                         <label for="username">Tên đăng nhập</label>
                         <input type="text"
-                               @bind="@USERNAME"
                                class="form-control" id="username" placeholder="">
                     </div>
 
                     <div class="form-group">
                         <label for="userpassword">Mật khẩu</label>
                         <input type="password" class="form-control"
-                               @bind="@PASSWORD"
                                id="userpassword" placeholder="">
                     </div>
 
                     <div class="form-group" style="padding-top:25px;">
                         <div class="col-12 text-center">
                             <button class="btn btn-primary w-md waves-effect waves-light"
-                                    disabled="@isSubmitting"
                                     type="submit">
                                 Đăng nhập
                             </button>
                         </div>
                     </div>
-                    <div class="form-group" style="padding-top:15px; padding-bottom:30px">
+                    <!--<div class="form-group" style="padding-top:15px; padding-bottom:30px">
                         <div class="col-12 text-center">
-                            <a class="w-md waves-effect waves-light"
-                               disabled="@isSubmitting" @onclick="OnForgetPassword">
+                            <a class="w-md waves-effect waves-light">
                                 Quên mật khẩu
                             </a>
                         </div>
-                    </div>
+                    </div>-->
                 </form>
             </div>
 
         </div>
     </div>
 </div>
-<ForgotPasswordDialogForm></ForgotPasswordDialogForm>
-
-@code {
-    public string USERNAME { get; set; }
-    public string PASSWORD { get; set; }
-
-    bool isSubmitting = false;
-
-    UserService _userService;
-
-    protected override void OnInitialized()
-    {
-        _userService = new UserService(_httpClient);
-    }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await _localStorageService.SetItemAsStringAsync("accessToken", "");
-            AuthHelper.IsLogined = false;
-        }
-    }
-    async Task OnSubmitForm()
-    {
-        isSubmitting = true;
-        AuthHelper.IsLogined = false;
-        try
-        {
-            var accessToken = await _userService.Login(USERNAME, PASSWORD);
-            if (!string.IsNullOrEmpty(accessToken))
-            {
-
-                await _localStorageService.SetItemAsStringAsync("accessToken", accessToken);
-                //AuthTokenInstance.Instance.SetToken(accessToken);
-                //await AuthHelper.GetCurrentUserInf();
-                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đăng nhập thành công", "success");
-                await Task.Delay(1000);
-                await _jsRuntime.InvokeVoidAsync("navigateToPage", "/");
-                AuthHelper.IsLogined = true;
-
-            }
-            else
-            {
-                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đăng nhập thất bại.", "error");
-            }
-        }
-        catch (Exception e)
-        {
-            await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đăng nhập thất bại", "error");
-        }
-
-        isSubmitting = false;
-    }
-
-    async Task OnForgetPassword()
-    {
-        await _jsRuntime.InvokeVoidAsync("ShowModal", "dialogForgotPassword");
-    }
-}

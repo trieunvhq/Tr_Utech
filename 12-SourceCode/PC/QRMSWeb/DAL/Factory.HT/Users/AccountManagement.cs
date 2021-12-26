@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HDLIB.Paging;
 using HDLIB.Common;
 
-namespace DAL.FactoryDAL.Account
+namespace DAL.Factory.HT.Users
 {
     public class AccountManagement : IDisposable
     {

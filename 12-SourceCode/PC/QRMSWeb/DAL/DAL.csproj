@@ -56,7 +56,6 @@
     <Compile Include="Factory.Web\User\LoginLogManagement.cs" />
     <Compile Include="BaseManagerment.cs" />
     <Compile Include="DataContext.cs" />
-    <Compile Include="FactoryDAL\Account\AccountManagement.cs" />
     <Compile Include="GlobalVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseOrder.cs">
@@ -86,6 +85,9 @@
     <Compile Include="SaleOrderItem.cs">
       <DependentUpon>QRMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TransactionHistory.cs">
+      <DependentUpon>QRMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TransferInstruction.cs">
       <DependentUpon>QRMSModel.tt</DependentUpon>
     </Compile>
@@ -95,6 +97,10 @@
     <Compile Include="User.cs">
       <DependentUpon>QRMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Factory.HT\Users\AccountManagement.cs" />
+    <Compile Include="Factory.HT\TransactionHistoris\TransactionHistoryDAL.cs" />
+    <Compile Include="Factory.HT\PurchaseOrders\PurchaseOrderDAL.cs" />
+    <Compile Include="Factory.HT\PurchaseOrderitems\PurchaseOrderitemDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HDLIB\HDLIB.csproj">

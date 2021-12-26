@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QRMSWeb.Controllers
 {
-    public class AccountsController : Controller
+    public class UserController : Controller
     {
         // GET
         public IActionResult Index()

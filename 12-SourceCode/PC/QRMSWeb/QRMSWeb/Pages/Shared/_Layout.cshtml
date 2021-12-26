@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using QRMSWeb.Components.Common.AuthWrapper
+@using QRMSWeb.Components.Common.TopBar
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,43 +10,164 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    @if (String.IsNullOrEmpty(AuthTokenInstance.Instance.GetToken()))
+    { 
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">QRMSWeb</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class=" topbar" style="white-space: nowrap;  width:100%;background-color: #007bff!important; height:50px">
+            <div class="row" style="height: 50px;">
+                <nav class="navbar border-bottom navbar-expand-sm navbar-light bg-white text-dark" id="main_navbar" style="height:50px; width:100% ">
+                    <div class="container">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="navbar-brand" asp-area="" asp-page="/Index">QRMSWeb</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                        Master
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item">
+                                            <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                <span>Người dùng </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                        In nhãn
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item">
+                                            <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                <span>In nhãn </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                <span>In nhãn theo chỉ thị in </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                        Thao tác kho
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item dropdown">
+                                            <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                                <span>Xuất kho </span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                        <span>Nguyên liệu </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                        <span>Hoá chất </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                        <span>Thiết bị </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="dropdown-item dropdown-toggle pl-2" href="#" role="button" data-bs-toggle="dropdown">
+                                                <span>Nhập kho </span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                        <span>Nguyên liệu </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                        <span>Hoá chất </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                        <span>Thiết bị </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                <span>Chuyển kho </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" asp-area="" asp-page="/Index">Kiểm kê</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                        Kết nối với AMIS
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item">
+                                            <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                <span>Đơn mua hàng </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                <span>Đơn đặt hàng </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                <span>Chỉ thị xuất kho </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active " asp-area="" asp-page="/Index">
+                                                <span>Chỉ thị chuyển kho </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="user">
+                        <component type="typeof(TopBar)"
+                                   render-mode="ServerPrerendered" />
+                    </div>
+                </nav>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - QRMSWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
-    </footer>
+    </header>
+    }
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
 
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2021 - QRMSWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            </div>
+        </footer>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/bootnavbar.js"></script>
+        <link href="~/css/bootnavbar.css" rel="stylesheet" type="text/css" />
+
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 </html>
