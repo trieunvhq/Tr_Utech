@@ -1,5 +1,5 @@
 ﻿using BPL.Models.Users;
-using DAL.FactoryDAL.Account;
+using DAL.Factory.HT.Users;
 using HDLIB.Common;
 using HDLIB;
 using System;
@@ -51,9 +51,8 @@ namespace BPL.Master
             {
                 err_code = ResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
-
                 Logging.LogError(ex);
-                throw;
+                return null;
             }
         }
 
