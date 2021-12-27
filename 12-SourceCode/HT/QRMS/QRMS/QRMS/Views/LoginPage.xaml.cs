@@ -128,22 +128,19 @@ namespace QRMS.Views
                                            });
                                 _ = submit.ContinueWith(next =>
                                 {
-                                    if (submit.Result.ErrorCode != null && submit.Result.ErrorCode != "")
+                                    if (submit != null && submit.Result != null)
                                     {
                                         Device.BeginInvokeOnMainThread(async () =>
                                         {
-                                            if (submit != null && submit.Result != null)
+                                            if (submit.Result.data != null
+                                          && submit.Result.ErrorCode == "0")
                                             {
-                                                if (submit.Result.data != null
-                                              && submit.Result.ErrorCode == "0")
-                                                { 
-                                                    Application.Current.MainPage.Navigation.PushAsync(new HomePage());
-                                                }
-                                                else
-                                                { }
+                                                Application.Current.MainPage.Navigation.PushAsync(new HomePage());
                                             }
+                                            else
+                                            { }
                                         });
-                                    }
+                                    } 
                                     else
                                     {
                                         Device.BeginInvokeOnMainThread(() =>
