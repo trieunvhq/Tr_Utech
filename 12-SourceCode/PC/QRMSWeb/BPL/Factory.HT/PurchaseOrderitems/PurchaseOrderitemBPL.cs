@@ -16,7 +16,7 @@ namespace BPL.Factory.HT.PurchaseOrderitems
             {
                 var pr = new PurchaseOrderitemDAL(db);
                 var result = pr.GetPurchaseOrderitem(id);
-                if (string.IsNullOrEmpty(result))
+                if (!string.IsNullOrEmpty(result))
                 {
                     err_code = "0";
                     err_msg = "Lấy dữ liệu thành công";

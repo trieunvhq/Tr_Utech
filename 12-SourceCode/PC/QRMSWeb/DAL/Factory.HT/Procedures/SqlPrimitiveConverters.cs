@@ -2,7 +2,7 @@
 using System.Data.SqlTypes; 
 using Newtonsoft.Json;
 
-namespace API
+namespace DAL
 {
     static class SqlPrimitiveConverters
     {

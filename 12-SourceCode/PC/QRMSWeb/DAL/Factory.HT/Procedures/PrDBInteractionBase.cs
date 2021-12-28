@@ -64,10 +64,12 @@ namespace DAL
 			m_scoMainConnection = new SqlConnection();
 			AppSettingsReader m_asrConfigReader = new AppSettingsReader();
 
-			// Set connection string of the sqlconnection object
-			m_scoMainConnection.ConnectionString = 
-						m_asrConfigReader.GetValue("Main.ConnectionString", typeof(string)).ToString();
-			m_bIsDisposed = false;
+            // Set connection string of the sqlconnection object
+            //m_scoMainConnection.ConnectionString = $"data source=192.168.0.116;initial catalog=QRMS;UID=sa;PWD=hds123456";
+            m_scoMainConnection.ConnectionString = $"data source=103.127.206.198;initial catalog=QRMS;UID=tinluong;PWD=1";
+
+            //m_asrConfigReader.GetValue("Main.ConnectionString", typeof(string)).ToString();
+            m_bIsDisposed = false;
 		}
 
 

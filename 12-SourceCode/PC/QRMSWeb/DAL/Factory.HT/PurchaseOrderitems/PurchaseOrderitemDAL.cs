@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using DAL.Model.HT;
 using HDLIB.Common;
+using Newtonsoft.Json;
 
 namespace DAL.Factory.HT.PurchaseOrderitems
 {
@@ -16,6 +18,22 @@ namespace DAL.Factory.HT.PurchaseOrderitems
         {
             try
             {
+                var settings = new JsonSerializerSettings().AddSqlConverters();
+                DataTable dt;
+
+                using (PrPurchaseOrderItem cl = new PrPurchaseOrderItem())
+                {
+                    dt = cl.GetPurchaseOrderItem_MHDC(PurchaseOrderID_Input);
+                    if (dt == null)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        string Result = JsonConvert.SerializeObject(dt, settings);
+                        return Result;
+                    }
+                }
                 //string SQL = $"select DISTINCT [ID], [PurchaseOrderID], [PurchaseOrderNo], [PurchaseOrderDate], [ItemCode] ";
                 //SQL += $", [ItemName], [ItemType], [Quantity], [Unit], [InputStatus], [RecordStatus], ";
                 //SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
@@ -37,13 +55,11 @@ namespace DAL.Factory.HT.PurchaseOrderitems
                 ////SQL += $"and a.PurchaseOrderID = '{PurchaseOrderID_Input}' ";
                 ////SQL += $"order by a.CreateDate desc ";
                 //var data = db.PurchaseOrderItems.SqlQuery(SQL).AsNoTracking().ToList<NhapKhoDungCuModel>();
-
-                return "";
             }
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                return "";
+                return null;
             }
         }
 
