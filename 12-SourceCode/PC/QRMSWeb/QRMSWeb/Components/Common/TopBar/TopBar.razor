@@ -4,40 +4,56 @@
 @using QRMSWeb.Helper
 @using QRMSWeb.Utils
 
-<!-- Top Bar Start -->
-<nav class="navbar border-bottom navbar-expand-lg navbar-light bg-white text-dark pr-3" id="main_navbar" style="height:50px;">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-dark arrow-none waves-effect nav-user waves-light" href="#"
-                   role="button" data-bs-toggle="dropdown" data-toggle="tooltip" data-placement="bottom" title="">
-                    Tài khoản
+@inject NavigationManager _navigationManager
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
+@inject IJSRuntime _jsRuntime
+   
+    <!-- Top Bar Start -->
+    <nav class="navbar border-bottom navbar-expand-lg navbar-light  text-dark pr-3" id="main_navbar" style="height:50px;">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user waves-light" href="#" id="navbarDropdown"
+                       role="button" data-bs-toggle="dropdown" data-toggle="dropdown" data-placement="bottom" title="@FullName">
+                        Tài khoản
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+
+                        <!--<li class="nav-item">
+                <a class="nav-link active" role="button">
+                    <i class="fa fa-user-o" style="color:blue; font-size:15px" aria-hidden="true"></i>
+                    <span>Thông tin người sử dụng </span>
                 </a>
-
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <!--<li class="nav-item">
-                        <a class="nav-link active" role="button">
-                            <i class="fa fa-user-o" style="color:blue; font-size:15px" aria-hidden="true"></i>
-                            <span>Thông tin người sử dụng </span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active">
-                            <i class="fas fa-key" style="color: blue; font-size: 15px"></i>
-
-                            Thay đổi mật khẩu
-                        </a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>-->
-                    <li class="nav-item">
-                        <a class="nav-link active">
-                            <i class="mdi mdi-power" style="color: blue;font-size: 15px"></i>
-                            Đăng xuất
-                        </a>
-                    </li>
-                </ul>
             </li>
-        </ul>
-    </div>
-</nav>
-<!-- Top Bar End -->
+            <li class="nav-item">
+                <a class="nav-link active">
+                    <i class="fas fa-key" style="color: blue; font-size: 15px"></i>
+
+                    Thay đổi mật khẩu
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>-->
+                        <li class="nav-item">
+                            <a class="nav-link" role="button" @onclick="@OnClickLogout">
+                                <i class="mdi mdi-power" style="font-size: 15px"></i>
+                                Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    @code {
+        string FullName { get; set; }
+        async Task OnClickLogout()
+        {
+            await _localStorageService.RemoveItemAsync("accessToken");
+            AuthTokenInstance.Instance.SetToken(null);
+            AuthHelper.SetUser(null);
+            _navigationManager.NavigateTo(" /auth/login", true);
+        }
+    }
+    <!-- Top Bar End -->

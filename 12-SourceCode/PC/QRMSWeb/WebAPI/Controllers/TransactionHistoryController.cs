@@ -4,11 +4,41 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using BPL.Factory.HT.TransactionHistoris;
+using BPL.Models;
+using HDLIB.Common;
+using Newtonsoft.Json.Linq;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
     public class TransactionHistoryController : ApiController
     {
+        [HttpPost]
+        [Route("api-ht/transactionHistori/inserthistory")]
+        public BaseModel Login([FromBody] List<TransactionHistoryBPLModel> input)
+        {
+            var _return = new BaseModel();
+            try
+            {
+                string err_code = "";
+                string err_msg = "";
+
+                var result = new TransactionHistoryBPL().InsertTransactionHistory(input, out err_code, out err_msg);
+
+                _return.ErrorCode = err_code;
+                _return.Message = err_msg;
+                _return.data = result;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                _return.ErrorCode = ResponseErrorCode.Error.ToString();
+                _return.Message = ex.Message;
+            }
+            return _return;
+        }
+
         // GET api/<controller>
         public IEnumerable<string> Get()
         {

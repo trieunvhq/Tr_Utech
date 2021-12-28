@@ -209,7 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QRMS\QRMS.csproj">
-      <Project>{79F8590F-5399-436F-8FC5-8CE41797AC3A}</Project>
+      <Project>{13DCBD1D-57E9-423B-98BE-2A09960450AE}</Project>
       <Name>QRMS</Name>
     </ProjectReference>
   </ItemGroup>

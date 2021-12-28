@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using HDLIB.Common;
+
 namespace DAL.Factory.HT.TransactionHistoris
 {
     public class TransactionHistoryDAL : IDisposable
@@ -8,6 +11,25 @@ namespace DAL.Factory.HT.TransactionHistoris
         public TransactionHistoryDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
 
 
+        public int InsertTransactionHistory(List<TransactionHistory> obj)
+        {
+            try
+            {
+                foreach (var item in obj)
+                {
+                    db.TransactionHistories.Add(item);
+                }
+
+                db.SaveChanges();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                return -99;
+            }
+        }
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

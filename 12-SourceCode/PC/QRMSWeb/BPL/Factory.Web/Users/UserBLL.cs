@@ -10,9 +10,10 @@ using System.Collections.Generic;
 
 namespace BLL.FactoryBLL.Web.Users
 {
-    public class UserBLL: BaseBLL
+    public class UserBLL : BaseBLL
     {
-        
+
+
         public int CheckAccount(string ipAddress, string deviceName, string user, string pass, out UserModel objItem)
         {
             try
@@ -80,7 +81,7 @@ namespace BLL.FactoryBLL.Web.Users
                 throw;
             }
         }
-        
+
         public int ResetPassword(string username, string newPass)
         {
             try
@@ -139,7 +140,7 @@ namespace BLL.FactoryBLL.Web.Users
                         if (result <= 0)
                         {
                             transac.Rollback();
-                        } else { 
+                        } else {
                             transac.Commit();
                         }
                         return result;
@@ -205,7 +206,7 @@ namespace BLL.FactoryBLL.Web.Users
                 var AccManager = new UserManagement(db);
                 var _origin = AccManager.Select(ID);
                 if (_origin == null) return -1;
-                
+
                 return AccManager.Update(_origin);
             }
             catch (Exception ex)
@@ -257,7 +258,7 @@ namespace BLL.FactoryBLL.Web.Users
             try
             {
                 var user = new UserManagement(db).FindByPk(id, withLock);
-                if (user != null) { 
+                if (user != null) {
                     UserModel userModel = new UserModel();
                     userModel.CopyPropertiesFrom(user);
                     return userModel;
@@ -291,13 +292,35 @@ namespace BLL.FactoryBLL.Web.Users
             }
         }
 
-
+        public HDLIB.WebPaging.TPaging<UserModel> GetAllUser(int page, int limit, string username, string fullName) 
+        {
+            HDLIB.WebPaging.TPaging<UserModel> paging = new HDLIB.WebPaging.TPaging<UserModel>();
+            var myPagging = new DAL.Factory.Web.Users.UserManagement(db).GetAllUser(
+                        page,
+                        limit,
+                        username,
+                        fullName
+                    );
+            paging.page = myPagging.page;
+            paging.total = myPagging.total;
+            paging.pages = myPagging.pages;
+            paging.limit = myPagging.limit;
+            List<UserModel> lstUserModel = new List<UserModel>();
+            foreach(var row in myPagging.rows)
+            {
+                UserModel userModel = new UserModel();
+                userModel.CopyPropertiesFrom(row);
+                lstUserModel.Add(userModel);
+            }
+            paging.rows = lstUserModel;
+            return paging;
+        }
         public int AccountLogin(UserModel account, string Password, string IpAddress, string DeviceInfo)
         {
             try
             {
-                var accountManager = new UserManagement(db);
-                var loginLogManager = new LoginLogManagement(db);
+               // var accountManager = new UserManagement(db);
+              //  var loginLogManager = new LoginLogManagement(db);
 
                 string _Password = Cipher.Encrypt(Password, PasswordEncrypt.PRIVATE_KEY);
 

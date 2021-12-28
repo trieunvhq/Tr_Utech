@@ -36,6 +36,8 @@ a {
   border-color: #1861ac;
 }
 
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -216,7 +218,7 @@ h4, h4 {
 */
 
 .page-title-box {
-    background: url(/assets/images/bg.jpg);
+    background: none !important;
     margin: 0 -30px 23px -30px;
     padding: 10px 30px 100px 20px;
     box-shadow: 0 2px 3px rgb(0 0 0 / 8%);
@@ -234,7 +236,7 @@ h4, h4 {
 }
 
 .space_search_area {
-	margin-bottom: -1.5rem;
+	//margin-bottom: -1.5rem;
 }
 
 .contain_body {

@@ -112,7 +112,7 @@ namespace WebAPI.Controllers.Web
                                 {
                                     new Claim(ClaimTypes.Sid, account.ID.ToString()),
                                     new Claim(ClaimTypes.Name, account.Code),
-                                    new Claim(ClaimTypes.NameIdentifier, account.Email),
+                                    new Claim(ClaimTypes.NameIdentifier, account.Code),
                                 }
             };
             var WebTimeOut = System.Configuration.ConfigurationSettings.AppSettings["WebTimeOut"]?.Trim();

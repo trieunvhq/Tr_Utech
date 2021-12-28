@@ -1,40 +1,64 @@
 ﻿@using QRMSWeb.Components.Common.AuthWrapper
 
+<partial name="Common/_AuthWrapper" />
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+
     <title>@ViewData["Title"] - QRMSWeb</title>
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico">
+
+    <link rel="stylesheet" href="~/plugins/morris/morris.css">
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="~/assets/css/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/js/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/js/myform.js"></script>
     @await RenderSectionAsync("LinkTags", false)
 </head>
 <body>
-    @if (String.IsNullOrEmpty(AuthTokenInstance.Instance.GetToken()))
-    {
-        <partial name="Common/_Topbar" />
-    }
+    <div class="wrapper">
+        @if (!String.IsNullOrEmpty(AuthTokenInstance.Instance.GetToken()))
+        {
+            <partial name="Common/_Topbar" />
+        }
 
         <div class="container">
-            <main role="main" class="pb-3">
+            <main role="main" class="">
                 @RenderBody()
             </main>
         </div>
 
-        <footer class="border-top footer text-muted">
-            <div class="container">
+        @await RenderSectionAsync("Footer", false)
+
+        <footer class="border-top footer text-muted ">
+            <div class="container " style="align-items: center; text-align:center">
                 &copy; 2021 - QRMSWeb - <a asp-area="" asp-page="/home/Privacy">Privacy</a>
             </div>
         </footer>
+    </div>
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/js/bootnavbar.js"></script>
-        <link href="~/css/bootnavbar.css" rel="stylesheet" type="text/css" />
+    <script src="~/_framework/blazor.server.js" autostart="false"></script>
+    <script>
+        Blazor.start({
+            configureSignalR: function (builder) {
+                builder.withUrl("/_blazor");
+            }
+        });
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/bootnavbar.js"></script>
+    <link href="~/css/bootnavbar.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/js/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-        @await RenderSectionAsync("Scripts", required: false)
-    </body>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
 </html>

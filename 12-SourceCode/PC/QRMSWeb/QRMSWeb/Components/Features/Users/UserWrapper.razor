@@ -89,8 +89,8 @@
     };
 
     private List<TableLabels> labels = new List<TableLabels>()
-{
-        new TableLabels {label = "Tên tài khoản", dataIndex = "USERNAME",columnWidth=120},
+    {
+        new TableLabels {label = "Mã ng", dataIndex = "USERNAME",columnWidth=120},
         new TableLabels {label = "Họ và tên", dataIndex = "FULL_NAME",columnWidth=250},
         new TableLabels {label = "Số CMND/CCCD", dataIndex = "IDENTITY_NO",columnWidth=150},
         new TableLabels {label = "Số điện thoại", dataIndex = "MOBILE",columnWidth=150 },
@@ -135,19 +135,16 @@
     {
         await _localStorageService.SetItemAsStringAsync("search_account_userName", !String.IsNullOrWhiteSpace(username) ? username : "");
         await _localStorageService.SetItemAsStringAsync("search_account_fullName", !String.IsNullOrWhiteSpace(fullname) ? fullname : "");
-        await _localStorageService.SetItemAsStringAsync("search_account_insuranceAgentName", !String.IsNullOrWhiteSpace(insuranceAgentName) ? insuranceAgentName : "");
     }
     private async Task retryParamSearch()
     {
         username = await _localStorageService.GetItemAsStringAsync("search_account_userName") ?? "";
         fullname = await _localStorageService.GetItemAsStringAsync("search_account_fullName") ?? "";
-        insuranceAgentName = await _localStorageService.GetItemAsStringAsync("search_account_insuranceAgentName") ?? "";
     }
     protected override void OnInitialized()
     {
         try
         {
-
             _userService = new UserService(_httpClient);
         }
         catch (Exception e)
@@ -161,7 +158,7 @@
         try
         {
             await retryParamSearch();
-            var response = await _userService.SearchAccount(CurrentPage, RowPerPage, username, fullname, insuranceAgentName);
+            var response = await _userService.SearchAccount(CurrentPage, RowPerPage, username, fullname);
             accounts = response.rows ?? new List<UserModel>();
             TotalPage = response.pages;
         }

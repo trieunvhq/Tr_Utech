@@ -72,8 +72,8 @@ namespace DAL.Factory.HT.PurchaseOrderitems
                 {
                     var dept = db.PurchaseOrderItems.Where(f => f.ID == item.ID).FirstOrDefault();
                     if (dept == null) throw new Exception("");
-
-                    dept.InputStatus = item.InputStatus;
+                    else
+                        dept.InputStatus = item.InputStatus;
                 }
 
                 db.SaveChanges();

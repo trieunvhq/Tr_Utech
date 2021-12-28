@@ -79,7 +79,7 @@ namespace Web_API.Attributes.Web
                  
                         claims.Add(new Claim(ClaimTypes.Sid, account.ID.ToString()));
                         claims.Add(new Claim(ClaimTypes.Name, account.Code));
-                        claims.Add(new Claim(ClaimTypes.NameIdentifier, account.Email));
+                        claims.Add(new Claim(ClaimTypes.NameIdentifier, account.Code));
                                         
 
                     //new Claim(ClaimTypes.NameIdentifier, account.ACCOUNT_TYPE_ID.ToString());

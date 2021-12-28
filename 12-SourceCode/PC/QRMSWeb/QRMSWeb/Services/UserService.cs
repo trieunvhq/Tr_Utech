@@ -29,7 +29,7 @@ namespace QRMSWeb.Services
             return responseData.data;
         }
 
-        public async Task<PaginateData<List<UserModel>>> SearchAccount(int page, int rowPerPage, string username, string fullname, string divisionName)
+        public async Task<PaginateData<List<UserModel>>> SearchAccount(int page, int rowPerPage, string username, string fullname)
         {
             string queryString = $"page={page}&limit={rowPerPage}";
             
@@ -42,13 +42,7 @@ namespace QRMSWeb.Services
             {
                 queryString += $"&fullname={Uri.EscapeDataString(fullname.Trim())}";
             }
-
-            if (!string.IsNullOrEmpty(divisionName?.Trim()))
-            {
-                queryString += $"&insuranceAgentName={Uri.EscapeDataString(divisionName.Trim())}";
-            }
-            
-            var response = await Client.GetAsync("api-wa/account/account-division?" + queryString);
+            var response = await Client.GetAsync("api-wa/account/all-account?" + queryString);
             this.checkResponse(response);
             string responseBody = await response.Content.ReadAsStringAsync();
             var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<UserModel>>>(responseBody);
@@ -58,7 +52,7 @@ namespace QRMSWeb.Services
 
         public async Task<List<UserModel>> GetAllAccounts(string aggentCode)
         {
-            string url = $"api-wa/account/all-account";
+            string url = $"api-wa/account/all";
             if (!string.IsNullOrEmpty(aggentCode?.Trim()))
             {
                 url = $"{url}?{Uri.EscapeDataString(aggentCode.Trim())}";

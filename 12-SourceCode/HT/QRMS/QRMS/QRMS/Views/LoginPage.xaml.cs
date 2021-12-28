@@ -1,10 +1,10 @@
-﻿
+﻿ 
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Helper;
-using QRMS.Models;
-using System;
+using QRMS.Models;  
+using System; 
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,7 +25,7 @@ namespace QRMS.Views
             base.OnAppearing();
         }
 
-
+         
 
         private void EntryPass_Unfocused(object sender, FocusEventArgs e)
         {
@@ -56,7 +56,12 @@ namespace QRMS.Views
                 _ = Controls.LoadingUtility.ShowAsync().ContinueWith(bb =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
-                    { 
+                    {
+
+                        Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+
+                        Controls.LoadingUtility.Hide();
+                        return;
 
                         lblUserEmptyError.IsVisible = false;
                         lblPassEmptyError.IsVisible = false;
@@ -67,7 +72,7 @@ namespace QRMS.Views
                         MySettings.FULL_NAME = "";
 
                         var isError = false;
-                        if (string.IsNullOrWhiteSpace(txtUserName.Text))
+                        if (string.IsNullOrEmpty(txtUserName.Text))
                         {
                             frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
                             frameUser.BorderColor = Color.FromHex("#F5323C");
@@ -80,7 +85,7 @@ namespace QRMS.Views
                             frameUser.BorderColor = Color.FromHex("#F49A0E");
                             frameUser.BackgroundColor = Color.Default;
                         }
-                        if (string.IsNullOrWhiteSpace(txtPassword.Text))
+                        if (string.IsNullOrEmpty(txtPassword.Text))
                         {
                             framePass.BackgroundColor = Color.FromHex("#FEEEEF");
                             framePass.BorderColor = Color.FromHex("#F5323C");
@@ -91,7 +96,43 @@ namespace QRMS.Views
                         {
                             framePass.BorderColor = Color.FromHex("#F49A0E");
                             framePass.BackgroundColor = Color.Default;
-                        } 
+                        }
+                        if (string.IsNullOrWhiteSpace(txtUserName.Text))
+                        {
+                            frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
+                            frameUser.BorderColor = Color.FromHex("#F5323C");
+                            lblUserEmptyError.IsVisible = true;
+                            isError = true;
+                        }
+                        else
+                        {
+                            if (txtUserName.Text.Contains("@"))
+                            {
+                                if (MobileLib.IsEmail(txtUserName.Text) == false)
+                                {
+                                    lblUserEmptyError.Text = "Tài khoản không đúng";
+
+                                    frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
+                                    frameUser.BorderColor = Color.FromHex("#F5323C");
+                                    lblUserEmptyError.IsVisible = true;
+                                    isError = true;
+                                }
+                            }
+                            else if (!string.IsNullOrEmpty(txtUserName.Text))
+                            {
+                                if (txtUserName.Text.Length == 10)
+                                { }
+                                else
+                                {
+                                    lblUserEmptyError.Text = "Tài khoản không đúng";
+
+                                    frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
+                                    frameUser.BorderColor = Color.FromHex("#F5323C");
+                                    lblUserEmptyError.IsVisible = true;
+                                    isError = true;
+                                }
+                            }
+                        }
                         if (isError)
                         {
                             Device.BeginInvokeOnMainThread(() =>
@@ -116,7 +157,7 @@ namespace QRMS.Views
                                 var ipAddress = MobileInfo.GetIP();
                                 var deviceName = MobileInfo.GetDeviceInfo();
                                 string UserName_ = txtUserName.Text.ToLower();
-                                var submit = APIHelper.PostObjectToAPIAsync<BaseModel<User>>
+                                var submit = APIHelper.PostObjectToAPIAsync<BaseModel<CusConfigModel>>
                                            (Constaint.ServiceAddress, Constaint.APIurl.login,
                                            new
                                            {
@@ -128,19 +169,17 @@ namespace QRMS.Views
                                            });
                                 _ = submit.ContinueWith(next =>
                                 {
-                                    if (submit != null && submit.Result != null)
+                                    if (submit.Result.ErrorCode != null && submit.Result.ErrorCode != "")
                                     {
                                         Device.BeginInvokeOnMainThread(async () =>
                                         {
-                                            if (submit.Result.data != null
-                                          && submit.Result.ErrorCode == "0")
+                                            switch (submit.Result.ErrorCode)
                                             {
-                                                Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+                                                case "0":
+                                                    break;
                                             }
-                                            else
-                                            { }
                                         });
-                                    } 
+                                    }
                                     else
                                     {
                                         Device.BeginInvokeOnMainThread(() =>
@@ -184,6 +223,7 @@ namespace QRMS.Views
                 var className = GetType().Name;
                 var methodName = "Login_Clicked";
                 var actionName = $"{namespaceInFile}.{className}.{methodName}()";
+                LogExAPI.AddLogEx(token, appType, osType, actionName, ex.ToString(), null);
             }
         }
     }

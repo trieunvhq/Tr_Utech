@@ -24,6 +24,7 @@
     <None Remove="Xamarin.FFImageLoading.Transformations" />
     <None Remove="ViewModels\Shared\" />
     <None Remove="Models\Shared\" />
+    <None Remove="Models\Home\" />
     <None Remove="ViewModels\OTO\" />
     <None Remove="Views\OTO\BB %28copy%29\" />
     <None Remove="ViewModels\OTO\BB %28copy%29\" />
@@ -224,6 +225,7 @@
 
   <ItemGroup>
     <Folder Include="Connected Services\" />
+    <Folder Include="Models\Home\" />
   </ItemGroup>
 
   <ItemGroup>

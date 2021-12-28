@@ -853,7 +853,6 @@ dt {
 
 /************* page title *************/
 .page-title-box {
-  background: url("/assets/images/bg.jpg");
   margin: 0 -30px 23px -30px;
   padding: 20px 30px 100px 30px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
@@ -865,7 +864,7 @@ dt {
     line-height: 30px; }
   .page-title-box .breadcrumb {
     padding: 4px 0;
-    background-color: transparent;
+    background-color: #FFF;
     margin-bottom: 0; }
     .page-title-box .breadcrumb a {
       color: rgba(255, 255, 255, 0.9); }

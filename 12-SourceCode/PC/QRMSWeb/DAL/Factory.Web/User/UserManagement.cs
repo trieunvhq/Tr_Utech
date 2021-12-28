@@ -64,26 +64,27 @@ namespace DAL.Factory.Web.Users
         }
         
         public HDLIB.WebPaging.TPaging<User> GetAllUser(int page, int limit,
-            string username, string fullName, string userType, bool isSearch)
+            string username, string fullName)
         {
             try
             {
                 username = username?.Trim();
                 fullName = fullName?.Trim();
-                userType = userType?.Trim();
 
                 HDLIB.WebPaging.TPaging<User> paging = new HDLIB.WebPaging.TPaging<User>();
                 int offset = (page - 1) * limit;
 
-                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
-                if (isSearch) { 
-                    SQL += (string.IsNullOrEmpty(username)) ? "" : $" and LOWER(a.Code) LIKE '%{username.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                } else
-                {
-                    SQL += (string.IsNullOrEmpty(username)) ? "" : $" and LOWER(a.Code) = '{username.ToLower()}'";
-                }
+                string SQL = $"select * from [User] a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
+                SQL += (string.IsNullOrEmpty(username)) ? "" : $" and LOWER(a.Code) LIKE '%{username.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                //if (isSearch)
+                //{
+                //    SQL += (string.IsNullOrEmpty(username)) ? "" : $" and LOWER(a.Code) LIKE '%{username.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                //} else
+                //{
+                //    SQL += (string.IsNullOrEmpty(username)) ? "" : $" and LOWER(a.Code) = '{username.ToLower()}'";
+                //}
                 SQL += (string.IsNullOrEmpty(fullName)) ? "" : $" and LOWER(a.FullName) LIKE '%{fullName.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                SQL += (string.IsNullOrEmpty(userType)) ? "" : $" and LOWER(a.Role) LIKE '%{userType.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                //SQL += (string.IsNullOrEmpty(userType)) ? "" : $" and LOWER(a.Role) LIKE '%{userType.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
 
 
                 //SQL += isAssetPercentFee ? " and a.ASSET_PERCENT_FEE is not null" : " and a.ASSET_PERCENT_FEE is null";

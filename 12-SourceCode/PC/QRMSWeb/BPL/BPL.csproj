@@ -54,9 +54,11 @@
   <ItemGroup>
     <Compile Include="Factory.HT\BaseBPL.cs" />
     <Compile Include="Factory.Web\BaseBLL.cs" />
+    <Compile Include="Factory.Web\SaleOrder\SaleOrderBLL.cs" />
     <Compile Include="Factory.Web\Users\UserBLL.cs" />
     <Compile Include="Models.Web\AuthModel.cs" />
     <Compile Include="Models.Web\EmailModel.cs" />
+    <Compile Include="Models.Web\SaleOrderModel.cs" />
     <Compile Include="Models.Web\UserModel.cs" />
     <Compile Include="Models\PurchaseOrderBPLModel.cs" />
     <Compile Include="Models\PurchaseOrderItemBPLModel.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Factory.HT\PurchaseOrders\PurchaseOrderBPL.cs" />
     <Compile Include="Factory.HT\PurchaseOrderitems\PurchaseOrderitemBPL.cs" />
     <Compile Include="Factory.HT\TransactionHistoris\TransactionHistoryBPL.cs" />
+    <Compile Include="Models\TransactionHistoryBPLModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

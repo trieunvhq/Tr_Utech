@@ -23,11 +23,11 @@
 
 .dropdown-menu > li a:hover,
 .dropdown-menu > li.show {
-	background: red;
+	background-color:honeydew ;
 	color: white;
 }
 ul.dropdown-menu {
-    background-color:lightgray !important
+    /*background-color: #007BFF !important*/
 }
 .dropdown-menu > li.show > a{
 }
