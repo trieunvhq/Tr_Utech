@@ -11,6 +11,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using QRMSWeb.Services;
+using System.Net.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Blazored.LocalStorage;
 
 namespace QRMSWeb
 {
@@ -26,16 +30,38 @@ namespace QRMSWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+            services.AddControllersWithViews();
+
+            // For Blazor component usages.
             services.AddRazorPages();
-            //add mvc
-           // var controllerAssembly = Assembly.Load(new AssemblyName("WebAPI"));
-            //services.AddMvc().AddApplicationPart(controllerAssembly).AddControllersAsServices();
-           
-            //In a Blazor project
-            /*
-            var assembly = typeof(Department).Assembly;
-            services.AddControllers().AddControllersAsServices().PartManager.ApplicationParts.Add(new AssemblyPart(assembly));
-            */
+            services.AddServerSideBlazor().AddCircuitOptions(options =>
+            {
+                options.DetailedErrors = true;
+            });
+
+            // Local Storage
+            services.AddBlazoredLocalStorage();
+            //services.AddBlazoredSessionStorage();
+
+            // HTTP Client
+            services.AddScoped<AuthServiceHandler>();
+            services.AddHttpClient("ApiClient")
+                .AddHttpMessageHandler<AuthServiceHandler>();
+            services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("ApiClient"));
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = null;
+            });
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.Limits.MaxRequestBodySize = null;
+            });
+            services.AddSignalR(e =>
+            {
+                e.MaximumReceiveMessageSize = 209715200;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,11 +73,10 @@ namespace QRMSWeb
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -61,7 +86,11 @@ namespace QRMSWeb
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

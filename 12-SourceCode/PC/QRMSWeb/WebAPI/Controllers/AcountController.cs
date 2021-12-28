@@ -22,17 +22,14 @@ namespace WebAPI.Controllers
             var _return = new BaseModel();
             try
             {
-                using (var db = new DAL.QRMSEntities())
-                {
-                    string err_code = "";
-                    string err_msg = "";
+                string err_code = "";
+                string err_msg = "";
 
-                    var result = new AccountBPL(db).CheckAccount(input.UserName, input.Password, out err_code, out err_msg);
+                var result = new AccountBPL().CheckAccount(input.UserName, input.Password, out err_code, out err_msg);
 
-                    _return.ErrorCode = err_code;
-                    _return.Message = err_msg;
-                    _return.data = result;
-                }
+                _return.ErrorCode = err_code;
+                _return.Message = err_msg;
+                _return.data = result;
             }
             catch (Exception ex)
             {
@@ -55,7 +52,7 @@ namespace WebAPI.Controllers
                 string err_msg = "";
                 string emailOrMobile = dataSent?["UserName"]?.ToObject<string>();
 
-                var accBPL = new AccountBPL(db);
+                var accBPL = new AccountBPL();
                 accBPL.LockAccount(emailOrMobile, out err_code, out err_msg);
                 _return.ErrorCode = err_code;
                 _return.Message = err_msg;
@@ -80,7 +77,7 @@ namespace WebAPI.Controllers
                 string err_code = "";
                 string err_msg = "";
 
-                var accBPL = new AccountBPL(db);
+                var accBPL = new AccountBPL();
                 accBPL.AddAccount(input, out err_code, out err_msg);
                 _return.ErrorCode = err_code;
                 _return.Message = err_msg;

@@ -1,10 +1,11 @@
 ﻿using BLL.FactoryBLL.Web.Users;
+using BPL.Models.Web;
 
 namespace BLL.Utils.Helpers.Web
 {
     public static class AuthHelpers
     {
-        public static DAL.User LoginAcount(int? userID)
+        public static UserModel LoginAcount(int? userID)
         {
             if (userID == null || userID <= 0)
             {

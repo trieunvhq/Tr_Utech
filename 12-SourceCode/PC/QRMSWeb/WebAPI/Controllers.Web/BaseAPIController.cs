@@ -9,7 +9,6 @@ namespace Web_API.Controllers.Web
 {
     public class BaseAPIController : ApiController
     {
-       protected DAL.QRMSEntities db = new DAL.QRMSEntities();
         #region IDispose
         // WebApi 2 will call this automatically after each 
         // request. You need this to ensure your context is disposed

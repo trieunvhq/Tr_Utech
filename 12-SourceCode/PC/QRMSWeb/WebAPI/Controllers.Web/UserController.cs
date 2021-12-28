@@ -1,17 +1,15 @@
 ﻿using BLL.FactoryBLL.Web.Users;
 using BPL.Models.Web;
-using HDLIB.Common;
 using HDLIB;
+using HDLIB.Common;
 using Newtonsoft.Json.Linq;
+using PISAS_API.Models.Web.Users;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Web.Http;
 using Web_API.Attributes.Web;
-using Web_API.Controllers.Web;
 using WebAPI.Models;
-using System.Collections.Generic;
-using PISAS_API.Models.Web.Users;
 
 namespace WebAPI.Controllers.Web
 {
@@ -28,7 +26,7 @@ namespace WebAPI.Controllers.Web
             {
                 
                 //check trùng username
-                var user_exitst = new UserBLL(db).GetAccountByUserName(userModel.Code?.Trim());
+                var user_exitst = new UserBLL().GetAccountByUserName(userModel.Code?.Trim());
                 if (user_exitst != null)
                 {
                     _return.Message = "Tài khoản đã tồn tại";
@@ -44,7 +42,7 @@ namespace WebAPI.Controllers.Web
                 userModel.Role = userModel.Role.Trim();
                 string userName = HelperFunction.GetUserName(User);
                 List<UserModel> lstUserModel = new List<UserModel>() { userModel };
-                var result = new UserBLL(db).AddAccount(lstUserModel, userName);
+                var result = new UserBLL().AddAccount(lstUserModel, userName);
                 if (result > 0)
                 {
                     _return.ErrorCode = "0";
@@ -76,7 +74,7 @@ namespace WebAPI.Controllers.Web
             try
             {
                 string userName = HelperFunction.GetUserName(User);
-                var accBLL = new UserBLL(db);
+                var accBLL = new UserBLL();
                 var user_exitst = accBLL.GetAccountByUserName(userModel.Code?.Trim());
                 if (user_exitst != null && user_exitst.ID != id)
                 {
@@ -134,8 +132,8 @@ namespace WebAPI.Controllers.Web
             {
                 int? userID = HelperFunction.GetUserId(User);
 
-                var accBLL = new UserBLL(db);
-                var currentAccount = db.Users.Where(a => a.ID == changePasswordDTO.ID && a.RecordStatus != RecordStatus.Deleted).FirstOrDefault();
+                var accBLL = new UserBLL();
+                var currentAccount = accBLL.GetAccountById(changePasswordDTO.ID, true);
 
                 if (currentAccount == null)
                 {
@@ -185,7 +183,7 @@ namespace WebAPI.Controllers.Web
             var _return = new BaseModel();
             try
             {
-                    var accBLL = new UserBLL(db);
+                    var accBLL = new UserBLL();
                     var currentAccount = accBLL.GetAccountByUserName(restPasswordDTO.Code);
                     if (currentAccount == null)
                     {
@@ -235,7 +233,7 @@ namespace WebAPI.Controllers.Web
 
                 //var UserId = Int32.Parse(JObjectUtils.GetValueByKeyJObject(obj, "USER_ID"));
                 var Id = Int32.Parse(JObjectUtils.GetValueByKeyJObject(obj, "ID"));
-                var accBLL = new UserBLL(db);
+                var accBLL = new UserBLL();
                 var result = accBLL.DeleteAcc(Id, userID);
                 if (result == 1)
                 {
@@ -280,7 +278,7 @@ namespace WebAPI.Controllers.Web
 
                 //var UserId = Int32.Parse(JObjectUtils.GetValueByKeyJObject(obj, "USER_ID"));
                 var Id = Int32.Parse(JObjectUtils.GetValueByKeyJObject(obj, "ID"));
-                var accBLL = new UserBLL(db);
+                var accBLL = new UserBLL();
                 var result = accBLL.LockAcc(Id, userName);
                 if (result == 1)
                 {
@@ -314,7 +312,7 @@ namespace WebAPI.Controllers.Web
 
                 //var UserId = Int32.Parse(JObjectUtils.GetValueByKeyJObject(obj, "USER_ID"));
                 var Id = Int32.Parse(JObjectUtils.GetValueByKeyJObject(obj, "ID"));
-                var accBLL = new UserBLL(db);
+                var accBLL = new UserBLL();
                 var result = accBLL.UnlockAcc(Id, userName);
                 if (result == 1)
                 {
@@ -346,7 +344,7 @@ namespace WebAPI.Controllers.Web
             {
                 int? userID = HelperFunction.GetUserId(User);
 
-                var result = new UserBLL(db).LockAccount(user, userID);
+                var result = new UserBLL().LockAccount(user, userID);
                 if (result == 0)
                 {
                     _return.RespondCode = "200";
@@ -377,7 +375,7 @@ namespace WebAPI.Controllers.Web
             {
                 int? userID = HelperFunction.GetUserId(User);
 
-                var result = new UserBLL(db).UpdatePassword(user, newPass, userID);
+                var result = new UserBLL().UpdatePassword(user, newPass, userID);
                 if (result == 0)
                 {
                     _return.RespondCode = "200";
@@ -408,7 +406,7 @@ namespace WebAPI.Controllers.Web
             var _return = new BaseModel();
             try
             {
-                var result = new UserBLL(db).GetAccountById(accountID, true);
+                var result = new UserBLL().GetAccountById(accountID, true);
                 if (result != null)
                 {
                     _return.ErrorCode = "0";
@@ -442,7 +440,7 @@ namespace WebAPI.Controllers.Web
             {
                 int? userID = HelperFunction.GetUserId(User);
 
-                var account = userID != null ? new UserBLL(db).GetAccountById(userID??0, true) : null;
+                var account = userID != null ? new UserBLL().GetAccountById(userID??0, true) : null;
                 if (account == null)
                 {
                     _return.Message = "Không tìm thấy tài khoản";

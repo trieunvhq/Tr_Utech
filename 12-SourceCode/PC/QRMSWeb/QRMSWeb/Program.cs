@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +15,7 @@ namespace QRMSWeb
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+            BuildWebHost(args).Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -21,6 +23,20 @@ namespace QRMSWeb
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+
                 });
+
+
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseKestrel(options =>
+                {
+                    options.Limits.MaxRequestBodySize = long.MaxValue;
+                })
+               .UseIISIntegration()
+                .Build();
+        }
     }
 }

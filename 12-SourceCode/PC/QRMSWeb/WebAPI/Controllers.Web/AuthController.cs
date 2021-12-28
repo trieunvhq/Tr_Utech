@@ -3,6 +3,7 @@ using AuthenticationService.Models;
 using BLL.FactoryBLL.Web.Users;
 using BPL.Models.Web;
 using HDLIB.Common;
+using PISAS_API.Models.Web.Users;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -14,7 +15,60 @@ namespace WebAPI.Controllers.Web
 {
     public class WebAuthController : BaseAPIController
     {
-        
+        [HttpPost]
+        [ValidateModel]
+        [Route("api-wa/auth/login")]
+        public BaseRespModel AccountLogin([FromBody] LoginDTO accountLoginDTO)
+        {
+            var _return = new BaseRespModel();
+            try
+            {
+                var userBLL = new UserBLL();
+                var account = userBLL.GetAccountByUserName(accountLoginDTO.USERNAME);
+                if (account == null)
+                {
+                    _return.Message = "Tài khoản không tồn tại";
+                    _return.RespondCode = APIResponseCode.NOT_FOUND;
+                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    return _return;
+                }
+
+                if (RecordStatus.Locked.Equals(account.RecordStatus))
+                {
+                    _return.Message = "Tài khoản đã bị khóa";
+                    _return.RespondCode = APIResponseCode.NOT_FOUND;
+                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    return _return;
+                }
+
+                var result = userBLL.AccountLogin(account, accountLoginDTO.PASSWORD, Request.GetClientIpAddress(), Request.Headers.UserAgent.ToString());
+                if (result == 1)
+                {
+                    _return.Message = "Đăng nhập thành công";
+                    _return.RespondCode = APIResponseCode.SUCCESS;
+                    _return.data = GenarateToken(account);
+                }
+                else
+                {
+                    _return.Message = "Đăng nhập thất bại";
+                    _return.RespondCode = APIResponseCode.NOT_FOUND;
+                    _return.ErrorCode ="LOGIN_FAILED";
+                }
+
+                return _return;
+                    
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                _return.Message = APIMessage.SYSTEM_ERROR;
+                _return.RespondCode = APIResponseCode.SERVER_ERROR;
+                _return.ErrorCode = APIErrorCode.SYSTEM_ERROR;
+                return _return;
+            }
+        }
+
+
 
         [HttpGet]
         [AuthRequire]

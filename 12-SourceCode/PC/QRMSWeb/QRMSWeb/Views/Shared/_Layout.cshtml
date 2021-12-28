@@ -1,0 +1,40 @@
+﻿@using QRMSWeb.Components.Common.AuthWrapper
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QRMSWeb</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    @await RenderSectionAsync("LinkTags", false)
+</head>
+<body>
+    @if (String.IsNullOrEmpty(AuthTokenInstance.Instance.GetToken()))
+    {
+        <partial name="Common/_Topbar" />
+    }
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2021 - QRMSWeb - <a asp-area="" asp-page="/home/Privacy">Privacy</a>
+            </div>
+        </footer>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/bootnavbar.js"></script>
+        <link href="~/css/bootnavbar.css" rel="stylesheet" type="text/css" />
+
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+</html>

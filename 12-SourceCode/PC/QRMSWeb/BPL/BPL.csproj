@@ -52,10 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factory.HT\BaseBPL.cs" />
+    <Compile Include="Factory.Web\BaseBLL.cs" />
     <Compile Include="Factory.Web\Users\UserBLL.cs" />
     <Compile Include="Models.Web\AuthModel.cs" />
     <Compile Include="Models.Web\EmailModel.cs" />
     <Compile Include="Models.Web\UserModel.cs" />
+    <Compile Include="Models\PurchaseOrderBPLModel.cs" />
+    <Compile Include="Models\PurchaseOrderItemBPLModel.cs" />
+    <Compile Include="Models\Users\UserBPLModel.cs" />
     <Compile Include="Utils\AuthHelpers.cs" />
     <Compile Include="Utils\FileHelper.cs" />
     <Compile Include="Utils\MailHelper.cs" />
@@ -85,14 +90,11 @@
   <ItemGroup>
     <Folder Include="Constants\" />
     <Folder Include="OperatorWarehouse\" />
-    <Folder Include="Amis.HT\" />
-    <Folder Include="Models\WarehouseHT\" />
-    <Folder Include="Factory.HT\" />
-    <Folder Include="Factory.HT\PurchaseOrders\" />
-    <Folder Include="Factory.HT\PurchaseOrderitems\" />
-    <Folder Include="Factory.HT\TransactionHistoris\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>

@@ -3,11 +3,9 @@ using DAL;
 
 namespace BPL.Factory.HT.TransactionHistoris
 {
-    public class TransactionHistoryBPL
+    public class TransactionHistoryBPL : BaseBPL
     {
-        QRMSEntities db;
-        public TransactionHistoryBPL() { db = new QRMSEntities(); }
-        public TransactionHistoryBPL(QRMSEntities db) { this.db = db ?? new QRMSEntities(); }
+        
 
         
     }

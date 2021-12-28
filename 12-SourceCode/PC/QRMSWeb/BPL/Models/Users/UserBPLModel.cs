@@ -1,7 +1,8 @@
-﻿namespace BPL.Models.Web
+﻿using System;
+
+namespace BPL.Models.Users
 {
-    using System;
-    public class UserModel
+    public class UserBPLModel
     {
         public int ID { get; set; }
         public string Ctype { get; set; }

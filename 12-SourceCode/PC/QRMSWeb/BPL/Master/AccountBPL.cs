@@ -4,23 +4,14 @@ using HDLIB.Common;
 using HDLIB;
 using System;
 using DAL;
+using BPL.Factory.HT;
 
 namespace BPL.Master
 {
-    public class AccountBPL
+    public class AccountBPL : BaseBPL
     {
-        QRMSEntities db;
-        public AccountBPL() { db = new QRMSEntities(); }
-        public AccountBPL(QRMSEntities db) { this.db = db ?? new QRMSEntities(); }
-
-        /// <summary>
-        /// Kiểm tra login
-        /// </summary>
-        /// <param name="input">thông tin login</param>
-        /// <param name="err_code"></param>
-        /// <param name="err_msg"></param>
-        /// <returns></returns>
-        public User CheckAccount(string username_, string pass_, out string err_code, out string err_msg)
+     
+        public UserBPLModel CheckAccount(string username_, string pass_, out string err_code, out string err_msg)
         {
             try
             {
@@ -28,8 +19,9 @@ namespace BPL.Master
                 var result = accountManager.CheckAccount(username_, Cipher.Encrypt(pass_, PasswordEncrypt.PRIVATE_KEY));
                 if (result != null)
                 {
-                    var item = new User();
+                    var item = new UserBPLModel();
                     item.CopyPropertiesFrom(result);
+
                     if (item.RecordStatus.Equals(RecordStatus.Locked))
                     {
                         err_code = "5";
@@ -41,7 +33,7 @@ namespace BPL.Master
                         err_msg = "Đăng nhập thành công";
                     }
 
-                    return result;
+                    return item;
                 }
                 err_code = "4";
                 err_msg = "Dăng nhập thất bại, tên tài khoản hoặc mật khẩu không đúng";

@@ -23,8 +23,11 @@
 
 .dropdown-menu > li a:hover,
 .dropdown-menu > li.show {
-	background: #007bff;
+	background: red;
 	color: white;
+}
+ul.dropdown-menu {
+    background-color:lightgray !important
 }
 .dropdown-menu > li.show > a{
 }

@@ -8,6 +8,7 @@ using WebAPI.Models;
 using Newtonsoft.Json.Linq;
 using BPL.Factory.HT.PurchaseOrderitems;
 using HDLIB.Common;
+using BPL.Models;
 
 namespace WebAPI.Controllers
 {
@@ -20,18 +21,15 @@ namespace WebAPI.Controllers
             var _return = new BaseModel();
             try
             {
-                using (var db = new DAL.QRMSEntities())
-                {
-                    string err_code = "";
-                    string err_msg = "";
-                    int PurchaseOrderItemID = input["ID"].ToObject<int>();
+                string err_code = "";
+                string err_msg = "";
+                int PurchaseOrderItemID = input["ID"].ToObject<int>();
 
-                    var result = new PurchaseOrderitemBPL(db).GetPurchaseOrderitems(PurchaseOrderItemID, out err_code, out err_msg);
+                var result = new PurchaseOrderitemBPL().GetPurchaseOrderitems(PurchaseOrderItemID, out err_code, out err_msg);
 
-                    _return.ErrorCode = err_code;
-                    _return.Message = err_msg;
-                    _return.data = result;
-                }
+                _return.ErrorCode = err_code;
+                _return.Message = err_msg;
+                _return.data = result;
             }
             catch (Exception ex)
             {
@@ -41,6 +39,34 @@ namespace WebAPI.Controllers
             }
             return _return;
         }
+
+        [HttpPost]
+        [Route("api-ht/purchaseorderitem/updateitem")]
+        public BaseModel UpdatePurchaseOrderitem([FromBody] List<PurchaseOrderItemBPLModel> input)
+        {
+            var _return = new BaseModel();
+
+            try
+            {
+                string err_code = "";
+                string err_msg = "";
+                //int PurchaseOrderItemID = input["ID"].ToObject<int>();
+
+                var result = new PurchaseOrderitemBPL().UpdatePurchaseOrderitem(input, out err_code, out err_msg);
+
+                _return.ErrorCode = err_code;
+                _return.Message = err_msg;
+                _return.data = result;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                _return.ErrorCode = ResponseErrorCode.Error.ToString();
+                _return.Message = ex.Message;
+            }
+            return _return;
+        }
+
         // GET api/<controller>
         public IEnumerable<string> Get()
         {

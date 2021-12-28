@@ -19,17 +19,14 @@ namespace WebAPI.Controllers
             var _return = new BaseModel();
             try
             {
-                using (var db = new DAL.QRMSEntities())
-                {
-                    string err_code = "";
-                    string err_msg = "";
+                string err_code = "";
+                string err_msg = "";
 
-                    var result = new PurchaseOrderBPL(db).GetPurchaseOrder(input.from_day, input.to_day, out err_code, out err_msg);
+                var result = new PurchaseOrderBPL().GetPurchaseOrder(input.from_day, input.to_day, out err_code, out err_msg);
 
-                    _return.ErrorCode = err_code;
-                    _return.Message = err_msg;
-                    _return.data = result;
-                }
+                _return.ErrorCode = err_code;
+                _return.Message = err_msg;
+                _return.data = result;
             }
             catch (Exception ex)
             {

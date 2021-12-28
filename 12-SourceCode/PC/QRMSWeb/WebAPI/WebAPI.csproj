@@ -18,7 +18,8 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>
+    </Use64BitIISExpress>
     <IISExpressSSLPort>44388</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -203,6 +204,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models.Web\BaseRespModel.cs" />
+    <Compile Include="Models.Web\Users\LoginDTO.cs" />
     <Compile Include="Models.Web\Users\ChangePasswordDTO.cs" />
     <Compile Include="Models.Web\Users\ResetPasswordDTO.cs" />
     <Compile Include="Models\LoginInputModel.cs" />
@@ -302,11 +304,6 @@
     <ProjectReference Include="..\BPL\BPL.csproj">
       <Project>{cdcf4593-fd30-4c5a-bdd3-01dee4f0154d}</Project>
       <Name>BPL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{EF122DCD-17FA-43A8-A30D-32718D6A6CD4}</Project>
-      <Project>{ef122dcd-17fa-43a8-a30d-32718d6a6cd4}</Project>
-      <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\HDLIB\HDLIB.csproj">
       <Project>{1c6e1a95-64f3-4549-a7a3-8570b5f5fe0e}</Project>

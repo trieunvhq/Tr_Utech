@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DAL.Model.HT;
 using HDLIB.Common;
 
 namespace DAL.Factory.HT.PurchaseOrderitems
@@ -11,26 +12,64 @@ namespace DAL.Factory.HT.PurchaseOrderitems
         public PurchaseOrderitemDAL() { db = new QRMSEntities(); }
         public PurchaseOrderitemDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
 
-        public List<PurchaseOrderItem> GetPurchaseOrderitem(int PurchaseOrderID_Input)
+        public string GetPurchaseOrderitem(int PurchaseOrderID_Input)
         {
             try
             {
-                //var s = from c in db.PurchaseOrderItems where c.UpdateDate select ;
-                string SQL = $"select * from PurchaseOrderItems a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
-                SQL += $"and (a.InputStatus is not null and a.InputStatus != '{ InputStatus.Enough }') ";
-                SQL += $"and a.PurchaseOrderID = '{PurchaseOrderID_Input}' ";
-                SQL += $"order by a.CreateDate desc ";
-                var data = db.PurchaseOrderItems.SqlQuery(SQL).AsNoTracking().ToList();
+                //string SQL = $"select DISTINCT [ID], [PurchaseOrderID], [PurchaseOrderNo], [PurchaseOrderDate], [ItemCode] ";
+                //SQL += $", [ItemName], [ItemType], [Quantity], [Unit], [InputStatus], [RecordStatus], ";
+                //SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                //SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
+                //SQL += $"else (select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                //SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongDaNhap, ";
+                //SQL += $"(case when(select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                //SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
+                //SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                //SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongBox ";
+                //SQL += $"from PurchaseOrderItem a ";
+                //SQL += $"where(a.RecordStatus is not null and a.RecordStatus != 'D') ";
+                //SQL += $"and(a.InputStatus is not null and a.InputStatus != 'Y') ";
+                //SQL += $"and a.[PurchaseOrderID] = {PurchaseOrderID_Input} ";
+                //SQL += $"order by a.[PurchaseOrderDate] desc ";
+                //////var s = from c in db.PurchaseOrderItems where c.PurchaseOrderID select ;
+                ////string SQL = $"select * from PurchaseOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
+                ////SQL += $"and (a.InputStatus is not null and a.InputStatus != '{ InputStatus.Enough }') ";
+                ////SQL += $"and a.PurchaseOrderID = '{PurchaseOrderID_Input}' ";
+                ////SQL += $"order by a.CreateDate desc ";
+                //var data = db.PurchaseOrderItems.SqlQuery(SQL).AsNoTracking().ToList<NhapKhoDungCuModel>();
 
-                return data;
+                return "";
             }
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                return null;
+                return "";
             }
         }
 
+
+        public int UpdatePurchaseOrderitem(List<PurchaseOrderItem> obj)
+        {
+            try
+            {
+                foreach (var item in obj)
+                {
+                    var dept = db.PurchaseOrderItems.Where(f => f.ID == item.ID).FirstOrDefault();
+                    if (dept == null) throw new Exception("");
+
+                    dept.InputStatus = item.InputStatus;
+                }
+
+                db.SaveChanges();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                return -99;
+            }
+        }
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

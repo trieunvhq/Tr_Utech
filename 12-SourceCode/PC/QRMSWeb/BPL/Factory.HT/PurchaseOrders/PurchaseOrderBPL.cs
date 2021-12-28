@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using BPL.Models;
 using DAL;
 using DAL.Factory.HT.PurchaseOrders;
+using HDLIB;
 using HDLIB.Common;
 
 namespace BPL.Factory.HT.PurchaseOrders
 {
-    public class PurchaseOrderBPL
+    public class PurchaseOrderBPL : BaseBPL
     {
-        QRMSEntities db;
-        public PurchaseOrderBPL() { db = new QRMSEntities(); }
-        public PurchaseOrderBPL(QRMSEntities db) { this.db = db ?? new QRMSEntities(); }
-
-        public List<PurchaseOrder> GetPurchaseOrder(DateTime from_day, DateTime to_day, out string err_code, out string err_msg)
+        public List<PurchaseOrderBPLModel> GetPurchaseOrder(DateTime from_day, DateTime to_day, out string err_code, out string err_msg)
         {
             try
             {
@@ -23,7 +21,16 @@ namespace BPL.Factory.HT.PurchaseOrders
                     err_code = "0";
                     err_msg = "Lấy dữ liệu thành công";
 
-                    return result;
+                    var ListOut = new List<PurchaseOrderBPLModel>();
+
+                    foreach(PurchaseOrder item in result)
+                    {
+                        var xx = new PurchaseOrderBPLModel();
+                        xx.CopyPropertiesFrom(item);
+                        ListOut.Add(xx);
+                    }    
+
+                    return ListOut;
                 }
                 err_code = "5";
                 err_msg = "Không có dữ liệu";

@@ -37,6 +37,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -51,12 +54,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext.cs" />
+    <Compile Include="Factory.HT\Procedures\PrDBInteractionBase.cs" />
+    <Compile Include="Factory.HT\Procedures\PrPurchaseOrder.cs" />
+    <Compile Include="Factory.HT\Procedures\PrPurchaseOrderItem.cs" />
+    <Compile Include="Factory.HT\Procedures\PrSaleOrder.cs" />
+    <Compile Include="Factory.HT\Procedures\PrSaleOrderItem.cs" />
+    <Compile Include="Factory.HT\Procedures\PrTransactionHistory.cs" />
+    <Compile Include="Factory.HT\Procedures\PrTransferInstruction.cs" />
+    <Compile Include="Factory.HT\Procedures\PrTransferInstructionItem.cs" />
+    <Compile Include="Factory.HT\Procedures\PrUser.cs" />
     <Compile Include="Factory.Web\User\UserLogManagement.cs" />
     <Compile Include="Factory.Web\User\UserManagement.cs" />
     <Compile Include="Factory.Web\User\LoginLogManagement.cs" />
     <Compile Include="BaseManagerment.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="GlobalVariable.cs" />
+    <Compile Include="Model.HT\NhapKhoDungCuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseOrder.cs">
       <DependentUpon>QRMSModel.tt</DependentUpon>
@@ -101,6 +114,7 @@
     <Compile Include="Factory.HT\TransactionHistoris\TransactionHistoryDAL.cs" />
     <Compile Include="Factory.HT\PurchaseOrders\PurchaseOrderDAL.cs" />
     <Compile Include="Factory.HT\PurchaseOrderitems\PurchaseOrderitemDAL.cs" />
+    <Compile Include="Factory.HT\Procedures\SqlPrimitiveConverters.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HDLIB\HDLIB.csproj">

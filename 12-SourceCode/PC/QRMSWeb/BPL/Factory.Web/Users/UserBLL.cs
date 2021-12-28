@@ -1,4 +1,5 @@
-﻿using BPL.Models.Web;
+﻿using BPL.Factory.Web;
+using BPL.Models.Web;
 using DAL;
 using DAL.Factory.Web.Users;
 using DAL.FactoryDAL.WebAdmin.Account;
@@ -9,12 +10,9 @@ using System.Collections.Generic;
 
 namespace BLL.FactoryBLL.Web.Users
 {
-    public class UserBLL
+    public class UserBLL: BaseBLL
     {
-        QRMSEntities db;
-        public UserBLL() { db = new QRMSEntities(); }
-        public UserBLL(QRMSEntities db) { this.db = db ?? new QRMSEntities(); }
-
+        
         public int CheckAccount(string ipAddress, string deviceName, string user, string pass, out UserModel objItem)
         {
             try
@@ -273,11 +271,18 @@ namespace BLL.FactoryBLL.Web.Users
             }
         }
 
-        public DAL.User GetAccountByUserName(string username)
+        public UserModel GetAccountByUserName(string username)
         {
             try
             {
-                return new UserManagement(db).FindByUserName(username);
+                var user = new UserManagement(db).FindByUserName(username);
+                if (user != null)
+                {
+                    UserModel userModel = new UserModel();
+                    userModel.CopyPropertiesFrom(user);
+                    return userModel;
+                }
+                return null;
             }
             catch (Exception ex)
             {
@@ -287,7 +292,7 @@ namespace BLL.FactoryBLL.Web.Users
         }
 
 
-        public int AccountLogin(DAL.User account, string Password, string IpAddress, string DeviceInfo)
+        public int AccountLogin(UserModel account, string Password, string IpAddress, string DeviceInfo)
         {
             try
             {
