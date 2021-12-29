@@ -58,14 +58,17 @@ namespace QRMS.Views
          
         void BtnDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
+            Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKePage());
         }
 
         void BtnNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
         {
+            Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKePage());
         }
 
         void BtnThanhPham_CLicked(System.Object sender, System.EventArgs e)
         {
+            Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKe2Page());
         }
     }
 }

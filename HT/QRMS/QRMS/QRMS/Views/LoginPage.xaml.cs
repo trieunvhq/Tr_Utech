@@ -1,4 +1,5 @@
 ﻿
+using Acr.UserDialogs;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
@@ -24,6 +25,8 @@ namespace QRMS.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            txtPassword.Text = MySettings.Password;
+            txtUserName.Text = MySettings.UserName;
         }
 
 
@@ -53,8 +56,6 @@ namespace QRMS.Views
         {
             try
             {
-                btnScan_Clicked();
-                return;
                 _ = Controls.LoadingUtility.ShowAsync().ContinueWith(bb =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
@@ -118,7 +119,7 @@ namespace QRMS.Views
                                 var ipAddress = MobileInfo.GetIP();
                                 var deviceName = MobileInfo.GetDeviceInfo();
                                 string UserName_ = txtUserName.Text.ToLower();
-                                var submit = APIHelper.PostObjectToAPIAsync<BaseModel<User>>
+                                    var submit = APIHelper.PostObjectToAPIAsync<BaseModel<User>>
                                            (Constaint.ServiceAddress, Constaint.APIurl.login,
                                            new
                                            {
@@ -137,15 +138,22 @@ namespace QRMS.Views
                                             if (submit.Result.data != null
                                           && submit.Result.ErrorCode == "0")
                                             {
-                                                Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+                                                MySettings.UserName = txtUserName.Text;
+                                                MySettings.Password = txtPassword.Text;
+
+                                                await Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+                                                Controls.LoadingUtility.Hide();
                                             }
                                             else
-                                            { }
+                                            {
+                                                await UserDialogs.Instance.AlertAsync(submit.Result.Message, "Exception", "OK");
+                                                Controls.LoadingUtility.Hide();
+                                            }
                                         });
                                     } 
                                     else
                                     {
-                                        Device.BeginInvokeOnMainThread(() =>
+                                        Device.BeginInvokeOnMainThread(async() =>
                                         {
                                             Controls.LoadingUtility.Hide();
                                         });

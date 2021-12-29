@@ -40,7 +40,7 @@
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             
-            <helper:ButtonCustoms Text="Lưu lại" Grid.Column="3" Grid.Row="8" CornerRadius="0"
+            <helper:ButtonCustoms Text="Tiếp tục" Grid.Column="3" Grid.Row="8" CornerRadius="0"
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
         </Grid>

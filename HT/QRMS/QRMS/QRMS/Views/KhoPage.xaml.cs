@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using QRMS.Constants;
+using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -10,6 +11,7 @@ namespace QRMS.Views
 {
     public partial class KhoPage : ContentPage
     {
+        public KhoPageModel ViewModel { get; set; }
         public KhoPage()
         {
             InitializeComponent();
@@ -17,6 +19,9 @@ namespace QRMS.Views
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
+            ViewModel = new KhoPageModel();
+            ViewModel.Initialize();
+            BindingContext = ViewModel;
 
             row_trencung.Height = 20;
 
@@ -47,7 +52,6 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
-
         }
 
 
@@ -59,6 +63,15 @@ namespace QRMS.Views
        
         void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
+            if(ViewModel.SelectedKho != null)
+            {
+                MySettings.MaKho = ViewModel.SelectedKho.Name;
+                MySettings.IDKho = ViewModel.SelectedKho.ID;
+            }    
+        } 
+        void SoLoai_Tapped(System.Object sender, System.EventArgs e)
+        {
+            ViewModel.LoadComboxSoLoai();
         }
     }
 }

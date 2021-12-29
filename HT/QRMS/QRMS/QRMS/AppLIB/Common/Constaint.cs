@@ -7,25 +7,16 @@ namespace QRMS.AppLIB.Common
 {
     public class Constaint
     {
-        #region AddressService
-        public const string APIAddress = "http://192.168.0.111:4165/";
-        public const string APIlocal = "https://localhost:44392/";
-        //public const string ServiceAddress = "https://113.20.126.218";
-        //public const string ServiceAddress = "http://192.168.1.130:9083/";
-        //public const string ServiceAddress = "http://192.168.1.10:6087";
-        //public const string ServiceAddress = "http://10.0.2.2:8001/";
-        //public const string ServiceAddress = "http://123.30.145.181:9082";
-        //public const string ServiceAddress = "https://uat-agency.pjico.com.vn";
-        public const string ServiceAddress4PDFhttps = "http://123.30.145.181:9082";
-        public const string ServiceAddress = "http://118.70.132.5:8060";
-        //public const string ServiceAddress = "http://192.168.108.103:6060";
-        //public const string ServiceAddress = "http://192.168.0.116:8060";
+        #region AddressService 
+        public const string ServiceAddress = "http://192.168.0.102:52585"; 
         #endregion
 
         public class APIurl
         {
             public const string login = "api-ht/account/login";
-           
+
+            public const string getlistwarehouses = "api-ht/warehouse/getlistwarehouses";
+
         }
 
         #region AccountLogin

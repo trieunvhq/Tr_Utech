@@ -47,9 +47,11 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
-
+            txtTenMay.Text = MySettings.TenMay;
+            txtService.Text = MySettings.Service;
         }
 
+       
 
         void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
@@ -66,6 +68,8 @@ namespace QRMS.Views
 
         void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
+            MySettings.TenMay = txtTenMay.Text;
+            MySettings.Service = txtService.Text;
         }
     }
 }

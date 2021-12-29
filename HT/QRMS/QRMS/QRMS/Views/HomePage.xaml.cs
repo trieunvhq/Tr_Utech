@@ -56,6 +56,7 @@ namespace QRMS.Views
 
         void BtnNhapKho_CLicked(System.Object sender, System.EventArgs e)
         {
+            Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoPage());
         }
 
         void BtnDieuChuyenKho_CLicked(System.Object sender, System.EventArgs e)

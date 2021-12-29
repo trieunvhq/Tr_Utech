@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PIAMA.Views.Shared.T_ComboboxPage"
+             xmlns:resource="clr-namespace:PIAMA.Resources"
+             xmlns:control="clr-namespace:PIAMA.Controls"
+             xmlns:helper="clr-namespace:PIAMA.Helper"
+             xmlns:constants="clr-namespace:PIAMA.Constants" xmlns:control1="clr-namespace:QRMS.Controls"
+             ControlTemplate="{StaticResource ContentPageTemplateTitleNoNext}"
+             BackgroundColor="#FFDA9F" x:Name="root">
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="StackLayout">
+                <Setter Property="Spacing" Value="0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid RowSpacing="0" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition>
+                <ColumnDefinition.Width>
+                    <OnIdiom x:TypeArguments="GridLength" Phone="70" Tablet="90"/>
+                </ColumnDefinition.Width>
+            </ColumnDefinition>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition>
+                <ColumnDefinition.Width>
+                    <OnIdiom x:TypeArguments="GridLength" Phone="70" Tablet="90"/>
+                </ColumnDefinition.Width>
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions> 
+        <Grid x:Name="grid_timkiem_combobox" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="36"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="36"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <Label BackgroundColor="AliceBlue" Grid.Column="0" Grid.ColumnSpan="5"/>
+            <Button Padding="0,0,0,0" CornerRadius="5" BorderWidth="0" BackgroundColor="White"
+                        Grid.Column="1" Grid.ColumnSpan="3" IsEnabled="False" Margin="0,5,0,10"/>
+            <Image Source="search.png"
+                            Grid.Column="1" Margin="10,15,10,20" BackgroundColor="Transparent" />
+            <control1:CustomEntry  Keyboard="Text"  x:Name="txtTimKiem_combobox" MaxLength="14" FontSize="14"
+                                  VerticalOptions="FillAndExpand" BorderThickness="0" BorderColor="Transparent"
+                            TextColor="Black" PlaceholderColor="Black" BackgroundColor="Transparent" 
+                            Grid.Column="2" Text="" Placeholder="Tìm kiếm..." Margin="0,5,0,10"
+                            TextChanged="txtTimKiem_combobox_TextChanged" ReturnType="Search"/>
+            <Image x:Name="imgClose_combobox" Source="Closetimkiem.png"
+                            Grid.Column="3" Margin="10,15,10,20" BackgroundColor="Transparent" IsVisible="False"/>
+            <Button Grid.Column="3" Clicked="btnClose_TimKiem_combobox_Clicked" BackgroundColor="Transparent" BorderWidth="0"/>
+
+        </Grid>
+
+        <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" BackgroundColor="White"
+                          x:Name="lst_combobox" SeparatorVisibility="None" RowHeight="50" ItemTapped="lst_combobox_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell >
+                        <Grid RowSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+                            <Label Text="{Binding Name}" ClassId="{Binding Id}" Grid.Row="0" VerticalTextAlignment="Center"
+                                       Margin="10,0,10,0" FontSize="15"
+                                       BackgroundColor="Transparent" TextColor="#222222">
+                            </Label>
+                            <Label BackgroundColor="#eeeeee" Grid.Row="1"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>

@@ -149,40 +149,53 @@ namespace QRMS.Constants
             }
         }
         //
-        private const string Temp1_QRMS_KHKey = "last_Temp1_QRMS_KHKey";
-        public static string Temp1
+        private const string TenMay_QRMS_KHKey = "last_TenMay_QRMS_KHKey";
+        public static string TenMay
         {
             get
             {
-                return AppSettings.GetValueOrDefault<string>(Temp1_QRMS_KHKey, "");
+                return AppSettings.GetValueOrDefault<string>(TenMay_QRMS_KHKey, "");
             }
             set
             {
-                AppSettings.AddOrUpdateValue<string>(Temp1_QRMS_KHKey, value);
+                AppSettings.AddOrUpdateValue<string>(TenMay_QRMS_KHKey, value);
             }
         }
-        private const string Temp2_QRMS_KHKey = "last_Temp2_QRMS_KHKey";
-        public static string Temp2
+        private const string Service_QRMS_KHKey = "last_Service_QRMS_KHKey";
+        public static string Service
         {
             get
             {
-                return AppSettings.GetValueOrDefault<string>(Temp2_QRMS_KHKey, "");
+                return AppSettings.GetValueOrDefault<string>(Service_QRMS_KHKey, "");
             }
             set
             {
-                AppSettings.AddOrUpdateValue<string>(Temp2_QRMS_KHKey, value);
+                AppSettings.AddOrUpdateValue<string>(Service_QRMS_KHKey, value);
             }
         }
-        private const string Temp3_QRMS_KHKey = "last_Temp3_QRMS_KHKey";
-        public static string Temp3
+        //
+        private const string IDKho_QRMS_KHKey = "last_IDKho_QRMS_KHKey";
+        public static string IDKho
         {
             get
             {
-                return AppSettings.GetValueOrDefault<string>(Temp3_QRMS_KHKey, "");
+                return AppSettings.GetValueOrDefault<string>(IDKho_QRMS_KHKey, "");
             }
             set
             {
-                AppSettings.AddOrUpdateValue<string>(Temp3_QRMS_KHKey, value);
+                AppSettings.AddOrUpdateValue<string>(IDKho_QRMS_KHKey, value);
+            }
+        }//
+        private const string MaKho_QRMS_KHKey = "last_MaKho_QRMS_KHKey";
+        public static string MaKho
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(MaKho_QRMS_KHKey, "");
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(MaKho_QRMS_KHKey, value);
             }
         }//
        
