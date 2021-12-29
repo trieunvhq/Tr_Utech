@@ -11,18 +11,23 @@ namespace DAL.Factory.HT.TransactionHistoris
         public TransactionHistoryDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
 
 
-        public int InsertTransactionHistory(List<TransactionHistory> obj)
+        public long InsertTransactionHistory(List<TransactionHistory> obj)
         {
             try
             {
+                long result = 0;
+                db = db ?? GlobalVariable.db;
+                db.DetachAll();
+                //db.DetachAll<TransactionHistory>();
+
                 foreach (var item in obj)
                 {
-                    db.TransactionHistories.Add(item);
+                    var ss = db.TransactionHistories.Add(item);
+                    result = ss.ID;
                 }
-
                 db.SaveChanges();
 
-                return 1;
+                return result;
             }
             catch (Exception ex)
             {

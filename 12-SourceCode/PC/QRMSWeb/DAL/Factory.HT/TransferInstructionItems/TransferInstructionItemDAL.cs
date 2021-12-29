@@ -1,33 +1,42 @@
-﻿using System;
+﻿using DAL.Model.HT;
+using HDLIB.Common;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HDLIB.Paging;
-using HDLIB.Common;
-using System.Collections.Generic;
-using DAL.Model.HT;
 
-namespace DAL.Factory.HT.PurchaseOrders
+namespace DAL.Factory.HT.TransferInstructionItems
 {
-    public class PurchaseOrderDAL : IDisposable
+    public class TransferInstructionItemDAL : IDisposable
     {
         QRMSEntities db;
-        public PurchaseOrderDAL() { db = new QRMSEntities(); }
-        public PurchaseOrderDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
+        public TransferInstructionItemDAL() { db = new QRMSEntities(); }
+        public TransferInstructionItemDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
 
 
-        public List<PurchaseOrder> GetPurchaseOrder(DateTime from_day, DateTime to_day)
+        public List<XuatKhoDungCuModelDAL> GetTransferInstructionItem(int PurchaseOrderID_Input)
         {
             try
             {
-                //var s = from c in db.PurchaseOrders where c.CreateDate
-                string SQL = $"select * from PurchaseOrder a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
-                SQL += $"and (a.InputStatus is not null and a.InputStatus != '{ InputStatus.Enough }') ";
-                SQL += $"and CONVERT(date, '{from_day}') <= CONVERT(date, a.CreateDate) ";
-                SQL += $"and CONVERT(date, '{to_day}') >= CONVERT(date, a.CreateDate) ";
-                SQL += $"order by a.CreateDate desc ";
-                var data = db.PurchaseOrders.SqlQuery(SQL).AsNoTracking().ToList();
+                string SQL = $"select DISTINCT [ID], [TransferOrderID], [TransferOrderNo], [TransferType], [InstructionDate], [ItemCode] ";
+                SQL += $", [ItemName], [ItemType], [Quantity], [Unit], [TransferStatus], [RecordStatus], ";
+                SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
+                SQL += $"else (select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongDaNhap, ";
+                SQL += $"(case when(select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
+                SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongBox ";
+                SQL += $"from PurchaseOrderItem a ";
+                SQL += $"where(a.RecordStatus is not null and a.RecordStatus != 'D') ";
+                SQL += $"and(a.TransferStatus is not null and a.TransferStatus != 'Y') ";
+                SQL += $"and(a.TransferType is not null and a.TransferType == 'O') ";
+                SQL += $"and a.[TransferOrderID] = {PurchaseOrderID_Input} ";
+                SQL += $"order by a.[InstructionDate] desc ";
 
+                var data = db.Database.SqlQuery<XuatKhoDungCuModelDAL>(SQL).ToList();
                 return data;
             }
             catch (Exception ex)
@@ -37,26 +46,16 @@ namespace DAL.Factory.HT.PurchaseOrders
             }
         }
 
-        public int UpdatePurchaseOrder(List<NhapKhoDungCuModel> obj)
+        public int UpdateTransferInstructionItem(List<XuatKhoDungCuModelDAL> obj)
         {
             try
             {
-                bool isDone = false;
                 foreach (var item in obj)
                 {
-                    if (item.InputStatus == "Y")
-                        isDone = true;
-                }
-
-                int id = obj[0].PurchaseOrderID;
-                db.DetachAll<PurchaseOrder>();
-
-                if (isDone)
-                {
-                    var xx = db.PurchaseOrders.Where(f => f.ID == id).FirstOrDefault();
-                    if (xx == null) throw new Exception("");
+                    var dept = db.TransferInstructionItems.Where(f => f.ID == item.ID).FirstOrDefault();
+                    if (dept == null) throw new Exception("");
                     else
-                        xx.InputStatus = "Y";
+                        dept.TransferStatus = item.TransferStatus;
                 }
 
                 db.SaveChanges();

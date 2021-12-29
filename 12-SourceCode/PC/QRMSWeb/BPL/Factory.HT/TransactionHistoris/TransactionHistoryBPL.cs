@@ -11,7 +11,7 @@ namespace BPL.Factory.HT.TransactionHistoris
     public class TransactionHistoryBPL : BaseBPL
     {
 
-        public int InsertTransactionHistory(List<TransactionHistoryBPLModel> obj, out string err_code, out string err_msg)
+        public long InsertTransactionHistory(List<TransactionHistoryBPLModel> obj, out string err_code, out string err_msg)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace BPL.Factory.HT.TransactionHistoris
 
                 var pr = new TransactionHistoryDAL(db);
                 var result = pr.InsertTransactionHistory(ListOut);
-                if (result == 1)
+                if (result >= 0)
                 {
                     err_code = "0";
                     err_msg = "Update dữ liệu thành công";
@@ -34,7 +34,7 @@ namespace BPL.Factory.HT.TransactionHistoris
                 else
                 {
                     err_code = "5";
-                    err_msg = "Không update được dữ liệu";
+                    err_msg = "Update được dữ liệu thất bại";
                 }
 
                 return result;
@@ -44,7 +44,7 @@ namespace BPL.Factory.HT.TransactionHistoris
                 err_code = ResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
-                return 0;
+                return -99;
             }
         }
 

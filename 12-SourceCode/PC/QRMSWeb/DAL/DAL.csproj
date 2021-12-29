@@ -63,6 +63,8 @@
     <Compile Include="Factory.HT\Procedures\PrTransferInstruction.cs" />
     <Compile Include="Factory.HT\Procedures\PrTransferInstructionItem.cs" />
     <Compile Include="Factory.HT\Procedures\PrUser.cs" />
+    <Compile Include="Factory.HT\TransferInstructionItems\TransferInstructionItemDAL.cs" />
+    <Compile Include="Factory.HT\TransferInstructions\TransferInstructionDAL.cs" />
     <Compile Include="Factory.Web\SaleOrder\SaleOrderManagement.cs" />
     <Compile Include="Factory.Web\User\UserLogManagement.cs" />
     <Compile Include="Factory.Web\User\UserManagement.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Factory.HT\PurchaseOrders\PurchaseOrderDAL.cs" />
     <Compile Include="Factory.HT\PurchaseOrderitems\PurchaseOrderitemDAL.cs" />
     <Compile Include="Factory.HT\Procedures\SqlPrimitiveConverters.cs" />
+    <Compile Include="Model.HT\XuatKhoDungCuModelDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HDLIB\HDLIB.csproj">

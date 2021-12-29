@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Model.HT
+namespace BPL.Models
 {
-    public class NhapKhoDungCuModel
+    public class NhapKhoDungCuBPLModel
     {
         public int ID { get; set; }
         public int PurchaseOrderID { get; set; }
@@ -21,7 +21,5 @@ namespace DAL.Model.HT
         public string RecordStatus { get; set; }
         public decimal SoLuongDaNhap { get; set; }
         public int SoLuongBox { get; set; }
-
-
     }
 }
