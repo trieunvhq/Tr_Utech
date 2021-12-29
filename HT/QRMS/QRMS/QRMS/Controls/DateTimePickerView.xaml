@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Controls.DateTimePickerView"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             Spacing="0" x:Name="root">
+    <Label x:Name="lblTitle" Margin="0,0,0,6" FontSize="12" TextColor="#1D1D1F"  />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <pancake:PancakeView x:Name="borderViewDate" Grid.Column="0" BorderColor="#DCE0E2" BorderThickness="1" CornerRadius="6"
+                             HeightRequest="40">
+            <pancake:PancakeView.Triggers>
+                <DataTrigger TargetType="pancake:PancakeView" Binding="{Binding Source={x:Reference inputDatePicker}, Path=IsFocused}" Value="True">
+                    <Setter Property="BorderColor" Value="#F49A0E" />
+                </DataTrigger>
+                <DataTrigger TargetType="pancake:PancakeView" Binding="{Binding Source={x:Reference inputDatePicker}, Path=IsFocused}" Value="False">
+                    <Setter Property="BorderColor" Value="#DCE0E2" />
+                </DataTrigger>
+            </pancake:PancakeView.Triggers>
+            <StackLayout x:Name="containerDate" Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="#FFFFFF">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnDatePickerImageTapped" />
+                </StackLayout.GestureRecognizers>
+                <control:CustomDatePicker x:Name="inputDatePicker" Date="{Binding Source={x:Reference root}, Path=Date}" MinimumDate="{Binding Source={x:Reference root}, Path=MinimumDate}" MaximumDate="{Binding Source={x:Reference root}, Path=MaximumDate}" FontSize="14" Margin="12,10,0,10" HorizontalOptions="FillAndExpand" Focused="OnDatePickerFocused" />
+                <Image x:Name="imageDate" Source="icon_calendar_valid.png" VerticalOptions="CenterAndExpand" HeightRequest="18" Margin="0,0,12,0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDatePickerImageTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+        </pancake:PancakeView>
+
+        <pancake:PancakeView x:Name="borderViewTime" Grid.Column="1" BorderColor="#DCE0E2" BorderThickness="1" CornerRadius="6">
+            <pancake:PancakeView.Triggers>
+                <DataTrigger TargetType="pancake:PancakeView" Binding="{Binding Source={x:Reference inputTimePicker}, Path=IsFocused}" Value="True">
+                    <Setter Property="BorderColor" Value="#F49A0E" />
+                </DataTrigger>
+                <DataTrigger TargetType="pancake:PancakeView" Binding="{Binding Source={x:Reference inputTimePicker}, Path=IsFocused}" Value="False">
+                    <Setter Property="BorderColor" Value="#DCE0E2" />
+                </DataTrigger>
+            </pancake:PancakeView.Triggers>
+            <StackLayout x:Name="containerTime" Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="#FFFFFF">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTimePickerImageTapped" />
+                </StackLayout.GestureRecognizers>
+                <control:CustomTimePicker x:Name="inputTimePicker" Time="{Binding Source={x:Reference root}, Path=Time}" FontSize="14" Margin="12,10,0,10" HorizontalOptions="FillAndExpand" Focused="OnDatePickerFocused" />
+                <Image x:Name="imageTime" Source="icon_time_valid.png" VerticalOptions="CenterAndExpand" HeightRequest="18" Margin="0,0,12,0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnTimePickerImageTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+        </pancake:PancakeView>
+    </Grid>
+    <StackLayout HeightRequest="16">
+        <Label x:Name="lblError" TextColor="#F5323C" FontSize="12" IsVisible="False" />
+    </StackLayout>
+</StackLayout>

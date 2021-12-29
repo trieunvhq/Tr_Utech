@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="QRMS.Controls.TTNHDView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:resource="clr-namespace:QRMS.Resources"
+    ColumnSpacing="0"
+    RowSpacing="5">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="30" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="5" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="1" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="5" />
+    </Grid.RowDefinitions>
+    <Label
+        Grid.Row="0"
+        Grid.RowSpan="8"
+        Grid.Column="0"
+        Grid.ColumnSpan="3"
+        BackgroundColor="White" />
+    <Label
+        x:Name="lbGach"
+        Grid.Row="2"
+        Grid.Column="0"
+        Grid.ColumnSpan="3"
+        BackgroundColor="#dddddd" />
+    <Image
+        x:Name="switchImage"
+        Grid.Row="1"
+        Grid.Column="2"
+        Margin="10,5,0,5"
+        HeightRequest="20"
+        HorizontalOptions="End"
+        VerticalOptions="Start">
+        <Image.GestureRecognizers>
+            <TapGestureRecognizer Tapped="SW_Tapped" />
+        </Image.GestureRecognizers>
+    </Image>
+
+    <Label
+        Grid.Row="1"
+        Grid.Column="0"
+        Grid.ColumnSpan="2"
+        VerticalTextAlignment="Center">
+        <Label.FormattedText>
+            <FormattedString>
+                <Span
+                    x:Name="lbName"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    TextColor="#1D1D1F" />
+                <Span
+                    x:Name="lbMacDinh"
+                    FontSize="15"
+                    Text="{x:Static resource:AppResources.MacDinh}"
+                    TextColor="#17A2B8" />
+            </FormattedString>
+        </Label.FormattedText>
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="Tittle_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+    <Label
+        Grid.Row="3"
+        Grid.Column="0"
+        FontSize="14"
+        Text="{x:Static resource:AppResources.ReceiptInformationBuyerCompanyInput}"
+        TextColor="#6C757D">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+
+    <Label
+        Grid.Row="4"
+        Grid.Column="0"
+        FontSize="14"
+        Text="{x:Static resource:AppResources.ReceiptInformationBuyerTaxInput}"
+        TextColor="#6C757D">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+
+    <Label
+        Grid.Row="5"
+        Grid.Column="0"
+        FontSize="14"
+        Text="{x:Static resource:AppResources.ReceiptInformationBuyerCompanyAddressInput}"
+        TextColor="#6C757D">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+
+    <Label
+        Grid.Row="6"
+        Grid.Column="0"
+        FontSize="14"
+        Text="{x:Static resource:AppResources.BillAddressInput}"
+        TextColor="#6C757D">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+
+    <Label
+        x:Name="lbTenCongTy"
+        Grid.Row="3"
+        Grid.Column="1"
+        Grid.ColumnSpan="2"
+        FontSize="14"
+        HorizontalTextAlignment="End"
+        Text=""
+        TextColor="#1D1D1F">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+
+    <Label
+        x:Name="lbMaSoThue"
+        Grid.Row="4"
+        Grid.Column="1"
+        Grid.ColumnSpan="2"
+        FontSize="14"
+        HorizontalTextAlignment="End"
+        Text=""
+        TextColor="#1D1D1F">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+
+    <Label
+        x:Name="lbDiaChiCongTy"
+        Grid.Row="5"
+        Grid.Column="1"
+        Grid.ColumnSpan="2"
+        FontSize="14"
+        HorizontalTextAlignment="End"
+        Text=""
+        TextColor="#1D1D1F">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+
+    <Label
+        x:Name="lbDiaChiNhanHoaDon"
+        Grid.Row="6"
+        Grid.Column="1"
+        Grid.ColumnSpan="2"
+        FontSize="14"
+        HorizontalTextAlignment="End"
+        Text=""
+        TextColor="#1D1D1F">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Label.GestureRecognizers>
+    </Label>
+
+</Grid>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    x:Class="QRMS.Styles.GlobalStyles"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:QRMS.Controls"
+    xmlns:helper="clr-namespace:QRMS.Helper">
+    <!--  Global Styles  -->
+    <Color x:Key="LabelLightColor">#5C5C62</Color>
+    <Color x:Key="LabelLightColorSecondary">#86868B</Color>
+
+    <Style TargetType="StackLayout">
+        <!--<Setter Property="Spacing" Value="0" />-->
+    </Style>
+
+    <Style TargetType="Grid">
+        <!--<Setter Property="ColumnSpacing" Value="0" />-->
+        <!--<Setter Property="RowSpacing" Value="0" />-->
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="#1D1D1F" />
+        <!--<Setter Property="FontFamily" Value="HelveticaNeue"/>-->
+    </Style>
+
+    <Style TargetType="Entry">
+        <!--<Setter Property="FontFamily" Value="HelveticaNeue"/>-->
+    </Style>
+
+    <Style TargetType="Picker">
+        <!--<Setter Property="FontFamily" Value="HelveticaNeue"/>-->
+    </Style>
+
+    <Style TargetType="control:CustomEntry">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="BackgroundColor" Value="#FFFFFF" />
+        <Style.Triggers>
+            <Trigger TargetType="control:CustomEntry" Property="IsFocused" Value="True">
+                <Setter Property="BorderColor" Value="#F49A0E" />
+            </Trigger>
+            <Trigger TargetType="control:CustomEntry" Property="IsFocused" Value="False">
+                <Setter Property="BorderColor" Value="#DCE0E2" />
+            </Trigger>
+            <Trigger TargetType="control:CustomEntry" Property="IsEnabled" Value="False">
+                <Setter Property="BackgroundColor" Value="#EDEFF1" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="helper:ButtonCustoms">
+        <Setter Property="TextColor" Value="#FFFFFF" />
+        <Setter Property="BackgroundColor" Value="#F49A0E" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <!--<Setter Property="FontFamily" Value="HelveticaNeue"/>-->
+    </Style>
+
+    <Style TargetType="Button">
+        <Setter Property="FontSize" Value="14" />
+        <!--<Setter Property="FontFamily" Value="HelveticaNeue"/>-->
+    </Style>
+
+</ResourceDictionary>

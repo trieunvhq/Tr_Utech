@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "245537698599",
+    "project_id": "pjc-ins-mobile",
+    "storage_bucket": "pjc-ins-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245537698599:android:e1d34a18aa648d57546f02",
+        "android_client_info": {
+          "package_name": "vn.thinle.pjico2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245537698599-9uqlb67grv3ep6r7bi2l74jsaah4i070.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnTC2Mcfrng6n2VnN3GC-yPFFLUjkY_-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245537698599-9uqlb67grv3ep6r7bi2l74jsaah4i070.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "245537698599-c9g672ta0neerij24apqidc3crvcabct.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "vn.thinle.pjico2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

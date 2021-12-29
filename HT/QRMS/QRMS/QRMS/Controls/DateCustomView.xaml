@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRMS.Controls.DateCustomView"
+             xmlns:resource="clr-namespace:QRMS.Resources"
+             xmlns:control="clr-namespace:QRMS.Controls"
+             ColumnSpacing="0" RowSpacing="0" x:Name="root">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="5"/>
+        <ColumnDefinition Width="30"/>
+        <ColumnDefinition Width="3"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="0" x:Name="row"/>
+        <RowDefinition Height="40"/>
+        <RowDefinition Height="16"/>
+    </Grid.RowDefinitions>
+    <Label Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0">
+        <Label.FormattedText>
+            <FormattedString>
+                <Span x:Name="lblTitle" FontSize="12" TextColor="#1D1D1F" />
+                <Span x:Name="lblTitle2" FontSize="12" TextColor="#D31A1F" />
+            </FormattedString>
+        </Label.FormattedText>
+    </Label>
+    <control:CustomEntry x:Name="inputEntry" Text="{Binding Source={x:Reference root}, Path=Text}"
+          Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" HeightRequest="40"
+                      BorderColor="#dddddd" BorderThickness="1" Padding="15,0,15,0"
+                         Placeholder="{x:Static resource:AppResources.NgayThangNam}"
+                         Focused="OnEntryFocused" />
+
+    <Image Source="ico_calendar.png" Grid.Column="2" Grid.Row="1" VerticalOptions="Center"
+          x:Name="img" HorizontalOptions="End" Margin="0,13,8,13"/>
+    <control:CustomDatePicker Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" Opacity="0"
+                x:Name="datepicker" Unfocused="datepicker_Unfocused"/>
+    <control:CustomTimePicker Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" Opacity="0" Unfocused="timepicker_Unfocused"
+               x:Name="timepicker" PropertyChanged="timepicker_PropertyChanged"/>
+    <Button Text="" BackgroundColor="Transparent" BorderWidth="0"
+            BorderColor="Transparent" Clicked="Button_Clicked"
+            Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1"/>
+    <Label x:Name="lblError" TextColor="#F5323C" FontSize="12" IsVisible="False" 
+           Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>
+</Grid>

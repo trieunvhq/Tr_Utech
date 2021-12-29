@@ -1,0 +1,1034 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application
+    x:Class="QRMS.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:QRMS.Constants"
+    xmlns:helper="clr-namespace:QRMS.Helper"
+    xmlns:local="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:resource="clr-namespace:QRMS.Resources"
+    xmlns:style="clr-namespace:QRMS.Styles">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <style:GlobalStyles />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="UrlStyle" TargetType="Button">
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="#1D1D1F" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <ControlTemplate x:Key="ContentPageTemplate">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="65"
+                        MinimumHeightRequest="65">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static constants:MySettings.Title}"
+                                VerticalTextAlignment="Center">
+                                    <Label.FontSize>
+                                        <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="17" />
+                                    </Label.FontSize>
+                                </Label>
+                                <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}"
+                                HorizontalOptions="Start"
+                                Source="left_arrow.png">
+                                    <ImageButton.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="20,12,0,12" />
+                                            <On Platform="iOS" Value="16,10,0,10" />
+                                        </OnPlatform>
+                                    </ImageButton.Margin>
+                                </ImageButton>
+                                <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.NextCommand}"
+                                HorizontalOptions="End"
+                                Rotation="180"
+                                Source="left_arrow.png">
+                                    <ImageButton.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="0,12,20,12" />
+                                            <On Platform="iOS" Value="0,10,16,10" />
+                                        </OnPlatform>
+                                    </ImageButton.Margin>
+                                </ImageButton>
+                                <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}" />
+                                <Button
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.NextCommand}" />
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="ContentPageWithLogoTemplate">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="40"
+                        MinimumHeightRequest="44">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+
+                                <helper:ButtonCustoms
+                                Grid.Column="0"
+                                Command="{TemplateBinding BindingContext.BackCommand}"
+                                Style="{StaticResource UrlStyle}"
+                                Text="{x:Static resource:AppResources.NavigationBack}" />
+                                <StackLayout Grid.Column="2">
+                                    <Image
+                                    Margin="0,0,15,0"
+                                    HeightRequest="22"
+                                    HorizontalOptions="EndAndExpand"
+                                    Source="logo_navigation.png"
+                                    VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="ContentPageTemplateShare">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        MinimumHeightRequest="40">
+                            <Grid
+                            ColumnSpacing="0"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <OnIdiom
+                                            x:TypeArguments="GridLength"
+                                            Phone="16"
+                                            Tablet="20" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <OnIdiom
+                                            x:TypeArguments="GridLength"
+                                            Phone="16"
+                                            Tablet="20" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <OnIdiom
+                                            x:TypeArguments="GridLength"
+                                            Phone="16"
+                                            Tablet="20" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <OnIdiom
+                                            x:TypeArguments="GridLength"
+                                            Phone="16"
+                                            Tablet="20" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                 
+                                <Image
+                                Grid.Column="1"
+                                Margin="0,0,0,6"
+                                BackgroundColor="Transparent"
+                                Source="ico_back_888888.png"
+                                VerticalOptions="End">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{TemplateBinding BindingContext.BackCommand}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <Button BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="3"
+                                      Command="{TemplateBinding BindingContext.BackCommand}"/>
+                                 
+                                <ImageButton
+                                Grid.Column="4"
+                                Grid.ColumnSpan="2"
+                                Margin="0,8,0,6"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.NextCommand}"
+                                HorizontalOptions="End"
+                                Source="share.png"
+                                VerticalOptions="End">
+                                    <ImageButton.Margin>
+                                        <OnPlatform
+                                        x:TypeArguments="Thickness"
+                                        Android="0,38,0,6"
+                                        iOS="0,8,0,6" />
+                                    </ImageButton.Margin>
+                                </ImageButton>
+                                <Label
+                                Grid.Column="3"
+                                Margin="0,0,0,6"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center" 
+                                Text="{x:Static constants:MySettings.Title}"
+                                TextColor="#1D1D1F"
+                                VerticalTextAlignment="End">
+                                    <Label.FontSize>
+                                        <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="14"
+                                        Tablet="15" />
+                                    </Label.FontSize>
+                                </Label>
+
+                            </Grid>
+                            <local:PancakeView.HeightRequest>
+                                <OnIdiom x:TypeArguments="x:Double">
+                                    <OnIdiom.Phone>
+                                        <OnPlatform
+                                        x:TypeArguments="x:Double"
+                                        Android="70"
+                                        iOS="40" />
+                                    </OnIdiom.Phone>
+                                    <OnIdiom.Tablet>
+                                        <OnPlatform
+                                        x:TypeArguments="x:Double"
+                                        Android="70"
+                                        iOS="50" />
+                                    </OnIdiom.Tablet>
+                                </OnIdiom>
+                            </local:PancakeView.HeightRequest>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="ContentPageTemplateHotline">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        MinimumHeightRequest="40">
+                            <Grid
+                            ColumnSpacing="0"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <OnIdiom
+                                            x:TypeArguments="GridLength"
+                                            Phone="16"
+                                            Tablet="20" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <OnIdiom
+                                            x:TypeArguments="GridLength"
+                                            Phone="16"
+                                            Tablet="20" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="1.5*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <OnIdiom
+                                            x:TypeArguments="GridLength"
+                                            Phone="16"
+                                            Tablet="20" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <OnIdiom
+                                            x:TypeArguments="GridLength"
+                                            Phone="16"
+                                            Tablet="20" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+
+                                <Image
+                                Grid.Column="1"
+                                Margin="0,0,0,6"
+                                BackgroundColor="Transparent"
+                                Source="ico_back_888888.png"
+                                VerticalOptions="End">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{TemplateBinding BindingContext.BackCommand}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <Label
+                                Grid.Column="2"
+                                Margin="0,0,0,6"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Start"
+                                Text="{x:Static resource:AppResources.NavigationBack}"
+                                TextColor="#333333"
+                                VerticalTextAlignment="End">
+                                    <Label.FontSize>
+                                        <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="14"
+                                        Tablet="15" />
+                                    </Label.FontSize>
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{TemplateBinding BindingContext.BackCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+
+                                <Label
+                                Grid.Column="3"
+                                Grid.ColumnSpan="3"
+                                Margin="0,0,0,6"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="End">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span
+                                            FontAttributes="Bold"
+                                            Text="HOTLINE"
+                                            TextColor="#004FA1">
+                                                <Span.FontSize>
+                                                    <OnIdiom
+                                                    x:TypeArguments="x:Double"
+                                                    Phone="12"
+                                                    Tablet="13" />
+                                                </Span.FontSize>
+                                            </Span>
+                                            <Span
+                                            FontAttributes="Bold"
+                                            Text="&#10;1900 54 54 55"
+                                            TextColor="#F49A0E">
+                                                <Span.FontSize>
+                                                    <OnIdiom
+                                                    x:TypeArguments="x:Double"
+                                                    Phone="12"
+                                                    Tablet="13" />
+                                                </Span.FontSize>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{TemplateBinding BindingContext.NextCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label
+                                Grid.Column="3"
+                                Margin="0,0,0,6"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                Text="Giấy chứng nhận"
+                                TextColor="#1D1D1F"
+                                VerticalTextAlignment="End">
+                                    <Label.FontSize>
+                                        <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="14"
+                                        Tablet="15" />
+                                    </Label.FontSize>
+                                </Label>
+
+                            </Grid>
+                            <local:PancakeView.HeightRequest>
+                                <OnIdiom x:TypeArguments="x:Double">
+                                    <OnIdiom.Phone>
+                                        <OnPlatform
+                                        x:TypeArguments="x:Double"
+                                        Android="70"
+                                        iOS="40" />
+                                    </OnIdiom.Phone>
+                                    <OnIdiom.Tablet>
+                                        <OnPlatform
+                                        x:TypeArguments="x:Double"
+                                        Android="70"
+                                        iOS="50" />
+                                    </OnIdiom.Tablet>
+                                </OnIdiom>
+                            </local:PancakeView.HeightRequest>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ControlTemplate>
+            <ControlTemplate x:Key="ContentPageTemplateNoNext">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="40"
+                        MinimumHeightRequest="44">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <helper:ButtonCustoms
+                                Grid.Column="0"
+                                Command="{TemplateBinding BindingContext.BackCommand}"
+                                Style="{StaticResource UrlStyle}"
+                                Text="{x:Static resource:AppResources.NavigationBack}" />
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+
+            </ControlTemplate>
+
+
+            <ControlTemplate x:Key="ContentPageTemplateTitle">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="65"
+                        MinimumHeightRequest="65">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Margin="40,0,40,0"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static constants:MySettings.Title}"
+                                VerticalTextAlignment="Center">
+                                    <Label.FontSize>
+                                        <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="17" />
+                                    </Label.FontSize>
+                                </Label>
+                                <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}"
+                                HorizontalOptions="Start"
+                                Source="left_arrow.png">
+                                    <ImageButton.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="20,12,0,12" />
+                                            <On Platform="iOS" Value="16,10,0,10" />
+                                        </OnPlatform>
+                                    </ImageButton.Margin>
+                                </ImageButton>
+                                <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.NextCommand}"
+                                HorizontalOptions="End"
+                                Rotation="180"
+                                Source="left_arrow.png">
+                                    <ImageButton.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="0,12,20,12" />
+                                            <On Platform="iOS" Value="0,10,16,10" />
+                                        </OnPlatform>
+                                    </ImageButton.Margin>
+                                </ImageButton>
+                                <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}" />
+                                <Button
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.NextCommand}" />
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+
+            </ControlTemplate>
+            <ControlTemplate x:Key="ContentPageTemplateTitleHotline">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="65"
+                        MinimumHeightRequest="65">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="1.5*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static constants:MySettings.Title}"
+                                VerticalTextAlignment="Center">
+                                    <Label.FontSize>
+                                        <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="17" />
+                                    </Label.FontSize>
+                                </Label>
+                                <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}"
+                                HorizontalOptions="Start"
+                                Source="left_arrow.png">
+                                    <ImageButton.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="20,12,0,12" />
+                                            <On Platform="iOS" Value="16,10,0,10" />
+                                        </OnPlatform>
+                                    </ImageButton.Margin>
+                                </ImageButton>
+                                <Label
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                Margin="0,0,16,0"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="End">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span
+                                            FontAttributes="Bold"
+                                            Text="HOTLINE"
+                                            TextColor="#004FA1">
+                                                <Span.FontSize>
+                                                    <OnIdiom
+                                                    x:TypeArguments="x:Double"
+                                                    Phone="12"
+                                                    Tablet="13" />
+                                                </Span.FontSize>
+                                            </Span>
+                                            <Span
+                                            FontAttributes="Bold"
+                                            Text="&#10;1900 54 54 55"
+                                            TextColor="#F49A0E">
+                                                <Span.FontSize>
+                                                    <OnIdiom
+                                                    x:TypeArguments="x:Double"
+                                                    Phone="12"
+                                                    Tablet="13" />
+                                                </Span.FontSize>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}" />
+
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ControlTemplate>
+            <ControlTemplate x:Key="ContentPageTemplateTitleNext">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="65"
+                        MinimumHeightRequest="65">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static constants:MySettings.Title}"
+                                VerticalTextAlignment="Center">
+                                    <Label.FontSize>
+                                        <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="17" />
+                                    </Label.FontSize>
+                                </Label>
+                                <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}"
+                                HorizontalOptions="Start"
+                                Source="left_arrow.png">
+                                    <ImageButton.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="20,12,0,12" />
+                                            <On Platform="iOS" Value="16,10,0,10" />
+                                        </OnPlatform>
+                                    </ImageButton.Margin>
+                                </ImageButton>
+                                <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.NextCommand}"
+                                HorizontalOptions="End"
+                                Rotation="180"
+                                Source="left_arrow.png">
+                                    <ImageButton.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="0,12,20,12" />
+                                            <On Platform="iOS" Value="0,10,16,10" />
+                                        </OnPlatform>
+                                    </ImageButton.Margin>
+                                </ImageButton>
+
+                                <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}" />
+                                <Button
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.NextCommand}" />
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ControlTemplate>
+            <ControlTemplate x:Key="ContentPageTemplateTitleHotlineNoBack">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="65"
+                        MinimumHeightRequest="65">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="1.5*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                Margin="0,0,16,0"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="End">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span
+                                            FontAttributes="Bold"
+                                            Text="HOTLINE"
+                                            TextColor="#004FA1">
+                                                <Span.FontSize>
+                                                    <OnIdiom
+                                                    x:TypeArguments="x:Double"
+                                                    Phone="12"
+                                                    Tablet="13" />
+                                                </Span.FontSize>
+                                            </Span>
+                                            <Span
+                                            FontAttributes="Bold"
+                                            Text="&#10;1900 54 54 55"
+                                            TextColor="#F49A0E">
+                                                <Span.FontSize>
+                                                    <OnIdiom
+                                                    x:TypeArguments="x:Double"
+                                                    Phone="12"
+                                                    Tablet="13" />
+                                                </Span.FontSize>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="ContentPageTemplateTitleNoNext">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="65"
+                        MinimumHeightRequest="65">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Margin="40,0,40,0"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static constants:MySettings.Title}"
+                                VerticalTextAlignment="Center">
+                                    <Label.FontSize>
+                                        <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="17" />
+                                    </Label.FontSize>
+                                </Label>
+                                <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}"
+                                HorizontalOptions="Start"
+                                Source="left_arrow.png">
+                                    <ImageButton.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="20,12,0,12" />
+                                            <On Platform="iOS" Value="16,10,0,10" />
+                                        </OnPlatform>
+                                    </ImageButton.Margin>
+                                </ImageButton>
+                                <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.BackCommand}" />
+
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ControlTemplate>
+
+            
+            <ControlTemplate x:Key="ContentPageTemplateTitleHotlineNoBack2">
+                <AbsoluteLayout>
+                    <Grid AbsoluteLayout.LayoutBounds=".5,.5,1,1.6" AbsoluteLayout.LayoutFlags="All">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label BackgroundColor="#FFDA9F" Grid.Row="0"/>
+                        <Label BackgroundColor="White" Grid.Row="1"/>
+
+                    </Grid>
+
+                    <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.5,1,1" AbsoluteLayout.LayoutFlags="All">
+                        <local:PancakeView
+                        BackgroundGradientAngle="0"
+                        BackgroundGradientEndColor="#FAFDFF"
+                        BackgroundGradientStartColor="#FFDA9F"
+                        HasShadow="False"
+                        HeightRequest="65"
+                        MinimumHeightRequest="65">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="1.5*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                Grid.Row="1"
+                                Grid.Column="0" Grid.ColumnSpan="3"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Start" Margin="20,0,0,0"
+                                Text="{x:Static constants:MySettings.Title}"
+                                VerticalTextAlignment="Center" FontSize="20"/>
+                               
+                                <Label
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                Margin="0,0,16,0"
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="End">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span
+                                            FontAttributes="Bold"
+                                            Text="HOTLINE"
+                                            TextColor="#004FA1">
+                                                <Span.FontSize>
+                                                    <OnIdiom
+                                                    x:TypeArguments="x:Double"
+                                                    Phone="12"
+                                                    Tablet="13" />
+                                                </Span.FontSize>
+                                            </Span>
+                                            <Span
+                                            FontAttributes="Bold"
+                                            Text="&#10;1900 54 54 55"
+                                            TextColor="#F49A0E">
+                                                <Span.FontSize>
+                                                    <OnIdiom
+                                                    x:TypeArguments="x:Double"
+                                                    Phone="12"
+                                                    Tablet="13" />
+                                                </Span.FontSize>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+
+                            </Grid>
+                        </local:PancakeView>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ControlTemplate>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
