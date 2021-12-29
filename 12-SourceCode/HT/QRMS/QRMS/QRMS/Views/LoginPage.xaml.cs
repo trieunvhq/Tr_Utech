@@ -58,11 +58,6 @@ namespace QRMS.Views
                     Device.BeginInvokeOnMainThread(() =>
                     {
 
-                        Application.Current.MainPage.Navigation.PushAsync(new HomePage());
-
-                        Controls.LoadingUtility.Hide();
-                        return;
-
                         lblUserEmptyError.IsVisible = false;
                         lblPassEmptyError.IsVisible = false;
 
@@ -97,42 +92,7 @@ namespace QRMS.Views
                             framePass.BorderColor = Color.FromHex("#F49A0E");
                             framePass.BackgroundColor = Color.Default;
                         }
-                        if (string.IsNullOrWhiteSpace(txtUserName.Text))
-                        {
-                            frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
-                            frameUser.BorderColor = Color.FromHex("#F5323C");
-                            lblUserEmptyError.IsVisible = true;
-                            isError = true;
-                        }
-                        else
-                        {
-                            if (txtUserName.Text.Contains("@"))
-                            {
-                                if (MobileLib.IsEmail(txtUserName.Text) == false)
-                                {
-                                    lblUserEmptyError.Text = "Tài khoản không đúng";
-
-                                    frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
-                                    frameUser.BorderColor = Color.FromHex("#F5323C");
-                                    lblUserEmptyError.IsVisible = true;
-                                    isError = true;
-                                }
-                            }
-                            else if (!string.IsNullOrEmpty(txtUserName.Text))
-                            {
-                                if (txtUserName.Text.Length == 10)
-                                { }
-                                else
-                                {
-                                    lblUserEmptyError.Text = "Tài khoản không đúng";
-
-                                    frameUser.BackgroundColor = Color.FromHex("#FEEEEF");
-                                    frameUser.BorderColor = Color.FromHex("#F5323C");
-                                    lblUserEmptyError.IsVisible = true;
-                                    isError = true;
-                                }
-                            }
-                        }
+                        //
                         if (isError)
                         {
                             Device.BeginInvokeOnMainThread(() =>
@@ -176,8 +136,12 @@ namespace QRMS.Views
                                             switch (submit.Result.ErrorCode)
                                             {
                                                 case "0":
+
+                                                   await Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+
                                                     break;
                                             }
+                                            Controls.LoadingUtility.Hide();
                                         });
                                     }
                                     else
