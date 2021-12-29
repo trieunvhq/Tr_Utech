@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Validation;
 using System.Linq;
 using DAL.Model.HT;
 using HDLIB.Common;
@@ -14,47 +15,44 @@ namespace DAL.Factory.HT.PurchaseOrderitems
         public PurchaseOrderitemDAL() { db = new QRMSEntities(); }
         public PurchaseOrderitemDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
 
-        public string GetPurchaseOrderitem(int PurchaseOrderID_Input)
+        public List<NhapKhoDungCuModel> GetPurchaseOrderitem(int PurchaseOrderID_Input)
         {
             try
             {
-                var settings = new JsonSerializerSettings().AddSqlConverters();
-                DataTable dt;
+                //var settings = new JsonSerializerSettings().AddSqlConverters();
+                //DataTable dt;
 
-                using (PrPurchaseOrderItem cl = new PrPurchaseOrderItem())
-                {
-                    dt = cl.GetPurchaseOrderItem_MHDC(PurchaseOrderID_Input);
-                    if (dt == null)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        string Result = JsonConvert.SerializeObject(dt, settings);
-                        return Result;
-                    }
-                }
-                //string SQL = $"select DISTINCT [ID], [PurchaseOrderID], [PurchaseOrderNo], [PurchaseOrderDate], [ItemCode] ";
-                //SQL += $", [ItemName], [ItemType], [Quantity], [Unit], [InputStatus], [RecordStatus], ";
-                //SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
-                //SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
-                //SQL += $"else (select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
-                //SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongDaNhap, ";
-                //SQL += $"(case when(select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
-                //SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
-                //SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
-                //SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongBox ";
-                //SQL += $"from PurchaseOrderItem a ";
-                //SQL += $"where(a.RecordStatus is not null and a.RecordStatus != 'D') ";
-                //SQL += $"and(a.InputStatus is not null and a.InputStatus != 'Y') ";
-                //SQL += $"and a.[PurchaseOrderID] = {PurchaseOrderID_Input} ";
-                //SQL += $"order by a.[PurchaseOrderDate] desc ";
-                //////var s = from c in db.PurchaseOrderItems where c.PurchaseOrderID select ;
-                ////string SQL = $"select * from PurchaseOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
-                ////SQL += $"and (a.InputStatus is not null and a.InputStatus != '{ InputStatus.Enough }') ";
-                ////SQL += $"and a.PurchaseOrderID = '{PurchaseOrderID_Input}' ";
-                ////SQL += $"order by a.CreateDate desc ";
-                //var data = db.PurchaseOrderItems.SqlQuery(SQL).AsNoTracking().ToList<NhapKhoDungCuModel>();
+                //using (PrPurchaseOrderItem cl = new PrPurchaseOrderItem())
+                //{
+                //    dt = cl.GetPurchaseOrderItem_MHDC(PurchaseOrderID_Input);
+                //    if (dt == null)
+                //    {
+                //        return null;
+                //    }
+                //    else
+                //    {
+                //        string Result = JsonConvert.SerializeObject(dt, settings);
+                //        return Result;
+                //    }
+                //}
+                string SQL = $"select DISTINCT [ID], [PurchaseOrderID], [PurchaseOrderNo], [PurchaseOrderDate], [ItemCode] ";
+                SQL += $", [ItemName], [ItemType], [Quantity], [Unit], [InputStatus], [RecordStatus], ";
+                SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
+                SQL += $"else (select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongDaNhap, ";
+                SQL += $"(case when(select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
+                SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongBox ";
+                SQL += $"from PurchaseOrderItem a ";
+                SQL += $"where(a.RecordStatus is not null and a.RecordStatus != 'D') ";
+                SQL += $"and(a.InputStatus is not null and a.InputStatus != 'Y') ";
+                SQL += $"and a.[PurchaseOrderID] = {PurchaseOrderID_Input} ";
+                SQL += $"order by a.[PurchaseOrderDate] desc ";
+                
+                var data = db.Database.SqlQuery<NhapKhoDungCuModel>(SQL).ToList();
+                return data;
             }
             catch (Exception ex)
             {
@@ -64,7 +62,7 @@ namespace DAL.Factory.HT.PurchaseOrderitems
         }
 
 
-        public int UpdatePurchaseOrderitem(List<PurchaseOrderItem> obj)
+        public int UpdatePurchaseOrderitem(List<NhapKhoDungCuModel> obj)
         {
             try
             {
@@ -80,6 +78,22 @@ namespace DAL.Factory.HT.PurchaseOrderitems
 
                 return 1;
             }
+            //catch (DbEntityValidationException e)
+            //{
+            //    foreach (var eve in e.EntityValidationErrors)
+            //    {
+            //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+            //        foreach (var ve in eve.ValidationErrors)
+            //        {
+            //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+            //                ve.PropertyName, ve.ErrorMessage);
+            //        }
+            //    }
+            //    throw;
+            //    //Logging.LogError(ex);
+            //    //return 0;
+            //}
             catch (Exception ex)
             {
                 Logging.LogError(ex);

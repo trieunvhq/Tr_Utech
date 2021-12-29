@@ -4,28 +4,28 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebAPI.Models;
-using Newtonsoft.Json.Linq;
-using BPL.Factory.HT.PurchaseOrderitems;
-using HDLIB.Common;
+using BPL.Factory.HT.TransferInstructionItems;
 using BPL.Models;
+using HDLIB.Common;
+using Newtonsoft.Json.Linq;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    public class PurchaseOrderitemController : ApiController
+    public class TransferInstructionItemController : ApiController
     {
         [HttpPost]
-        [Route("api-ht/purchaseorderitem/getitem")]
-        public BaseModel GetPurchaseOrderitems([FromBody] JObject input)
+        [Route("api-ht/transferinstructionitem/getitem")]
+        public BaseModel GetTransferInstructionItem([FromBody] JObject input)
         {
             var _return = new BaseModel();
             try
             {
                 string err_code = "";
                 string err_msg = "";
-                int PurchaseOrderItemID = input["ID"].ToObject<int>();
+                int TransferInstructionItemID = input["ID"].ToObject<int>();
 
-                var result = new PurchaseOrderitemBPL().GetPurchaseOrderitems(PurchaseOrderItemID, out err_code, out err_msg);
+                var result = new TransferInstructionItemBPL().GetTransferInstructionItem(TransferInstructionItemID, out err_code, out err_msg);
 
                 _return.ErrorCode = err_code;
                 _return.Message = err_msg;
@@ -41,8 +41,8 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("api-ht/purchaseorderitem/updateitem")]
-        public BaseModel UpdatePurchaseOrderitem([FromBody] List<NhapKhoDungCuBPLModel> input)
+        [Route("api-ht/transferinstructionitem/updateitem")]
+        public BaseModel Updatetransferinstructionitem([FromBody] List<XuatKhoDungCuBPLModel> input)
         {
             var _return = new BaseModel();
 
@@ -50,9 +50,8 @@ namespace WebAPI.Controllers
             {
                 string err_code = "";
                 string err_msg = "";
-                //int PurchaseOrderItemID = input["ID"].ToObject<int>();
 
-                var result = new PurchaseOrderitemBPL().UpdatePurchaseOrderitem(input, out err_code, out err_msg);
+                var result = new TransferInstructionItemBPL().UpdateTransferInstructionItem(input, out err_code, out err_msg);
 
                 _return.ErrorCode = err_code;
                 _return.Message = err_msg;
@@ -66,7 +65,6 @@ namespace WebAPI.Controllers
             }
             return _return;
         }
-
         // GET api/<controller>
         public IEnumerable<string> Get()
         {

@@ -23,7 +23,21 @@ namespace HDLIB.Common
     {
         public const string Enough = "Y";
         public const string NotEnough = "D";
-        public const string NotYetEntered = "N";
+        public const string NotYetEntered = "N"; 
+    }
+
+    public class TransferStatus
+    {
+        public const string Delivered = "Y"; 
+        public const string NotDelivered = "N"; 
+    }
+
+    public class TransferType
+    {
+        public const string WarehouseTransfer = "C"; 
+        public const string Import = "I";
+        public const string Export = "O";
+        public const string Inventory = "K";
     }
 
     public class RecordStatus
@@ -33,6 +47,7 @@ namespace HDLIB.Common
         public const string Deleted = "D";
         public const string Locked = "L";
     }
+
     public class APIResponseCode
     {
         public const string SUCCESS = "200";

@@ -1,32 +1,32 @@
-﻿using System;
+﻿using DAL.Model.HT;
+using HDLIB.Common;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HDLIB.Paging;
-using HDLIB.Common;
-using System.Collections.Generic;
-using DAL.Model.HT;
 
-namespace DAL.Factory.HT.PurchaseOrders
+namespace DAL.Factory.HT.TransferInstructions
 {
-    public class PurchaseOrderDAL : IDisposable
+    public class TransferInstructionDAL : IDisposable
     {
         QRMSEntities db;
-        public PurchaseOrderDAL() { db = new QRMSEntities(); }
-        public PurchaseOrderDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
+        public TransferInstructionDAL() { db = new QRMSEntities(); }
+        public TransferInstructionDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
 
 
-        public List<PurchaseOrder> GetPurchaseOrder(DateTime from_day, DateTime to_day)
+        public List<TransferInstruction> GetTransferInstruction(DateTime from_day, DateTime to_day)
         {
             try
             {
-                //var s = from c in db.PurchaseOrders where c.CreateDate
-                string SQL = $"select * from PurchaseOrder a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
-                SQL += $"and (a.InputStatus is not null and a.InputStatus != '{ InputStatus.Enough }') ";
+                //var s = from c in db.TransferInstructions where c.CreateDate
+                string SQL = $"select * from TransferInstruction a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
+                SQL += $"and (a.TransferStatus is not null and a.TransferStatus != '{ TransferStatus.Delivered }') ";
+                SQL += $"and (a.TransferType is not null and a.TransferType == '{ TransferType.Export }') ";
                 SQL += $"and CONVERT(date, '{from_day}') <= CONVERT(date, a.CreateDate) ";
                 SQL += $"and CONVERT(date, '{to_day}') >= CONVERT(date, a.CreateDate) ";
                 SQL += $"order by a.CreateDate desc ";
-                var data = db.PurchaseOrders.SqlQuery(SQL).AsNoTracking().ToList();
+                var data = db.TransferInstructions.SqlQuery(SQL).AsNoTracking().ToList();
 
                 return data;
             }
@@ -37,26 +37,26 @@ namespace DAL.Factory.HT.PurchaseOrders
             }
         }
 
-        public int UpdatePurchaseOrder(List<NhapKhoDungCuModel> obj)
+        public int UpdateTransferInstruction(List<XuatKhoDungCuModelDAL> obj)
         {
             try
             {
                 bool isDone = false;
                 foreach (var item in obj)
                 {
-                    if (item.InputStatus == "Y")
+                    if (item.TransferStatus == "Y")
                         isDone = true;
                 }
 
-                int id = obj[0].PurchaseOrderID;
-                db.DetachAll<PurchaseOrder>();
+                int id = obj[0].TransferOrderID;
+                db.DetachAll<TransferInstruction>();
 
                 if (isDone)
                 {
-                    var xx = db.PurchaseOrders.Where(f => f.ID == id).FirstOrDefault();
+                    var xx = db.TransferInstructions.Where(f => f.ID == id).FirstOrDefault();
                     if (xx == null) throw new Exception("");
                     else
-                        xx.InputStatus = "Y";
+                        xx.TransferStatus = "Y";
                 }
 
                 db.SaveChanges();

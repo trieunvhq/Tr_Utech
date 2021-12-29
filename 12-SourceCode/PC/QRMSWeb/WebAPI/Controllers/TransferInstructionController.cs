@@ -4,21 +4,17 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using BPL.Factory.HT.TransactionHistoris;
-using BPL.Models;
+using BPL.Factory.HT.TransferInstructions;
 using HDLIB.Common;
-using Newtonsoft.Json.Linq;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    public class TransactionHistoryController : ApiController
+    public class TransferInstructionController : ApiController
     {
-        public List<TransactionHistoryBPLModel> _QRList = new List<TransactionHistoryBPLModel>();
-
         [HttpPost]
-        [Route("api-ht/transactionHistori/inserthistory")]
-        public BaseModel InsertHistoryQR([FromBody] List<TransactionHistoryBPLModel> input)
+        [Route("api-ht/transferinstruction/gettransferinstruction")]
+        public BaseModel GetTransferInstruction([FromBody] PurchaseOrderModelInput input)
         {
             var _return = new BaseModel();
             try
@@ -26,7 +22,7 @@ namespace WebAPI.Controllers
                 string err_code = "";
                 string err_msg = "";
 
-                var result = new TransactionHistoryBPL().InsertTransactionHistory(input, out err_code, out err_msg);
+                var result = new TransferInstructionBPL().GetTransferInstruction(input.from_day, input.to_day, out err_code, out err_msg);
 
                 _return.ErrorCode = err_code;
                 _return.Message = err_msg;
@@ -40,7 +36,6 @@ namespace WebAPI.Controllers
             }
             return _return;
         }
-
         // GET api/<controller>
         public IEnumerable<string> Get()
         {

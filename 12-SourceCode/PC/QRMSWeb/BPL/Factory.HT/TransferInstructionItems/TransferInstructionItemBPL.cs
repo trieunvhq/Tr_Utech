@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using BPL.Models;
-using DAL;
-using DAL.Factory.HT.PurchaseOrderitems;
-using DAL.Factory.HT.PurchaseOrders;
+using DAL.Factory.HT.TransferInstructionItems;
+using DAL.Factory.HT.TransferInstructions;
 using DAL.Model.HT;
 using HDLIB;
 using HDLIB.Common;
 
-namespace BPL.Factory.HT.PurchaseOrderitems
+namespace BPL.Factory.HT.TransferInstructionItems
 {
-    public class PurchaseOrderitemBPL : BaseBPL
+    public class TransferInstructionItemBPL : BaseBPL
     {
-        public List<NhapKhoDungCuBPLModel> GetPurchaseOrderitems(int id, out string err_code, out string err_msg)
+        public List<XuatKhoDungCuBPLModel> GetTransferInstructionItem(int id, out string err_code, out string err_msg)
         {
             try
             {
-                var pr = new PurchaseOrderitemDAL(db);
-                var result = pr.GetPurchaseOrderitem(id);
+                var pr = new TransferInstructionItemDAL(db);
+                var result = pr.GetTransferInstructionItem(id);
                 if (result != null)
                 {
                     err_code = "0";
                     err_msg = "Lấy dữ liệu thành công";
 
-                    var ListOut = new List<NhapKhoDungCuBPLModel>();
+                    var ListOut = new List<XuatKhoDungCuBPLModel>();
 
-                    foreach (NhapKhoDungCuModel item in result)
+                    foreach (XuatKhoDungCuModelDAL item in result)
                     {
-                        var xx = new NhapKhoDungCuBPLModel();
+                        var xx = new XuatKhoDungCuBPLModel();
                         xx.CopyPropertiesFrom(item);
                         ListOut.Add(xx);
                     }
@@ -47,23 +46,23 @@ namespace BPL.Factory.HT.PurchaseOrderitems
             }
         }
 
-        public int UpdatePurchaseOrderitem(List<NhapKhoDungCuBPLModel> obj, out string err_code, out string err_msg)
+        public int UpdateTransferInstructionItem(List<XuatKhoDungCuBPLModel> obj, out string err_code, out string err_msg)
         {
             try
             {
-                var ListOut = new List<NhapKhoDungCuModel>();
+                var ListOut = new List<XuatKhoDungCuModelDAL>();
 
-                foreach (NhapKhoDungCuBPLModel item in obj)
+                foreach (XuatKhoDungCuBPLModel item in obj)
                 {
-                    var xx = new NhapKhoDungCuModel();
+                    var xx = new XuatKhoDungCuModelDAL();
                     xx.CopyPropertiesFrom(item);
                     ListOut.Add(xx);
                 }
 
-                var pr = new PurchaseOrderitemDAL(db);
-                var tr = new PurchaseOrderDAL(db);
-                var result = pr.UpdatePurchaseOrderitem(ListOut);
-                var result2 = tr.UpdatePurchaseOrder(ListOut);
+                var pr = new TransferInstructionItemDAL(db);
+                var tr = new TransferInstructionDAL(db);
+                var result = pr.UpdateTransferInstructionItem(ListOut);
+                var result2 = tr.UpdateTransferInstruction(ListOut);
 
                 if (result == 1 && result2 == 1)
                 {
@@ -74,7 +73,7 @@ namespace BPL.Factory.HT.PurchaseOrderitems
                 {
                     err_code = "5";
                     err_msg = "Không update được dữ liệu";
-                }    
+                }
 
                 return result;
             }

@@ -60,6 +60,7 @@
     <Compile Include="Models.Web\EmailModel.cs" />
     <Compile Include="Models.Web\SaleOrderModel.cs" />
     <Compile Include="Models.Web\UserModel.cs" />
+    <Compile Include="Models\NhapKhoDungCuBPLModel.cs" />
     <Compile Include="Models\PurchaseOrderBPLModel.cs" />
     <Compile Include="Models\PurchaseOrderItemBPLModel.cs" />
     <Compile Include="Models\Users\UserBPLModel.cs" />
@@ -79,6 +80,11 @@
     <Compile Include="Factory.HT\PurchaseOrderitems\PurchaseOrderitemBPL.cs" />
     <Compile Include="Factory.HT\TransactionHistoris\TransactionHistoryBPL.cs" />
     <Compile Include="Models\TransactionHistoryBPLModel.cs" />
+    <Compile Include="Factory.HT\TransferInstructions\TransferInstructionBPL.cs" />
+    <Compile Include="Factory.HT\TransferInstructionItems\TransferInstructionItemBPL.cs" />
+    <Compile Include="Models\TransferInstructionBPLModel.cs" />
+    <Compile Include="Models\TransferInstructionItemBPLModel.cs" />
+    <Compile Include="Models\XuatKhoDungCuBPLModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
@@ -93,6 +99,8 @@
   <ItemGroup>
     <Folder Include="Constants\" />
     <Folder Include="OperatorWarehouse\" />
+    <Folder Include="Factory.HT\TransferInstructions\" />
+    <Folder Include="Factory.HT\TransferInstructionItems\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">
