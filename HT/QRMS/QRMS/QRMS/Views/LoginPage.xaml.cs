@@ -3,6 +3,7 @@ using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Helper;
+using QRMS.interfaces;
 using QRMS.Models;
 using System;
 
@@ -52,7 +53,8 @@ namespace QRMS.Views
         {
             try
             {
-
+                btnScan_Clicked();
+                return;
                 _ = Controls.LoadingUtility.ShowAsync().ContinueWith(bb =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
@@ -185,6 +187,31 @@ namespace QRMS.Views
                 var methodName = "Login_Clicked";
                 var actionName = $"{namespaceInFile}.{className}.{methodName}()";
             }
+        }
+        private async void btnScan_Clicked()
+        {
+            try
+            {
+                var scanner = DependencyService.Get<IQrScanningService>();
+                var result = await scanner.ScanAsync();
+                if (result != null)
+                {
+                    txtUserName.Text = result;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        void scanView_OnScanResult(ZXing.Result result)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await DisplayAlert("Scanned result", "The barcode's text is " + result.Text + ". The barcode's format is " + result.BarcodeFormat, "OK");
+            });
         }
     }
 }
