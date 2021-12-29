@@ -25,6 +25,6 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
 	<uses-permission android:name="android.permission.USE_BIOMETRIC" />
-<uses-permission android:name="android.permission.FLASHLIGHT"/>
+	<uses-permission android:name="android.permission.FLASHLIGHT" />
 	<application android:label="QRMS.Android" android:theme="@style/MainTheme"></application>
 </manifest>
