@@ -84,9 +84,6 @@
     <PackageReference Include="Xam.Plugin.Media">
       <Version>5.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Essentials">
-      <Version>1.6.1</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
       <Version>2.3.6</Version>
     </PackageReference>
@@ -113,6 +110,15 @@
     </PackageReference>
     <PackageReference Include="Plugin.Fingerprint">
       <Version>1.4.9</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile">
+      <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile.Forms">
+      <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Essentials">
+      <Version>1.6.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +162,7 @@
     <Compile Include="Renderer\BiometricHandler.cs" />
     <Compile Include="Renderer\TouchIdAuthService.cs" />
     <Compile Include="Renderer\OpenImplementation.cs" />
+    <Compile Include="Renderer\IQrScanningService.cs" />
   </ItemGroup>
   <ItemGroup>
     <GoogleServicesJson Include="google-services.json" />
@@ -209,7 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QRMS\QRMS.csproj">
-      <Project>{79F8590F-5399-436F-8FC5-8CE41797AC3A}</Project>
+      <Project>{F501EA6C-4F92-4D05-927F-FB7E946B7722}</Project>
       <Name>QRMS</Name>
     </ProjectReference>
   </ItemGroup>
