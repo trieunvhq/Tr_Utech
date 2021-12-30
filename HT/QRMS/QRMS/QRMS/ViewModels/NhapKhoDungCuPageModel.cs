@@ -103,7 +103,7 @@ namespace QRMS.ViewModels
                 int index_ = 0;
                 for (int i=0;i<Historys.Count;++i)
                 {
-                    if(Historys[i].ItemCode==temp_[1])
+                    if(Historys[i].EXT_QRCode == str)
                     {
                         IsTonTai_ = true;
                         index_ = i;
