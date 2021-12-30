@@ -49,11 +49,7 @@ namespace QRMS.ViewModels
                             Name = result.Result.data[i].PurchaseOrderNo,
                         });
                     }
-                    if (MySettings.IDKho != "")
-                    {
-                        SelectedDonHang = DonHangs.Where(a => a.ID == MySettings.IDKho).FirstOrDefault();
-                        Name = SelectedDonHang.Name;
-                    }
+                  
                     if(tt)
                     { 
                         var page = new T_ComboboxPage(DonHangs, null, 2, this, null);
