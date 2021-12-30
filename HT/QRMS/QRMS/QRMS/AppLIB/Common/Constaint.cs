@@ -8,7 +8,7 @@ namespace QRMS.AppLIB.Common
     public class Constaint
     {
         #region AddressService 
-        public const string ServiceAddress = "http://192.168.0.102:52585"; 
+        public const string ServiceAddress = "http://192.168.0.109:52585"; 
         #endregion
 
         public class APIurl

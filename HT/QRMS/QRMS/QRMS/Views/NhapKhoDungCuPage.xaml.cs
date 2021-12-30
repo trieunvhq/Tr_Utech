@@ -12,14 +12,14 @@ namespace QRMS.Views
     public partial class NhapKhoDungCuPage : ContentPage
     {
         public NhapKhoDungCuPageModel ViewModel { get; set; }
-        public NhapKhoDungCuPage()
+        public NhapKhoDungCuPage(string id)
         {
             InitializeComponent();
-
+             
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new NhapKhoDungCuPageModel();
+            ViewModel = new NhapKhoDungCuPageModel(id);
             ViewModel.Initialize();
             BindingContext = ViewModel;
 
@@ -55,19 +55,31 @@ namespace QRMS.Views
         }
 
 
-        void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
+            
         }
 
 
-        void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            if (ViewModel.SelectedKho != null)
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
             {
-                MySettings.MaKho = ViewModel.SelectedKho.Name;
-                MySettings.IDKho = ViewModel.SelectedKho.ID;
-            }
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    ViewModel.LuuLais();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            }); 
         } 
 
         void lst_combobox_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
@@ -76,16 +88,31 @@ namespace QRMS.Views
 
         void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
         {
+            row.Height = 100;
+            lbNen.IsVisible = true;
             scanView.IsVisible = true;
+            btnDongQuet.IsVisible = true;
         }
 
-        void scanView_OnScanResult(ZXing.Result result)
+        async void scanView_OnScanResult(ZXing.Result result)
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
             {
-                ViewModel.LoadModels(result.Text.Split());
-                await DisplayAlert("Scanned result", "The barcode's text is " + result.Text + ". The barcode's format is " + result.BarcodeFormat, "OK");
-            });
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    ViewModel.ScanComplate(result.Text);
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            }); 
+        }
+
+        void btnDongQuet_Clicked(System.Object sender, System.EventArgs e)
+        {
+            row.Height = 50;
+            lbNen.IsVisible = false;
+            scanView.IsVisible = false;
+            btnDongQuet.IsVisible = false;
         }
     }
 }

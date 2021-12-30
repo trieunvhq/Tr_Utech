@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using QRMS.Constants;
+using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -10,6 +11,7 @@ namespace QRMS.Views
 {
     public partial class ChonKhoKiemKePage : ContentPage
     {
+        public ChonKhoKiemKePageModel ViewModel { get; set; }
         public ChonKhoKiemKePage()
         {
             InitializeComponent();
@@ -17,6 +19,12 @@ namespace QRMS.Views
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
+
+
+            ViewModel = new ChonKhoKiemKePageModel();
+            ViewModel.Initialize();
+            BindingContext = ViewModel;
+
 
             row_trencung.Height = 20;
 
@@ -51,15 +59,41 @@ namespace QRMS.Views
         }
 
 
-        void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
         }
 
 
-        void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonDonMuaHangPage());
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonDonMuaHangPage());
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
+        }
+
+        async void SoLoai_Tapped(System.Object sender, System.EventArgs e)
+        {
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    ViewModel.LoadComboxSoLoai();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            }); 
         }
     }
 }

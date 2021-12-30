@@ -16,11 +16,15 @@ namespace PIAMA.Views.Shared
         private int _tt;
         public KhoPageModel _ViewModel;
         public ChonDonMuaHangPageModel _ViewModel2;
-        public T_ComboboxPage(ObservableCollection<ComboModel> models, KhoPageModel viewModel_,int tt, ChonDonMuaHangPageModel ViewModel2_)
+        public ChonKhoKiemKePageModel _ViewModel3;
+        public T_ComboboxPage(ObservableCollection<ComboModel> models, KhoPageModel viewModel_,int tt
+            , ChonDonMuaHangPageModel ViewModel2_
+            , ChonKhoKiemKePageModel ViewModel3_)
         {
             _tt = tt; 
             _ViewModel = viewModel_;
             _ViewModel2 = ViewModel2_;
+            _ViewModel3 = ViewModel3_;
             MySettings.Title = "";
             InitializeComponent();
 
@@ -81,6 +85,9 @@ namespace PIAMA.Views.Shared
                         break;
                     case 2:
                         _ViewModel2.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                        break;
+                    case 3:
+                        _ViewModel3.LoadDataCombobox(((ComboModel)e.Item), _tt);
                         break;
                 }    
                 Application.Current.MainPage.Navigation.PopAsync();

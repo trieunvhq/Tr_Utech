@@ -20,11 +20,10 @@ namespace QRMS.ViewModels
         public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
 
-        public string Name { get; set; }
-        public string ID { get; set; }
-
-        public NhapKhoDungCuPageModel()
+        private string _ID = "";
+        public NhapKhoDungCuPageModel(string id)
         {
+            _ID = id;
             LoadModels("");
         }
 
@@ -35,7 +34,7 @@ namespace QRMS.ViewModels
                                               (Constaint.ServiceAddress, Constaint.APIurl.getitem,
                                               new
                                               {
-                                                  ID = "1"
+                                                  ID = _ID
                                               });
             if (result != null && result.Result != null && result.Result.data != null)
             {
@@ -57,29 +56,45 @@ namespace QRMS.ViewModels
                 });
             }
         }
-        public void LuuLais()
+        public async void LuuLais()
         {
-            
-            var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                              (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
-                                              Historys);
-            if (result != null && result.Result != null)
+            try
+            {
+                await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+                {
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                Historys);
+                    if (result != null && result.Result != null)
+                    {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            if (result.Result.data == 0)
+                            { 
+                                await Controls.LoadingUtility.HideAsync();
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý");
+                            }
+                            else
+                            {
+                                await Controls.LoadingUtility.HideAsync();
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý");
+                            }
+                        });
+                    } 
+                });
+            }
+            catch (Exception ex)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    if(result.Result.data==0)
-                    {
+                    Controls.LoadingUtility.HideAsync();
 
-                    }
-                    else
-                    {
-
-                    }    
+                    UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
                 });
             }
         }
          
-        public async void ScanComplate(string str,string code)
+        public async void ScanComplate(string str)
         {
             string[] temp_ = str.Split(';');
             if(Historys!=null)
@@ -113,6 +128,7 @@ namespace QRMS.ViewModels
                                 if (answer)
                                 {
                                     model_.SoLuongDaNhap = model_.SoLuongDaNhap + DonHangs[i].Quantity;
+                                    model_.SoLuongBox = model_.SoLuongBox + 1;
                                     DonHangs.RemoveAt(i);
                                     DonHangs.Insert(0, model_);
                                 }
@@ -120,13 +136,17 @@ namespace QRMS.ViewModels
                             else
                             {
                                 model_.SoLuongDaNhap = model_.SoLuongDaNhap + DonHangs[i].Quantity;
+                                model_.SoLuongBox = model_.SoLuongBox + 1;
                                 DonHangs.RemoveAt(i);
                                 DonHangs.Insert(0, model_);
                             }
                             //
-                            DateTime? mfdate_ = (temp_[7] == null || temp_[7] == "") ? null : Convert.ToDateTime(temp_[7]);
-                            DateTime? Recdate_ = (temp_[8] == null || temp_[8] == "") ? null : Convert.ToDateTime(temp_[8]);
-                            DateTime? Expdate_ = (temp_[9] == null || temp_[9] == "") ? null : Convert.ToDateTime(temp_[9]);
+                            DateTime mfdate_ = DateTime.Now;
+                            DateTime Recdate_ = DateTime.Now;
+                            DateTime Expdate_ = DateTime.Now;
+                            DateTime.TryParse(temp_[7], out mfdate_);
+                            DateTime.TryParse(temp_[8], out Recdate_);
+                            DateTime.TryParse(temp_[9], out Expdate_);
                             Historys.Add(new TransactionHistoryBPLModel
                             {
                                 ID = 0,
@@ -142,7 +162,7 @@ namespace QRMS.ViewModels
                                 EXT_MfDate = mfdate_,
                                 EXT_RecDate = Recdate_,
                                 EXT_ExpDate = Expdate_,
-                                EXT_QRCode = code,
+                                EXT_QRCode = str,
                                 CustomerCode = temp_[3],
                                 RecordStatus = "N",
                                 CreateDate = DateTime.Now,

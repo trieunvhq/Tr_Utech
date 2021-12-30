@@ -1,4 +1,4 @@
-﻿ 
+﻿
 using System;
 using System.Collections.Generic;
 using QRMS.Constants;
@@ -56,24 +56,46 @@ namespace QRMS.Views
         }
 
 
-        void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
         }
 
 
-        void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage());
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    if (ViewModel.SelectedDonHang != null)
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage(ViewModel.SelectedDonHang.ID));
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
         }
 
         void BtnLayDonMuaHang_CLicked(System.Object sender, System.EventArgs e)
         {
         }
 
-        void DonMuaHang_Tapped(System.Object sender, System.EventArgs e)
+        async void DonMuaHang_Tapped(System.Object sender, System.EventArgs e)
         {
-            ViewModel.LoadComboxSoLoai();
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    ViewModel.LoadComboxSoLoai();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
         }
     }
 }

@@ -22,10 +22,10 @@
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="1"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition x:Name="row" Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
             <Label x:Name="lbTieuDe" Text="Nhập kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
@@ -63,8 +63,8 @@
 
 
             <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7" BackgroundColor="White"
-                          x:Name="lst_combobox" SeparatorVisibility="None"
-                  RowHeight="50" ItemTapped="lst_combobox_ItemTapped">
+               ItemsSource="{Binding DonHangs}" x:Name="lst_combobox" SeparatorVisibility="None"
+                  RowHeight="51" ItemTapped="lst_combobox_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell >
@@ -103,14 +103,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <forms1:ZXingScannerView x:Name="scanView" IsVisible="False"
-                                        OnScanResult="scanView_OnScanResult"
-                                        IsScanning="True"
-                                        WidthRequest="300"
-                                        HeightRequest="300"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="CenterAndExpand"
-                                     Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"/>
+           
             <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
@@ -131,6 +124,21 @@
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             </Grid>
+            <Label BackgroundColor="Black" Opacity=".3" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
+                   x:Name="lbNen" IsVisible="False"/>
+             <forms1:ZXingScannerView x:Name="scanView" IsVisible="False"
+                                        OnScanResult="scanView_OnScanResult"
+                                        IsScanning="True"
+                                        WidthRequest="300"
+                                        HeightRequest="300"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                     Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"/>
+            
+            <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" TextColor="White"
+                x:Name="btnDongQuet" Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
+                StartColor="Red" EndColor="DarkRed" IsVisible="False"/>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -24,16 +24,16 @@ namespace QRMS.ViewModels
 
         public ChonDonMuaHangPageModel()
         {
-            LoadModels();
+            LoadModels(false);
         }
 
 
-        public void LoadModels()
+        public void LoadModels(bool tt)
         {
             var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PurchaseOrder>>>
                                               (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorder, new {
-                                                  from_day = TuNgay,
-                                                  to_day = DenNgay
+                                                  from_day = TuNgay.Date,
+                                                  to_day = DenNgay.Date
                                               });
             if (result != null && result.Result != null && result.Result.data != null)
             {
@@ -54,6 +54,11 @@ namespace QRMS.ViewModels
                         SelectedDonHang = DonHangs.Where(a => a.ID == MySettings.IDKho).FirstOrDefault();
                         Name = SelectedDonHang.Name;
                     }
+                    if(tt)
+                    { 
+                        var page = new T_ComboboxPage(DonHangs, null, 2, this, null);
+                        Application.Current.MainPage.Navigation.PushAsync(page);
+                    }    
                 });
             }
         }
@@ -74,8 +79,7 @@ namespace QRMS.ViewModels
         }
         public void LoadComboxSoLoai()
         {
-            var page = new T_ComboboxPage(DonHangs, null, 2, this);
-            Application.Current.MainPage.Navigation.PushAsync(page);
+            LoadModels(true);
         }
 
     }

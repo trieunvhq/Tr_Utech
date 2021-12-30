@@ -1,36 +1,33 @@
-﻿ 
-using Acr.UserDialogs;
+﻿  
 using PIAMA.Views.Shared;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
-using QRMS.Models;
-using System;
+using QRMS.Models; 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+using System.Collections.ObjectModel; 
 using System.Linq; 
 using Xamarin.Forms; 
 
 namespace QRMS.ViewModels
 {
-    public class KhoPageModel : BaseViewModel
-    { 
-        public ObservableCollection<ComboModel> Khos { get; set; } = new ObservableCollection<ComboModel>(); 
+    public class ChonKhoKiemKePageModel : BaseViewModel
+    {
+        public ObservableCollection<ComboModel> Khos { get; set; } = new ObservableCollection<ComboModel>();
         public ComboModel SelectedKho { get; set; }
 
         public string Name { get; set; }
 
-        public KhoPageModel()
+        public ChonKhoKiemKePageModel()
         {
             LoadModels();
-        } 
+        }
 
 
         public void LoadModels()
         {
             var result = APIHelper.GetObjectFromAPIAsync<BaseModel<List<ComboModel>>>
-                                              (Constaint.ServiceAddress, Constaint.APIurl.getlistwarehouses,null);
+                                              (Constaint.ServiceAddress, Constaint.APIurl.getlistwarehouses, null);
             if (result != null && result.Result != null && result.Result.data != null)
             {
                 Device.BeginInvokeOnMainThread(() =>
@@ -41,15 +38,15 @@ namespace QRMS.ViewModels
                     {
                         Khos.Add(new ComboModel
                         {
-                            ID = result.Result.data[i].ID, 
+                            ID = result.Result.data[i].ID,
                             Name = result.Result.data[i].Name,
                         });
                     }
-                    if(MySettings.IDKho!="")
+                    if (MySettings.IDKho != "")
                     {
                         SelectedKho = Khos.Where(a => a.ID == MySettings.IDKho).FirstOrDefault();
                         Name = SelectedKho.Name;
-                    } 
+                    }
                 });
             }
         }
@@ -60,19 +57,19 @@ namespace QRMS.ViewModels
             {
                 switch (tt)
                 {
-                    case 1:
+                    case 3:
                         SelectedKho = model_;
                         Name = SelectedKho.Name;
-                        break; 
+                        break;
                 }
 
             });
-        } 
+        }
         public void LoadComboxSoLoai()
         {
-            var page = new T_ComboboxPage(Khos, this, 1,null, null);
+            var page = new T_ComboboxPage(Khos, null, 3, null,this);
             Application.Current.MainPage.Navigation.PushAsync(page);
         }
-        
+
     }
 }

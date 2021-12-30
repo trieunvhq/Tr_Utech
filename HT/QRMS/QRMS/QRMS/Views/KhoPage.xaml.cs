@@ -1,6 +1,7 @@
 ﻿ 
 using System;
 using System.Collections.Generic;
+using Acr.UserDialogs;
 using QRMS.Constants;
 using QRMS.ViewModels;
 using Xamarin.Forms;
@@ -55,23 +56,40 @@ namespace QRMS.Views
         }
 
 
-        void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
+           
         }
 
        
-        void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
             if(ViewModel.SelectedKho != null)
             {
                 MySettings.MaKho = ViewModel.SelectedKho.Name;
                 MySettings.IDKho = ViewModel.SelectedKho.ID;
-            }    
+            } 
+            await UserDialogs.Instance.ConfirmAsync("", "Thành công!", "Đồng ý");
         } 
-        void SoLoai_Tapped(System.Object sender, System.EventArgs e)
+        async void SoLoai_Tapped(System.Object sender, System.EventArgs e)
         {
-            ViewModel.LoadComboxSoLoai();
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    ViewModel.LoadComboxSoLoai();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
+            
         }
     }
 }
