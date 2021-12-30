@@ -152,6 +152,7 @@ namespace QRMS.ViewModels
                             DateTime.TryParse(temp_[9], out Expdate_);
                             Historys.Add(new TransactionHistoryBPLModel
                             {
+                                TransactionType = "I",
                                 ID = 0,
                                 ItemCode = temp_[1],
                                 ItemName = temp_[2],
@@ -167,7 +168,7 @@ namespace QRMS.ViewModels
                                 EXT_ExpDate = Expdate_,
                                 EXT_QRCode = str,
                                 CustomerCode = temp_[3],
-                                RecordStatus = "Y",
+                                RecordStatus = "N",
                                 CreateDate = DateTime.Now,
                                 UserCreate = MySettings.UserName
 
