@@ -119,15 +119,18 @@ namespace QRMS.ViewModels
                 {
                     for(int i=0;i< DonHangs.Count;++i)
                     {
-                        if(DonHangs[i].ItemCode== temp_[1])
+
+                        if(DonHangs[i].ItemCode== temp_[1]
+                           )
                         {
+                            int soluong_ = Convert.ToInt32(temp_[10]);
                             NhapKhoDungCuModel model_ = DonHangs[i];
                             if(model_.Quantity < model_.SoLuongDaNhap + DonHangs[i].Quantity)
                             { 
                                 var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
                                 if (answer)
                                 {
-                                    model_.SoLuongDaNhap = model_.SoLuongDaNhap + DonHangs[i].Quantity;
+                                    model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                     model_.SoLuongBox = model_.SoLuongBox + 1;
                                     DonHangs.RemoveAt(i);
                                     DonHangs.Insert(0, model_);
@@ -135,7 +138,7 @@ namespace QRMS.ViewModels
                             }
                             else
                             {
-                                model_.SoLuongDaNhap = model_.SoLuongDaNhap + DonHangs[i].Quantity;
+                                model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                 model_.SoLuongBox = model_.SoLuongBox + 1;
                                 DonHangs.RemoveAt(i);
                                 DonHangs.Insert(0, model_);
@@ -153,7 +156,7 @@ namespace QRMS.ViewModels
                                 ItemCode = temp_[1],
                                 ItemName = temp_[2],
                                 ItemType = temp_[0],
-                                Quantity = Convert.ToInt32(temp_[10]),
+                                Quantity = soluong_,
                                 Unit = temp_[11],
                                 EXT_OtherCode = temp_[3],
                                 EXT_Serial = temp_[4],
