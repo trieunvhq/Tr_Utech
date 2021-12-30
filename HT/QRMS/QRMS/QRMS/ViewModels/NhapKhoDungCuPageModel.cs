@@ -23,6 +23,7 @@ namespace QRMS.ViewModels
 
         public bool IsThongBao { get; set; } = false;
         public string ThongBao { get; set; } = "";
+        public Color Color { get; set; } = Color.Red;
         private string _ID = "";
         public NhapKhoDungCuPageModel(string id)
         {
@@ -116,6 +117,7 @@ namespace QRMS.ViewModels
 
                 if (IsTonTai_)
                 {
+                    Color = Color.Red;
                     ThongBao = "Mã QR đã được quét";
                     IsThongBao = true; 
                 }
@@ -150,29 +152,54 @@ namespace QRMS.ViewModels
                             DateTime? Recdate_;
                             DateTime? Expdate_;
 
-                            if(temp_[7].Length>=8)
+                            string[] ngaythang_ = new string[3];
+                            if(temp_[7].Length==8)
                             {
                                 try { mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(0, 2)), Convert.ToInt32(temp_[7].Substring(2, 2)), Convert.ToInt32(temp_[7].Substring(4, 4))); }
                                 catch { mfdate_ = null; }
                             }
+                            else if (temp_[7].Length > 8)
+                            {
+                                temp_[7].Replace("-","/").Replace("\\","/");
+                                ngaythang_ = temp_[7].Split('/');
+                                try { mfdate_ = new DateTime(Convert.ToInt32(ngaythang_[0]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[2])); }
+                                catch { mfdate_ = null; }
+                            }
                             else
                             { mfdate_ = null; }
-                            // 
-                            if (temp_[8].Length >= 8)
+                            //
+                            if (temp_[8].Length == 8)
                             {
                                 try { Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(0, 2)), Convert.ToInt32(temp_[8].Substring(2, 2)), Convert.ToInt32(temp_[8].Substring(4, 4))); }
                                 catch { Recdate_ = null; }
                             }
+                            else if (temp_[8].Length > 8)
+                            {
+                                temp_[8].Replace("-", "/").Replace("\\", "/");
+                                ngaythang_ = temp_[8].Split('/');
+                                try { Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[0]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[2])); }
+                                catch { Recdate_ = null; }
+                            }
                             else
                             { Recdate_ = null; }
-                            // 
-                            if (temp_[9].Length >= 8)
+                            //
+                            if (temp_[9].Length == 8)
                             {
                                 try { Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(0, 2)), Convert.ToInt32(temp_[9].Substring(2, 2)), Convert.ToInt32(temp_[9].Substring(4, 4))); }
                                 catch { Expdate_ = null; }
                             }
+                            else if (temp_[9].Length > 8)
+                            {
+                                temp_[9].Replace("-", "/").Replace("\\", "/");
+                                ngaythang_ = temp_[9].Split('/');
+                                try { Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[0]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[2])); }
+                                catch { Expdate_ = null; }
+                            }
                             else
                             { Expdate_ = null; }
+
+
+
                             //  
                             //DateTime.TryParse(temp_[7], out mfdate_);
                             //DateTime.TryParse(temp_[8], out Recdate_);
@@ -201,7 +228,8 @@ namespace QRMS.ViewModels
 
                             });
                             //
-                            ThongBao = "Mã QR đã được quét";
+                            Color = Color.Green;
+                            ThongBao = "Thành công";
                             IsThongBao = true; 
                             break;
                         } 

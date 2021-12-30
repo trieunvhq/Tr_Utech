@@ -135,7 +135,7 @@
                                         HorizontalOptions="CenterAndExpand"
                                      Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"/>
             <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"
-                   x:Name="lbThongBao" FontSize="18" VerticalTextAlignment="End" HorizontalTextAlignment="Center"
+                   x:Name="lbThongBao" TextColor="{Binding Color}" FontSize="18" VerticalTextAlignment="End" HorizontalTextAlignment="Center"
                    Margin="20" Text="{Binding ThongBao}" IsVisible="{Binding IsThongBao}" FontAttributes="Bold"/>
             <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" TextColor="White"
                 x:Name="btnDongQuet" Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"

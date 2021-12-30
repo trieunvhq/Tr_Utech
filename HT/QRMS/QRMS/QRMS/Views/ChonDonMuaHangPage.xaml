@@ -24,7 +24,7 @@
                 <RowDefinition Height="16"/>
                 <RowDefinition Height="auto"/> 
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="40"/> 
+                <RowDefinition Height="50"/> 
             </Grid.RowDefinitions>
 
             <Label Text="Chọn đơn mua hàng" Margin="10,0,0,0" VerticalTextAlignment="Center"

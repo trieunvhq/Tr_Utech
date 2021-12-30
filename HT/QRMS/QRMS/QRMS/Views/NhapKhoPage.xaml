@@ -21,7 +21,7 @@
                 <RowDefinition Height="16"/>
                 <RowDefinition Height="40"/> 
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="40"/> 
+                <RowDefinition Height="50"/> 
             </Grid.RowDefinitions>
 
             <Label Text="Nhập kho" Margin="10,0,0,0" VerticalTextAlignment="Center"
