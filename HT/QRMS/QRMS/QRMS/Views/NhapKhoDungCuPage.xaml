@@ -136,7 +136,7 @@
                                      Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"/>
             <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"
                    x:Name="lbThongBao" TextColor="{Binding Color}" FontSize="18" VerticalTextAlignment="Start" HorizontalTextAlignment="Center"
-                   Margin="20,100,20,0" Text="{Binding ThongBao}" IsVisible="{Binding IsThongBao}" FontAttributes="Bold"/>
+                   Margin="20,80,20,0" Text="{Binding ThongBao}" IsVisible="{Binding IsThongBao}" FontAttributes="Bold"/>
             <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" TextColor="White"
                 x:Name="btnDongQuet" Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
                 StartColor="Red" EndColor="DarkRed" IsVisible="False"/>
