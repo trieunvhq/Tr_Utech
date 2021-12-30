@@ -273,21 +273,20 @@ namespace QRMS.ViewModels
                   {
                       if (cts.IsCancellationRequested) return false;
                       if (IsThongBao)
-                          tt = true;
-                      else
                       {
-                          if(tt)
+                          if (tt)
                           {
                               tt = false;
                               IsThongBao = false;
                               ThongBao = "";
                               StopDemThoiGianGGS();
-                          }    
-                      }    
+                          }
+                          tt = true;
+                      }     
                       return true; // or true for periodic behavior
                   });
         }
-        private void StopDemThoiGianGGS()
+        public void StopDemThoiGianGGS()
         {
             Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
         }

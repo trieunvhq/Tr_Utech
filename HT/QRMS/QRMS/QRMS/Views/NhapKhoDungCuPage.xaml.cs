@@ -90,7 +90,8 @@ namespace QRMS.Views
         void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
         {
             row.Height = 100;
-            
+
+            lbThongBao.IsVisible = false;
             lbNen.IsVisible = true;
             scanView.IsVisible = true;
             btnDongQuet.IsVisible = true;
@@ -106,7 +107,9 @@ namespace QRMS.Views
             row.Height = 50;
             lbNen.IsVisible = false;
             scanView.IsVisible = false;
+            lbThongBao.IsVisible = false;
             btnDongQuet.IsVisible = false;
+            ViewModel.StopDemThoiGianGGS();
         }
     }
 }
