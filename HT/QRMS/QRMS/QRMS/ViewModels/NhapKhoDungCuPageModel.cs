@@ -160,7 +160,7 @@ namespace QRMS.ViewModels
                             }
                             else if (temp_[7].Length > 8)
                             {
-                                temp_[7].Replace("-","/").Replace("\\","/");
+                                temp_[7]= temp_[7].Replace("-","/").Replace("\\","/");
                                 ngaythang_ = temp_[7].Split('/');
                                 try { mfdate_ = new DateTime(Convert.ToInt32(ngaythang_[0]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[2])); }
                                 catch { mfdate_ = null; }
@@ -175,7 +175,7 @@ namespace QRMS.ViewModels
                             }
                             else if (temp_[8].Length > 8)
                             {
-                                temp_[8].Replace("-", "/").Replace("\\", "/");
+                                temp_[8] = temp_[8].Replace("-", "/").Replace("\\", "/");
                                 ngaythang_ = temp_[8].Split('/');
                                 try { Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[0]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[2])); }
                                 catch { Recdate_ = null; }
@@ -190,7 +190,7 @@ namespace QRMS.ViewModels
                             }
                             else if (temp_[9].Length > 8)
                             {
-                                temp_[9].Replace("-", "/").Replace("\\", "/");
+                                temp_[9] = temp_[9].Replace("-", "/").Replace("\\", "/");
                                 ngaythang_ = temp_[9].Split('/');
                                 try { Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[0]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[2])); }
                                 catch { Expdate_ = null; }
