@@ -20,8 +20,7 @@ namespace QRMS.Views
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new NhapKhoDungCuPageModel(id);
-            ViewModel._Page = this;
+            ViewModel = new NhapKhoDungCuPageModel(id); 
             ViewModel.Initialize();
             BindingContext = ViewModel;
  
@@ -56,24 +55,7 @@ namespace QRMS.Views
                 }
             }
         }
-
-        public void ThongBao_time(string str, int time,bool IsThanhCong)
-        {
-            if (str == null || str == "") return;
-            //Device.BeginInvokeOnMainThread(async () =>
-            //{
-            //    _ = Controls.LoadingUtility.HideAsync();
-            //    await Task.Delay(TimeSpan.FromMilliseconds(time));
-            //    lbThongBao.IsVisible = false;  
-            //});
-            if (IsThanhCong)
-                lbThongBao.TextColor = Color.Green;
-            else
-                lbThongBao.TextColor = Color.Red;
-            lbThongBao.Text = str; 
-            lbThongBao.IsVisible = true; 
-        }
-
+         
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
@@ -116,7 +98,6 @@ namespace QRMS.Views
 
         async void scanView_OnScanResult(ZXing.Result result)
         {
-                lbThongBao.IsVisible = false;
             ViewModel.ScanComplate(result.Text);
         }
 

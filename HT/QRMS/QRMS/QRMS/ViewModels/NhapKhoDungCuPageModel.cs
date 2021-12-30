@@ -16,12 +16,13 @@ using Xamarin.Forms;
 namespace QRMS.ViewModels
 {
     public class NhapKhoDungCuPageModel : BaseViewModel
-    {
-        public NhapKhoDungCuPage _Page;
+    { 
         public ObservableCollection<TransactionHistoryBPLModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryBPLModel>();
         public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
 
+        public bool IsThongBao { get; set; } = false;
+        public string ThongBao { get; set; } = "";
         private string _ID = "";
         public NhapKhoDungCuPageModel(string id)
         {
@@ -115,7 +116,8 @@ namespace QRMS.ViewModels
 
                 if (IsTonTai_)
                 {
-                    _Page.ThongBao_time("Mã QR đã được quét", 1000,false);
+                    ThongBao = "Mã QR đã được quét";
+                    IsThongBao = true; 
                 }
                 else
                 {
@@ -199,7 +201,8 @@ namespace QRMS.ViewModels
 
                             });
                             //
-                            _Page.ThongBao_time("Mã QR đã được quét", 1000, true);
+                            ThongBao = "Mã QR đã được quét";
+                            IsThongBao = true; 
                             break;
                         } 
                     }    
