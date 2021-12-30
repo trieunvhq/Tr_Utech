@@ -64,12 +64,8 @@ namespace QRMS.Views
 
         async void BtnNhapKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoPage());
-                await Controls.LoadingUtility.HideAsync();
-            });
-            
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoPage());
+            await Controls.LoadingUtility.HideAsync(); 
         }
 
         void BtnDieuChuyenKho_CLicked(System.Object sender, System.EventArgs e)
