@@ -60,12 +60,12 @@ namespace QRMS.Views
         public void ThongBao_time(string str, int time,bool IsThanhCong)
         {
             if (str == null || str == "") return;
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                _ = Controls.LoadingUtility.HideAsync();
-                await Task.Delay(TimeSpan.FromMilliseconds(time));
-                lbThongBao.IsVisible = false;  
-            });
+            //Device.BeginInvokeOnMainThread(async () =>
+            //{
+            //    _ = Controls.LoadingUtility.HideAsync();
+            //    await Task.Delay(TimeSpan.FromMilliseconds(time));
+            //    lbThongBao.IsVisible = false;  
+            //});
             if (IsThanhCong)
                 lbThongBao.TextColor = Color.Green;
             else
@@ -116,6 +116,7 @@ namespace QRMS.Views
 
         async void scanView_OnScanResult(ZXing.Result result)
         {
+                lbThongBao.IsVisible = false;
             ViewModel.ScanComplate(result.Text);
         }
 

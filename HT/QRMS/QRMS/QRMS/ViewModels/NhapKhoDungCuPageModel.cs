@@ -147,9 +147,17 @@ namespace QRMS.ViewModels
                             DateTime mfdate_ = DateTime.Now;
                             DateTime Recdate_ = DateTime.Now;
                             DateTime Expdate_ = DateTime.Now;
-                            DateTime.TryParse(temp_[7], out mfdate_);
-                            DateTime.TryParse(temp_[8], out Recdate_);
-                            DateTime.TryParse(temp_[9], out Expdate_);
+                            try { mfdate_ = Convert.ToDateTime(temp_[7]); }
+                            catch { mfdate_ = DateTime.Now; }
+                            // 
+                            try { Recdate_ = Convert.ToDateTime(temp_[8]); }
+                            catch { Recdate_ = DateTime.Now; }
+                            //
+                            try { Expdate_ = Convert.ToDateTime(temp_[9]); }
+                            catch { Expdate_ = DateTime.Now; }
+                            //DateTime.TryParse(temp_[7], out mfdate_);
+                            //DateTime.TryParse(temp_[8], out Recdate_);
+                            //DateTime.TryParse(temp_[9], out Expdate_);
                             Historys.Add(new TransactionHistoryBPLModel
                             {
                                 TransactionType = "I",
@@ -174,9 +182,9 @@ namespace QRMS.ViewModels
 
                             });
                             //
+                            _Page.ThongBao_time("Mã QR đã được quét", 1000, true);
                             break;
                         } 
-                        _Page.ThongBao_time("Mã QR đã được quét", 1000, true);
                     }    
                     
                 }    
