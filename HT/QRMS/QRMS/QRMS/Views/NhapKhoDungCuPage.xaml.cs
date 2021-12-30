@@ -1,6 +1,7 @@
 ﻿ 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using QRMS.Constants;
 using QRMS.ViewModels;
 using Xamarin.Forms;
@@ -10,7 +11,7 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 namespace QRMS.Views
 {
     public partial class NhapKhoDungCuPage : ContentPage
-    {
+    { 
         public NhapKhoDungCuPageModel ViewModel { get; set; }
         public NhapKhoDungCuPage(string id)
         {
@@ -20,9 +21,11 @@ namespace QRMS.Views
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
             ViewModel = new NhapKhoDungCuPageModel(id);
+            ViewModel._Page = this;
             ViewModel.Initialize();
             BindingContext = ViewModel;
-
+ 
+            //
             row_trencung.Height = 20;
 
             if (Device.Idiom == TargetIdiom.Phone)
@@ -54,6 +57,22 @@ namespace QRMS.Views
             }
         }
 
+        public void ThongBao_time(string str, int time,bool IsThanhCong)
+        {
+            if (str == null || str == "") return;
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                _ = Controls.LoadingUtility.HideAsync();
+                await Task.Delay(TimeSpan.FromMilliseconds(time));
+                lbThongBao.IsVisible = false;  
+            });
+            if (IsThanhCong)
+                lbThongBao.TextColor = Color.Green;
+            else
+                lbThongBao.TextColor = Color.Red;
+            lbThongBao.Text = str; 
+            lbThongBao.IsVisible = true; 
+        }
 
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
@@ -89,6 +108,7 @@ namespace QRMS.Views
         void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
         {
             row.Height = 100;
+            
             lbNen.IsVisible = true;
             scanView.IsVisible = true;
             btnDongQuet.IsVisible = true;

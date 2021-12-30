@@ -25,7 +25,19 @@ namespace PIAMA.Views.Shared
             _ViewModel = viewModel_;
             _ViewModel2 = ViewModel2_;
             _ViewModel3 = ViewModel3_;
-            MySettings.Title = "";
+            
+            switch(tt)
+            {
+                case 1:
+                    MySettings.Title = "Chọn kho";
+                    break;
+                case 2:
+                    MySettings.Title = "Chọn đơn hàng";
+                    break;
+                case 3:
+                    MySettings.Title = "Chọn kho";
+                    break;
+            }    
             InitializeComponent();
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
@@ -33,43 +45,7 @@ namespace PIAMA.Views.Shared
             Shell.SetTabBarIsVisible(this, false);
             _Models = models;
             lst_combobox.ItemsSource = models;
-
-            if (Device.Idiom == TargetIdiom.Phone)
-            {
-                if (Device.RuntimePlatform == Device.iOS)
-                {
-                    if (MySettings.h_QRMS >= 812)
-                    {
-                        row_gridCombobox.Height = 40;
-                    }
-                    else
-                    {
-                        row_gridCombobox.Height = 20;
-                    }
-                }
-                else
-                {
-                    row_gridCombobox.Height = 10 + MySettings.Height_Notch;
-                }
-            }
-            else
-            {
-                if (Device.RuntimePlatform == Device.iOS)
-                { 
-                    row_gridCombobox.Height = 20;
-                }
-                else
-                {
-                    if (MySettings.Height_Notch <= 0)
-                    { 
-                        row_gridCombobox.Height = 20 + MySettings.Height_Notch;
-                    }
-                    else
-                    { 
-                        row_gridCombobox.Height = 10 + MySettings.Height_Notch;
-                    }
-                }
-            } 
+             
         }
         
         void OnNextButtonClicked(System.Object sender, System.EventArgs e)

@@ -6,6 +6,7 @@ using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Models;
 using QRMS.Resources;
+using QRMS.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel; 
@@ -16,6 +17,7 @@ namespace QRMS.ViewModels
 {
     public class NhapKhoDungCuPageModel : BaseViewModel
     {
+        public NhapKhoDungCuPage _Page;
         public ObservableCollection<TransactionHistoryBPLModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryBPLModel>();
         public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
@@ -72,12 +74,12 @@ namespace QRMS.ViewModels
                             if (result.Result.data == 0)
                             { 
                                 await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý");
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý");
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
                             }
                         });
                     } 
@@ -113,15 +115,13 @@ namespace QRMS.ViewModels
 
                 if (IsTonTai_)
                 {
-
+                    _Page.ThongBao_time("Mã QR đã được quét", 1000,false);
                 }
                 else
                 {
                     for(int i=0;i< DonHangs.Count;++i)
-                    {
-
-                        if(DonHangs[i].ItemCode== temp_[1]
-                           )
+                    { 
+                        if(DonHangs[i].ItemCode== temp_[1])
                         {
                             int soluong_ = Convert.ToInt32(temp_[10]);
                             NhapKhoDungCuModel model_ = DonHangs[i];
@@ -175,6 +175,7 @@ namespace QRMS.ViewModels
                             //
                             break;
                         } 
+                        _Page.ThongBao_time("Mã QR đã được quét", 1000, true);
                     }    
                     
                 }    

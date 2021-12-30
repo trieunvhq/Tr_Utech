@@ -919,7 +919,7 @@
                                 <ImageButton
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Padding="0"
+                                Padding="0" Clicked="ImageButton_Clicked"
                                 BackgroundColor="Transparent"
                                 Command="{TemplateBinding BindingContext.BackCommand}"
                                 HorizontalOptions="Start"

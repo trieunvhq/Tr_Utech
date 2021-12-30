@@ -25,7 +25,7 @@
                 <RowDefinition x:Name="row" Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <Label x:Name="lbTieuDe" Text="Nhập kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
@@ -134,7 +134,9 @@
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="CenterAndExpand"
                                      Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"/>
-            
+            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"
+                   x:Name="lbThongBao" FontSize="18" VerticalTextAlignment="End" HorizontalTextAlignment="Center"
+                   Margin="20" IsVisible="False" FontAttributes="Bold"/>
             <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" TextColor="White"
                 x:Name="btnDongQuet" Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
                 StartColor="Red" EndColor="DarkRed" IsVisible="False"/>

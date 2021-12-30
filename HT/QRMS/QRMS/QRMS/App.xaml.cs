@@ -59,5 +59,10 @@ namespace QRMS
         {
             // Handle when your app resumes
         }
+
+        async void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        { 
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+        }
     }
 }
