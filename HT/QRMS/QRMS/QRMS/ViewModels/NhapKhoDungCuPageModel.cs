@@ -167,7 +167,7 @@ namespace QRMS.ViewModels
                                 EXT_ExpDate = Expdate_,
                                 EXT_QRCode = str,
                                 CustomerCode = temp_[3],
-                                RecordStatus = "N",
+                                RecordStatus = "Y",
                                 CreateDate = DateTime.Now,
                                 UserCreate = MySettings.UserName
 
