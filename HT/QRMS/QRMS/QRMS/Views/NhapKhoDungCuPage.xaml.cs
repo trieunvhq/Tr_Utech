@@ -9,17 +9,17 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
-    public partial class ChonDonMuaHangPage : ContentPage
+    public partial class NhapKhoDungCuPage : ContentPage
     {
-        public ChonDonMuaHangPageModel ViewModel { get; set; } = new ChonDonMuaHangPageModel();
-        public ChonDonMuaHangPage()
+        public NhapKhoDungCuPageModel ViewModel { get; set; }
+        public NhapKhoDungCuPage()
         {
             InitializeComponent();
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-
+            ViewModel = new NhapKhoDungCuPageModel();
             ViewModel.Initialize();
             BindingContext = ViewModel;
 
@@ -52,7 +52,6 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
-
         }
 
 
@@ -64,16 +63,29 @@ namespace QRMS.Views
 
         void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage());
-        }
+            if (ViewModel.SelectedKho != null)
+            {
+                MySettings.MaKho = ViewModel.SelectedKho.Name;
+                MySettings.IDKho = ViewModel.SelectedKho.ID;
+            }
+        } 
 
-        void BtnLayDonMuaHang_CLicked(System.Object sender, System.EventArgs e)
+        void lst_combobox_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
         }
 
-        void DonMuaHang_Tapped(System.Object sender, System.EventArgs e)
+        void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
         {
-            ViewModel.LoadComboxSoLoai();
+            scanView.IsVisible = true;
+        }
+
+        void scanView_OnScanResult(ZXing.Result result)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                ViewModel.LoadModels(result.Text.Split());
+                await DisplayAlert("Scanned result", "The barcode's text is " + result.Text + ". The barcode's format is " + result.BarcodeFormat, "OK");
+            });
         }
     }
 }

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:helper="clr-namespace:QRMS.Helper"
+    xmlns:control="clr-namespace:QRMS.Controls" xmlns:forms1="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+    x:Class="QRMS.Views.NhapKhoDungCuPage">
+    <ContentPage.Content>
+        <Grid RowSpacing="0" BackgroundColor="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="*"/> 
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="row_trencung"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="lbTieuDe" Text="Nhập kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1"/>
+
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="2"/>
+
+            <Label Margin="10,0,0,0" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Đơn mua hàng: " TextColor="Black" FontSize="15"/>
+                        <Span  x:Name="lbDonMuaHang" TextColor="Red" Text="" FontSize="16" FontAttributes="Bold"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.Row="5" TextColor="Black" FontSize="14"/>
+            <Label Text="Số lượng &#x0a;đơn mua" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="2" Grid.Row="5" TextColor="Black" FontSize="14"/>
+            <Label Text="Số lượng &#x0a;đã nhập" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="4" Grid.Row="5" TextColor="Black" FontSize="14"/>
+            <Label Text="Số box" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="6" Grid.Row="5" TextColor="Black" FontSize="14"/>
+
+             
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"/>
+            <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="5"/>
+            <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="5"/>
+            <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="5"/> 
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="6"/>
+
+
+
+
+            <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7" BackgroundColor="White"
+                          x:Name="lst_combobox" SeparatorVisibility="None"
+                  RowHeight="50" ItemTapped="lst_combobox_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+
+                            <Grid RowSpacing="0" BackgroundColor="White">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/> 
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>   
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="1"/> 
+                                </Grid.RowDefinitions>
+                                 
+                                <Label Text="{Binding ItemName}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.Row="0" TextColor="Black" FontSize="14"/>
+                                <Label Text="{Binding Quantity}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="2" Grid.Row="0" TextColor="Black" FontSize="14"/>
+                                <Label Text="{Binding SoLuongDaNhap}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="4" Grid.Row="0" TextColor="Black" FontSize="14"/>
+                                <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="6" Grid.Row="0" TextColor="Black" FontSize="14"/>
+                                
+                                 
+                                <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="0"/>
+                                <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="0"/>
+                                <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="0"/> 
+                                <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1"/> 
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <forms1:ZXingScannerView x:Name="scanView" IsVisible="False"
+                                        OnScanResult="scanView_OnScanResult"
+                                        IsScanning="True"
+                                        WidthRequest="300"
+                                        HeightRequest="300"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                     Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"/>
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+            <helper:ButtonCustoms Text="Quay lại" Grid.Column="0"
+                Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
+                StartColor="#00a79d" EndColor="#05aff2"/>
+
+            <helper:ButtonCustoms Text="Quét" Grid.Column="2" CornerRadius="0"
+                Clicked="BtnQuet_CLicked" GradientOrientation="Horizontal"
+                StartColor="#00a79d" EndColor="#05aff2"/>
+
+            <helper:ButtonCustoms Text="Lưu lại" Grid.Column="4" CornerRadius="0"
+                Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
+                StartColor="#00a79d" EndColor="#05aff2"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

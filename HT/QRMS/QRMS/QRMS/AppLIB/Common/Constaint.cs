@@ -16,6 +16,9 @@ namespace QRMS.AppLIB.Common
             public const string login = "api-ht/account/login";
 
             public const string getlistwarehouses = "api-ht/warehouse/getlistwarehouses";
+            public const string getpurchaseorder = "api-ht/purchaseorder/getpurchaseorder";
+            public const string getitem = "api-ht/purchaseorderitem/getitem";
+            public const string inserthistory = "api-ht/transactionHistori/inserthistory";
 
         }
 
