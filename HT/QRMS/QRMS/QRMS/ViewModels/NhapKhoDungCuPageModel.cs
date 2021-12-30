@@ -125,7 +125,7 @@ namespace QRMS.ViewModels
                         {
                             int soluong_ = Convert.ToInt32(temp_[10]);
                             NhapKhoDungCuModel model_ = DonHangs[i];
-                            if(model_.Quantity < model_.SoLuongDaNhap + DonHangs[i].Quantity)
+                            if(model_.Quantity < model_.SoLuongDaNhap + soluong_)
                             { 
                                 var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
                                 if (answer)
