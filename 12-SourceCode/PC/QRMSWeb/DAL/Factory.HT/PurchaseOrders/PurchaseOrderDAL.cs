@@ -41,23 +41,38 @@ namespace DAL.Factory.HT.PurchaseOrders
         {
             try
             {
-                bool isDone = false;
+                bool isDoneD = false;
+                bool isDoneY = true;
+
                 foreach (var item in obj)
                 {
-                    if (item.InputStatus == InputStatus.Enough)
-                        isDone = true;
+                    if (item.SoLuongDaNhap < item.Quantity)
+                    {
+                        isDoneY = false;
+                    }
+                    else if (item.SoLuongDaNhap > 0)
+                    {
+                        isDoneD = true;
+                    }
                 }
 
                 int id = obj[0].PurchaseOrderID;
                 db.DetachAll<PurchaseOrder>();
 
-                if (isDone)
+                if (isDoneY)
                 {
                     var xx = db.PurchaseOrders.Where(f => f.ID == id).FirstOrDefault();
                     if (xx == null) throw new Exception("");
                     else
                         xx.InputStatus = InputStatus.Enough;
                 }
+                else if (isDoneD)
+                {
+                    var xx = db.PurchaseOrders.Where(f => f.ID == id).FirstOrDefault();
+                    if (xx == null) throw new Exception("");
+                    else
+                        xx.InputStatus = InputStatus.NotEnough;
+                }    
 
                 db.SaveChanges();
 
