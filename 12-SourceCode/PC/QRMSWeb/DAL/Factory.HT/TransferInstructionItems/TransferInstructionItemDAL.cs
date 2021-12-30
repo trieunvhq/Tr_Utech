@@ -29,10 +29,10 @@ namespace DAL.Factory.HT.TransferInstructionItems
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
                 SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongBox ";
-                SQL += $"from PurchaseOrderItem a ";
+                SQL += $"from TransferInstructionItem a ";
                 SQL += $"where(a.RecordStatus is not null and a.RecordStatus != 'D') ";
                 SQL += $"and(a.TransferStatus is not null and a.TransferStatus != 'Y') ";
-                SQL += $"and(a.TransferType is not null and a.TransferType == 'O') ";
+                SQL += $"and(a.TransferType is not null and a.TransferType = 'O') ";
                 SQL += $"and a.[TransferOrderID] = {PurchaseOrderID_Input} ";
                 SQL += $"order by a.[InstructionDate] desc ";
 
