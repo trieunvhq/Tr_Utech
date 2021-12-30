@@ -53,53 +53,25 @@ namespace QRMS.Views
 
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
-         
+
         async void BtnDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKePage());
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKePage());
+
         }
 
         async void BtnNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKePage());
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
-            
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKePage());
+
         }
 
         async void BtnThanhPham_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKe2Page());
 
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKe2Page());
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
-            
         }
     }
 }

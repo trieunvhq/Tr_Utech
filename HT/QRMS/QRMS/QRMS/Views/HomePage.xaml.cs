@@ -51,21 +51,12 @@ namespace QRMS.Views
 
         async void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ThietLapPage());
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
-            
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ThietLapPage());
         }
 
         async void BtnNhapKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoPage());
-            await Controls.LoadingUtility.HideAsync(); 
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoPage()); 
         }
 
         void BtnDieuChuyenKho_CLicked(System.Object sender, System.EventArgs e)

@@ -58,28 +58,16 @@ namespace QRMS.Views
 
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+
         }
 
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    if (ViewModel.SelectedDonHang != null)
-                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage(ViewModel.SelectedDonHang.ID));
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
+            if (ViewModel.SelectedDonHang != null)
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage(ViewModel.SelectedDonHang.ID));
+
         }
 
         void BtnLayDonMuaHang_CLicked(System.Object sender, System.EventArgs e)

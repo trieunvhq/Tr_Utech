@@ -96,15 +96,7 @@ namespace QRMS.Views
 
         async void scanView_OnScanResult(ZXing.Result result)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-
-                    ViewModel.ScanComplate(result.Text);
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            }); 
+            ViewModel.ScanComplate(result.Text);
         }
 
         void btnDongQuet_Clicked(System.Object sender, System.EventArgs e)

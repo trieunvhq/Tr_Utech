@@ -53,41 +53,17 @@ namespace QRMS.Views
 
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
-
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
 
         async void BtnHeThong_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HeThongPage());
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
-
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HeThongPage());
         }
 
         async void BtnKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KhoPage());
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
-
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KhoPage());
         }
     }
 }
