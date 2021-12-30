@@ -32,7 +32,44 @@ namespace PIAMA.Views.Shared
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
             _Models = models;
-            lst_combobox.ItemsSource = models; 
+            lst_combobox.ItemsSource = models;
+
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    if (MySettings.h_QRMS >= 812)
+                    {
+                        row_gridCombobox.Height = 40;
+                    }
+                    else
+                    {
+                        row_gridCombobox.Height = 20;
+                    }
+                }
+                else
+                {
+                    row_gridCombobox.Height = 10 + MySettings.Height_Notch;
+                }
+            }
+            else
+            {
+                if (Device.RuntimePlatform == Device.iOS)
+                { 
+                    row_gridCombobox.Height = 20;
+                }
+                else
+                {
+                    if (MySettings.Height_Notch <= 0)
+                    { 
+                        row_gridCombobox.Height = 20 + MySettings.Height_Notch;
+                    }
+                    else
+                    { 
+                        row_gridCombobox.Height = 10 + MySettings.Height_Notch;
+                    }
+                }
+            } 
         }
         
         void OnNextButtonClicked(System.Object sender, System.EventArgs e)
@@ -90,8 +127,13 @@ namespace PIAMA.Views.Shared
                         _ViewModel3.LoadDataCombobox(((ComboModel)e.Item), _tt);
                         break;
                 }    
-                Application.Current.MainPage.Navigation.PopAsync();
+                await Application.Current.MainPage.Navigation.PopAsync();
             } 
+        }
+
+        void BtnBack_combobox_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage.Navigation.PopAsync();
         }
     }
 }
