@@ -44,7 +44,7 @@ namespace DAL.Factory.HT.PurchaseOrders
                 bool isDone = false;
                 foreach (var item in obj)
                 {
-                    if (item.InputStatus == "Y")
+                    if (item.InputStatus == InputStatus.Enough)
                         isDone = true;
                 }
 
@@ -56,7 +56,7 @@ namespace DAL.Factory.HT.PurchaseOrders
                     var xx = db.PurchaseOrders.Where(f => f.ID == id).FirstOrDefault();
                     if (xx == null) throw new Exception("");
                     else
-                        xx.InputStatus = "Y";
+                        xx.InputStatus = InputStatus.Enough;
                 }
 
                 db.SaveChanges();

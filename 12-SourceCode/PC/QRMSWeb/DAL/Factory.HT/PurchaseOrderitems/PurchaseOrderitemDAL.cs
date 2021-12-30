@@ -71,7 +71,20 @@ namespace DAL.Factory.HT.PurchaseOrderitems
                     var dept = db.PurchaseOrderItems.Where(f => f.ID == item.ID).FirstOrDefault();
                     if (dept == null) throw new Exception("");
                     else
-                        dept.InputStatus = item.InputStatus;
+                    {
+                        if (item.Quantity >= item.SoLuongDaNhap)
+                        {
+                            dept.InputStatus = InputStatus.Enough;
+                        }
+                        else if (item.Quantity > 0)
+                        {
+                            dept.InputStatus = InputStatus.NotEnough;
+                        }
+                        else
+                        {
+                            dept.InputStatus = InputStatus.NotYetEntered;
+                        }    
+                    }
                 }
 
                 db.SaveChanges();
