@@ -10,7 +10,8 @@ using QRMS.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel; 
-using System.Linq; 
+using System.Linq;
+using System.Threading;
 using Xamarin.Forms; 
 
 namespace QRMS.ViewModels
@@ -74,9 +75,28 @@ namespace QRMS.ViewModels
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             if (result.Result.data == 0)
-                            { 
-                                await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                            {
+                                var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
+                                                DonHangs);
+                                if (result2 != null && result2.Result != null)
+                                {
+                                    if (result2.Result.data == 1)
+                                    {
+                                        await Controls.LoadingUtility.HideAsync();
+                                        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                                    }
+                                    else
+                                    {
+                                        await Controls.LoadingUtility.HideAsync();
+                                        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                    }
+                                }
+                                else
+                                {
+                                    await Controls.LoadingUtility.HideAsync();
+                                    await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                }     
                             }
                             else
                             {
@@ -119,7 +139,8 @@ namespace QRMS.ViewModels
                 {
                     Color = Color.Red;
                     ThongBao = "Mã QR đã được quét";
-                    IsThongBao = true; 
+                    IsThongBao = true;
+                    StartDemThoiGianGGS();
                 }
                 else
                 {
@@ -230,13 +251,45 @@ namespace QRMS.ViewModels
                             //
                             Color = Color.Green;
                             ThongBao = "Thành công";
-                            IsThongBao = true; 
+                            IsThongBao = true;
+                            StartDemThoiGianGGS();
                             break;
                         } 
                     }    
                     
                 }    
             }    
+        }
+
+        private bool tt = false;
+        private CancellationTokenSource cancellation = new CancellationTokenSource();
+        private void StartDemThoiGianGGS()
+        {
+            StopDemThoiGianGGS();
+            CancellationTokenSource cts = this.cancellation;
+
+            Device.StartTimer(TimeSpan.FromSeconds(3),
+                  () =>
+                  {
+                      if (cts.IsCancellationRequested) return false;
+                      if (IsThongBao)
+                          tt = true;
+                      else
+                      {
+                          if(tt)
+                          {
+                              tt = false;
+                              IsThongBao = false;
+                              ThongBao = "";
+                              StopDemThoiGianGGS();
+                          }    
+                      }    
+                      return true; // or true for periodic behavior
+                  });
+        }
+        private void StopDemThoiGianGGS()
+        {
+            Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
         }
     }
 }

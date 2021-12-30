@@ -19,6 +19,7 @@ namespace QRMS.AppLIB.Common
             public const string getpurchaseorder = "api-ht/purchaseorder/getpurchaseorder";
             public const string getitem = "api-ht/purchaseorderitem/getitem";
             public const string inserthistory = "api-ht/transactionHistori/inserthistory";
+            public const string updateitem = "api-ht/purchaseorderitem/updateitem";
 
         }
 
