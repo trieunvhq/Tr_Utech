@@ -144,17 +144,34 @@ namespace QRMS.ViewModels
                                 DonHangs.Insert(0, model_);
                             }
                             //
-                            DateTime mfdate_ = DateTime.Now;
-                            DateTime Recdate_ = DateTime.Now;
-                            DateTime Expdate_ = DateTime.Now;
-                            try { mfdate_ = Convert.ToDateTime(temp_[7]); }
-                            catch { mfdate_ = DateTime.Now; }
+                            DateTime? mfdate_;
+                            DateTime? Recdate_;
+                            DateTime? Expdate_;
+
+                            if(temp_[7].Length>=8)
+                            {
+                                try { mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(0, 2)), Convert.ToInt32(temp_[7].Substring(2, 2)), Convert.ToInt32(temp_[7].Substring(4, 4))); }
+                                catch { mfdate_ = null; }
+                            }
+                            else
+                            { mfdate_ = null; }
                             // 
-                            try { Recdate_ = Convert.ToDateTime(temp_[8]); }
-                            catch { Recdate_ = DateTime.Now; }
-                            //
-                            try { Expdate_ = Convert.ToDateTime(temp_[9]); }
-                            catch { Expdate_ = DateTime.Now; }
+                            if (temp_[8].Length >= 8)
+                            {
+                                try { Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(0, 2)), Convert.ToInt32(temp_[8].Substring(2, 2)), Convert.ToInt32(temp_[8].Substring(4, 4))); }
+                                catch { Recdate_ = null; }
+                            }
+                            else
+                            { Recdate_ = null; }
+                            // 
+                            if (temp_[9].Length >= 8)
+                            {
+                                try { Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(0, 2)), Convert.ToInt32(temp_[9].Substring(2, 2)), Convert.ToInt32(temp_[9].Substring(4, 4))); }
+                                catch { Expdate_ = null; }
+                            }
+                            else
+                            { Expdate_ = null; }
+                            //  
                             //DateTime.TryParse(temp_[7], out mfdate_);
                             //DateTime.TryParse(temp_[8], out Recdate_);
                             //DateTime.TryParse(temp_[9], out Expdate_);
