@@ -14,23 +14,73 @@ namespace WebAPI.Controllers
 {
     public class TransactionHistoryController : ApiController
     {
-        public List<TransactionHistoryBPLModel> _QRList = new List<TransactionHistoryBPLModel>();
+        public Dictionary<string, List<TransactionHistoryBPLModel>> _QRList = new Dictionary<string, List<TransactionHistoryBPLModel>>();
 
         [HttpPost]
         [Route("api-ht/transactionHistori/inserthistory")]
         public BaseModel InsertHistoryQR([FromBody] List<TransactionHistoryBPLModel> input)
         {
+            string token = "";
+            int page = 0;
+
+            if (input.Count > 0)
+            {
+                token = input[0].token;
+                page = input[0].page;
+            }
+
             var _return = new BaseModel();
             try
             {
+
                 string err_code = "";
                 string err_msg = "";
 
-                var result = new TransactionHistoryBPL().InsertTransactionHistory(input, out err_code, out err_msg);
+                bool tt = false;
 
+                if (_QRList.ContainsKey(token))
+                {
+                    for (int i = 0; i < input.Count; ++i)
+                    {
+                        _QRList[token].Add(input[i]);
+                    }
+                    if (page == 0)
+                    {
+                        tt = true;
+                    }
+                    else
+                    {
+                    }
+                }
+                else
+                {
+                    _QRList.Add(token, new List<TransactionHistoryBPLModel>());
+                    for (int i = 0; i < input.Count; ++i)
+                    {
+                        _QRList[token].Add(input[i]);
+                    }
+                    if (page == 0)
+                    {
+                        tt = true;
+                    }
+                    else
+                    {
+                    }
+                }
+
+                if (tt)
+                {
+                    var result = new TransactionHistoryBPL().InsertTransactionHistory(_QRList[token], out err_code, out err_msg);
+                    _QRList.Remove(token);
+                    _return.data = result;
+                }
+                else
+                {
+                    _return.data = null;
+                }
                 _return.ErrorCode = err_code;
                 _return.Message = err_msg;
-                _return.data = result;
+
             }
             catch (Exception ex)
             {
