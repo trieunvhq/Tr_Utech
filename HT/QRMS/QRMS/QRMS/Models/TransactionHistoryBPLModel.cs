@@ -3,6 +3,9 @@ namespace QRMS.Models
 {
     public class TransactionHistoryBPLModel
     {
+        public int page { get; set; }
+        public string token { get; set; }
+
         public long ID { get; set; }
         public string TransactionType { get; set; }
         public string OrderNo { get; set; }

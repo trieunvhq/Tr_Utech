@@ -498,6 +498,7 @@ namespace QRMS.Constants
                     return 40;
             }
         }
+        public static string Token { get; set; }
         public static string Title { get; set; }
         public static bool Vi_En { get; set; }
 

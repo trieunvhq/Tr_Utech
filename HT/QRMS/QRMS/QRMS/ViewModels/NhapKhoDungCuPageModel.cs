@@ -245,9 +245,11 @@ namespace QRMS.ViewModels
                                 CustomerCode = temp_[3],
                                 RecordStatus = "N",
                                 CreateDate = DateTime.Now,
-                                UserCreate = MySettings.UserName
+                                UserCreate = MySettings.UserName,
+                                page = 0,
+                                token = MySettings.Token
 
-                            });
+                            }) ;
                             //
                             Color = Color.Green;
                             ThongBao = "Thành công";

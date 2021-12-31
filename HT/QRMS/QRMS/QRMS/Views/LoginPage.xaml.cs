@@ -115,7 +115,7 @@ namespace QRMS.Views
                                 }
                                 var token = FCMTockenValue;
                                 //var account_id = Xamarin.Essentials.SecureStorage.GetAsync(Constaint.UserNoKey).Result;
-
+                                MySettings.Token = token;
                                 var ipAddress = MobileInfo.GetIP();
                                 var deviceName = MobileInfo.GetDeviceInfo();
                                 string UserName_ = txtUserName.Text.ToLower();
