@@ -27,7 +27,7 @@ namespace QRMS.ViewModels
         public Color Color { get; set; } = Color.Red;
         private string _ID = "";
         private string _PPurchaseOrderNo = "";
-        private Nullable<DateTime> _PurchaseOrderDate = null;
+        private DateTime _PurchaseOrderDate;
 
 
         public NhapKhoDungCuPageModel(string id, string no, DateTime d)
@@ -36,12 +36,23 @@ namespace QRMS.ViewModels
             _PPurchaseOrderNo = no;
             _PurchaseOrderDate = d;
             LoadDbLocal();
-            LoadModels("");
+
+            if (DonHangs.Count == 0)
+                LoadModels("");
         }
 
         protected async void LoadDbLocal()
         {
-            List<TransactionHistoryBPLModel> historys = await App.Dblocal.GetHistoryAsync();
+            List<NhapKhoDungCuModel> donhang_ = await App.Dblocal.GetPurchaseOrderAsyncWithKey(_PPurchaseOrderNo);
+            foreach (NhapKhoDungCuModel item in donhang_)
+            {
+                if (!DonHangs.Contains(item.ID))
+                {
+                    DonHangs.Add(item);
+                }
+            }
+
+            List<TransactionHistoryBPLModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_PPurchaseOrderNo);
             foreach(TransactionHistoryBPLModel item in historys)
             {
                 if (!Historys.Contains(item))
@@ -74,8 +85,10 @@ namespace QRMS.ViewModels
                         else
                         {
                             DonHangs.Add(result.Result.data[i]);
-                        }    
-                    } 
+                        }
+
+                        App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
+                    }
                 });
             }
         }
@@ -94,7 +107,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 0)
                             {
-                                App.Dblocal.DeleteHistoryAll();
+                                App.Dblocal.DeleteHistoryAsyncWithKey(_PPurchaseOrderNo);
 
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
@@ -103,6 +116,7 @@ namespace QRMS.ViewModels
                                 {
                                     if (result2.Result.data == 1)
                                     {
+                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PPurchaseOrderNo);
                                         await Controls.LoadingUtility.HideAsync();
                                         await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
                                     }
@@ -188,6 +202,9 @@ namespace QRMS.ViewModels
                                 DonHangs.RemoveAt(i);
                                 DonHangs.Insert(0, model_);
                             }
+
+                            await App.Dblocal.UpdatePurchaseOrderAsync(model_);
+
                             //
                             DateTime? mfdate_;
                             DateTime? Recdate_;
