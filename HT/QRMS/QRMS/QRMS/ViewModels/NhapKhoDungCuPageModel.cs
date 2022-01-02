@@ -267,7 +267,7 @@ namespace QRMS.ViewModels
                                 token = MySettings.Token
                             };
 
-                            Historys.Add(history) ;
+                            Historys.Add(history);
                             await App.Dblocal.SaveHistoryAsync(history);
                             
                             //
