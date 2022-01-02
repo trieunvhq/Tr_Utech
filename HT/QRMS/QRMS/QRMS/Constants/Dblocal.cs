@@ -31,14 +31,15 @@ namespace QRMS
 
         public Task<int> SaveHistoryAsync(TransactionHistoryBPLModel history)
         {
-            if (history.ID != 0)
-            {
-                return _database.UpdateAsync(history);
-            }
-            else
-            {
-                return _database.InsertAsync(history);
-            }
+            //if (history.ID != 0)
+            //{
+            //    return _database.UpdateAsync(history);
+            //}
+            //else
+            //{
+            //    return _database.InsertAsync(history);
+            //}
+            return _database.InsertAsync(history);
         }
 
         public Task<int> DeleteHistoryAsync(TransactionHistoryBPLModel history)

@@ -6,7 +6,6 @@ namespace QRMS.Models
     [Table("TransactionHistoryBPLModel")]
     public class TransactionHistoryBPLModel
     {
-        [PrimaryKey, AutoIncrement]
         public long ID { get; set; }
         public int page { get; set; }
         public string token { get; set; }
