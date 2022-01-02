@@ -47,6 +47,7 @@ namespace QRMS.ViewModels
                         {
                             ID = result.Result.data[i].ID.ToString(),
                             Name = result.Result.data[i].PurchaseOrderNo,
+                            PurchaseOrderDate = Convert.ToDateTime(result.Result.data[i].PurchaseOrderDate)
                         });
                     }
                   

@@ -26,11 +26,15 @@ namespace QRMS.ViewModels
         public string ThongBao { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
         private string _ID = "";
+        private string _PPurchaseOrderNo = "";
+        private Nullable<DateTime> _PurchaseOrderDate = null;
 
 
-        public NhapKhoDungCuPageModel(string id)
+        public NhapKhoDungCuPageModel(string id, string no, DateTime d)
         {
             _ID = id;
+            _PPurchaseOrderNo = no;
+            _PurchaseOrderDate = d;
             LoadDbLocal();
             LoadModels("");
         }
@@ -244,8 +248,10 @@ namespace QRMS.ViewModels
 
                             TransactionHistoryBPLModel history = new TransactionHistoryBPLModel
                             {
-                                TransactionType = "I",
                                 ID = 0,
+                                TransactionType = "I",
+                                OrderNo = _PPurchaseOrderNo,
+                                OrderDate = _PurchaseOrderDate,
                                 ItemCode = temp_[1],
                                 ItemName = temp_[2],
                                 ItemType = temp_[0],

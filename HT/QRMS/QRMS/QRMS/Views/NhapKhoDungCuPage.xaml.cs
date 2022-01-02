@@ -13,14 +13,14 @@ namespace QRMS.Views
     public partial class NhapKhoDungCuPage : ContentPage
     { 
         public NhapKhoDungCuPageModel ViewModel { get; set; }
-        public NhapKhoDungCuPage(string id)
+        public NhapKhoDungCuPage(string id, string no, DateTime d)
         {
             InitializeComponent();
              
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new NhapKhoDungCuPageModel(id); 
+            ViewModel = new NhapKhoDungCuPageModel(id, no, d); 
             ViewModel.Initialize();
             BindingContext = ViewModel;
  
