@@ -43,6 +43,8 @@ namespace QRMS.ViewModels
 
         protected async void LoadDbLocal()
         {
+            DonHangs.Clear();
+            Historys.Clear();
             List<XuatKhoDungCuBPLModel> donhang_ = await App.Dblocal.GetTransferInstructionAsyncWithKey(_No);
             foreach (XuatKhoDungCuBPLModel item in donhang_)
             {

@@ -43,6 +43,9 @@ namespace QRMS.ViewModels
 
         protected async void LoadDbLocal()
         {
+            DonHangs.Clear();
+            Historys.Clear();
+
             List<NhapKhoDungCuModel> donhang_ = await App.Dblocal.GetPurchaseOrderAsyncWithKey(_PPurchaseOrderNo);
             foreach (NhapKhoDungCuModel item in donhang_)
             {
