@@ -40,6 +40,7 @@
     <None Remove="ZXing.Net.Mobile.Forms" />
     <None Remove="Xamarin.Essentials" />
     <None Remove="sqlite-net-pcl" />
+    <None Remove="Views\XKDC\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -231,6 +232,7 @@
 
   <ItemGroup>
     <Folder Include="Connected Services\" />
+    <Folder Include="Views\XKDC\" />
   </ItemGroup>
 
   <ItemGroup>

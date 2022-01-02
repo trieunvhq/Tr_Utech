@@ -1,4 +1,5 @@
-﻿using System;
+﻿ 
+using System;
 using System.Collections.Generic;
 using QRMS.Constants;
 using Xamarin.Forms;
@@ -7,9 +8,9 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
-    public partial class HomePage : ContentPage
+    public partial class XuatKhoPage : ContentPage
     {
-        public HomePage()
+        public XuatKhoPage()
         {
             InitializeComponent();
 
@@ -25,51 +26,52 @@ namespace QRMS.Views
                 {
                     if (MySettings.h_QRMS >= 812)
                     {
-                        row_trencung.Height = 40; 
+                        row_trencung.Height = 40;
                     }
                     else
-                    { 
+                    {
                     }
                 }
                 else
-                { 
+                {
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
             else
             {
                 if (Device.RuntimePlatform == Device.iOS)
-                { 
+                {
                 }
                 else
                 {
-                    row_trencung.Height = 10 + MySettings.Height_Notch; 
+                    row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
 
         }
 
-        async void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+
+        async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ThietLapPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        async void BtnNhapKho_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoPage()); 
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_ChonKhoKiemKePage());
+
         }
 
-        void BtnDieuChuyenKho_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
         {
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_ChonKhoKiemKePage());
+
         }
 
-        async void BtnXuatKho_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnThanhPham_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XuatKhoPage());
-        }
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_ChonKhoKiemKePage());
 
-        void BtnKiemKe_CLicked(System.Object sender, System.EventArgs e)
-        {
         }
     }
 }

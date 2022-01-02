@@ -16,25 +16,25 @@ using Xamarin.Forms;
 
 namespace QRMS.ViewModels
 {
-    public class NhapKhoDungCuPageModel : BaseViewModel
+    public class XKDC_ScanQRViewModel : BaseViewModel
     { 
         public ObservableCollection<TransactionHistoryBPLModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryBPLModel>();
-        public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
+        public ObservableCollection<XuatKhoDungCuBPLModel> DonHangs { get; set; } = new ObservableCollection<XuatKhoDungCuBPLModel>();
         public ComboModel SelectedDonHang { get; set; }
 
         public bool IsThongBao { get; set; } = false;
         public string ThongBao { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
         private string _ID = "";
-        private string _PPurchaseOrderNo = "";
-        private DateTime _PurchaseOrderDate;
+        private string _No = "";
+        private DateTime _Date;
 
 
-        public NhapKhoDungCuPageModel(string id, string no, DateTime d)
+        public XKDC_ScanQRViewModel(string id, string no, DateTime d)
         {
             _ID = id;
-            _PPurchaseOrderNo = no;
-            _PurchaseOrderDate = d;
+            _No = no;
+            _Date = d;
             LoadDbLocal();
 
             if (DonHangs.Count == 0)
@@ -43,8 +43,8 @@ namespace QRMS.ViewModels
 
         protected async void LoadDbLocal()
         {
-            List<NhapKhoDungCuModel> donhang_ = await App.Dblocal.GetPurchaseOrderAsyncWithKey(_PPurchaseOrderNo);
-            foreach (NhapKhoDungCuModel item in donhang_)
+            List<XuatKhoDungCuBPLModel> donhang_ = await App.Dblocal.GetTransferInstructionAsyncWithKey(_No);
+            foreach (XuatKhoDungCuBPLModel item in donhang_)
             {
                 if (!DonHangs.Contains(item))
                 {
@@ -52,7 +52,7 @@ namespace QRMS.ViewModels
                 }
             }
 
-            List<TransactionHistoryBPLModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_PPurchaseOrderNo);
+            List<TransactionHistoryBPLModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_No);
             foreach(TransactionHistoryBPLModel item in historys)
             {
                 if (!Historys.Contains(item))
@@ -64,8 +64,8 @@ namespace QRMS.ViewModels
 
         public void LoadModels(string id)
         {
-            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<NhapKhoDungCuModel>>>
-                                              (Constaint.ServiceAddress, Constaint.APIurl.getitem,
+            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<XuatKhoDungCuBPLModel>>>
+                                              (Constaint.ServiceAddress, Constaint.APIurl.transfergetitem,
                                               new
                                               {
                                                   ID = _ID
@@ -74,7 +74,7 @@ namespace QRMS.ViewModels
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
+                    DonHangs = new ObservableCollection<XuatKhoDungCuBPLModel>();
 
                     for (int i = 0; i < result.Result.data.Count; ++i)
                     {
@@ -87,7 +87,7 @@ namespace QRMS.ViewModels
                             DonHangs.Add(result.Result.data[i]);
                         }
 
-                        App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
+                        App.Dblocal.SaveTransferInstructionAsync(result.Result.data[i]);
                     }
                 });
             }
@@ -107,16 +107,16 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 0)
                             {
-                                App.Dblocal.DeleteHistoryAsyncWithKey(_PPurchaseOrderNo);
+                                App.Dblocal.DeleteHistoryAsyncWithKey(_No);
 
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
+                                                (Constaint.ServiceAddress, Constaint.APIurl.transferupdateitem,
                                                 DonHangs);
                                 if (result2 != null && result2.Result != null)
                                 {
                                     if (result2.Result.data == 1)
                                     {
-                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PPurchaseOrderNo);
+                                        App.Dblocal.DeleteTransferInstructionAsyncWithKey(_No);
                                         await Controls.LoadingUtility.HideAsync();
                                         await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
                                     }
@@ -183,10 +183,10 @@ namespace QRMS.ViewModels
                         if(DonHangs[i].ItemCode== temp_[1])
                         {
                             int soluong_ = Convert.ToInt32(temp_[10]);
-                            NhapKhoDungCuModel model_ = DonHangs[i];
+                            XuatKhoDungCuBPLModel model_ = DonHangs[i];
                             if(model_.Quantity < model_.SoLuongDaNhap + soluong_)
                             { 
-                                var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
+                                var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng chỉ thị", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
                                 if (answer)
                                 {
                                     model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
@@ -203,7 +203,7 @@ namespace QRMS.ViewModels
                                 DonHangs.Insert(0, model_);
                             }
 
-                            await App.Dblocal.UpdatePurchaseOrderAsync(model_);
+                            await App.Dblocal.UpdateTransferInstructionAsync(model_);
 
                             //
                             DateTime? mfdate_;
@@ -266,9 +266,9 @@ namespace QRMS.ViewModels
                             TransactionHistoryBPLModel history = new TransactionHistoryBPLModel
                             {
                                 ID = 0,
-                                TransactionType = "I",
-                                OrderNo = _PPurchaseOrderNo,
-                                OrderDate = _PurchaseOrderDate,
+                                TransactionType = "O",
+                                OrderNo = _No,
+                                OrderDate = _Date,
                                 ItemCode = temp_[1],
                                 ItemName = temp_[2],
                                 ItemType = temp_[0],

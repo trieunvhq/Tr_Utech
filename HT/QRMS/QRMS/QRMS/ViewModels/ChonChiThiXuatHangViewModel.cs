@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace QRMS.ViewModels
 {
-    public class ChonDonMuaHangPageModel : BaseViewModel
+    public class ChonChiThiXuatHangViewModel : BaseViewModel
     {
         public ObservableCollection<ComboModel> DonHangs { get; set; } = new ObservableCollection<ComboModel>();
         public ComboModel SelectedDonHang { get; set; }
@@ -22,7 +22,7 @@ namespace QRMS.ViewModels
         public DateTime DenNgay { get; set; } = DateTime.Now;
         public string Name { get; set; }
 
-        public ChonDonMuaHangPageModel()
+        public ChonChiThiXuatHangViewModel()
         {
             LoadModels(false);
         }
@@ -30,8 +30,8 @@ namespace QRMS.ViewModels
 
         public void LoadModels(bool tt)
         {
-            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PurchaseOrder>>>
-                                              (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorder, new {
+            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransferInstructionBPLModel>>>
+                                              (Constaint.ServiceAddress, Constaint.APIurl.gettransferinstruction, new {
                                                   from_day = TuNgay.Date,
                                                   to_day = DenNgay.Date
                                               });
@@ -46,14 +46,14 @@ namespace QRMS.ViewModels
                         DonHangs.Add(new ComboModel
                         {
                             ID = result.Result.data[i].ID.ToString(),
-                            Name = result.Result.data[i].PurchaseOrderNo,
-                            PurchaseOrderDate = Convert.ToDateTime(result.Result.data[i].PurchaseOrderDate)
+                            Name = result.Result.data[i].TransferOrderNo,
+                            PurchaseOrderDate = Convert.ToDateTime(result.Result.data[i].InstructionDate)
                         });
                     }
                   
                     if(tt)
                     { 
-                        var page = new T_ComboboxPage(DonHangs, null, 2, this, null, null);
+                        var page = new T_ComboboxPage(DonHangs, null, 4, null, null, this);
                         Application.Current.MainPage.Navigation.PushAsync(page);
                     }    
                 });
@@ -66,7 +66,7 @@ namespace QRMS.ViewModels
             {
                 switch (tt)
                 {
-                    case 2:
+                    case 4:
                         SelectedDonHang = model_;
                         Name = SelectedDonHang.Name;
                         break;

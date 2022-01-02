@@ -17,9 +17,14 @@ namespace QRMS.AppLIB.Common
 
             public const string getlistwarehouses = "api-ht/warehouse/getlistwarehouses";
             public const string getpurchaseorder = "api-ht/purchaseorder/getpurchaseorder";
+            public const string gettransferinstruction = "api-ht/transferinstruction/gettransferinstruction";
+
             public const string getitem = "api-ht/purchaseorderitem/getitem";
+            public const string transfergetitem = "api-ht/transferinstructionitem/getitem";
             public const string inserthistory = "api-ht/transactionHistori/inserthistory";
             public const string updateitem = "api-ht/purchaseorderitem/updateitem";
+            public const string transferupdateitem = "api-ht/transferinstructionitem/updateitem";
+
 
         }
 

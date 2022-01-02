@@ -15,6 +15,7 @@ namespace QRMS
             _database = new SQLiteAsyncConnection(dbPath);
             _database.CreateTableAsync<TransactionHistoryBPLModel>().Wait();
             _database.CreateTableAsync<NhapKhoDungCuModel>().Wait();
+            _database.CreateTableAsync<XuatKhoDungCuBPLModel>().Wait();
         }
 
         public Task<List<TransactionHistoryBPLModel>> GetHistoryAsync()
@@ -94,7 +95,7 @@ namespace QRMS
             string Sql = $"Update NhapKhoDungCuModel set ";
                    Sql += $"SoLuongDaNhap = {purchase.SoLuongDaNhap}, ";
                    Sql += $"SoLuongBox = {purchase.SoLuongBox} ";
-                   Sql += $"Where PurchaseOrderID = {purchase.ID}";
+                   Sql += $"Where ID = {purchase.ID}";
 
             return _database.ExecuteAsync(Sql);
         }
@@ -103,6 +104,38 @@ namespace QRMS
         public void DeletePurchaseOrderAsyncWithKey(string purchaseno)
         {
             string Sql = $"Delete From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchaseno}'";
+
+            _ = _database.ExecuteAsync(Sql);
+        }
+
+
+        //For table XuatKhoDungCuBPLModel:
+        public Task<List<XuatKhoDungCuBPLModel>> GetTransferInstructionAsyncWithKey(string no)
+        {
+            string Sql = $"Select * From XuatKhoDungCuBPLModel Where TransferOrderNo = '{no}'";
+
+            return _database.QueryAsync<XuatKhoDungCuBPLModel>(Sql);
+        }
+
+        public Task<int> SaveTransferInstructionAsync(XuatKhoDungCuBPLModel no)
+        {
+            return _database.InsertAsync(no);
+        }
+
+        public Task<int> UpdateTransferInstructionAsync(XuatKhoDungCuBPLModel no)
+        {
+            string Sql = $"Update XuatKhoDungCuBPLModel set ";
+            Sql += $"SoLuongDaNhap = {no.SoLuongDaNhap}, ";
+            Sql += $"SoLuongBox = {no.SoLuongBox} ";
+            Sql += $"Where ID = {no.ID}";
+
+            return _database.ExecuteAsync(Sql);
+        }
+
+
+        public void DeleteTransferInstructionAsyncWithKey(string no)
+        {
+            string Sql = $"Delete From XuatKhoDungCuBPLModel Where TransferOrderNo = '{no}'";
 
             _ = _database.ExecuteAsync(Sql);
         }
