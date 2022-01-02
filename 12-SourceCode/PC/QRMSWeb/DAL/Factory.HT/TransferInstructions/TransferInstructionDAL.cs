@@ -22,7 +22,7 @@ namespace DAL.Factory.HT.TransferInstructions
                 //var s = from c in db.TransferInstructions where c.CreateDate
                 string SQL = $"select * from TransferInstruction a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
                 SQL += $"and (a.TransferStatus is not null and a.TransferStatus != '{ TransferStatus.Delivered }') ";
-                SQL += $"and (a.TransferType is not null and a.TransferType == '{ TransferType.Export }') ";
+                SQL += $"and (a.TransferType is not null and a.TransferType = '{ TransferType.Export }') ";
                 SQL += $"and CONVERT(date, '{from_day}') <= CONVERT(date, a.CreateDate) ";
                 SQL += $"and CONVERT(date, '{to_day}') >= CONVERT(date, a.CreateDate) ";
                 SQL += $"order by a.CreateDate desc ";
