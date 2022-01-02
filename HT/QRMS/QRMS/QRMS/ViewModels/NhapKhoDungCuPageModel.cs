@@ -26,12 +26,26 @@ namespace QRMS.ViewModels
         public string ThongBao { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
         private string _ID = "";
+
+
         public NhapKhoDungCuPageModel(string id)
         {
             _ID = id;
+            LoadDbLocal();
             LoadModels("");
         }
 
+        protected async void LoadDbLocal()
+        {
+            List<TransactionHistoryBPLModel> historys = await App.Dblocal.GetHistoryAsync();
+            foreach(TransactionHistoryBPLModel item in historys)
+            {
+                if (!Historys.Contains(item))
+                {
+                    Historys.Add(item);
+                }
+            }
+        }
 
         public void LoadModels(string id)
         {
@@ -76,6 +90,8 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 0)
                             {
+                                App.Dblocal.DeleteHistoryAll();
+
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
                                                 DonHangs);
@@ -225,7 +241,8 @@ namespace QRMS.ViewModels
                             //DateTime.TryParse(temp_[7], out mfdate_);
                             //DateTime.TryParse(temp_[8], out Recdate_);
                             //DateTime.TryParse(temp_[9], out Expdate_);
-                            Historys.Add(new TransactionHistoryBPLModel
+
+                            TransactionHistoryBPLModel history = new TransactionHistoryBPLModel
                             {
                                 TransactionType = "I",
                                 ID = 0,
@@ -248,8 +265,11 @@ namespace QRMS.ViewModels
                                 UserCreate = MySettings.UserName,
                                 page = 0,
                                 token = MySettings.Token
+                            };
 
-                            }) ;
+                            Historys.Add(history) ;
+                            await App.Dblocal.SaveHistoryAsync(history);
+                            
                             //
                             Color = Color.Green;
                             ThongBao = "Thành công";

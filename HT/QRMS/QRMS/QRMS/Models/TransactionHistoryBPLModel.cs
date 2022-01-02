@@ -1,12 +1,15 @@
 ﻿using System;
+using SQLite;
+
 namespace QRMS.Models
 {
+    [Table("TransactionHistoryBPLModel")]
     public class TransactionHistoryBPLModel
     {
+        [PrimaryKey, AutoIncrement]
+        public long ID { get; set; }
         public int page { get; set; }
         public string token { get; set; }
-
-        public long ID { get; set; }
         public string TransactionType { get; set; }
         public string OrderNo { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }

@@ -4,7 +4,9 @@ using QRMS.Constants;
 using QRMS.Helper;
 using QRMS.Models;
 using QRMS.Views;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Xamarin.Forms;
@@ -19,6 +21,22 @@ namespace QRMS
     {
         public static int ScreenHeight { get; set; }
         public static int ScreenWidth { get; set; }
+        private static Dblocal database;
+
+        public static Dblocal Dblocal
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new
+                        Dblocal(Path.Combine(Environment.GetFolderPath(Environment
+                        .SpecialFolder.LocalApplicationData), "qrms.db3"));
+                }
+                return database;
+            }
+        }
+
         public App()
         {
             // Todo resource language initial selection
