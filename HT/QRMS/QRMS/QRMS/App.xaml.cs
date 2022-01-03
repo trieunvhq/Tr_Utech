@@ -29,9 +29,13 @@ namespace QRMS
             {
                 if (database == null)
                 {
-                    database = new
-                        Dblocal(Path.Combine(Environment.GetFolderPath(Environment
-                        .SpecialFolder.LocalApplicationData), "qrms.db3"));
+                    string fileName = "qrms.db3";
+                    string documentPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                    string path = Path.Combine(documentPath, fileName);
+                    database = new Dblocal(path);
+                    //database = new
+                    //    Dblocal(Path.Combine(Environment.GetFolderPath(Environment
+                    //    .SpecialFolder.LocalApplicationData), "qrms.db3"));
                 }
                 return database;
             }

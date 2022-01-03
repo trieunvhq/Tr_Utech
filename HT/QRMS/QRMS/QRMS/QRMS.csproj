@@ -41,6 +41,7 @@
     <None Remove="Xamarin.Essentials" />
     <None Remove="sqlite-net-pcl" />
     <None Remove="Views\XKDC\" />
+    <None Remove="Views\NKDC\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -233,6 +234,7 @@
   <ItemGroup>
     <Folder Include="Connected Services\" />
     <Folder Include="Views\XKDC\" />
+    <Folder Include="Views\NKDC\" />
   </ItemGroup>
 
   <ItemGroup>

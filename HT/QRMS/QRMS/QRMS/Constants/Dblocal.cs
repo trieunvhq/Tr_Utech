@@ -87,7 +87,18 @@ namespace QRMS
 
         public Task<int> SavePurchaseOrderAsync(NhapKhoDungCuModel purchase)
         {
-            return _database.InsertAsync(purchase);
+            string Sql = $"Select * From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchase.PurchaseOrderNo}' ";
+                   Sql += $"and ID = {purchase.ID} and PurchaseOrderID = '{purchase.PurchaseOrderID}' ";
+                   Sql += $"and ItemCode = '{purchase.ItemCode}' and ItemName = '{purchase.ItemName}' ";
+                   Sql += $"and ItemType = '{purchase.ItemType}' and Unit = '{purchase.Unit}' ";
+                   Sql += $"and InputStatus = '{purchase.InputStatus}' and RecordStatus = '{purchase.RecordStatus}' ";
+
+            var res = _database.QueryAsync<NhapKhoDungCuModel>(Sql);
+
+            if (res.Result.Count == 0)
+                return _database.InsertAsync(purchase);
+
+            else return null;
         }
 
         public Task<int> UpdatePurchaseOrderAsync(NhapKhoDungCuModel purchase)
@@ -119,7 +130,17 @@ namespace QRMS
 
         public Task<int> SaveTransferInstructionAsync(XuatKhoDungCuBPLModel no)
         {
-            return _database.InsertAsync(no);
+            string Sql = $"Select * From XuatKhoDungCuBPLModel Where TransferOrderNo = '{no.TransferOrderNo}' ";
+            Sql += $"and ID = { no.ID} and TransferOrderID = '{no.TransferOrderID}' ";
+            Sql += $"and ItemCode = '{no.ItemCode}' and ItemName = '{no.ItemName}' ";
+            Sql += $"and ItemType = '{no.ItemType}' and Unit = '{no.Unit}' ";
+            Sql += $"and TransferType = '{no.TransferType}' and RecordStatus = '{no.RecordStatus}' ";
+
+            var res = _database.QueryAsync<NhapKhoDungCuModel>(Sql);
+
+            if (res.Result.Count == 0)
+                return _database.InsertAsync(no);
+            else return null;
         }
 
         public Task<int> UpdateTransferInstructionAsync(XuatKhoDungCuBPLModel no)
