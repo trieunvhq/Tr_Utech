@@ -15,7 +15,7 @@ namespace QRMS
             _database = new SQLiteAsyncConnection(dbPath);
             _database.CreateTableAsync<TransactionHistoryModel>().Wait();
             _database.CreateTableAsync<NhapKhoDungCuModel>().Wait();
-            _database.CreateTableAsync<XuatKhoDungCuBPLModel>().Wait();
+            _database.CreateTableAsync<XuatKhoDungCuModel>().Wait();
         }
 
         public Task<List<TransactionHistoryModel>> GetHistoryAsync()
@@ -120,17 +120,17 @@ namespace QRMS
         }
 
 
-        //For table XuatKhoDungCuBPLModel:
-        public Task<List<XuatKhoDungCuBPLModel>> GetTransferInstructionAsyncWithKey(string no)
+        //For table XuatKhoDungCuModel:
+        public Task<List<XuatKhoDungCuModel>> GetTransferInstructionAsyncWithKey(string no)
         {
-            string Sql = $"Select * From XuatKhoDungCuBPLModel Where TransferOrderNo = '{no}'";
+            string Sql = $"Select * From XuatKhoDungCuModel Where TransferOrderNo = '{no}'";
 
-            return _database.QueryAsync<XuatKhoDungCuBPLModel>(Sql);
+            return _database.QueryAsync<XuatKhoDungCuModel>(Sql);
         }
 
-        public Task<int> SaveTransferInstructionAsync(XuatKhoDungCuBPLModel no)
+        public Task<int> SaveTransferInstructionAsync(XuatKhoDungCuModel no)
         {
-            string Sql = $"Select * From XuatKhoDungCuBPLModel Where TransferOrderNo = '{no.TransferOrderNo}' ";
+            string Sql = $"Select * From XuatKhoDungCuModel Where TransferOrderNo = '{no.TransferOrderNo}' ";
             Sql += $"and ID = { no.ID} and TransferOrderID = '{no.TransferOrderID}' ";
             Sql += $"and ItemCode = '{no.ItemCode}' and ItemName = '{no.ItemName}' ";
             Sql += $"and ItemType = '{no.ItemType}' and Unit = '{no.Unit}' ";
@@ -143,9 +143,9 @@ namespace QRMS
             else return null;
         }
 
-        public Task<int> UpdateTransferInstructionAsync(XuatKhoDungCuBPLModel no)
+        public Task<int> UpdateTransferInstructionAsync(XuatKhoDungCuModel no)
         {
-            string Sql = $"Update XuatKhoDungCuBPLModel set ";
+            string Sql = $"Update XuatKhoDungCuModel set ";
             Sql += $"SoLuongDaNhap = {no.SoLuongDaNhap}, ";
             Sql += $"SoLuongBox = {no.SoLuongBox} ";
             Sql += $"Where ID = {no.ID}";
@@ -156,7 +156,7 @@ namespace QRMS
 
         public void DeleteTransferInstructionAsyncWithKey(string no)
         {
-            string Sql = $"Delete From XuatKhoDungCuBPLModel Where TransferOrderNo = '{no}'";
+            string Sql = $"Delete From XuatKhoDungCuModel Where TransferOrderNo = '{no}'";
 
             _ = _database.ExecuteAsync(Sql);
         }

@@ -26,15 +26,15 @@ namespace QRMS.ViewModels
         public string ThongBao { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
         private string _ID = "";
-        private string _PPurchaseOrderNo = "";
-        private DateTime _PurchaseOrderDate;
+        private string _No = "";
+        private DateTime _Date;
 
 
         public NhapKhoDungCuPageModel(string id, string no, DateTime d)
         {
             _ID = id;
-            _PPurchaseOrderNo = no;
-            _PurchaseOrderDate = d;
+            _No = no;
+            _Date = d;
             LoadModels("");
         }
 
@@ -43,7 +43,7 @@ namespace QRMS.ViewModels
             DonHangs.Clear();
             Historys.Clear();
 
-            List<NhapKhoDungCuModel> donhang_ = await App.Dblocal.GetPurchaseOrderAsyncWithKey(_PPurchaseOrderNo);
+            List<NhapKhoDungCuModel> donhang_ = await App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
             foreach (NhapKhoDungCuModel item in donhang_)
             {
                 if (!DonHangs.Contains(item))
@@ -52,7 +52,7 @@ namespace QRMS.ViewModels
                 }
             }
 
-            List<TransactionHistoryModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_PPurchaseOrderNo);
+            List<TransactionHistoryModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_No);
             foreach(TransactionHistoryModel item in historys)
             {
                 if (!Historys.Contains(item))
@@ -114,7 +114,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 0)
                             {
-                                App.Dblocal.DeleteHistoryAsyncWithKey(_PPurchaseOrderNo);
+                                App.Dblocal.DeleteHistoryAsyncWithKey(_No);
 
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
@@ -123,7 +123,7 @@ namespace QRMS.ViewModels
                                 {
                                     if (result2.Result.data == 1)
                                     {
-                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PPurchaseOrderNo);
+                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_No);
                                         await Controls.LoadingUtility.HideAsync();
                                         await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
                                         LoadModels("");
@@ -162,11 +162,12 @@ namespace QRMS.ViewModels
          
         public async void ScanComplate(string str)
         {
-            string[] temp_ = str.Split(';');
             if(Historys!=null)
             {
                 bool IsTonTai_ = false;
                 int index_ = 0;
+                var qr = MySettings.QRRead(str);
+
                 for (int i=0;i<Historys.Count;++i)
                 {
                     if(Historys[i].EXT_QRCode == str)
@@ -188,9 +189,9 @@ namespace QRMS.ViewModels
                 {
                     for(int i=0;i< DonHangs.Count;++i)
                     { 
-                        if(DonHangs[i].ItemCode== temp_[1])
+                        if(DonHangs[i].ItemCode== qr.Code)
                         {
-                            int soluong_ = Convert.ToInt32(temp_[10]);
+                            decimal soluong_ = Convert.ToDecimal(qr.Quantity);
                             NhapKhoDungCuModel model_ = DonHangs[i];
                             if(model_.Quantity < model_.SoLuongDaNhap + soluong_)
                             { 
@@ -213,84 +214,26 @@ namespace QRMS.ViewModels
 
                             await App.Dblocal.UpdatePurchaseOrderAsync(model_);
 
-                            //
-                            DateTime? mfdate_;
-                            DateTime? Recdate_;
-                            DateTime? Expdate_;
-
-                            string[] ngaythang_ = new string[3];
-                            if(temp_[7].Length==8)
-                            {
-                                try { mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(4, 4)), Convert.ToInt32(temp_[7].Substring(2, 2)), Convert.ToInt32(temp_[7].Substring(0, 2))); }
-                                catch { mfdate_ = null; }
-                            }
-                            else if (temp_[7].Length > 8)
-                            {
-                                temp_[7]= temp_[7].Replace("-","/").Replace("\\","/");
-                                ngaythang_ = temp_[7].Split('/');
-                                try { mfdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                                catch { mfdate_ = null; }
-                            }
-                            else
-                            { mfdate_ = null; }
-                            //
-                            if (temp_[8].Length == 8)
-                            {
-                                try { Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(4, 4)), Convert.ToInt32(temp_[8].Substring(2, 2)), Convert.ToInt32(temp_[8].Substring(0, 2))); }
-                                catch { Recdate_ = null; }
-                            }
-                            else if (temp_[8].Length > 8)
-                            {
-                                temp_[8] = temp_[8].Replace("-", "/").Replace("\\", "/");
-                                ngaythang_ = temp_[8].Split('/');
-                                try { Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                                catch { Recdate_ = null; }
-                            }
-                            else
-                            { Recdate_ = null; }
-                            //
-                            if (temp_[9].Length == 8)
-                            {
-                                try { Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(4, 4)), Convert.ToInt32(temp_[9].Substring(2, 2)), Convert.ToInt32(temp_[9].Substring(0, 2))); }
-                                catch { Expdate_ = null; }
-                            }
-                            else if (temp_[9].Length > 8)
-                            {
-                                temp_[9] = temp_[9].Replace("-", "/").Replace("\\", "/");
-                                ngaythang_ = temp_[9].Split('/');
-                                try { Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                                catch { Expdate_ = null; }
-                            }
-                            else
-                            { Expdate_ = null; }
-
-
-
-                            //  
-                            //DateTime.TryParse(temp_[7], out mfdate_);
-                            //DateTime.TryParse(temp_[8], out Recdate_);
-                            //DateTime.TryParse(temp_[9], out Expdate_);
-
                             TransactionHistoryModel history = new TransactionHistoryModel
                             {
                                 ID = 0,
                                 TransactionType = "I",
-                                OrderNo = _PPurchaseOrderNo,
-                                OrderDate = _PurchaseOrderDate,
-                                ItemCode = temp_[1],
-                                ItemName = temp_[2],
-                                ItemType = temp_[0],
+                                OrderNo = _No,
+                                OrderDate = _Date,
+                                ItemCode = qr.Code,
+                                ItemName = qr.Name,
+                                ItemType = qr.DC,
                                 Quantity = soluong_,
-                                Unit = temp_[11],
-                                EXT_OtherCode = temp_[3],
-                                EXT_Serial = temp_[4],
-                                EXT_PartNo = temp_[5],
-                                EXT_LotNo = temp_[6],
-                                EXT_MfDate = mfdate_,
-                                EXT_RecDate = Recdate_,
-                                EXT_ExpDate = Expdate_,
+                                Unit = qr.Unit,
+                                EXT_OtherCode = qr.OtherCode,
+                                EXT_Serial = qr.Serial,
+                                EXT_PartNo = qr.PartNo,
+                                EXT_LotNo = qr.LotNo,
+                                EXT_MfDate = qr.MfDate,
+                                EXT_RecDate = qr.RecDate,
+                                EXT_ExpDate = qr.ExpDate,
                                 EXT_QRCode = str,
-                                CustomerCode = temp_[3],
+                                CustomerCode = qr.CustomerCode,
                                 RecordStatus = "N",
                                 CreateDate = DateTime.Now,
                                 UserCreate = MySettings.UserName,
@@ -309,7 +252,6 @@ namespace QRMS.ViewModels
                             break;
                         } 
                     }    
-                    
                 }    
             }    
         }

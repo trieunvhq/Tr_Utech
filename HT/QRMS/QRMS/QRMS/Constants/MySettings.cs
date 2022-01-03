@@ -2,6 +2,9 @@
 using QRMS.Controls; 
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
+using QRMS.Models;
+using System;
+
 namespace QRMS.Constants
 {
     public static class MySettings
@@ -534,6 +537,90 @@ namespace QRMS.Constants
                 str = str.Replace(_lsthtml[i], _lstGlyph[i]);
             }
             return str;
+        }
+
+
+        public static QRModel QRRead(string str)
+        {
+            try
+            {
+                QRModel qr = new QRModel();
+                string[] temp_ = str.Split(';');
+                DateTime? mfdate_;
+                DateTime? Recdate_;
+                DateTime? Expdate_;
+                string[] ngaythang_ = new string[3];
+
+                if (temp_[7].Length == 8)
+                {
+                    try { mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(4, 4)), Convert.ToInt32(temp_[7].Substring(2, 2)), Convert.ToInt32(temp_[7].Substring(0, 2))); }
+                    catch { mfdate_ = null; }
+                }
+                else if (temp_[7].Length > 8)
+                {
+                    temp_[7] = temp_[7].Replace("-", "/").Replace("\\", "/");
+                    ngaythang_ = temp_[7].Split('/');
+                    try { mfdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
+                    catch { mfdate_ = null; }
+                }
+                else
+                {
+                    mfdate_ = null;
+                }
+
+                //
+                if (temp_[8].Length == 8)
+                {
+                    try { Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(4, 4)), Convert.ToInt32(temp_[8].Substring(2, 2)), Convert.ToInt32(temp_[8].Substring(0, 2))); }
+                    catch { Recdate_ = null; }
+                }
+                else if (temp_[8].Length > 8)
+                {
+                    temp_[8] = temp_[8].Replace("-", "/").Replace("\\", "/");
+                    ngaythang_ = temp_[8].Split('/');
+                    try { Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
+                    catch { Recdate_ = null; }
+                }
+                else
+                { Recdate_ = null; }
+                //
+                if (temp_[9].Length == 8)
+                {
+                    try { Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(4, 4)), Convert.ToInt32(temp_[9].Substring(2, 2)), Convert.ToInt32(temp_[9].Substring(0, 2))); }
+                    catch { Expdate_ = null; }
+                }
+                else if (temp_[9].Length > 8)
+                {
+                    temp_[9] = temp_[9].Replace("-", "/").Replace("\\", "/");
+                    ngaythang_ = temp_[9].Split('/');
+                    try { Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
+                    catch { Expdate_ = null; }
+                }
+                else
+                {
+                    Expdate_ = null;
+                }
+
+                qr.DC = temp_[0];
+                qr.Code = temp_[1];
+                qr.Name = temp_[2];
+                qr.CustomerCode = temp_[3];
+                qr.OtherCode = temp_[3];
+                qr.Serial = temp_[4];
+                qr.PartNo = temp_[5];
+                qr.LotNo = temp_[6];
+                qr.MfDate = mfdate_;
+                qr.RecDate = Recdate_;
+                qr.ExpDate = Expdate_;
+                qr.Quantity = Convert.ToDecimal(temp_[10]);
+                qr.Unit = temp_[11];
+
+                return qr;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

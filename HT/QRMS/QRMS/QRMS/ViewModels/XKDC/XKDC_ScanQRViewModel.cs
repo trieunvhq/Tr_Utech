@@ -19,7 +19,7 @@ namespace QRMS.ViewModels
     public class XKDC_ScanQRViewModel : BaseViewModel
     { 
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
-        public ObservableCollection<XuatKhoDungCuBPLModel> DonHangs { get; set; } = new ObservableCollection<XuatKhoDungCuBPLModel>();
+        public ObservableCollection<XuatKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<XuatKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
 
         public bool IsThongBao { get; set; } = false;
@@ -42,8 +42,8 @@ namespace QRMS.ViewModels
         {
             DonHangs.Clear();
             Historys.Clear();
-            List<XuatKhoDungCuBPLModel> donhang_ = await App.Dblocal.GetTransferInstructionAsyncWithKey(_No);
-            foreach (XuatKhoDungCuBPLModel item in donhang_)
+            List<XuatKhoDungCuModel> donhang_ = await App.Dblocal.GetTransferInstructionAsyncWithKey(_No);
+            foreach (XuatKhoDungCuModel item in donhang_)
             {
                 if (!DonHangs.Contains(item))
                 {
@@ -67,7 +67,7 @@ namespace QRMS.ViewModels
 
             if (DonHangs.Count == 0)
             {
-                var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<XuatKhoDungCuBPLModel>>>
+                var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<XuatKhoDungCuModel>>>
                                              (Constaint.ServiceAddress, Constaint.APIurl.transfergetitem,
                                              new
                                              {
@@ -77,7 +77,7 @@ namespace QRMS.ViewModels
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        DonHangs = new ObservableCollection<XuatKhoDungCuBPLModel>();
+                        DonHangs = new ObservableCollection<XuatKhoDungCuModel>();
 
                         for (int i = 0; i < result.Result.data.Count; ++i)
                         {
@@ -160,19 +160,20 @@ namespace QRMS.ViewModels
          
         public async void ScanComplate(string str)
         {
-            string[] temp_ = str.Split(';');
-            if(Historys!=null)
+            if (Historys != null)
             {
                 bool IsTonTai_ = false;
                 int index_ = 0;
-                for (int i=0;i<Historys.Count;++i)
+                var qr = MySettings.QRRead(str);
+
+                for (int i = 0; i < Historys.Count; ++i)
                 {
-                    if(Historys[i].EXT_QRCode == str)
+                    if (Historys[i].EXT_QRCode == str)
                     {
                         IsTonTai_ = true;
                         index_ = i;
                         break;
-                    }    
+                    }
                 }
 
                 if (IsTonTai_)
@@ -184,15 +185,15 @@ namespace QRMS.ViewModels
                 }
                 else
                 {
-                    for(int i=0;i< DonHangs.Count;++i)
-                    { 
-                        if(DonHangs[i].ItemCode== temp_[1])
+                    for (int i = 0; i < DonHangs.Count; ++i)
+                    {
+                        if (DonHangs[i].ItemCode == qr.Code)
                         {
-                            int soluong_ = Convert.ToInt32(temp_[10]);
-                            XuatKhoDungCuBPLModel model_ = DonHangs[i];
-                            if(model_.Quantity < model_.SoLuongDaNhap + soluong_)
-                            { 
-                                var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng chỉ thị", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
+                            decimal soluong_ = Convert.ToDecimal(qr.Quantity);
+                            XuatKhoDungCuModel model_ = DonHangs[i];
+                            if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
+                            {
+                                var answer = await UserDialogs.Instance.ConfirmAsync("Số lượng xuất vượt quá số lượng chỉ thị", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
                                 if (answer)
                                 {
                                     model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
@@ -211,84 +212,26 @@ namespace QRMS.ViewModels
 
                             await App.Dblocal.UpdateTransferInstructionAsync(model_);
 
-                            //
-                            DateTime? mfdate_;
-                            DateTime? Recdate_;
-                            DateTime? Expdate_;
-
-                            string[] ngaythang_ = new string[3];
-                            if(temp_[7].Length==8)
-                            {
-                                try { mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(4, 4)), Convert.ToInt32(temp_[7].Substring(2, 2)), Convert.ToInt32(temp_[7].Substring(0, 2))); }
-                                catch { mfdate_ = null; }
-                            }
-                            else if (temp_[7].Length > 8)
-                            {
-                                temp_[7]= temp_[7].Replace("-","/").Replace("\\","/");
-                                ngaythang_ = temp_[7].Split('/');
-                                try { mfdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                                catch { mfdate_ = null; }
-                            }
-                            else
-                            { mfdate_ = null; }
-                            //
-                            if (temp_[8].Length == 8)
-                            {
-                                try { Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(4, 4)), Convert.ToInt32(temp_[8].Substring(2, 2)), Convert.ToInt32(temp_[8].Substring(0, 2))); }
-                                catch { Recdate_ = null; }
-                            }
-                            else if (temp_[8].Length > 8)
-                            {
-                                temp_[8] = temp_[8].Replace("-", "/").Replace("\\", "/");
-                                ngaythang_ = temp_[8].Split('/');
-                                try { Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                                catch { Recdate_ = null; }
-                            }
-                            else
-                            { Recdate_ = null; }
-                            //
-                            if (temp_[9].Length == 8)
-                            {
-                                try { Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(4, 4)), Convert.ToInt32(temp_[9].Substring(2, 2)), Convert.ToInt32(temp_[9].Substring(0, 2))); }
-                                catch { Expdate_ = null; }
-                            }
-                            else if (temp_[9].Length > 8)
-                            {
-                                temp_[9] = temp_[9].Replace("-", "/").Replace("\\", "/");
-                                ngaythang_ = temp_[9].Split('/');
-                                try { Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                                catch { Expdate_ = null; }
-                            }
-                            else
-                            { Expdate_ = null; }
-
-
-
-                            //  
-                            //DateTime.TryParse(temp_[7], out mfdate_);
-                            //DateTime.TryParse(temp_[8], out Recdate_);
-                            //DateTime.TryParse(temp_[9], out Expdate_);
-
                             TransactionHistoryModel history = new TransactionHistoryModel
                             {
                                 ID = 0,
                                 TransactionType = "O",
                                 OrderNo = _No,
                                 OrderDate = _Date,
-                                ItemCode = temp_[1],
-                                ItemName = temp_[2],
-                                ItemType = temp_[0],
+                                ItemCode = qr.Code,
+                                ItemName = qr.Name,
+                                ItemType = qr.DC,
                                 Quantity = soluong_,
-                                Unit = temp_[11],
-                                EXT_OtherCode = temp_[3],
-                                EXT_Serial = temp_[4],
-                                EXT_PartNo = temp_[5],
-                                EXT_LotNo = temp_[6],
-                                EXT_MfDate = mfdate_,
-                                EXT_RecDate = Recdate_,
-                                EXT_ExpDate = Expdate_,
+                                Unit = qr.Unit,
+                                EXT_OtherCode = qr.OtherCode,
+                                EXT_Serial = qr.Serial,
+                                EXT_PartNo = qr.PartNo,
+                                EXT_LotNo = qr.LotNo,
+                                EXT_MfDate = qr.MfDate,
+                                EXT_RecDate = qr.RecDate,
+                                EXT_ExpDate = qr.ExpDate,
                                 EXT_QRCode = str,
-                                CustomerCode = temp_[3],
+                                CustomerCode = qr.CustomerCode,
                                 RecordStatus = "N",
                                 CreateDate = DateTime.Now,
                                 UserCreate = MySettings.UserName,
@@ -298,18 +241,17 @@ namespace QRMS.ViewModels
 
                             Historys.Add(history);
                             await App.Dblocal.SaveHistoryAsync(history);
-                            
+
                             //
                             Color = Color.Green;
                             ThongBao = "Thành công";
                             IsThongBao = true;
                             StartDemThoiGianGGS();
                             break;
-                        } 
-                    }    
-                    
-                }    
-            }    
+                        }
+                    }
+                }
+            }
         }
 
         private bool tt = false;

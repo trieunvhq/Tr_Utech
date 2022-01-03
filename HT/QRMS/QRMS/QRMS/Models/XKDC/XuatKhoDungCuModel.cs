@@ -3,8 +3,8 @@ using SQLite;
 
 namespace QRMS.Models
 {
-    [Table("XuatKhoDungCuBPLModel")]
-    public class XuatKhoDungCuBPLModel
+    [Table("XuatKhoDungCuModel")]
+    public class XuatKhoDungCuModel
     {
         public int ID { get; set; }
         public int TransferOrderID { get; set; }
