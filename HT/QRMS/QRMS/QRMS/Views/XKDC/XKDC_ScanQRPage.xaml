@@ -29,7 +29,7 @@
             </Grid.RowDefinitions>
 
             <Label x:Name="lbTieuDe" Text="Xuất kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1"/>
+                   Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="2"/>
 
@@ -37,7 +37,7 @@
                    Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Đơn xuất hàng: " TextColor="Black" FontSize="15"/>
+                        <Span Text="Đơn xuất hàng: " TextColor="#B5BCCD" FontSize="15"/>
                         <Span  x:Name="lbDonMuaHang" TextColor="Red" Text="" FontSize="16" FontAttributes="Bold"/>
                     </FormattedString>
                 </Label.FormattedText>
