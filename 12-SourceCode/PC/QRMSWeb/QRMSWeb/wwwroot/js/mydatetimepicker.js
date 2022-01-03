@@ -15,7 +15,7 @@ function vnDateTimePicker() {
                 widgetPositioning: {
                     vertical: "auto"
                 },
-                daysOfWeekDisabled: [0, 6],
+                daysOfWeekDisabled: [],
             }
             );
             // $('.pjc-date-picker').datepicker("setDate", new Date());
@@ -34,7 +34,7 @@ function vnDatePicker() {
                 widgetPositioning: {
                     vertical: "auto"
                 },
-                daysOfWeekDisabled: [0, 6],
+                daysOfWeekDisabled: [],
                 
             }
             );

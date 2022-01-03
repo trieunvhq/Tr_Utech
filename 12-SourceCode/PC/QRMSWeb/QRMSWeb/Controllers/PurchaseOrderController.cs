@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace QRMSWeb.Controllers
 {
-    public class SaleOrderController : Controller
+    public class PurchaseOrderController : Controller
     {
         static readonly HttpClient _httpClient = new HttpClient();
 
-        private SaleOrderService _SaleOrderService = new SaleOrderService(_httpClient);
+        private PurchaseOrderService _PurchaseOrderService = new PurchaseOrderService(_httpClient);
 
         public IActionResult Index()
         {
@@ -34,23 +34,33 @@ namespace QRMSWeb.Controllers
         {
             return View();
         }
-        public IActionResult ActualScanDetail()
+        public IActionResult ActualScanDetail(int? ID=null, string purchaseOrderNo = null,
+            string locationCode = null, string dateFrom = null, string dateTo = null)
         {
+            ViewBag.ID = ID;
+            ViewBag.PurchaseOrderNo = purchaseOrderNo;
+            ViewBag.LocationCode = locationCode;
+            ViewBag.DateFrom = dateFrom;
+            ViewBag.DateTo = dateTo;
             return View();
         }
         public bool Delete()
         {
             return true;
         }
-        public async Task<IActionResult> ViewExcelReport(int? saleOrderId)
+
+        
+        public async Task<IActionResult> ViewExcelReport(int? purchaseOrderId)
         {
-            var response = await _SaleOrderService.GenerateReportFile(saleOrderId??0);
+            var response = await _PurchaseOrderService.GenerateReportFile(purchaseOrderId ?? 0);
             //this.HttpContext.Response.AddHeader("content-disposition", "attachment; filename=Information" + DateTime.Now.Year.ToString() + ".xlsx");
 
             //this.HttpContext.Response.RegisterForDispose(response);
             //    return new HttpResponseMessageResult(response);
             var bData = await response.Content.ReadAsByteArrayAsync();
-            return File(bData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"SaleOrderDetail_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx");
+            return File(bData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"PurchaseOrderDetail_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx");
         }
+
+       
     }
 }

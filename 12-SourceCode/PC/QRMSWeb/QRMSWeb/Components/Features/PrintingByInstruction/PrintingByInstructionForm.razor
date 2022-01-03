@@ -1,0 +1,419 @@
+﻿@using QRMSWeb.Components.Common.Breadcrumb
+@using QRMSWeb.Components.Common.SampleTable
+@using QRMSWeb.Components.Common.TableActions
+@using QRMSWeb.Services
+@using QRMSWeb.Models
+@using QRMSWeb.Helper
+@using QRMSWeb.Utils
+
+@inject NavigationManager _navigationManager
+@inject NavigationManager UriHelper
+@inject HttpClient _httpClient
+@inject IJSRuntime _jsRuntime
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
+
+<Breadcrumb Title="DANH SÁCH IN NHÃN" levels="@Levels" />
+
+<div class="page-content-wrapper">
+    <div class="row">
+        <div class="col-12 space_search_area">
+            <div class="card">
+                <div class="card-body contain_body">
+                    <form autocomplete="off" class="search-body-form">
+                        <div class="search-row-input">
+                            <div class="row form-group col-6">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off"
+                                               value="" disabled
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-4 col-form-label">Code</label>
+                                    <div class="col-8">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off" disabled
+                                               value="" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-3 col-form-label">Name</label>
+                                    <div class="col-9">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off" disabled
+                                               value=""
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-4 col-form-label">Other Code</label>
+                                    <div class="col-8">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off" disabled
+                                               value=""
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-4 col-form-label">Part No</label>
+                                    <div class="col-8">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off" disabled
+                                               value=""
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-4 col-form-label">Lot No</label>
+                                    <div class="col-8">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off" disabled
+                                               value=""
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="col-4 col-form-label">Mf Date</label>
+                                        <div class="col-8">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off" disabled
+                                                   value=""
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-4 col-form-label">Rec Date</label>
+                                        <div class="col-8">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off" disabled
+                                                   value=""
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="col-4 col-form-label">Exp Date</label>
+                                        <div class="col-8">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off" disabled
+                                                   value=""
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="col-4 col-form-label">Quantity</label>
+                                        <div class="col-8">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off" disabled
+                                                   value=""
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-4 col-form-label">Units</label>
+                                        <div class="col-8">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off" disabled
+                                                   value=""
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group col-6">
+                                <table border="1">
+                                    <tr>
+                                        <td colspan="2">Code</td>
+                                        <td colspan="4">@("")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Name</td>
+                                        <td colspan="4">@("")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Other Code</td>
+                                        <td colspan="2">@("")</td>
+                                        <td colspan="2" rowspan="8"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Serial</td>
+                                        <td colspan="2">@("")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Part No</td>
+                                        <td colspan="2">@("")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Lot No</td>
+                                        <td colspan="2">@("")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Mf date</td>
+                                        <td colspan="2">@("")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Rec date</td>
+                                        <td colspan="2">@("")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Exp date</td>
+                                        <td colspan="2">@("")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Quantity Packing</td>
+                                        <td colspan="1">@("")</td>
+                                        <td colspan="1">@("")</td>
+                                    </tr>
+                                </table>
+                                <div class="button-items">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light" @onclick="@OnClickPrint">In nhãn</button>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="col-4 col-form-label">In nhiều</label>
+                                        <div class="col-8">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off" disabled
+                                                   value=""
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-4 col-form-label">In 1 nhãn</label>
+                                        <div class="col-8">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off" disabled
+                                                   value=""
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body contain_body">
+                    @if (loading)
+                    {
+                        <div class="text-center">
+                            Đang tải...
+                        </div>
+                    }
+                    else
+                    {
+                        <TableList data="@_PurchaseOrderItemModels"
+                                   TotalPage="@TotalPage"
+                                   CurrentPage="@CurrentPage"
+                                   OnClickPage="@OnClickPage"
+                                   TableLabelsList="@labels"
+                                   RowPerPage=@RowPerPage
+                                   MinColumnActionWidth="142"
+                                   IndexColSize="60">
+                            
+                            <TableActionButton Context="item">
+                                <TableCommonAction 
+                                                   OnClickPreview="() => OnClickPreview(item)"
+                                                   ShowEdit="false"
+                                                   ShowDelete="false" />
+                            </TableActionButton>
+                        </TableList>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public object ID { get; set; }
+
+    private int TotalPage = 0;
+    private int CurrentPage = 1;
+    private const int RowPerPage = 10;
+
+    private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
+{
+        new BreadcrumbLevel() {name = "Danh sách in nhãn", path = "/PrintingByInstruction/PrintByInstruction"}
+    };
+
+    private List<TableLabels> labels = new List<TableLabels>()
+{
+        new TableLabels {label = "Code", dataIndex = "ItemCode", columnWidth=150, align="center"},
+        new TableLabels {label = "Name", dataIndex = "ItemName", columnWidth=250, align="center"},
+        new TableLabels {label = "Other Code", dataIndex = "EXT_OtherCode",  columnWidth=110},
+        new TableLabels {label = "Serial", dataIndex = "EXT_Serial", columnWidth=250},
+        new TableLabels {label = "Part No", dataIndex = "EXT_PartNo", columnWidth=150, align="center"},
+        new TableLabels {label = "Lot No", dataIndex = "EXT_LotNo", columnWidth=150, align="center"},
+        new TableLabels {label = "Mf Date", dataIndex = "EXT_MfDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Rec Date", dataIndex = "EXT_RecDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Exp Date", dataIndex = "EXT_ExpDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Quantity Packing", dataIndex = "Quantity", columnWidth=150, align="center"},
+        new TableLabels {label = "Unit", dataIndex = "Unit", columnWidth=150, align="center"},
+    };
+
+    private bool loading = true;
+    private List<PurchaseOrderItemModel> _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+    private PurchaseOrderService _PurchaseOrderItemService;
+
+    private async Task OnClickPreview()
+    {
+        //TODO
+    }
+
+    private async Task OnClickPrint()
+    {
+        try
+        {/*
+            loading = true;
+            CurrentPage = 1;
+            
+            var responseData = await _PurchaseOrderItemService.ImportPurchaseOrderItem();
+            string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
+            if ("0".Equals(errCode))
+            {
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã lấy thông tin từ hệ thống AMIS thành công", "success");
+                await OnInitData();
+            }
+            else
+            {
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Lấy thông tin từ hệ thống AMIS thất bại", "error");
+
+            }*/
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            TotalPage = 0;
+        }
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+
+    }
+    protected override void OnInitialized()
+    {
+        try
+        {
+            _PurchaseOrderItemService = new PurchaseOrderService(_httpClient);
+        }
+        catch (Exception e)
+        {
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PrintingByInstruction");
+        }
+    }
+
+
+    private async Task OnInitData()
+    {
+        try
+        {
+
+            var response = await _PurchaseOrderItemService.SearchPurchaseOrderItemPrint(CurrentPage, RowPerPage,
+                null, null, null, null, null, false);
+            _PurchaseOrderItemModels = response.rows ?? new List<PurchaseOrderItemModel>();
+            TotalPage = response.pages;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            TotalPage = 0;
+        }
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                await _jsRuntime.InvokeVoidAsync("disableAutofill");
+                await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
+                await OnInitData();
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PrintingByInstruction");
+        }
+    }
+
+    private async Task OnClickPage(int page)
+    {
+        try
+        {
+            loading = true;
+            CurrentPage = page;
+            await InvokeAsync(StateHasChanged);
+            await OnInitData();
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+
+
+    private void OnClickPrint(PurchaseOrderItemModel PurchaseOrderItem)
+    {
+        UriHelper.NavigateTo($"/PrintingByInstruction/Print/{PurchaseOrderItem.ID}", true);
+    }
+
+
+    private async Task OnClickDelete(PurchaseOrderItemModel PurchaseOrderItem)
+    {
+        try
+        {
+            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
+                "Thông báo",
+                $"Bạn có muốn xóa đơn {PurchaseOrderItem.PurchaseOrderNo}",
+                "xóa",
+                "Huỷ", "", "", "");
+
+            if (confirmRemove)
+            {
+                var responseData = await _PurchaseOrderItemService.DeletePurchaseOrder(PurchaseOrderItem.PurchaseOrderID);
+                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
+                if ("0".Equals(errCode))
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã xóa thành công", "success");
+                    await OnInitData();
+                }
+                else if ("-2".Equals(errCode))
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đơn đang được sử dụng", "error");
+                }
+                else
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Xóa thất bại", "error");
+
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+
+}

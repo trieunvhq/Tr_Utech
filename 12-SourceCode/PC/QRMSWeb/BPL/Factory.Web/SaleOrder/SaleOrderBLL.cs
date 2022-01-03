@@ -1,18 +1,16 @@
-﻿using BPL.Factory.Web;
+﻿using AMIS.APIManagement;
+using BPL.Factory.Web;
 using BPL.Models.Web;
+using BPL.Models.Web.Report;
 using DAL;
-using DAL.Factory.Web.Users;
 using DAL.Factory.Web.SaleOrder;
 using HDLIB;
 using HDLIB.Common;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using AMIS.APIManagement;
-using DAL.Factory.Web.SaleOrderItems;
-using BPL.Models.Web.Report;
-using System.IO;
 using OfficeOpenXml.Style;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace BLL.Factory.Web.SaleOrder
 {

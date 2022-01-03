@@ -12,7 +12,6 @@ namespace AMIS.APIManagement
 {
     public class SaleOrderAPIManagement
     {
-        private readonly int PageSize = 100;
         static readonly ILog m_log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static FlurlClient flurlClient = ConnectManagement.getClientInstance();
         

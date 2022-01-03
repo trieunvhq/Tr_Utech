@@ -55,7 +55,7 @@ namespace AMIS_Test.Controllers.Web
         }
         [HttpGet]
         [Route("api/GetListPurchaseOrder")]
-        public JObject GetListPurchaseOrder(string itemcode=null, string itemtype=null, int page=1, int pagesize=500)
+        public JObject GetListPurchaseOrder(int? po_id=null, int page=1, int pagesize=500)
         {
 
             try
@@ -77,7 +77,7 @@ namespace AMIS_Test.Controllers.Web
         }
         [HttpGet]
         [Route("api/GetListSaleOrder")]
-        public JObject GetListSaleOrder(string itemcode=null, string itemtype=null, int page=1, int pagesize=500)
+        public JObject GetListSaleOrder(int? so_id=null, int page=1, int pagesize=500)
         {
 
             try

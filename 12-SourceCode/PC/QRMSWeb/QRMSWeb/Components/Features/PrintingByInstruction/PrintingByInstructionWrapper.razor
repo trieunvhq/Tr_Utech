@@ -1,0 +1,280 @@
+﻿@using QRMSWeb.Components.Common.Breadcrumb
+@using QRMSWeb.Components.Common.SampleTable
+@using QRMSWeb.Components.Common.TableActions
+@using QRMSWeb.Services
+@using QRMSWeb.Models
+@using QRMSWeb.Helper
+@using QRMSWeb.Utils
+
+@inject NavigationManager _navigationManager
+@inject NavigationManager UriHelper
+@inject HttpClient _httpClient
+@inject IJSRuntime _jsRuntime
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
+
+<Breadcrumb Title="DANH MỤC IN NHÃN" levels="@Levels" />
+
+<div class="page-content-wrapper">
+    <div class="row">
+        <div class="col-12 space_search_area">
+            <div class="card">
+                <div class="card-body contain_body">
+                    <h4>Tìm kiếm</h4>
+                    <PrintingByInstructionSearchForm OnImport="@OnImport"
+                                         OnSearch="@OnSearch"
+                                         @bind-ItemType="@itemType"
+                                         @bind-WareHouseCode="@wareHouseCode"
+                                         @bind-PurchaseOrderNo="@purchaseOrderNo"
+                                         @bind-PurchaseOrderDate="@purchaseOrderDate"
+                                         @bind-PrintStatus="@printStatus" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body contain_body">
+                    @if (loading)
+                    {
+                        <div class="text-center">
+                            Đang tải...
+                        </div>
+                    }
+                    else
+                    {
+                        <TableList data="@_PurchaseOrderItemModels"
+                                   TotalPage="@TotalPage"
+                                   CurrentPage="@CurrentPage"
+                                   OnClickPage="@OnClickPage"
+                                   TableLabelsList="@labels"
+                                   RowPerPage=@RowPerPage
+                                   MinColumnActionWidth="142"
+                                   IndexColSize="60">
+                            
+                            <TableActionButton Context="item">
+                                <TableCommonAction OnClickDelete="() => OnClickDelete(item)"
+                                                   OnClickPrint="() => OnClickPrint(item)"
+                                                   ShowEdit="false"
+                                                   ShowDelete="true" />
+                            </TableActionButton>
+                        </TableList>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    private string itemType = "";
+    private string wareHouseCode = "";
+    private string purchaseOrderNo = "";
+    private string purchaseOrderDate = "";
+    private string printStatus = "";
+    private int TotalPage = 0;
+    private int CurrentPage = 1;
+    private const int RowPerPage = 10;
+
+    private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
+{
+        new BreadcrumbLevel() {name = "In nhãn theo chỉ thị in", path = "/PrintingByInstruction"}
+    };
+
+    private List<TableLabels> labels = new List<TableLabels>()
+{
+        new TableLabels {label = "Số chỉ thị in", dataIndex = "PurchaseOrderNo",columnWidth=150, align="center"},
+        new TableLabels {label = "Trạng thái in", dataIndex = "PrintStatusName",columnWidth=250, align="center"},
+        new TableLabels {label = "Ngày mua hàng", dataIndex = "PurchaseOrderDate", dataType="date", columnWidth=110},
+        new TableLabels {label = "Tên kho", dataIndex = "WareHouseName",columnWidth=250},
+        new TableLabels {label = "Mã kho", dataIndex = "WareHouseCode",columnWidth=150, align="center"},
+        new TableLabels {label = "Loại nhãn", dataIndex = "ItemTypeName",columnWidth=150, align="center"},
+    };
+
+    private bool loading = true;
+    private List<PurchaseOrderItemModel> _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+    private PurchaseOrderService _PurchaseOrderItemService;
+
+    private async Task OnSearch()
+    {
+        loading = true;
+        CurrentPage = 1;
+        await storeParamSearch();
+        await OnInitData();
+    }
+
+    private async Task OnImport()
+    {
+        try
+        {/*
+            loading = true;
+            CurrentPage = 1;
+            
+            var responseData = await _PurchaseOrderItemService.ImportPurchaseOrderItem();
+            string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
+            if ("0".Equals(errCode))
+            {
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã lấy thông tin từ hệ thống AMIS thành công", "success");
+                await OnInitData();
+            }
+            else
+            {
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Lấy thông tin từ hệ thống AMIS thất bại", "error");
+
+            }*/
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            TotalPage = 0;
+        }
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+
+    }
+    private async Task storeParamSearch()
+    {
+        purchaseOrderDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchPurchaseOrderDate");
+
+
+        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_ItemType", !String.IsNullOrWhiteSpace(itemType) ? itemType : "");
+        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_WareHouseCode", !String.IsNullOrWhiteSpace(wareHouseCode) ? wareHouseCode : "");
+        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderNo", !String.IsNullOrWhiteSpace(purchaseOrderNo) ? purchaseOrderNo : "");
+        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_PrintStatus", !String.IsNullOrWhiteSpace(printStatus) ? printStatus : "");
+        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderDate", !String.IsNullOrWhiteSpace(purchaseOrderDate) ? purchaseOrderDate : "");
+
+        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_CurrentPage", CurrentPage.ToString());
+    }
+    private async Task retryParamSearch()
+    {
+        itemType = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_ItemType") ?? "";
+        wareHouseCode = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_WareHouseCode") ?? "";
+        purchaseOrderNo = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderNo") ?? "";
+        printStatus = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_PrintStatus") ?? "";
+        purchaseOrderDate = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderDate") ?? "";
+
+        var curPage = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_CurrentPage") ?? "";
+        CurrentPage = CommonUtils.ConvertStringNumberVNToInt(curPage)??1;
+        if (CurrentPage <= 0) CurrentPage = 1;
+    }
+    protected override void OnInitialized()
+    {
+        try
+        {
+            _PurchaseOrderItemService = new PurchaseOrderService(_httpClient);
+        }
+        catch (Exception e)
+        {
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PrintingByInstruction");
+        }
+    }
+
+
+    private async Task OnInitData()
+    {
+        try
+        {
+            await retryParamSearch();
+
+            var glPurchaseOrderDate = CommonUtils.ConvertDateVNFormatedToDate(purchaseOrderDate);
+            var glStrglPurchaseOrderDate = glPurchaseOrderDate != null ? glPurchaseOrderDate.ToString() : "";
+
+            var response = await _PurchaseOrderItemService.SearchPurchaseOrderItemPrint(CurrentPage, RowPerPage,
+                itemType, wareHouseCode, purchaseOrderNo, printStatus, purchaseOrderDate, false);
+            _PurchaseOrderItemModels = response.rows ?? new List<PurchaseOrderItemModel>();
+            TotalPage = response.pages;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            TotalPage = 0;
+        }
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                await _jsRuntime.InvokeVoidAsync("disableAutofill");
+                await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
+                purchaseOrderDate = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderDate") ?? "";
+                if (string.IsNullOrEmpty(purchaseOrderDate?.Trim()))
+                {
+                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchPurchaseOrderDate1");
+                }
+                await OnInitData();
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PrintingByInstruction");
+        }
+    }
+
+    private async Task OnClickPage(int page)
+    {
+        try
+        {
+            loading = true;
+            CurrentPage = page;
+            await InvokeAsync(StateHasChanged);
+            await OnInitData();
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+
+
+    private void OnClickPrint(PurchaseOrderItemModel PurchaseOrderItem)
+    {
+        UriHelper.NavigateTo($"/PrintingByInstruction/Print/{PurchaseOrderItem.ID}", true);
+    }
+
+
+    private async Task OnClickDelete(PurchaseOrderItemModel PurchaseOrderItem)
+    {
+        try
+        {
+            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
+                "Thông báo",
+                $"Bạn có muốn xóa đơn {PurchaseOrderItem.PurchaseOrderNo}",
+                "xóa",
+                "Huỷ", "", "", "");
+
+            if (confirmRemove)
+            {
+                var responseData = await _PurchaseOrderItemService.DeletePurchaseOrder(PurchaseOrderItem.PurchaseOrderID);
+                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
+                if ("0".Equals(errCode))
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã xóa thành công", "success");
+                    await OnInitData();
+                }
+                else if ("-2".Equals(errCode))
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đơn đang được sử dụng", "error");
+                }
+                else
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Xóa thất bại", "error");
+
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+
+}

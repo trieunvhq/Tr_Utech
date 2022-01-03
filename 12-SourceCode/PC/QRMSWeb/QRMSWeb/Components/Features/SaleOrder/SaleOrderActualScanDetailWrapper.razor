@@ -115,7 +115,7 @@
 
     private bool loading = true;
     private List<SaleOrderItemModel> accounts = new List<SaleOrderItemModel>();
-    private SaleOrderItemService _SaleOrderItemService;
+    private SaleOrderService _SaleOrderItemService;
 
     private async Task OnSearch()
     {
@@ -196,7 +196,7 @@
     {
         try
         {
-            _SaleOrderItemService = new SaleOrderItemService(_httpClient);
+            _SaleOrderItemService = new SaleOrderService(_httpClient);
         }
         catch (Exception e)
         {

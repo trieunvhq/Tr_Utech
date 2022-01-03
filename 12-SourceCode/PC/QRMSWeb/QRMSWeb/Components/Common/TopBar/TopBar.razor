@@ -55,5 +55,20 @@
             AuthHelper.SetUser(null);
             _navigationManager.NavigateTo(" /auth/login", true);
         }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            try
+            {
+                if (firstRender)
+                {
+                    await _jsRuntime.InvokeVoidAsync("bootnavbar");
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                
+            }
+        }
     }
     <!-- Top Bar End -->

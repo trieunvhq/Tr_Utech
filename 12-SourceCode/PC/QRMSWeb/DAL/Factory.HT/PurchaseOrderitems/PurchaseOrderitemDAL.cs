@@ -100,7 +100,7 @@ namespace DAL.Factory.HT.PurchaseOrderitems
                     {
                         Logging.LogMessage(ex.ToString());
                         transaction.Rollback();
-                        return 1;
+                        return -1;
                     }
                 }
             }
@@ -108,18 +108,6 @@ namespace DAL.Factory.HT.PurchaseOrderitems
             {
                 Logging.LogError(ex);
                 return -1;
-            }
-
-
-            //
-            try
-            {
-                
-            }
-            catch (Exception ex)
-            {
-                Logging.LogError(ex);
-                return -99;
             }
         }
 

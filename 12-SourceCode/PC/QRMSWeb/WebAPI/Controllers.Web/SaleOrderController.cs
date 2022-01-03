@@ -24,7 +24,7 @@ namespace WebAPI.Controllers.Web
         [HttpGet]
         [AuthRequire]
         [PJICOAuthorize]
-        [Route("api-wa/sale-order-item/find-all")]
+        [Route("api-wa/sale-order/find-all")]
         public BaseModel FindListSaleOrders(int page = 1, int limit = Constant.NumPage,
             string itemCode = null, string itemName = null, string saleOrderNo = null, string locationName = null, 
             DateTime? startDate = null,  DateTime? endDate = null)
@@ -57,7 +57,7 @@ namespace WebAPI.Controllers.Web
         [HttpGet]
         [AuthRequire]
         [PJICOAuthorize]
-        [Route("api-wa/sale-order-item/import-from-amis")]
+        [Route("api-wa/sale-order/import-from-amis")]
         public BaseModel ImportFromAMIS()
         {
             var _return = new BaseModel();
@@ -85,7 +85,7 @@ namespace WebAPI.Controllers.Web
             }
         }
         [HttpGet]
-        [Route("api_wa/sale-order-item/export-excel")]
+        [Route("api_wa/sale-order/export-excel")]
         public HttpResponseMessage ReportToExcell(int? saleOrderID)
         {
             try

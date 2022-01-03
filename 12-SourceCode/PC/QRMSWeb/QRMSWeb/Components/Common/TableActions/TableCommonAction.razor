@@ -60,6 +60,16 @@
             </span>
         </button>
     }
+    @if (ShowPrint)
+    {
+        <button @onclick="OnClickPrint" type="button"
+                class="btn btn-sm btn-outline-success waves-effect waves-light mr-2 table-action-button !important"
+                data-toggle="tooltip" data-placement="bottom" title="Xem chi tiết thực tế scan">
+            <span>
+                <i style="font-size: 18px; color:forestgreen" class="mdi mdi-printer"></i>
+            </span>
+        </button>
+    }
 </div>
 
 @code {
@@ -89,6 +99,9 @@
     public bool ShowExportExcel { get; set; } = false;
 
     [Parameter]
+    public bool ShowPrint { get; set; } = false;
+
+    [Parameter]
     public Action OnClickExportExcel { get; set; }
 
     [Parameter]
@@ -111,5 +124,8 @@
 
     [Parameter]
     public Action OnClickUnlock { get; set; }
+
+    [Parameter]
+    public Action OnClickPrint { get; set; }
 
 }

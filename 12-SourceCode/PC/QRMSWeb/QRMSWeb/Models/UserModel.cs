@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QRMSWeb.Constants;
+using System;
 
 namespace QRMSWeb.Models
 {
@@ -33,7 +34,7 @@ namespace QRMSWeb.Models
         {
             get
             {
-                return Constants.RecordStatus.Locked.Equals(RecordStatus);
+                return ConstRecordStatus.Locked.Equals(RecordStatus);
             }
         }
         public bool IsInUsing { get; set; } = false;

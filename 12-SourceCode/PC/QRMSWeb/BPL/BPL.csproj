@@ -60,15 +60,19 @@
   <ItemGroup>
     <Compile Include="Factory.HT\BaseBPL.cs" />
     <Compile Include="Factory.Web\BaseBLL.cs" />
-    <Compile Include="Factory.Web\PurchaseOrderItem\PurchaseOrderItemBLL.cs" />
+    <Compile Include="Factory.Web\PurchaseOrder\PurchaseOrderBLL.cs" />
     <Compile Include="Factory.Web\SaleOrder\SaleOrderBLL.cs" />
+    <Compile Include="Factory.Web\TransactionHistory\TransactionHistoryBLL.cs" />
     <Compile Include="Factory.Web\Users\UserBLL.cs" />
     <Compile Include="Models.Web\AuthModel.cs" />
     <Compile Include="Models.Web\EmailModel.cs" />
+    <Compile Include="Models.Web\PurchaseOrderModel.cs" />
     <Compile Include="Models.Web\PurchaseOrderItemModel.cs" />
     <Compile Include="Models.Web\Report\ReportResponseBase.cs" />
+    <Compile Include="Models.Web\PurchaseOrderItemInfoAmisModel.cs" />
     <Compile Include="Models.Web\SaleOrderItemModel.cs" />
     <Compile Include="Models.Web\SaleOrderItemInfoAmisModel.cs" />
+    <Compile Include="Models.Web\TransactionHistoryModel.cs" />
     <Compile Include="Models.Web\SaleOrderModel.cs" />
     <Compile Include="Models.Web\UserModel.cs" />
     <Compile Include="Models\NhapKhoDungCuBPLModel.cs" />
