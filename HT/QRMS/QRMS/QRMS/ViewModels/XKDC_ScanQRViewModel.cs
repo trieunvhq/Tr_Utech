@@ -35,10 +35,7 @@ namespace QRMS.ViewModels
             _ID = id;
             _No = no;
             _Date = d;
-            LoadDbLocal();
-
-            if (DonHangs.Count == 0)
-                LoadModels("");
+            LoadModels("");
         }
 
         protected async void LoadDbLocal()
@@ -66,34 +63,41 @@ namespace QRMS.ViewModels
 
         public void LoadModels(string id)
         {
-            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<XuatKhoDungCuBPLModel>>>
-                                              (Constaint.ServiceAddress, Constaint.APIurl.transfergetitem,
-                                              new
-                                              {
-                                                  ID = _ID
-                                              });
-            if (result != null && result.Result != null && result.Result.data != null)
+            LoadDbLocal();
+
+            if (DonHangs.Count == 0)
             {
-                Device.BeginInvokeOnMainThread(() =>
+                var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<XuatKhoDungCuBPLModel>>>
+                                             (Constaint.ServiceAddress, Constaint.APIurl.transfergetitem,
+                                             new
+                                             {
+                                                 ID = _ID
+                                             });
+                if (result != null && result.Result != null && result.Result.data != null)
                 {
-                    DonHangs = new ObservableCollection<XuatKhoDungCuBPLModel>();
-
-                    for (int i = 0; i < result.Result.data.Count; ++i)
+                    Device.BeginInvokeOnMainThread(() =>
                     {
-                        if(result.Result.data[i].ItemCode==id)
-                        {
-                            DonHangs.Insert(0, result.Result.data[i]);
-                        }
-                        else
-                        {
-                            DonHangs.Add(result.Result.data[i]);
-                        }
+                        DonHangs = new ObservableCollection<XuatKhoDungCuBPLModel>();
 
-                        App.Dblocal.SaveTransferInstructionAsync(result.Result.data[i]);
-                    }
-                });
-            }
+                        for (int i = 0; i < result.Result.data.Count; ++i)
+                        {
+                            if (result.Result.data[i].ItemCode == id)
+                            {
+                                DonHangs.Insert(0, result.Result.data[i]);
+                            }
+                            else
+                            {
+                                DonHangs.Add(result.Result.data[i]);
+                            }
+
+                            App.Dblocal.SaveTransferInstructionAsync(result.Result.data[i]);
+                        }
+                    });
+                }
+            }    
         }
+
+
         public async void LuuLais()
         {
             try
