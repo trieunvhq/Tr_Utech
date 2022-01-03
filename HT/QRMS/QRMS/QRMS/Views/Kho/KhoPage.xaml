@@ -23,13 +23,13 @@
                 <RowDefinition Height="50"/> 
             </Grid.RowDefinitions>
 
-            <Label Text="Kho" Margin="10,0,0,0" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"/>
+            <Label Text="Kho mặc định" Margin="10,0,0,0" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
             
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>
 
             <Label TextColor="Black" VerticalTextAlignment="Center"
-                   Margin="10,0,0,0" Text="Mã kho" FontSize="16"
+                   Margin="10,0,0,0" Text="Chọn kho" FontSize="16"
                    Grid.Column="0" Grid.Row="4"/>
          
             <control:ComboboxView Margin="0,0,10,0"

@@ -1,7 +1,7 @@
 ﻿using System;
 namespace QRMS.Models
 {
-    public class TransferInstructionBPLModel
+    public class TransferInstructionModel
     {
         public int ID { get; set; }
         public string TransferOrderNo { get; set; }

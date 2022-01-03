@@ -30,7 +30,7 @@ namespace QRMS.ViewModels
 
         public void LoadModels(bool tt)
         {
-            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransferInstructionBPLModel>>>
+            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransferInstructionModel>>>
                                               (Constaint.ServiceAddress, Constaint.APIurl.gettransferinstruction, new {
                                                   from_day = TuNgay.Date,
                                                   to_day = DenNgay.Date

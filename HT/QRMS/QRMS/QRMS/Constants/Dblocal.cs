@@ -13,24 +13,24 @@ namespace QRMS
         public Dblocal(string dbPath)
         {
             _database = new SQLiteAsyncConnection(dbPath);
-            _database.CreateTableAsync<TransactionHistoryBPLModel>().Wait();
+            _database.CreateTableAsync<TransactionHistoryModel>().Wait();
             _database.CreateTableAsync<NhapKhoDungCuModel>().Wait();
             _database.CreateTableAsync<XuatKhoDungCuBPLModel>().Wait();
         }
 
-        public Task<List<TransactionHistoryBPLModel>> GetHistoryAsync()
+        public Task<List<TransactionHistoryModel>> GetHistoryAsync()
         {
-            return _database.Table<TransactionHistoryBPLModel>().ToListAsync();
+            return _database.Table<TransactionHistoryModel>().ToListAsync();
         }
 
-        public Task<List<TransactionHistoryBPLModel>> GetHistoryAsyncWithKey(string purchaseno)
+        public Task<List<TransactionHistoryModel>> GetHistoryAsyncWithKey(string purchaseno)
         {
-            string Sql = $"Select * From TransactionHistoryBPLModel Where OrderNo = '{purchaseno}'";
+            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{purchaseno}'";
 
-            return _database.QueryAsync<TransactionHistoryBPLModel>(Sql);
+            return _database.QueryAsync<TransactionHistoryModel>(Sql);
         }
 
-        public Task<int> SaveHistoryAsync(TransactionHistoryBPLModel history)
+        public Task<int> SaveHistoryAsync(TransactionHistoryModel history)
         {
             //if (history.ID != 0)
             //{
@@ -43,37 +43,37 @@ namespace QRMS
             return _database.InsertAsync(history);
         }
 
-        public Task<int> DeleteHistoryAsync(TransactionHistoryBPLModel history)
+        public Task<int> DeleteHistoryAsync(TransactionHistoryModel history)
         {
             return _database.DeleteAsync(history);
         }
 
-        public Task<List<TransactionHistoryBPLModel>> SelectOneHistoryAsync(int id)
+        public Task<List<TransactionHistoryModel>> SelectOneHistoryAsync(int id)
         {
-            string Sql = $"Select * From TransactionHistoryBPLModel Where ID = {id}";
+            string Sql = $"Select * From TransactionHistoryModel Where ID = {id}";
 
-            var data = _database.QueryAsync<TransactionHistoryBPLModel>(Sql);
+            var data = _database.QueryAsync<TransactionHistoryModel>(Sql);
 
             return data;
         }
 
         public void DeleteHistoryAsyncWithKey(string purchaseno)
         {
-            string Sql = $"Delete From TransactionHistoryBPLModel Where OrderNo = '{purchaseno}'";
+            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{purchaseno}'";
 
             _ = _database.ExecuteAsync(Sql);
         }
 
         public void DeleteHistoryAsyncWithID(int id)
         {
-            string Sql = $"Delete From TransactionHistoryBPLModel Where ID = {id}";
+            string Sql = $"Delete From TransactionHistoryModel Where ID = {id}";
 
             _ = _database.ExecuteAsync(Sql);
         }
 
         public void DeleteHistoryAll()
         {
-            _database.DeleteAllAsync<TransactionHistoryBPLModel>();
+            _database.DeleteAllAsync<TransactionHistoryModel>();
         }
 
 

@@ -3,8 +3,8 @@ using SQLite;
 
 namespace QRMS.Models
 {
-    [Table("TransactionHistoryBPLModel")]
-    public class TransactionHistoryBPLModel
+    [Table("TransactionHistoryModel")]
+    public class TransactionHistoryModel
     {
         public long ID { get; set; }
         public int page { get; set; }

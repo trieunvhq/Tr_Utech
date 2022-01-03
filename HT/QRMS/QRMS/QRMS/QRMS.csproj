@@ -42,6 +42,17 @@
     <None Remove="sqlite-net-pcl" />
     <None Remove="Views\XKDC\" />
     <None Remove="Views\NKDC\" />
+    <None Remove="Views\Login\" />
+    <None Remove="Views\Shares\" />
+    <None Remove="Views\Kho\" />
+    <None Remove="Views\Settings\" />
+    <None Remove="Models\NKDC\" />
+    <None Remove="Models\XKDC\" />
+    <None Remove="Models\Login\" />
+    <None Remove="Models\Shares\" />
+    <None Remove="ViewModels\NKDC\" />
+    <None Remove="ViewModels\XKDC\" />
+    <None Remove="ViewModels\Shares\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -235,6 +246,17 @@
     <Folder Include="Connected Services\" />
     <Folder Include="Views\XKDC\" />
     <Folder Include="Views\NKDC\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Shares\" />
+    <Folder Include="Views\Kho\" />
+    <Folder Include="Views\Settings\" />
+    <Folder Include="Models\NKDC\" />
+    <Folder Include="Models\XKDC\" />
+    <Folder Include="Models\Login\" />
+    <Folder Include="Models\Shares\" />
+    <Folder Include="ViewModels\NKDC\" />
+    <Folder Include="ViewModels\XKDC\" />
+    <Folder Include="ViewModels\Shares\" />
   </ItemGroup>
 
   <ItemGroup>

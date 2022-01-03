@@ -18,7 +18,7 @@ namespace QRMS.ViewModels
 {
     public class NhapKhoDungCuPageModel : BaseViewModel
     { 
-        public ObservableCollection<TransactionHistoryBPLModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryBPLModel>();
+        public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
         public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
 
@@ -52,8 +52,8 @@ namespace QRMS.ViewModels
                 }
             }
 
-            List<TransactionHistoryBPLModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_PPurchaseOrderNo);
-            foreach(TransactionHistoryBPLModel item in historys)
+            List<TransactionHistoryModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_PPurchaseOrderNo);
+            foreach(TransactionHistoryModel item in historys)
             {
                 if (!Historys.Contains(item))
                 {
@@ -271,7 +271,7 @@ namespace QRMS.ViewModels
                             //DateTime.TryParse(temp_[8], out Recdate_);
                             //DateTime.TryParse(temp_[9], out Expdate_);
 
-                            TransactionHistoryBPLModel history = new TransactionHistoryBPLModel
+                            TransactionHistoryModel history = new TransactionHistoryModel
                             {
                                 ID = 0,
                                 TransactionType = "I",
