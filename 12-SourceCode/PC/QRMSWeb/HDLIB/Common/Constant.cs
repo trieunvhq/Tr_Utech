@@ -13,6 +13,11 @@ namespace HDLIB.Common
         public const int AccountError = 1;
         public const int AccountLocked = 2;
         public const string DeletedRecordStatus = "D";
+
+        #region paging
+        public const int Max_Row = 10;
+        public const int NumPage = 10;
+        #endregion
     }
     public class PasswordEncrypt
     {

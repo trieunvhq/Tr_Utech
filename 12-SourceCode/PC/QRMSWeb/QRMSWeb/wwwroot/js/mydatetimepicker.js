@@ -4,18 +4,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     */
 
-function vnDateTimePicker(position) {
+function vnDateTimePicker() {
     try {
-        
+        console.log('vnDateTimePicker')
         var el = $('.pjc-date-time-picker');
         if (el.length > 0) {
             $('.pjc-date-time-picker').datetimepicker({
                 format: 'HH:mm DD/MM/YYYY',
                 locale: 'vi',
                 widgetPositioning: {
-                    vertical: position
+                    vertical: "auto"
                 },
-                daysOfWeekHighlighted: "6,0",
+                daysOfWeekDisabled: [0, 6],
             }
             );
             // $('.pjc-date-picker').datepicker("setDate", new Date());
@@ -24,29 +24,23 @@ function vnDateTimePicker(position) {
         console.log("vnDateTimePicker: " + err.message)
     }
 }
-function vnDatePicker(position) {
-    try {
-        if (position == null || position == undefined || position == "") {
-            position = "auto"
-        }
+function vnDatePicker() {
+    try {        
         var el = $('.pjc-date-picker');
         if (el.length > 0) {
             $('.pjc-date-picker').datetimepicker({
                 format: 'DD/MM/YYYY',
                 locale: 'vi',
                 widgetPositioning: {
-                    vertical: position
+                    vertical: "auto"
                 },
-                daysOfWeekHighlighted: "6,0",
+                daysOfWeekDisabled: [0, 6],
+                
             }
             );
         }
-        /*<div class="input-group pjc-date1-picker">
-    <input type="text" class="form-control" name="frmSaveOffice_startdt" id="frmSaveOffice_startdt" required readonly>
-    <div class="input-group-addon">
-      <span class="glyphicon glyphicon-calendar"></span>
-    </div>
-  </div>*/
+               
+
     } catch (err) {
         console.log("vnDateTimePicker: " + err.message)
     }

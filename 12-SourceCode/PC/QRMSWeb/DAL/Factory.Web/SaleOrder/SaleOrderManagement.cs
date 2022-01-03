@@ -1,13 +1,12 @@
 ﻿using HDLIB.Common;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DAL.Factory.Web.SaleOrder
 {
-    public class SaleOrderManagement : IDisposable
+    public class SaleOrderManagement : BaseManagement
     {
-        QRMSEntities db;
-
         public SaleOrderManagement()
         {
             db = new QRMSEntities();
@@ -17,6 +16,8 @@ namespace DAL.Factory.Web.SaleOrder
         {
             this.db = db ?? DataContext.getEntities();
         }
+        
+
 
         public DAL.SaleOrder Select(int ID)
         {
@@ -30,44 +31,35 @@ namespace DAL.Factory.Web.SaleOrder
                 throw;
             }
         }
-        #region IDisposable Support
+        
+        
 
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
+        public DAL.SaleOrder GetSaleOrderBySaleOrderNo(string saleOrderNo)
         {
-            if (!disposedValue)
+            try
             {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                    db.Dispose();
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                disposedValue = true;
+                saleOrderNo = (saleOrderNo?.Trim()) ?? "";
+                return db.SaleOrders.Where(item => saleOrderNo.Equals(item.SaleOrderNo)).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                throw;
             }
         }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~AccountManagement() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
-        void IDisposable.Dispose()
+        public int Insert(params DAL.SaleOrder[] _VALUEs)
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
+            try
+            {
+                db = db ?? GlobalVariable.db;
+                db.SaleOrders.AddRange(_VALUEs);
+                return db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                throw;
+            }
         }
-
-        #endregion
-
-        
     }
 }

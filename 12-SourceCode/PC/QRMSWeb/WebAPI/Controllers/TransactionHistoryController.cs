@@ -20,14 +20,7 @@ namespace WebAPI.Controllers
         [Route("api-ht/transactionHistori/inserthistory")]
         public BaseModel InsertHistoryQR([FromBody] List<TransactionHistoryBPLModel> input)
         {
-            string token = "";
-            int page = 0;
 
-            if (input.Count > 0)
-            {
-                token = input[0].token;
-                page = input[0].page;
-            }
 
             var _return = new BaseModel();
             try
@@ -35,49 +28,62 @@ namespace WebAPI.Controllers
 
                 string err_code = "";
                 string err_msg = "";
-
                 bool tt = false;
+                string token = "";
+                int page = 0;
 
-                if (_QRList.ContainsKey(token))
+                if (input.Count > 0)
                 {
-                    for (int i = 0; i < input.Count; ++i)
+                    token = input[0].token;
+                    page = input[0].page;
+
+                    if (_QRList.ContainsKey(token))
                     {
-                        _QRList[token].Add(input[i]);
-                    }
-                    if (page == 0)
-                    {
-                        tt = true;
+                        for (int i = 0; i < input.Count; ++i)
+                        {
+                            if (!_QRList[token].Contains(input[i]))
+                                _QRList[token].Add(input[i]);
+                        }
+                        if (page == 0)
+                        {
+                            tt = true;
+                        }
+                        else
+                        {
+                        }
                     }
                     else
                     {
+                        _QRList.Add(token, new List<TransactionHistoryBPLModel>());
+                        for (int i = 0; i < input.Count; ++i)
+                        {
+                            _QRList[token].Add(input[i]);
+                        }
+                        if (page == 0)
+                        {
+                            tt = true;
+                        }
+                        else
+                        {
+                        }
                     }
-                }
-                else
-                {
-                    _QRList.Add(token, new List<TransactionHistoryBPLModel>());
-                    for (int i = 0; i < input.Count; ++i)
+
+                    if (tt)
                     {
-                        _QRList[token].Add(input[i]);
-                    }
-                    if (page == 0)
-                    {
-                        tt = true;
+                        var result = new TransactionHistoryBPL().InsertTransactionHistory(_QRList[token], out err_code, out err_msg);
+                        _QRList.Remove(token);
+                        _return.data = result;
                     }
                     else
                     {
+                        _return.data = null;
                     }
-                }
-
-                if (tt)
-                {
-                    var result = new TransactionHistoryBPL().InsertTransactionHistory(_QRList[token], out err_code, out err_msg);
-                    _QRList.Remove(token);
-                    _return.data = result;
                 }
                 else
                 {
                     _return.data = null;
                 }
+                
                 _return.ErrorCode = err_code;
                 _return.Message = err_msg;
 

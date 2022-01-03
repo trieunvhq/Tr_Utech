@@ -206,7 +206,7 @@ namespace BLL.FactoryBLL.Web.Users
                 var AccManager = new UserManagement(db);
                 var _origin = AccManager.Select(ID);
                 if (_origin == null) return -1;
-
+                _origin.RecordStatus = "D";
                 return AccManager.Update(_origin);
             }
             catch (Exception ex)

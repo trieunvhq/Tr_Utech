@@ -106,6 +106,7 @@
   <ItemGroup>
     <Compile Include="BarcodeHelper.cs" />
     <Compile Include="Common\Cipher.cs" />
+    <Compile Include="Common\DateTimeHelper.cs" />
     <Compile Include="Common\HelperFunction.cs" />
     <Compile Include="Common\Constant.cs" />
     <Compile Include="DataStructureHelper.cs" />

@@ -1,0 +1,58 @@
+{				
+	"ResultCode" : "0",			
+	"ResultMsg" : "",		
+	"Data"		
+	{			
+		"Page" : 1,
+		"TotalPage" : 1,
+		"PageSize" : 500,		
+		"PageData" 
+		[		
+			{	
+				"TransferOrderID" : 1,
+				"TransferOrderType" : "TOT_01",
+				"TransferOrderNo" : "TON_01",
+				"TransferOrderDate" : "11-01-2022",
+				"FWarehouseCode" : "HN",
+				"FWarehouseName" : "Hà nội",
+				"TWarehouseCode" : "HN_1",
+				"TWarehouseName" : "Hà nội 1",
+				"ItemCode" : "TC_01",
+				"ItemName" : "Item Name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 300,
+			},
+			{	
+				"TransferOrderID" : 2,
+				"TransferOrderType" : "TOT_01",
+				"TransferOrderNo" : "TON_01",
+				"TransferOrderDate" : "12-01-2022",
+				"FWarehouseCode" : "HN_1",
+				"FWarehouseName" : "Hà nội 1",
+				"TWarehouseCode" : "HN",
+				"TWarehouseName" : "Hà nội",
+				"ItemCode" : "TC_01",
+				"ItemName" : "Item Name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 50,
+			},
+			{	
+				"TransferOrderID" : 3,
+				"TransferOrderType" : "TOT_01",
+				"TransferOrderNo" : "TON_01",
+				"TransferOrderDate" : "13-01-2022",
+				"FWarehouseCode" : "HN",
+				"FWarehouseName" : "Hà nội",
+				"TWarehouseCode" : "HN_1",
+				"TWarehouseName" : "Hà nội 1",
+				"ItemCode" : "TC_01",
+				"ItemName" : "Item Name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 100,
+			},
+		]		
+	}			
+}				

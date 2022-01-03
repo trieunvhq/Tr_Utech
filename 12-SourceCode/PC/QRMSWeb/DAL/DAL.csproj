@@ -63,6 +63,9 @@
     <Compile Include="Factory.HT\Procedures\PrTransferInstruction.cs" />
     <Compile Include="Factory.HT\Procedures\PrTransferInstructionItem.cs" />
     <Compile Include="Factory.HT\Procedures\PrUser.cs" />
+    <Compile Include="Factory.Web\BaseManagement.cs" />
+    <Compile Include="Factory.Web\PurchaseOrderItem\PurchaseOrderItemManagement.cs" />
+    <Compile Include="Factory.Web\SaleOrderItem\SaleOrderItemManagement.cs" />
     <Compile Include="Factory.HT\TransferInstructionItems\TransferInstructionItemDAL.cs" />
     <Compile Include="Factory.HT\TransferInstructions\TransferInstructionDAL.cs" />
     <Compile Include="Factory.Web\SaleOrder\SaleOrderManagement.cs" />

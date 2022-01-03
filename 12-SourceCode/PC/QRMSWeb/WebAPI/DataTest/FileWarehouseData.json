@@ -1,0 +1,17 @@
+{			
+	"ResultCode" : "0",		
+	"ResultMsg" : "",		
+	"Data"	
+	[		
+		{	
+			"ID" : 1,
+			"WarehouseCode" : "HN",
+			"WarehouesName" : "Hà nội"
+		},	
+		{	
+			"ID" : 2,
+			"WarehouseCode" : "HN_1",
+			"WarehouesName" : "Hà nội 1"
+		}
+	]		
+}			

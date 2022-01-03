@@ -1,0 +1,15 @@
+﻿@using QRMSWeb.Components.Features.SaleOrder
+@{
+    ViewData["Title"] = "Chi tiết đơn đặt hàng";
+    ViewBag.ID = ViewContext.RouteData.Values["id"];
+
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <component type="typeof(SaleOrderDetailWrapper)"
+                   param-ID="@(ViewBag.ID)"
+                   param-IsDetail="@(true)"
+                   render-mode="ServerPrerendered"/>
+    </div>
+</div>

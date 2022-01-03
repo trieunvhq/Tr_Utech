@@ -40,9 +40,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,10 +60,15 @@
   <ItemGroup>
     <Compile Include="Factory.HT\BaseBPL.cs" />
     <Compile Include="Factory.Web\BaseBLL.cs" />
+    <Compile Include="Factory.Web\PurchaseOrderItem\PurchaseOrderItemBLL.cs" />
     <Compile Include="Factory.Web\SaleOrder\SaleOrderBLL.cs" />
     <Compile Include="Factory.Web\Users\UserBLL.cs" />
     <Compile Include="Models.Web\AuthModel.cs" />
     <Compile Include="Models.Web\EmailModel.cs" />
+    <Compile Include="Models.Web\PurchaseOrderItemModel.cs" />
+    <Compile Include="Models.Web\Report\ReportResponseBase.cs" />
+    <Compile Include="Models.Web\SaleOrderItemModel.cs" />
+    <Compile Include="Models.Web\SaleOrderItemInfoAmisModel.cs" />
     <Compile Include="Models.Web\SaleOrderModel.cs" />
     <Compile Include="Models.Web\UserModel.cs" />
     <Compile Include="Models\NhapKhoDungCuBPLModel.cs" />
@@ -87,6 +98,10 @@
     <Compile Include="Models\XuatKhoDungCuBPLModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AMIS\AMIS.csproj">
+      <Project>{cf053e21-9dc0-40f9-8f06-529ce6082bca}</Project>
+      <Name>AMIS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{ef122dcd-17fa-43a8-a30d-32718d6a6cd4}</Project>
       <Name>DAL</Name>
@@ -99,8 +114,6 @@
   <ItemGroup>
     <Folder Include="Constants\" />
     <Folder Include="OperatorWarehouse\" />
-    <Folder Include="Factory.HT\TransferInstructions\" />
-    <Folder Include="Factory.HT\TransferInstructionItems\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">

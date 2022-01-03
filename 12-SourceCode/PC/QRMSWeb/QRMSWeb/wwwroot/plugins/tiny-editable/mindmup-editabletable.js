@@ -110,7 +110,18 @@ $.fn.editableTableWidget = function (options) {
 			}
 		});
 
-		element.find('td').prop('tabindex', 1);
+		if (options.columns) {
+			var tableRows = element.find('tr');
+			for (let i = 0; i < tableRows.length; i++) {
+				var cells = $(tableRows[i]).children('td');
+				for (let j = 0; j < options.columns.length; j++) {
+					$(cells[options.columns[j]]).prop('tabindex', 1);
+				}
+			}
+		} else {
+			element.find('tr').find('td').prop('tabindex', 1);
+		}
+
 
 		$(window).on('resize', function () {
 			if (editor.is(':visible')) {

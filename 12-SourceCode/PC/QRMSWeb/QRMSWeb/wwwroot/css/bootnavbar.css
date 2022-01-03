@@ -24,8 +24,9 @@
 .dropdown-menu > li a:hover,
 .dropdown-menu > li.show {
 	background-color:honeydew ;
-	color: white;
+	color: black;
 }
+
 ul.dropdown-menu {
     /*background-color: #007BFF !important*/
 }

@@ -26,7 +26,6 @@ namespace WebAPI.Controllers.Web
             var _return = new BaseModel();
             try
             {
-                
                 //check trùng username
                 var user_exitst = new UserBLL().GetAccountByUserName(userModel.Code?.Trim());
                 if (user_exitst != null)
@@ -36,12 +35,6 @@ namespace WebAPI.Controllers.Web
                     _return.ErrorCode = APIErrorCode.VALIDATION;
                     return _return;
                 }
-
-                userModel.Code = userModel.Code.Trim();
-                userModel.FullName = userModel.FullName?.Trim();
-                userModel.Email = userModel.Email?.Trim();
-                userModel.Phone = userModel.Phone?.Trim();
-                userModel.Role = userModel.Role.Trim();
                 string userName = HelperFunction.GetUserName(User);
                 List<UserModel> lstUserModel = new List<UserModel>() { userModel };
                 var result = new UserBLL().AddAccount(lstUserModel, userName);
@@ -124,10 +117,8 @@ namespace WebAPI.Controllers.Web
             }
         }
         [HttpPost]
-        [AuthRequire]
-        [PJICOAuthorize]
         [Route("api_wa/account/update")]
-        public BaseModel EditAccount(int id, [FromBody] UserModel userModel)
+        public BaseModel EditAccount([FromBody] UserModel userModel)
         {
             var _return = new BaseModel();
             try
@@ -135,7 +126,7 @@ namespace WebAPI.Controllers.Web
                 string userName = HelperFunction.GetUserName(User);
                 var accBLL = new UserBLL();
                 var user_exitst = accBLL.GetAccountByUserName(userModel.Code?.Trim());
-                if (user_exitst != null && user_exitst.ID != id)
+                if (user_exitst != null && user_exitst.ID != userModel.ID)
                 {
                     _return.Message = "Tài khoản đã tồn tại";
                     _return.RespondCode = APIResponseCode.VALIDATION;
@@ -143,7 +134,7 @@ namespace WebAPI.Controllers.Web
                     return _return;
                 }
 
-                var currentAccount = accBLL.GetAccountById(id, true);
+                var currentAccount = accBLL.GetAccountById(userModel.ID, true);
                 if (currentAccount == null)
                 {
                     _return.RespondCode = APIResponseCode.BAD_REQUEST;
@@ -157,7 +148,7 @@ namespace WebAPI.Controllers.Web
                 userModel.Email = userModel.Email?.Trim();
                 userModel.Phone = userModel.Phone?.Trim();
                 userModel.Role = userModel.Role.Trim();
-                userModel.ID = currentAccount.ID;
+                //userModel.ID = currentAccount.ID;
                 var result = accBLL.EditAcc(userModel, userName);
                 if (result == 1)
                 {

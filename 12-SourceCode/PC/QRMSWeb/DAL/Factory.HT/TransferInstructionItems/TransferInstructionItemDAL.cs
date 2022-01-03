@@ -21,13 +21,13 @@ namespace DAL.Factory.HT.TransferInstructionItems
             {
                 string SQL = $"select DISTINCT [ID], [TransferOrderID], [TransferOrderNo], [TransferType], [InstructionDate], [ItemCode] ";
                 SQL += $", [ItemName], [ItemType], [Quantity], [Unit], [TransferStatus], [RecordStatus], ";
-                SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[OrderNo] = a.[TransferOrderNo] and b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
-                SQL += $"else (select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"else (select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[OrderNo] = a.[TransferOrderNo] and b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongDaNhap, ";
-                SQL += $"(case when(select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"(case when(select COUNT(*) from[dbo].[TransactionHistory] b where b.[OrderNo] = a.[TransferOrderNo] and b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
-                SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[OrderNo] = a.[TransferOrderNo] and b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongBox ";
                 SQL += $"from TransferInstructionItem a ";
                 SQL += $"where(a.RecordStatus is not null and a.RecordStatus != 'D') ";

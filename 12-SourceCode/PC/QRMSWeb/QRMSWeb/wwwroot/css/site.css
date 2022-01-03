@@ -36,7 +36,9 @@ a {
   border-color: #1861ac;
 }
 
-
+.button_search_footer1 {
+    padding-right:30px !important;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -154,7 +156,7 @@ th {
 }
 thead>tr {
     height:40px;
-    background-color:gainsboro;
+    //background-color:gainsboro;
 }
 
 .card-body {
@@ -334,4 +336,12 @@ select.form-control:not([size]):not([multiple]) {
     padding-bottom: 5px !important;
     padding-top: 5px !important;
     font-size: 13px !important;
+}
+
+.my_container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }

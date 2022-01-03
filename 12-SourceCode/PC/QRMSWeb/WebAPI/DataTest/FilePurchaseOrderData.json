@@ -1,0 +1,85 @@
+{				
+	"ResultCode" :"0",		
+	"ResultMsg" : "",			
+	"Data"			
+	{			
+		"Page" : 1,
+		"TotalPage" : 5,	
+		"PageSize": 500,	
+		"PageData"		
+		[		
+			{	
+				"PurchaseOrderID" : 1,
+				"PurchaseOrderNo" : "PO_0001",
+				"PurchaseOrderDate" : "01-11-2022",
+				"ReciveDate" : "12-11-2022",
+				"SupplierCode" : "SC_001",
+				"SupplierName" : "NCC 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" :	"IC_01",
+				"ItemName" : "Item name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 100
+			},	
+			{	
+				"PurchaseOrderID" : 1,
+				"PurchaseOrderNo" : "PO_0001",
+				"PurchaseOrderDate" : "01-11-2022",
+				"ReciveDate" : "12-11-2022",
+				"SupplierCode" : "SC_001",
+				"SupplierName" : "NCC 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" :	"IC_02",
+				"ItemName" : "Item name 2",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 100
+			},	{	
+				"PurchaseOrderID" : 1,
+				"PurchaseOrderNo" : "PO_0001",
+				"PurchaseOrderDate" : "01-11-2022",
+				"ReciveDate" : "12-11-2022",
+				"SupplierCode" : "SC_001",
+				"SupplierName" : "NCC 1",
+				"WarehouseCode" : "HN_1",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" :	"IC_02",
+				"ItemName" : "Item name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 100
+			},	{	
+				"PurchaseOrderID" : 2,
+				"PurchaseOrderNo" : "PO_0002",
+				"PurchaseOrderDate" : "01-11-2022",
+				"ReciveDate" : "12-11-2022",
+				"SupplierCode" : "SC_001",
+				"SupplierName" : "NCC 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" :	"IC_02",
+				"ItemName" : "Item name 2",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 150
+			},	{	
+				"PurchaseOrderID" : 2,
+				"PurchaseOrderNo" : "PO_0002",
+				"PurchaseOrderDate" : "01-11-2022",
+				"ReciveDate" : "12-11-2022",
+				"SupplierCode" : "SC_001",
+				"SupplierName" : "NCC 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" :	"IC_02",
+				"ItemName" : "Item name 2",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 200
+			},	
+		]		
+	}			
+}				

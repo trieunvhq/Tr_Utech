@@ -1,6 +1,8 @@
 ﻿namespace BPL.Models.Web
 {
     using System;
+    using System.Collections.Generic;
+
     public class SaleOrderModel
     {
         public int ID { get; set; }
@@ -13,5 +15,7 @@
         public string UserCreate { get; set; }
         public string UserUpdate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+
+        List<SaleOrderItemModel> SaleOrderItemModels { get; set; }
     }
 }

@@ -1,0 +1,118 @@
+{				
+	"ResultCode" : "0",	
+	"ResultMsg" : "",		
+	"Data"	:	
+	{			
+		"Page" : 1,
+		"TotalPage" : 1,	
+		"PageSize" : 100,	
+		"PageData"	:
+		[		
+			{	
+				"SaleOrderID" : 1,
+				"SaleOrderNo" : "SON_01",
+				"SaleOrderDate" : "06-01-2022",
+				"DeliveryDate" : "07-01-2022",
+				"CustomerCode" : "CusC_01",
+				"CustomerName" : "Khách hàng 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" : "IC_01",
+				"ItemName" : "Item name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 50
+			},	
+			{	
+				"SaleOrderID" : 1,
+				"SaleOrderNo" : "SON_01",
+				"SaleOrderDate" : "06-01-2022",
+				"DeliveryDate" : "07-01-2022",
+				"CustomerCode" : "CusC_01",
+				"CustomerName" : "Khách hàng 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" : "IC_02",
+				"ItemName" : "Item name 2",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 150
+			},
+			{	
+				"SaleOrderID" : 2,
+				"SaleOrderNo" : "SON_02",
+				"SaleOrderDate" : "06-01-2022",
+				"DeliveryDate" : "07-01-2022",
+				"CustomerCode" : "CusC_02",
+				"CustomerName" : "Khách hàng 2",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" : "IC_01",
+				"ItemName" : "Item name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 50
+			},
+			{	
+				"SaleOrderID" : 3,
+				"SaleOrderNo" : "SON_03",
+				"SaleOrderDate" : "06-01-2022",
+				"DeliveryDate" : "07-01-2022",
+				"CustomerCode" : "CusC_01",
+				"CustomerName" : "Khách hàng 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" : "IC_01",
+				"ItemName" : "Item name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 50
+			},
+			{	
+				"SaleOrderID" : 4,
+				"SaleOrderNo" : "SON_04",
+				"SaleOrderDate" : "06-01-2022",
+				"DeliveryDate" : "07-01-2022",
+				"CustomerCode" : "CusC_01",
+				"CustomerName" : "Khách hàng 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" : "IC_01",
+				"ItemName" : "Item name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 50
+			},
+			{	
+				"SaleOrderID" : 4,
+				"SaleOrderNo" : "SON_04",
+				"SaleOrderDate" : "06-01-2022",
+				"DeliveryDate" : "07-01-2022",
+				"CustomerCode" : "CusC_01",
+				"CustomerName" : "Khách hàng 1",
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội",
+				"ItemCode" : "IC_01",
+				"ItemName" : "Item name 1",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 50
+			},
+			{	
+				"SaleOrderID" : 4,
+				"SaleOrderNo" : "SON_04",
+				"SaleOrderDate" : "06-01-2022",
+				"DeliveryDate" : "07-01-2022",
+				"CustomerCode" : "CusC_01",
+				"CustomerName" : "Khách hàng 1",
+				"WarehouseCode" : "HN_1",
+				"WarehouseName" : "Hà nội 2",
+				"ItemCode" : "IC_02",
+				"ItemName" : "Item name 2",
+				"ItemType" : "IT_01",
+				"Unit" : "Cái",
+				"Quantity" : 20
+			},
+		]		
+	}
+}	

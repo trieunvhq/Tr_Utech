@@ -1,0 +1,36 @@
+{									
+	"ResultCode" : "0",								
+	"ResultMsg" : "",								
+	"Data"								
+	{								
+		"Page" : 1,							
+		"TotalPage" : 1,							
+		"PageSize" : 100						
+		"PageData"						
+		[							
+			{						
+				"ID" : 1,			
+				"ItemCode" : "IC_01",					
+				"ItemName" : "Item name 1",				
+				"ItemType" : "IT_01"			
+			},						
+			{						
+				"ID" : 2,			
+				"ItemCode" : "IC_02",					
+				"ItemName" : "Item name 2",				
+				"ItemType" : "IT_02"			
+			},{						
+				"ID" : 3,			
+				"ItemCode" : "IC_03",					
+				"ItemName" : "Item name 3",				
+				"ItemType" : "IT_03"			
+			},{						
+				"ID" : 4,			
+				"ItemCode" : "IC_04",					
+				"ItemName" : "Item name 4",				
+				"ItemType" : "IT_04"			
+			},
+		]							
+	}								
+}									
+									

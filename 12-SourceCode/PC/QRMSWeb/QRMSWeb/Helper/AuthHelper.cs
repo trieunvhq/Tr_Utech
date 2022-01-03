@@ -19,17 +19,17 @@ namespace QRMSWeb.Helper
         public static string RefreshToken { get; set; } = "";
 
 
+               /*
         public static bool IsManager()       {
             if (AuthHelper.User != null)
             {
-               /*
                 foreach(var role in FunctionActionRoles)
                 {
                     if ("Admin".Equals(role.ROLE_CODE))
                     {
                         return true;
                     }
-                }*/
+                }
                 //account đặc biệt
                 
                 return (AuthHelper.User.INSURANCE_AGENT_ID == null && (AuthHelper.User.DIVISION_ID == null || AuthHelper.User.DIVISION_ID <= 0))
@@ -38,6 +38,7 @@ namespace QRMSWeb.Helper
             }
             return false;
         }
+*/
         public static bool IsAdmin()
         {
             if (AuthHelper.User != null)
@@ -51,7 +52,7 @@ namespace QRMSWeb.Helper
                      }
                  }*/
                 //account đặc biệt
-                if ("Admin".Equals(AuthHelper.User.USERNAME)) return true;
+                if ("Admin".Equals(AuthHelper.User.Code)) return true;
                 /*
                 return (AuthHelper.User.INSURANCE_AGENT_ID == null && (AuthHelper.User.DIVISION_ID == null || AuthHelper.User.DIVISION_ID <= 0))
                         || "TCT".Equals(AuthHelper.User.INSURANCE_AGENT_CODE);
@@ -63,7 +64,7 @@ namespace QRMSWeb.Helper
         {
             if (AuthHelper.User != null)
             {   //account thuộc phòng đặc biệt
-                return "TTU".Equals(User.DEPARTMENT_CODE);
+                return "TTU".Equals(User.Code);
             }
             return false;
         }
@@ -84,11 +85,6 @@ namespace QRMSWeb.Helper
             if (AuthHelper.User == null)
             {
                 await AuthHelper.GetCurrentUserInf();
-            }
-            if (AuthHelper.User != null && !AuthHelper.IsManager())
-            {
-                return (AuthHelper.User.DIVISION_ID == null || AuthHelper.User.DIVISION_ID <= 0) ? AuthHelper.User.INSURANCE_AGENT_ID : AuthHelper.User.DIVISION_ID;
-
             }
             return null;
         }

@@ -37,13 +37,13 @@ namespace DAL.Factory.HT.PurchaseOrderitems
                 //}
                 string SQL = $"select DISTINCT [ID], [PurchaseOrderID], [PurchaseOrderNo], [PurchaseOrderDate], [ItemCode] ";
                 SQL += $", [ItemName], [ItemType], [Quantity], [Unit], [InputStatus], [RecordStatus], ";
-                SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"(case when(select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[OrderNo] = a.[PurchaseOrderNo] and b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
-                SQL += $"else (select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"else (select sum(b.[Quantity]) from[dbo].[TransactionHistory] b where b.[OrderNo] = a.[PurchaseOrderNo] and b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongDaNhap, ";
-                SQL += $"(case when(select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"(case when(select COUNT(*) from[dbo].[TransactionHistory] b where b.[OrderNo] = a.[PurchaseOrderNo] and b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) is null then 0 ";
-                SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[ItemCode] = a.[ItemCode] ";
+                SQL += $"else (select COUNT(*) from[dbo].[TransactionHistory] b where b.[OrderNo] = a.[PurchaseOrderNo] and b.[ItemCode] = a.[ItemCode] ";
                 SQL += $"and b.[ItemName] = a.[ItemName] and b.[ItemName] = a.[ItemName] and b.[ItemType] = a.[ItemType]) end) SoLuongBox ";
                 SQL += $"from PurchaseOrderItem a ";
                 SQL += $"where(a.RecordStatus is not null and a.RecordStatus != 'D') ";
@@ -66,47 +66,56 @@ namespace DAL.Factory.HT.PurchaseOrderitems
         {
             try
             {
-                foreach (var item in obj)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    var dept = db.PurchaseOrderItems.Where(f => f.ID == item.ID).FirstOrDefault();
-                    if (dept == null) throw new Exception("");
-                    else
+                    try
                     {
-                        if (item.SoLuongDaNhap >= item.Quantity)
+                        foreach (var item in obj)
                         {
-                            dept.InputStatus = InputStatus.Enough;
+                            var dept = db.PurchaseOrderItems.Where(f => f.ID == item.ID).FirstOrDefault();
+                            if (dept == null) throw new Exception("");
+                            else
+                            {
+                                if (item.SoLuongDaNhap >= item.Quantity)
+                                {
+                                    dept.InputStatus = InputStatus.Enough;
+                                }
+                                else if (item.SoLuongDaNhap > 0)
+                                {
+                                    dept.InputStatus = InputStatus.NotEnough;
+                                }
+                                else
+                                {
+                                    dept.InputStatus = InputStatus.NotYetEntered;
+                                }
+                            }
                         }
-                        else if (item.SoLuongDaNhap > 0)
-                        {
-                            dept.InputStatus = InputStatus.NotEnough;
-                        }
-                        else
-                        {
-                            dept.InputStatus = InputStatus.NotYetEntered;
-                        }    
+
+                        db.DetachAll<NhapKhoDungCuModel>();
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.LogMessage(ex.ToString());
+                        transaction.Rollback();
+                        return 1;
                     }
                 }
-
-                db.SaveChanges();
-
-                return 1;
             }
-            //catch (DbEntityValidationException e)
-            //{
-            //    foreach (var eve in e.EntityValidationErrors)
-            //    {
-            //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-            //        foreach (var ve in eve.ValidationErrors)
-            //        {
-            //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-            //                ve.PropertyName, ve.ErrorMessage);
-            //        }
-            //    }
-            //    throw;
-            //    //Logging.LogError(ex);
-            //    //return 0;
-            //}
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                return -1;
+            }
+
+
+            //
+            try
+            {
+                
+            }
             catch (Exception ex)
             {
                 Logging.LogError(ex);

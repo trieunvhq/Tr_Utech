@@ -9,6 +9,16 @@
             </span>
         </button>
     }
+    @if (ShowActualScanDetail)
+    {
+        <button @onclick="OnClickActualScanDetail" type="button"
+                class="btn btn-sm btn-outline-success waves-effect waves-light mr-2 table-action-button !important"
+                data-toggle="tooltip" data-placement="bottom" title="Xem chi tiết thực tế scan">
+            <span>
+                <i style="font-size: 18px;" class="mdi mdi-drag"></i>
+            </span>
+        </button>
+    }
 
     @if (ShowEdit)
     {
@@ -40,34 +50,25 @@
             </span>
         </button>
     }
-    <!--
-    @if (ShowLock)
+    @if (ShowExportExcel)
     {
-        <button @onclick="OnClickLock" type="button"
-                class="btn btn-sm btn-outline-primary waves-effect waves-light mr-2 table-action-button"
-                data-toggle="tooltip" data-placement="bottom" title="Khóa">
+        <button @onclick="OnClickExportExcel" type="button"
+                class="btn btn-sm btn-outline-success waves-effect waves-light mr-2 table-action-button"
+                data-toggle="tooltip" data-placement="bottom" title="Xuất excel">
             <span>
-                <i style="font-size: 16px; color:blue;" class="mdi mdi-lock-open-outline"></i>
+                <i style="font-size: 18px;" class="mdi mdi-file-excel"></i>
             </span>
         </button>
     }
-    @if (ShowUnlock)
-    {
-        <button @onclick="OnClickUnlock" type="button"
-                class="btn btn-sm btn-outline-primary waves-effect waves-light mr-2 table-action-button"
-                data-toggle="tooltip" data-placement="bottom" title="Mở khóa">
-            <span>
-                <i style="font-size: 16px;color:black;" class="mdi mdi-lock-outline"></i>
-            </span>
-        </button>
-    }
-    -->
 </div>
 
 @code {
 
     [Parameter]
     public bool ShowDetail { get; set; } = true;
+
+    [Parameter]
+    public bool ShowActualScanDetail { get; set; } = false;
 
     [Parameter]
     public bool ShowEdit { get; set; } = true;
@@ -85,7 +86,16 @@
     public bool ShowUnlock { get; set; } = false;
 
     [Parameter]
+    public bool ShowExportExcel { get; set; } = false;
+
+    [Parameter]
+    public Action OnClickExportExcel { get; set; }
+
+    [Parameter]
     public Action OnClickDetail { get; set; }
+
+    [Parameter]
+    public Action OnClickActualScanDetail { get; set; }
 
     [Parameter]
     public Action OnClickUpdate { get; set; }

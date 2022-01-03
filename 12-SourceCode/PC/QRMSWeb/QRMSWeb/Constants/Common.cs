@@ -2,6 +2,8 @@
 {
     public class Constants
     {
+        public const string ROLE_ADMIN_USER = "admin";
+
         public const string AGENT_TYPE_CODE_DIVISION = "202";
         public  const string DEPARTMENT_INDIVIDUAL_TYPE = "102";
         public  const string DEPARTMENT_GROUP_TYPE = "101";
@@ -17,6 +19,7 @@
         public const string SAME_OWNER = "VEH_HH_CX";
         
 
+
         public const string COMMON_TYPE_CODE_DOMESTIC_NAME = "19";
 
         public const string Health_CancerFee = "C";
@@ -31,6 +34,8 @@
 
         public const int MAX_UPLOAD_FILE = 209715200;
     }
+
+
     public class HisEffectDateTable
     {
         public const string HisTable = "HIS";
