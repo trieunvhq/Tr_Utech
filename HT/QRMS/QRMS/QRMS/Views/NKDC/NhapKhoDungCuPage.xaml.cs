@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using QRMS.Constants;
+using QRMS.Helper;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -11,7 +12,8 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 namespace QRMS.Views
 {
     public partial class NhapKhoDungCuPage : ContentPage
-    { 
+    {
+        MyScan _MyScan;
         public NhapKhoDungCuPageModel ViewModel { get; set; }
         public NhapKhoDungCuPage(string id, string no, DateTime d)
         {
@@ -23,7 +25,7 @@ namespace QRMS.Views
             ViewModel = new NhapKhoDungCuPageModel(id, no, d); 
             ViewModel.Initialize();
             BindingContext = ViewModel;
- 
+            _MyScan = new MyScan(1, ViewModel);
             //
             row_trencung.Height = 20;
 
@@ -89,27 +91,7 @@ namespace QRMS.Views
 
         void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
         {
-            row.Height = 100;
-
-            lbThongBao.IsVisible = false;
-            lbNen.IsVisible = true;
-            scanView.IsVisible = true;
-            btnDongQuet.IsVisible = true;
-        }
-
-        async void scanView_OnScanResult(ZXing.Result result)
-        {
-            ViewModel.ScanComplate(result.Text);
-        }
-
-        void btnDongQuet_Clicked(System.Object sender, System.EventArgs e)
-        {
-            row.Height = 50;
-            lbNen.IsVisible = false;
-            scanView.IsVisible = false;
-            lbThongBao.IsVisible = false;
-            btnDongQuet.IsVisible = false;
-            ViewModel.StopDemThoiGianGGS();
-        }
+            _MyScan.OpenBarcodeReader(); 
+        } 
     }
 }
