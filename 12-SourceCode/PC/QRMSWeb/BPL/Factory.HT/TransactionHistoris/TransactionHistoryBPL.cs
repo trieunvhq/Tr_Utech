@@ -33,7 +33,7 @@ namespace BPL.Factory.HT.TransactionHistoris
                 }
                 else
                 {
-                    err_code = "5";
+                    err_code = "-1";
                     err_msg = "Update được dữ liệu thất bại";
                 }
 
@@ -44,7 +44,7 @@ namespace BPL.Factory.HT.TransactionHistoris
                 err_code = ResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
-                return -99;
+                return -1;
             }
         }
 

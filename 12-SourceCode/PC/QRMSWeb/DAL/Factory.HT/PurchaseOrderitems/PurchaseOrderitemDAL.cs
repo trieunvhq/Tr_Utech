@@ -76,18 +76,7 @@ namespace DAL.Factory.HT.PurchaseOrderitems
                             if (dept == null) throw new Exception("");
                             else
                             {
-                                if (item.SoLuongDaNhap >= item.Quantity)
-                                {
-                                    dept.InputStatus = InputStatus.Enough;
-                                }
-                                else if (item.SoLuongDaNhap > 0)
-                                {
-                                    dept.InputStatus = InputStatus.NotEnough;
-                                }
-                                else
-                                {
-                                    dept.InputStatus = InputStatus.NotYetEntered;
-                                }
+                                dept.InputStatus = item.InputStatus;
                             }
                         }
 

@@ -50,19 +50,45 @@ namespace BPL.Factory.HT.TransferInstructionItems
         {
             try
             {
+                bool isDoneY = true;
+                string TransferStatus_ = TransferStatus.NotDelivered;
+
+                int id = obj[0].TransferOrderID;
+
                 var ListOut = new List<XuatKhoDungCuModelDAL>();
 
                 foreach (XuatKhoDungCuBPLModel item in obj)
                 {
+                    if (item.SoLuongDaNhap >= item.Quantity)
+                    {
+                        item.TransferStatus = TransferStatus.Delivered;
+                    }
+                    else
+                    {
+                        item.TransferStatus = TransferStatus.NotDelivered;
+                    }
+
+                    //
+                    if (item.SoLuongDaNhap < item.Quantity)
+                    {
+                        isDoneY = false;
+                    }
+
                     var xx = new XuatKhoDungCuModelDAL();
                     xx.CopyPropertiesFrom(item);
                     ListOut.Add(xx);
                 }
 
+                //
+                if (isDoneY)
+                {
+                    TransferStatus_ = TransferStatus.Delivered;
+                }
+
                 var pr = new TransferInstructionItemDAL(db);
                 var tr = new TransferInstructionDAL(db);
                 var result = pr.UpdateTransferInstructionItem(ListOut);
-                var result2 = tr.UpdateTransferInstruction(ListOut);
+                var result2 = tr.UpdateTransferInstruction(id, TransferStatus_);
 
                 if (result == 1 && result2 == 1)
                 {
@@ -71,7 +97,7 @@ namespace BPL.Factory.HT.TransferInstructionItems
                 }
                 else
                 {
-                    err_code = "5";
+                    err_code = "-1";
                     err_msg = "Không update được dữ liệu";
                 }
 
@@ -82,7 +108,7 @@ namespace BPL.Factory.HT.TransferInstructionItems
                 err_code = ResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
-                return 0;
+                return -1;
             }
         }
 
