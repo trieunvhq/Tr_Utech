@@ -16,7 +16,7 @@ using Plugin.Fingerprint;
 
 namespace QRMS.Droid
 {
-    [Activity(Label = "UTECH", Icon = "@drawable/ic_launcher", Theme = "@style/MainTheme",
+    [Activity(Label = "QRMS", Icon = "@drawable/ic_launcher", Theme = "@style/MainTheme",
         MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Touchscreen, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

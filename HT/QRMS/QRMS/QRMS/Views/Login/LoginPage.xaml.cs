@@ -119,51 +119,67 @@ namespace QRMS.Views
                                 var ipAddress = MobileInfo.GetIP();
                                 var deviceName = MobileInfo.GetDeviceInfo();
                                 string UserName_ = txtUserName.Text.ToLower();
-                                    var submit = APIHelper.PostObjectToAPIAsync<BaseModel<User>>
-                                           (Constaint.ServiceAddress, Constaint.APIurl.login,
-                                           new
-                                           {
-                                               IpAddress = ipAddress,
-                                               DeviceName = deviceName,
-                                               UserName = UserName_,
-                                               Password = txtPassword.Text,
-                                               Token = token
-                                           });
-                                _ = submit.ContinueWith(next =>
-                                {
-                                    if (submit != null && submit.Result != null)
-                                    {
-                                        Device.BeginInvokeOnMainThread(async () =>
-                                        {
-                                            if (submit.Result.data != null
-                                          && submit.Result.ErrorCode == "0")
-                                            {
-                                                MySettings.UserName = txtUserName.Text;
-                                                MySettings.Password = txtPassword.Text;
 
-                                                await Application.Current.MainPage.Navigation.PushAsync(new HomePage());
-                                                Controls.LoadingUtility.Hide();
-                                            }
-                                            else
-                                            {
-                                                await UserDialogs.Instance.AlertAsync(submit.Result.Message, "Exception", "OK");
-                                                Controls.LoadingUtility.Hide();
-                                            }
-                                        });
-                                    } 
-                                    else
+                                if(string.IsNullOrWhiteSpace(MySettings.Service))
+                                {
+                                    Device.BeginInvokeOnMainThread(async () =>
                                     {
-                                        Device.BeginInvokeOnMainThread(async() =>
+                                        await Application.Current.MainPage.Navigation.PushAsync(new HeThongPage(true));
+                                        Controls.LoadingUtility.Hide();
+                                    });
+                                }
+                                else
+                                {
+                                    var submit = APIHelper.PostObjectToAPIAsync<BaseModel<User>>
+                                             (Constaint.ServiceAddress, Constaint.APIurl.login,
+                                             new
+                                             {
+                                                 IpAddress = ipAddress,
+                                                 DeviceName = deviceName,
+                                                 UserName = UserName_,
+                                                 Password = txtPassword.Text,
+                                                 Token = token
+                                             });
+                                    _ = submit.ContinueWith(next =>
+                                    {
+                                        if (submit != null && submit.Result != null)
                                         {
-                                            Controls.LoadingUtility.Hide();
-                                        });
-                                    }
-                                });
+                                            Device.BeginInvokeOnMainThread(async () =>
+                                            {
+                                                if (submit.Result.data != null
+                                              && submit.Result.ErrorCode == "0")
+                                                {
+                                                    MySettings.UserName = txtUserName.Text;
+                                                    MySettings.Password = txtPassword.Text;
+
+                                                    await Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+                                                    Controls.LoadingUtility.Hide();
+                                                }
+                                                else
+                                                {
+                                                    await Application.Current.MainPage.Navigation.PushAsync(new HeThongPage(true));
+                                                    Controls.LoadingUtility.Hide();
+                                                }
+                                            });
+                                        }
+                                        else
+                                        {
+                                            Device.BeginInvokeOnMainThread(async () =>
+                                            {
+                                                await Application.Current.MainPage.Navigation.PushAsync(new HeThongPage(true));
+                                                Controls.LoadingUtility.Hide();
+                                            });
+                                        }
+                                    });
+                                }    
+
+                                   
                             }
                             else
                             {
-                                Device.BeginInvokeOnMainThread(() =>
+                                Device.BeginInvokeOnMainThread(async () =>
                                 {
+                                    await Application.Current.MainPage.Navigation.PushAsync(new HeThongPage(true));
                                     Controls.LoadingUtility.Hide();
                                 });
                             }

@@ -19,6 +19,8 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="16"/>
                 <RowDefinition Height="40"/> 
+                <RowDefinition Height="16"/>
+                <RowDefinition Height="auto"/> 
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/> 
             </Grid.RowDefinitions>
@@ -41,13 +43,16 @@
             <Entry x:Name="txtService" BackgroundColor="Transparent" TextColor="Black" FontSize="16" MaxLength="50"
                    Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6"/>
 
+            <Label x:Name="lbThietlapLai" TextColor="Red" VerticalTextAlignment="Center"
+                   HorizontalTextAlignment="Center" IsVisible="False"
+                   Margin="10,0,0,0" Text="Vui lòng thiết lập lại Service" FontSize="16"
+                   Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="8"/>
 
-
-            <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="8" CornerRadius="0"
+            <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="10" CornerRadius="0"
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             
-            <helper:ButtonCustoms Text="Lưu lại" Grid.Column="3" Grid.Row="8" CornerRadius="0"
+            <helper:ButtonCustoms Text="Lưu lại" Grid.Column="3" Grid.Row="10" CornerRadius="0"
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
         </Grid>

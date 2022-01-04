@@ -1,4 +1,5 @@
-﻿using QRMS.Resources;
+﻿using QRMS.Constants;
+using QRMS.Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +9,7 @@ namespace QRMS.AppLIB.Common
     public class Constaint
     {
         #region AddressService 
-        public const string ServiceAddress = "http://192.168.1.232:52585"; 
+        public static string ServiceAddress = MySettings.Service; 
         #endregion
 
         public class APIurl

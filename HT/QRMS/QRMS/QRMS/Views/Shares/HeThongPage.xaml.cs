@@ -10,7 +10,7 @@ namespace QRMS.Views
 {
     public partial class HeThongPage : ContentPage
     {
-        public HeThongPage()
+        public HeThongPage(bool isThietLapLai)
         {
             InitializeComponent();
 
@@ -18,6 +18,12 @@ namespace QRMS.Views
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
 
+            lbThietlapLai.IsVisible = isThietLapLai;
+            if(isThietLapLai)
+            {
+                lbThietlapLai.Text = "Vui lòng thiết lập lại Service";
+                lbThietlapLai.TextColor = Color.Red;
+            }    
             row_trencung.Height = 20;
 
             if (Device.Idiom == TargetIdiom.Phone)
@@ -71,6 +77,11 @@ namespace QRMS.Views
         {
             MySettings.TenMay = txtTenMay.Text;
             MySettings.Service = txtService.Text;
+
+            lbThietlapLai.IsVisible = true;
+            lbThietlapLai.Text = "Lưu lại thành công!";
+            lbThietlapLai.TextColor = Color.Green;
+
         }
     }
 }
