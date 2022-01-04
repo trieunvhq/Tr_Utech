@@ -37,31 +37,34 @@ namespace DAL.Factory.HT.TransferInstructions
             }
         }
 
-        public int UpdateTransferInstruction(List<XuatKhoDungCuModelDAL> obj)
+        public int UpdateTransferInstruction(int id, string tranferstatus)
         {
             try
             {
-                bool isDone = false;
-                foreach (var item in obj)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    if (item.TransferStatus == "Y")
-                        isDone = true;
+                    try
+                    {
+                        if (tranferstatus == "Y")
+                        {
+                            var xx = db.TransferInstructions.Where(f => f.ID == id).FirstOrDefault();
+                            if (xx == null) throw new Exception("");
+                            else
+                                xx.TransferStatus = "Y";
+                        }
+
+                        db.DetachAll<PurchaseOrder>();
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.LogMessage(ex.ToString());
+                        transaction.Rollback();
+                        return -1;
+                    }
                 }
-
-                int id = obj[0].TransferOrderID;
-                db.DetachAll<TransferInstruction>();
-
-                if (isDone)
-                {
-                    var xx = db.TransferInstructions.Where(f => f.ID == id).FirstOrDefault();
-                    if (xx == null) throw new Exception("");
-                    else
-                        xx.TransferStatus = "Y";
-                }
-
-                db.SaveChanges();
-
-                return 1;
             }
             //catch (DbEntityValidationException e)
             //{
@@ -82,7 +85,7 @@ namespace DAL.Factory.HT.TransferInstructions
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                return -99;
+                return -1;
             }
         }
 

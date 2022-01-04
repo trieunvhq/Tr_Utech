@@ -50,17 +50,30 @@ namespace DAL.Factory.HT.TransferInstructionItems
         {
             try
             {
-                foreach (var item in obj)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    var dept = db.TransferInstructionItems.Where(f => f.ID == item.ID).FirstOrDefault();
-                    if (dept == null) throw new Exception("");
-                    else
-                        dept.TransferStatus = item.TransferStatus;
+                    try
+                    {
+                        foreach (var item in obj)
+                        {
+                            var dept = db.TransferInstructionItems.Where(f => f.ID == item.ID).FirstOrDefault();
+                            if (dept == null) throw new Exception("");
+                            else
+                                dept.TransferStatus = item.TransferStatus;
+                        }
+
+                        db.DetachAll<TransactionHistory>();
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.LogMessage(ex.ToString());
+                        transaction.Rollback();
+                        return -1;
+                    }
                 }
-
-                db.SaveChanges();
-
-                return 1;
             }
             //catch (DbEntityValidationException e)
             //{
@@ -81,7 +94,7 @@ namespace DAL.Factory.HT.TransferInstructionItems
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                return -99;
+                return -1;
             }
         }
 

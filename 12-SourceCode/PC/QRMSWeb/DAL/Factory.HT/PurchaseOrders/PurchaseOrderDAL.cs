@@ -37,67 +37,36 @@ namespace DAL.Factory.HT.PurchaseOrders
             }
         }
 
-        public int UpdatePurchaseOrder(List<NhapKhoDungCuModel> obj)
+        public int UpdatePurchaseOrder(int id, string inputstatus)
         {
             try
             {
-                bool isDoneD = false;
-                bool isDoneY = true;
-
-                foreach (var item in obj)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    if (item.SoLuongDaNhap < item.Quantity)
+                    try
                     {
-                        isDoneY = false;
+                        var xx = db.PurchaseOrders.Where(f => f.ID == id).FirstOrDefault();
+                        if (xx == null) throw new Exception("");
+                        else
+                            xx.InputStatus = inputstatus;
+
+                        db.DetachAll<PurchaseOrder>();
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return 1;
                     }
-                    else if (item.SoLuongDaNhap > 0)
+                    catch (Exception ex)
                     {
-                        isDoneD = true;
+                        Logging.LogMessage(ex.ToString());
+                        transaction.Rollback();
+                        return -1;
                     }
                 }
-
-                int id = obj[0].PurchaseOrderID;
-                db.DetachAll<PurchaseOrder>();
-
-                if (isDoneY)
-                {
-                    var xx = db.PurchaseOrders.Where(f => f.ID == id).FirstOrDefault();
-                    if (xx == null) throw new Exception("");
-                    else
-                        xx.InputStatus = InputStatus.Enough;
-                }
-                else if (isDoneD)
-                {
-                    var xx = db.PurchaseOrders.Where(f => f.ID == id).FirstOrDefault();
-                    if (xx == null) throw new Exception("");
-                    else
-                        xx.InputStatus = InputStatus.NotEnough;
-                }    
-
-                db.SaveChanges();
-
-                return 1;
             }
-            //catch (DbEntityValidationException e)
-            //{
-            //    foreach (var eve in e.EntityValidationErrors)
-            //    {
-            //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-            //        foreach (var ve in eve.ValidationErrors)
-            //        {
-            //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-            //                ve.PropertyName, ve.ErrorMessage);
-            //        }
-            //    }
-            //    throw;
-            //    //Logging.LogError(ex);
-            //    //return 0;
-            //}
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                return -99;
+                return -1;
             }
         }
 

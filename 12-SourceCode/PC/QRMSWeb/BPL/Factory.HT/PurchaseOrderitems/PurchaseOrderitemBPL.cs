@@ -51,19 +51,58 @@ namespace BPL.Factory.HT.PurchaseOrderitems
         {
             try
             {
+                bool isDoneD = false;
+                bool isDoneY = true;
+                string InputStatus_ = InputStatus.NotYetEntered;
+
+                int id = obj[0].PurchaseOrderID;
+
                 var ListOut = new List<NhapKhoDungCuModel>();
 
                 foreach (NhapKhoDungCuBPLModel item in obj)
                 {
+                    if (item.SoLuongDaNhap >= item.Quantity)
+                    {
+                        item.InputStatus = InputStatus.Enough;
+                    }
+                    else if (item.SoLuongDaNhap > 0)
+                    {
+                        item.InputStatus = InputStatus.NotEnough;
+                    }
+                    else
+                    {
+                        item.InputStatus = InputStatus.NotYetEntered;
+                    }
+
+                    //
+                    if (item.SoLuongDaNhap < item.Quantity)
+                    {
+                        isDoneY = false;
+                    }
+                    else if (item.SoLuongDaNhap > 0)
+                    {
+                        isDoneD = true;
+                    }
+
                     var xx = new NhapKhoDungCuModel();
                     xx.CopyPropertiesFrom(item);
                     ListOut.Add(xx);
                 }
 
+                //
+                if (isDoneY)
+                {
+                    InputStatus_ = InputStatus.Enough;
+                }
+                else if (isDoneD)
+                {
+                    InputStatus_ = InputStatus.NotEnough;
+                }
+
                 var pr = new PurchaseOrderitemDAL(db);
                 var tr = new PurchaseOrderDAL(db);
                 var result = pr.UpdatePurchaseOrderitem(ListOut);
-                var result2 = tr.UpdatePurchaseOrder(ListOut);
+                var result2 = tr.UpdatePurchaseOrder(id, InputStatus_);
 
                 if (result == 1 && result2 == 1)
                 {
@@ -72,7 +111,7 @@ namespace BPL.Factory.HT.PurchaseOrderitems
                 }
                 else
                 {
-                    err_code = "5";
+                    err_code = "-1";
                     err_msg = "Không update được dữ liệu";
                 }    
 
@@ -83,7 +122,7 @@ namespace BPL.Factory.HT.PurchaseOrderitems
                 err_code = ResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
-                return 0;
+                return -1;
             }
         }
 
