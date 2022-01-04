@@ -37,6 +37,19 @@
     <None Remove="Models\DL\" />
     <None Remove="Plugin.Fingerprint" />
     <None Remove="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
+    <None Remove="Views\Main\" />
+    <None Remove="Views\NhapKho\" />
+    <None Remove="Views\NhapKho\DungCu\" />
+    <None Remove="Views\NhapKho\ThanhPham\" />
+    <None Remove="Views\ThietLap\" />
+    <None Remove="Views\ThietLap\HeThong\" />
+    <None Remove="Views\ThietLap\Kho\" />
+    <None Remove="ViewModels\NhapKho\" />
+    <None Remove="ViewModels\ThietLap\" />
+    <None Remove="ViewModels\NhapKho\DungCu\" />
+    <None Remove="ViewModels\NhapKho\ThanhPham\" />
+    <None Remove="ViewModels\ThietLap\HeThong\" />
+    <None Remove="ViewModels\ThietLap\Kho\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -226,6 +239,19 @@
   <ItemGroup>
     <Folder Include="Connected Services\" />
     <Folder Include="Models\Home\" />
+    <Folder Include="Views\Main\" />
+    <Folder Include="Views\NhapKho\" />
+    <Folder Include="Views\NhapKho\DungCu\" />
+    <Folder Include="Views\NhapKho\ThanhPham\" />
+    <Folder Include="Views\ThietLap\" />
+    <Folder Include="Views\ThietLap\HeThong\" />
+    <Folder Include="Views\ThietLap\Kho\" />
+    <Folder Include="ViewModels\NhapKho\" />
+    <Folder Include="ViewModels\ThietLap\" />
+    <Folder Include="ViewModels\NhapKho\DungCu\" />
+    <Folder Include="ViewModels\NhapKho\ThanhPham\" />
+    <Folder Include="ViewModels\ThietLap\HeThong\" />
+    <Folder Include="ViewModels\ThietLap\Kho\" />
   </ItemGroup>
 
   <ItemGroup>

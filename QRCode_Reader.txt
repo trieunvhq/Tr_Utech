@@ -1,0 +1,60 @@
+private BarcodeReader mSelectedReader = null;
+
+public PreparingOutputProduct_ViewModel()
+{
+	OpenBarcodeReader();
+}
+
+public async void OpenBarcodeReader()
+{
+	mSelectedReader = GetBarcodeReader();
+	if (!mSelectedReader.IsReaderOpened)
+	{
+		BarcodeReader.Result result = await mSelectedReader.OpenAsync();
+
+		if (result.Code == BarcodeReader.Result.Codes.SUCCESS ||
+			result.Code == BarcodeReader.Result.Codes.READER_ALREADY_OPENED)
+		{
+			//SetScannerAndSymbologySettings();
+		}
+		else
+		{
+			await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
+				" Message:" + result.Message, "OK");
+		}
+	}
+}
+
+public BarcodeReader GetBarcodeReader()
+{
+	BarcodeReader reader = new BarcodeReader();
+
+	reader.BarcodeDataReady += MBarcodeReader_BarcodeDataReady;
+
+	return reader;
+}
+
+private void MBarcodeReader_BarcodeDataReady(object sender, BarcodeDataArgs e)
+{       
+	mUIContext.Post(_ =>
+	{
+		UserDialogs.Instance.ShowLoading("");
+		barcode = e.Data;
+		//Code logic scan ở đây
+		client.AnalyzeStructProductBarCodeAsync(barcode);			
+	}
+		, null);
+}
+
+public async void CloseBarcodeReader()
+{
+	if (mSelectedReader != null && mSelectedReader.IsReaderOpened)
+	{
+		BarcodeReader.Result result = await mSelectedReader.CloseAsync();
+		if (result.Code != BarcodeReader.Result.Codes.SUCCESS)
+		{
+			await Application.Current.MainPage.DisplayAlert("Error", "CloseAsync failed, Code:" + result.Code +
+				" Message:" + result.Message, "OK");
+		}
+	}
+}
