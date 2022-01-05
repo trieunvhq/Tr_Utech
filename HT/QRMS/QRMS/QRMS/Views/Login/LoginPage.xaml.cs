@@ -1,5 +1,6 @@
 ﻿
 using Acr.UserDialogs;
+using LIB;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
@@ -58,7 +59,7 @@ namespace QRMS.Views
             {
                 _ = Controls.LoadingUtility.ShowAsync().ContinueWith(bb =>
                 {
-                    Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(async () =>
                     { 
 
                         lblUserEmptyError.IsVisible = false;
@@ -130,24 +131,27 @@ namespace QRMS.Views
                                 }
                                 else
                                 {
-                                    var submit = APIHelper.PostObjectToAPIAsync<BaseModel<User>>
-                                             (Constaint.ServiceAddress, Constaint.APIurl.login,
-                                             new
-                                             {
-                                                 IpAddress = ipAddress,
-                                                 DeviceName = deviceName,
-                                                 UserName = UserName_,
-                                                 Password = txtPassword.Text,
-                                                 Token = token
-                                             });
-                                    _ = submit.ContinueWith(next =>
+                                    MySettings.Service = MySettings.Service.TrimStart().TrimEnd().Trim();
+                                    Constaint.ServiceAddress = MySettings.Service;
+                                    var _result = await APICaller.PostObjectToAPImodelAsync<BaseModel<User>>
+                                    (Constaint.ServiceAddress, Constaint.APIurl.login,
+                                    new
                                     {
-                                        if (submit != null && submit.Result != null)
+                                        IpAddress = ipAddress,
+                                        DeviceName = deviceName,
+                                        UserName = UserName_,
+                                        Password = txtPassword.Text,
+                                        Token = token
+                                    }).ConfigureAwait(false);
+                                    //
+                                    if (_result.data != null && _result.data != null)
+                                    {
+                                        Device.BeginInvokeOnMainThread(async () =>
                                         {
-                                            Device.BeginInvokeOnMainThread(async () =>
-                                            {
-                                                if (submit.Result.data != null
-                                              && submit.Result.ErrorCode == "0")
+                                            if (_result.RespondCode == 200)
+                                            { 
+                                                if (_result.data != null
+                                              && _result.data.ErrorCode == "0")
                                                 {
                                                     MySettings.UserName = txtUserName.Text;
                                                     MySettings.Password = txtPassword.Text;
@@ -160,17 +164,37 @@ namespace QRMS.Views
                                                     await Application.Current.MainPage.Navigation.PushAsync(new HeThongPage(true));
                                                     Controls.LoadingUtility.Hide();
                                                 }
-                                            });
-                                        }
-                                        else
-                                        {
-                                            Device.BeginInvokeOnMainThread(async () =>
+                                            }
+                                            else
                                             {
                                                 await Application.Current.MainPage.Navigation.PushAsync(new HeThongPage(true));
                                                 Controls.LoadingUtility.Hide();
-                                            });
-                                        }
-                                    });
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        Device.BeginInvokeOnMainThread(async () =>
+                                        {
+                                            await Application.Current.MainPage.Navigation.PushAsync(new HeThongPage(true));
+                                            Controls.LoadingUtility.Hide();
+                                        });
+                                    }
+
+                                    //var submit = APIHelper.PostObjectToAPIAsync<BaseModel<User>>
+                                    //         (Constaint.ServiceAddress, Constaint.APIurl.login,
+                                    //         new
+                                    //         {
+                                    //             IpAddress = ipAddress,
+                                    //             DeviceName = deviceName,
+                                    //             UserName = UserName_,
+                                    //             Password = txtPassword.Text,
+                                    //             Token = token
+                                    //         });
+                                    //_ = _result.ContinueWith(next =>
+                                    //{
+                                        
+                                    //});
                                 }    
 
                                    

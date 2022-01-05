@@ -126,6 +126,9 @@
     <PackageReference Include="Honeywell.BarcodeReader">
       <Version>1.32.7.10</Version>
     </PackageReference>
+    <PackageReference Include="VpnHood.Client.App">
+      <Version>1.1.235</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBPath.cs" />
@@ -169,6 +172,7 @@
     <Compile Include="Renderer\TouchIdAuthService.cs" />
     <Compile Include="Renderer\OpenImplementation.cs" />
     <Compile Include="Renderer\IQrScanningService.cs" />
+    <Compile Include="AndroidApp.cs" />
   </ItemGroup>
   <ItemGroup>
     <GoogleServicesJson Include="google-services.json" />

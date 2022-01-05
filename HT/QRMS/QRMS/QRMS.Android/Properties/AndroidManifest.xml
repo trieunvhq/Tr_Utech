@@ -13,7 +13,7 @@
 				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 				<category android:name="${applicationId}" />
 			</intent-filter>
-		</receiver>
+		</receiver> 
 	</application>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -27,4 +27,5 @@
 	<uses-permission android:name="android.permission.USE_BIOMETRIC" />
 	<uses-permission android:name="android.permission.FLASHLIGHT" />
 	<application android:label="QRMS.Android" android:theme="@style/MainTheme"></application>
+	 
 </manifest>
