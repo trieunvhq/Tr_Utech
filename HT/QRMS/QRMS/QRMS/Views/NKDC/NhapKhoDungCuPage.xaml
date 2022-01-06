@@ -22,7 +22,7 @@
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="1"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition x:Name="row" Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
@@ -111,6 +111,8 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0"
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
@@ -119,11 +121,33 @@
             <helper:ButtonCustoms Text="Quét" Grid.Column="2" CornerRadius="0"
                 Clicked="BtnQuet_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
+                
+            <helper:ButtonCustoms Text="Camera" Grid.Column="4" CornerRadius="0"
+                Clicked="BtnCamera_CLicked" GradientOrientation="Horizontal"
+                StartColor="#00a79d" EndColor="#05aff2"/>
 
-            <helper:ButtonCustoms Text="Lưu lại" Grid.Column="4" CornerRadius="0"
+            <helper:ButtonCustoms Text="Lưu lại" Grid.Column="6" CornerRadius="0"
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
-            </Grid> 
+            </Grid>
+
+            
+            <Label BackgroundColor="Black" Opacity=".3" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
+                   x:Name="lbNen" IsVisible="False"/>
+             <forms1:ZXingScannerView x:Name="scanView" IsVisible="False"
+                                        OnScanResult="scanView_OnScanResult"
+                                        IsScanning="True"
+                                        WidthRequest="300"
+                                        HeightRequest="300"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                     Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"/>
+            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"
+                   x:Name="lbThongBao" TextColor="{Binding Color}" FontSize="18" VerticalTextAlignment="Start" HorizontalTextAlignment="Center"
+                   Margin="20,80,20,0" Text="{Binding ThongBao}" IsVisible="{Binding IsThongBao}" FontAttributes="Bold"/>
+            <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" TextColor="White"
+                x:Name="btnDongQuet" Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
+                StartColor="Red" EndColor="DarkRed" IsVisible="False"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
