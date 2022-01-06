@@ -15,9 +15,12 @@ namespace QRMS.Views
     public partial class NhapKhoDungCuPage : ContentPage
     {
         MyScan _MyScan;
+        private string _PuschaseNo = "";
+
         public NhapKhoDungCuPageModel ViewModel { get; set; }
         public NhapKhoDungCuPage(string id, string no, DateTime d)
         {
+            _PuschaseNo = no;
             InitializeComponent();
              
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
@@ -72,7 +75,7 @@ namespace QRMS.Views
                     else
                     {
                          App.Dblocal.DeleteHistoryAll();
-                         App.Dblocal.DeletePurchaseOrderAsyncWithKey();
+                         App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PuschaseNo);
                     }
 
                     await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
