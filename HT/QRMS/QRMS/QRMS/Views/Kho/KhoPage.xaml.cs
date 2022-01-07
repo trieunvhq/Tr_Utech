@@ -66,8 +66,8 @@ namespace QRMS.Views
         {
             if(ViewModel.SelectedKho != null)
             {
-                MySettings.MaKho = ViewModel.SelectedKho.Name;
-                MySettings.IDKho = ViewModel.SelectedKho.ID;
+                MySettings.MaKho = ViewModel.SelectedKho.WarehouesName;
+                MySettings.CodeKho = ViewModel.SelectedKho.WarehouseCode;
             } 
             await UserDialogs.Instance.ConfirmAsync("", "Thành công!", "Đồng ý","");
         } 

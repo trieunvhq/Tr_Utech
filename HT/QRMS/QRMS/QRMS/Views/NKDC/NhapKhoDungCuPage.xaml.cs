@@ -107,7 +107,8 @@ namespace QRMS.Views
         {
             try
             {
-                _MyScan.CloseBarcodeReader();
+                if(_MyScan!=null)
+                    _MyScan.CloseBarcodeReader();
                 _MyScan = new MyScan(1, ViewModel);
                 _MyScan.OpenBarcodeReader();
             }

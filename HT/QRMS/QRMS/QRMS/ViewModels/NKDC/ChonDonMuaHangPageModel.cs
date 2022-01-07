@@ -32,6 +32,7 @@ namespace QRMS.ViewModels
         {
             var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PurchaseOrder>>>
                                               (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorder, new {
+                                                  WarehouseCode = MySettings.CodeKho,
                                                   from_day = TuNgay.Date,
                                                   to_day = DenNgay.Date
                                               });
@@ -53,7 +54,7 @@ namespace QRMS.ViewModels
                   
                     if(tt)
                     { 
-                        var page = new T_ComboboxPage(DonHangs, null, 2, this, null, null);
+                        var page = new T_ComboboxPage(2,null,DonHangs, null, this, null, null);
                         Application.Current.MainPage.Navigation.PushAsync(page);
                     }    
                 });

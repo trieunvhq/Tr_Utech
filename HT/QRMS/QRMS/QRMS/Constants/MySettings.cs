@@ -179,16 +179,16 @@ namespace QRMS.Constants
             }
         }
         //
-        private const string IDKho_QRMS_KHKey = "last_IDKho_QRMS_KHKey";
-        public static string IDKho
+        private const string CodeKho_QRMS_KHKey = "last_CodeKho_QRMS_KHKey";
+        public static string CodeKho
         {
             get
             {
-                return AppSettings.GetValueOrDefault<string>(IDKho_QRMS_KHKey, "");
+                return AppSettings.GetValueOrDefault<string>(CodeKho_QRMS_KHKey, "");
             }
             set
             {
-                AppSettings.AddOrUpdateValue<string>(IDKho_QRMS_KHKey, value);
+                AppSettings.AddOrUpdateValue<string>(CodeKho_QRMS_KHKey, value);
             }
         }//
         private const string MaKho_QRMS_KHKey = "last_MaKho_QRMS_KHKey";

@@ -53,7 +53,7 @@ namespace QRMS.ViewModels
                   
                     if(tt)
                     { 
-                        var page = new T_ComboboxPage(DonHangs, null, 4, null, null, this);
+                        var page = new T_ComboboxPage(4,null,DonHangs, null, null, null, this);
                         Application.Current.MainPage.Navigation.PushAsync(page);
                     }    
                 });

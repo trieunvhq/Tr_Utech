@@ -13,10 +13,10 @@ namespace QRMS.ViewModels
 {
     public class ChonKhoKiemKePageModel : BaseViewModel
     {
-        public ObservableCollection<ComboModel> Khos { get; set; } = new ObservableCollection<ComboModel>();
-        public ComboModel SelectedKho { get; set; }
+        public ObservableCollection<WarehouseBPLModel> Khos { get; set; } = new ObservableCollection<WarehouseBPLModel>();
+        public WarehouseBPLModel SelectedKho { get; set; }
 
-        public string Name { get; set; }
+        public string WarehouesName { get; set; }
 
         public ChonKhoKiemKePageModel()
         {
@@ -26,32 +26,32 @@ namespace QRMS.ViewModels
 
         public void LoadModels()
         {
-            var result = APIHelper.GetObjectFromAPIAsync<BaseModel<List<ComboModel>>>
+            var result = APIHelper.GetObjectFromAPIAsync<BaseModel<List<WarehouseBPLModel>>>
                                               (Constaint.ServiceAddress, Constaint.APIurl.getlistwarehouses, null);
             if (result != null && result.Result != null && result.Result.data != null)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Khos = new ObservableCollection<ComboModel>();
+                    Khos = new ObservableCollection<WarehouseBPLModel>();
 
                     for (int i = 0; i < result.Result.data.Count; ++i)
                     {
-                        Khos.Add(new ComboModel
+                        Khos.Add(new WarehouseBPLModel
                         {
                             ID = result.Result.data[i].ID,
-                            Name = result.Result.data[i].Name,
+                            WarehouesName = result.Result.data[i].WarehouesName,
                         });
                     }
-                    if (MySettings.IDKho != "")
+                    if (MySettings.CodeKho != "")
                     {
-                        SelectedKho = Khos.Where(a => a.ID == MySettings.IDKho).FirstOrDefault();
-                        Name = SelectedKho.Name;
+                        SelectedKho = Khos.Where(a => a.ID == MySettings.CodeKho).FirstOrDefault();
+                        WarehouesName = SelectedKho.WarehouesName;
                     }
                 });
             }
         }
 
-        public void LoadDataCombobox(ComboModel model_, int tt)
+        public void LoadDataCombobox(WarehouseBPLModel model_, int tt)
         {
             Device.BeginInvokeOnMainThread(() =>
             {
@@ -59,7 +59,7 @@ namespace QRMS.ViewModels
                 {
                     case 3:
                         SelectedKho = model_;
-                        Name = SelectedKho.Name;
+                        WarehouesName = SelectedKho.WarehouesName;
                         break;
                 }
 
@@ -67,7 +67,7 @@ namespace QRMS.ViewModels
         }
         public void LoadComboxSoLoai()
         {
-            var page = new T_ComboboxPage(Khos, null, 3, null,this, null);
+            var page = new T_ComboboxPage(3, Khos, null, null, null,this, null);
             Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

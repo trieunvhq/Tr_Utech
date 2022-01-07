@@ -12,13 +12,18 @@ namespace PIAMA.Views.Shared
 {
     public partial class T_ComboboxPage : ContentPage
     {
-        public ObservableCollection<ComboModel> _Models { get; set; } = new ObservableCollection<ComboModel>();
+        public ObservableCollection<WarehouseBPLModel> _ModelKhos { get; set; } = new ObservableCollection<WarehouseBPLModel>();
+        public ObservableCollection<ComboModel> _ModelDonHangs { get; set; } = new ObservableCollection<ComboModel>();
         private int _tt;
         public KhoPageModel _ViewModel;
         public ChonDonMuaHangPageModel _ViewModel2;
         public ChonKhoKiemKePageModel _ViewModel3;
         public ChonChiThiXuatHangViewModel _ViewModel4;
-        public T_ComboboxPage(ObservableCollection<ComboModel> models, KhoPageModel viewModel_,int tt
+        public T_ComboboxPage(int tt
+            , ObservableCollection<WarehouseBPLModel> ModelKhos_
+            , ObservableCollection<ComboModel> ModelDonHangs_
+
+            , KhoPageModel viewModel_
             , ChonDonMuaHangPageModel ViewModel2_
             , ChonKhoKiemKePageModel ViewModel3_
             , ChonChiThiXuatHangViewModel ViewModel4_)
@@ -50,9 +55,13 @@ namespace PIAMA.Views.Shared
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            _Models = models;
-            lst_combobox.ItemsSource = models;
-             
+            _ModelKhos = ModelKhos_;
+            _ModelDonHangs = ModelDonHangs_;
+            if(_ModelKhos!=null)
+                lst_combobox.ItemsSource = _ModelKhos;
+            else if (_ModelDonHangs != null)
+                lst_combobox.ItemsSource = _ModelDonHangs;
+
         }
         
         void OnNextButtonClicked(System.Object sender, System.EventArgs e)
@@ -62,15 +71,30 @@ namespace PIAMA.Views.Shared
         private void LoadComboboxAsync_timkiem()
         {
             lst_combobox.ItemsSource = null;
-            ObservableCollection<ComboModel> model_ = new ObservableCollection<ComboModel>();
-            for (int i = 0; i < _Models.Count; ++i)
+            if (_ModelKhos != null)
             {
-                if (_Models[i].Name.ToLower().Contains(txtTimKiem_combobox.Text.ToLower().TrimEnd().TrimStart()))
+                ObservableCollection<WarehouseBPLModel> model_ = new ObservableCollection<WarehouseBPLModel>();
+                for (int i = 0; i < _ModelKhos.Count; ++i)
                 {
-                    model_.Add(_Models[i]);
+                    if (_ModelKhos[i].WarehouesName.ToLower().Contains(txtTimKiem_combobox.Text.ToLower().TrimEnd().TrimStart()))
+                    {
+                        model_.Add(_ModelKhos[i]);
+                    }
                 }
+                lst_combobox.ItemsSource = model_;
             }
-            lst_combobox.ItemsSource = model_;
+            else if (_ModelDonHangs != null)
+            {
+                ObservableCollection<ComboModel> model_ = new ObservableCollection<ComboModel>();
+                for (int i = 0; i < _ModelDonHangs.Count; ++i)
+                {
+                    if (_ModelDonHangs[i].Name.ToLower().Contains(txtTimKiem_combobox.Text.ToLower().TrimEnd().TrimStart()))
+                    {
+                        model_.Add(_ModelDonHangs[i]);
+                    }
+                }
+                lst_combobox.ItemsSource = model_;
+            }
         }
 
         private void txtTimKiem_combobox_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)
@@ -101,13 +125,13 @@ namespace PIAMA.Views.Shared
                 switch(_tt)
                 {
                     case 1:
-                        _ViewModel.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                        _ViewModel.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
                         break;
                     case 2:
                         _ViewModel2.LoadDataCombobox(((ComboModel)e.Item), _tt);
                         break;
                     case 3:
-                        _ViewModel3.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                        _ViewModel3.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
                         break;
                     case 4:
                         _ViewModel4.LoadDataCombobox(((ComboModel)e.Item), _tt);
