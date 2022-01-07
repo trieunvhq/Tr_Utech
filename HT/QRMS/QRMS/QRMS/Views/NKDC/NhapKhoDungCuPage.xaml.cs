@@ -118,7 +118,7 @@ namespace QRMS.Views
 
         void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
         {
-            row.Height = 100;
+            row.Height = 250;
 
             lbThongBao.IsVisible = false;
             lbNen.IsVisible = true;

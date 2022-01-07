@@ -185,6 +185,11 @@ namespace QRMS.ViewModels
         {
             try
             {
+                Color = Color.Aqua;
+                ThongBao = str;
+                IsThongBao = true;
+                StartDemThoiGianGGS();
+
                 if (Historys != null)
                 {
                     bool IsTonTai_ = false;
