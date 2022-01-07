@@ -69,7 +69,7 @@ namespace QRMS.Views
                 MySettings.MaKho = ViewModel.SelectedKho.Name;
                 MySettings.IDKho = ViewModel.SelectedKho.ID;
             } 
-            await UserDialogs.Instance.ConfirmAsync("", "Thành công!", "Đồng ý");
+            await UserDialogs.Instance.ConfirmAsync("", "Thành công!", "Đồng ý","");
         } 
         async void SoLoai_Tapped(System.Object sender, System.EventArgs e)
         {

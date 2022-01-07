@@ -41,6 +41,7 @@ namespace QRMS.Views
         {
             framePass.BorderColor = Color.FromHex("#F49A0E");
             framePass.BackgroundColor = Color.Default;
+            lblPassEmptyError.IsVisible = false;
         }
         private void EntryUser_Unfocused(object sender, FocusEventArgs e)
         {
@@ -51,6 +52,7 @@ namespace QRMS.Views
         {
             frameUser.BorderColor = Color.FromHex("#F49A0E");
             frameUser.BackgroundColor = Color.Default;
+            lblUserEmptyError.IsVisible = false;
         }
 
         void btnLogin_Clicked(System.Object sender, System.EventArgs e)
@@ -81,6 +83,8 @@ namespace QRMS.Views
                         }
                         else
                         {
+                            txtUserName.Text = txtUserName.Text.TrimStart().TrimEnd().Trim();
+
                             frameUser.BorderColor = Color.FromHex("#F49A0E");
                             frameUser.BackgroundColor = Color.Default;
                         }
@@ -93,6 +97,7 @@ namespace QRMS.Views
                         }
                         else
                         {
+                            txtPassword.Text = txtPassword.Text.TrimStart().TrimEnd().Trim();
                             framePass.BorderColor = Color.FromHex("#F49A0E");
                             framePass.BackgroundColor = Color.Default;
                         } 
@@ -161,7 +166,10 @@ namespace QRMS.Views
                                                 }
                                                 else
                                                 {
-                                                    await Application.Current.MainPage.Navigation.PushAsync(new HeThongPage(true));
+                                                    lblPassEmptyError.Text = "Sai tài khoản hoặc mật khẩu";
+                                                    framePass.BackgroundColor = Color.FromHex("#FEEEEF");
+                                                    framePass.BorderColor = Color.FromHex("#F5323C");
+                                                    lblPassEmptyError.IsVisible = true;
                                                     Controls.LoadingUtility.Hide();
                                                 }
                                             }

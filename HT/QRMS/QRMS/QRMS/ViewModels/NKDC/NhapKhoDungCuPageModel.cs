@@ -40,62 +40,82 @@ namespace QRMS.ViewModels
 
         protected async void LoadDbLocal()
         {
-            DonHangs.Clear();
-            Historys.Clear();
-
-            List<NhapKhoDungCuModel> donhang_ = await App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
-            foreach (NhapKhoDungCuModel item in donhang_)
+            try
             {
-                if (!DonHangs.Contains(item))
+                DonHangs.Clear();
+                Historys.Clear();
+
+                List<NhapKhoDungCuModel> donhang_ = await App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
+                foreach (NhapKhoDungCuModel item in donhang_)
                 {
-                    DonHangs.Add(item);
+                    if (!DonHangs.Contains(item))
+                    {
+                        DonHangs.Add(item);
+                    }
+                }
+
+                List<TransactionHistoryModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_No);
+                foreach (TransactionHistoryModel item in historys)
+                {
+                    if (!Historys.Contains(item))
+                    {
+                        Historys.Add(item);
+                    }
                 }
             }
-
-            List<TransactionHistoryModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_No);
-            foreach(TransactionHistoryModel item in historys)
+            catch (Exception ex)
             {
-                if (!Historys.Contains(item))
-                {
-                    Historys.Add(item);
-                }
+                MySettings.InsertLogs(0, DateTime.Now, "LoadDbLocal", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
             }
+           
         }
 
         public void LoadModels(string id)
         {
-            LoadDbLocal();
-
-            if (DonHangs.Count == 0)
+            try
             {
-                var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<NhapKhoDungCuModel>>>
-                                             (Constaint.ServiceAddress, Constaint.APIurl.getitem,
-                                             new
-                                             {
-                                                 ID = _ID
-                                             });
-                if (result != null && result.Result != null && result.Result.data != null)
+                LoadDbLocal();
+
+                if (DonHangs.Count == 0)
                 {
-                    Device.BeginInvokeOnMainThread(() =>
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<NhapKhoDungCuModel>>>
+                                                 (Constaint.ServiceAddress, Constaint.APIurl.getitem,
+                                                 new
+                                                 {
+                                                     ID = _ID
+                                                 });
+                    if (result != null && result.Result != null && result.Result.data != null)
                     {
-                        DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
-
-                        for (int i = 0; i < result.Result.data.Count; ++i)
+                        Device.BeginInvokeOnMainThread(() =>
                         {
-                            if (result.Result.data[i].ItemCode == id)
-                            {
-                                DonHangs.Insert(0, result.Result.data[i]);
-                            }
-                            else
-                            {
-                                DonHangs.Add(result.Result.data[i]);
-                            }
+                            DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
 
-                            App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
-                        }
-                    });
+                            for (int i = 0; i < result.Result.data.Count; ++i)
+                            {
+                                if (result.Result.data[i].ItemCode == id)
+                                {
+                                    DonHangs.Insert(0, result.Result.data[i]);
+                                }
+                                else
+                                {
+                                    DonHangs.Add(result.Result.data[i]);
+                                }
+
+                                App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
+                            }
+                        });
+                    }
                 }
-            }    
+                else
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, "LoadModels", "DonHangs.Count == 0", "NhapKhoDungCuPageModel", MySettings.UserName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
+            }
+            
         }
 
 
@@ -156,104 +176,116 @@ namespace QRMS.ViewModels
                     Controls.LoadingUtility.HideAsync();
 
                     UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
+                    MySettings.InsertLogs(0,DateTime.Now, "LuuLais", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
                 });
             }
         }
          
         public async void ScanComplate(string str)
         {
-            if(Historys!=null)
+            try
             {
-                bool IsTonTai_ = false;
-                int index_ = 0;
-                var qr = MySettings.QRRead(str);
-
-                for (int i=0;i<Historys.Count;++i)
+                if (Historys != null)
                 {
-                    if(Historys[i].EXT_QRCode == str)
+                    bool IsTonTai_ = false;
+                    int index_ = 0;
+                    var qr = MySettings.QRRead(str);
+
+                    for (int i = 0; i < Historys.Count; ++i)
                     {
-                        IsTonTai_ = true;
-                        index_ = i;
-                        break;
-                    }    
-                }
-
-                if (IsTonTai_)
-                {
-                    Color = Color.Red;
-                    ThongBao = "Mã QR đã được quét";
-                    IsThongBao = true;
-                    StartDemThoiGianGGS();
-                }
-                else
-                {
-                    for(int i=0;i< DonHangs.Count;++i)
-                    { 
-                        if(DonHangs[i].ItemCode== qr.Code)
+                        if (Historys[i].EXT_QRCode == str)
                         {
-                            decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                            NhapKhoDungCuModel model_ = DonHangs[i];
-                            if(model_.Quantity < model_.SoLuongDaNhap + soluong_)
-                            { 
-                                var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
-                                if (answer)
+                            IsTonTai_ = true;
+                            index_ = i;
+                            break;
+                        }
+                    }
+
+                    if (IsTonTai_)
+                    {
+                        Color = Color.Red;
+                        ThongBao = "Mã QR đã được quét";
+                        IsThongBao = true;
+                        StartDemThoiGianGGS();
+                    }
+                    else
+                    {
+                        for (int i = 0; i < DonHangs.Count; ++i)
+                        {
+                            if (DonHangs[i].ItemCode == qr.Code)
+                            {
+                                decimal soluong_ = Convert.ToDecimal(qr.Quantity);
+                                NhapKhoDungCuModel model_ = DonHangs[i];
+                                if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
+                                {
+                                    var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
+                                    if (answer)
+                                    {
+                                        model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
+                                        model_.SoLuongBox = model_.SoLuongBox + 1;
+                                        DonHangs.RemoveAt(i);
+                                        DonHangs.Insert(0, model_);
+                                    }
+                                }
+                                else
                                 {
                                     model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                     model_.SoLuongBox = model_.SoLuongBox + 1;
                                     DonHangs.RemoveAt(i);
                                     DonHangs.Insert(0, model_);
                                 }
+
+                                await App.Dblocal.UpdatePurchaseOrderAsync(model_);
+
+                                TransactionHistoryModel history = new TransactionHistoryModel
+                                {
+                                    ID = 0,
+                                    TransactionType = "I",
+                                    OrderNo = _No,
+                                    OrderDate = _Date,
+                                    ItemCode = qr.Code,
+                                    ItemName = qr.Name,
+                                    ItemType = qr.DC,
+                                    Quantity = soluong_,
+                                    Unit = qr.Unit,
+                                    EXT_OtherCode = qr.OtherCode,
+                                    EXT_Serial = qr.Serial,
+                                    EXT_PartNo = qr.PartNo,
+                                    EXT_LotNo = qr.LotNo,
+                                    EXT_MfDate = qr.MfDate,
+                                    EXT_RecDate = qr.RecDate,
+                                    EXT_ExpDate = qr.ExpDate,
+                                    EXT_QRCode = str,
+                                    CustomerCode = qr.CustomerCode,
+                                    RecordStatus = "N",
+                                    CreateDate = DateTime.Now,
+                                    UserCreate = MySettings.UserName,
+                                    page = 0,
+                                    token = MySettings.Token
+                                };
+
+                                Historys.Add(history);
+                                await App.Dblocal.SaveHistoryAsync(history);
+
+                                //
+                                Color = Color.Green;
+                                ThongBao = "Thành công";
+                                IsThongBao = true;
+                                StartDemThoiGianGGS();
+                                break;
                             }
-                            else
-                            {
-                                model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
-                                model_.SoLuongBox = model_.SoLuongBox + 1;
-                                DonHangs.RemoveAt(i);
-                                DonHangs.Insert(0, model_);
-                            }
-
-                            await App.Dblocal.UpdatePurchaseOrderAsync(model_);
-
-                            TransactionHistoryModel history = new TransactionHistoryModel
-                            {
-                                ID = 0,
-                                TransactionType = "I",
-                                OrderNo = _No,
-                                OrderDate = _Date,
-                                ItemCode = qr.Code,
-                                ItemName = qr.Name,
-                                ItemType = qr.DC,
-                                Quantity = soluong_,
-                                Unit = qr.Unit,
-                                EXT_OtherCode = qr.OtherCode,
-                                EXT_Serial = qr.Serial,
-                                EXT_PartNo = qr.PartNo,
-                                EXT_LotNo = qr.LotNo,
-                                EXT_MfDate = qr.MfDate,
-                                EXT_RecDate = qr.RecDate,
-                                EXT_ExpDate = qr.ExpDate,
-                                EXT_QRCode = str,
-                                CustomerCode = qr.CustomerCode,
-                                RecordStatus = "N",
-                                CreateDate = DateTime.Now,
-                                UserCreate = MySettings.UserName,
-                                page = 0,
-                                token = MySettings.Token
-                            };
-
-                            Historys.Add(history);
-                            await App.Dblocal.SaveHistoryAsync(history);
-                            
-                            //
-                            Color = Color.Green;
-                            ThongBao = "Thành công";
-                            IsThongBao = true;
-                            StartDemThoiGianGGS();
-                            break;
-                        } 
-                    }    
-                }    
-            }    
+                        }
+                    }
+                }
+                else
+                 {
+                    MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "NhapKhoDungCuPageModel", MySettings.UserName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
+            } 
         }
 
         private bool tt = false;

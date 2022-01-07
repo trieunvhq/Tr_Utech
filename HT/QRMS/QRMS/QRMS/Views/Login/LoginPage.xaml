@@ -57,10 +57,10 @@
                         <Frame x:Name="frameUser" Style="{StaticResource FrameStyle}"  BackgroundColor="White" >
                             <helper:BorderlessEntry 
                             x:Name="txtUserName" Unfocused="EntryUser_Unfocused" Focused="EntryUser_Focused"
-                            Placeholder="Mật khẩu"  
+                            Placeholder="Nhập tài khoản"  
                             Style="{StaticResource EntryStyle}"/>
                         </Frame>
-                        <Label x:Name="lblUserEmptyError" Text="" Style="{StaticResource LableErrorStyle}"/>
+                        <Label x:Name="lblUserEmptyError" Text="" Style="{StaticResource LableErrorStyle}" IsVisible="False"/>
                          
 
                         <Label  Style="{StaticResource LableStyle}">
@@ -76,14 +76,14 @@
                         <Frame x:Name="framePass" Style="{StaticResource FrameStyle}">
                             <helper:BorderlessEntry  
                             x:Name="txtPassword" Unfocused="EntryPass_Unfocused" Focused="EntryPass_Focused"
-                            Placeholder="Mật khẩu"   
+                            Placeholder="Nhập mật khẩu"   
                             Style="{StaticResource EntryStyle}">
                                 <Entry.Effects>
                                     <helper:ShowHidePassEffect />
                                 </Entry.Effects>
                             </helper:BorderlessEntry>
                         </Frame>
-                        <Label x:Name="lblPassEmptyError" Text="" Style="{StaticResource LableErrorStyle}" />
+                        <Label x:Name="lblPassEmptyError" Text="" Style="{StaticResource LableErrorStyle}"  IsVisible="False"/>
                          
                         <helper:ButtonCustoms x:Name="btnLogin" Text="Đăng nhập"
                                     Clicked="btnLogin_Clicked"

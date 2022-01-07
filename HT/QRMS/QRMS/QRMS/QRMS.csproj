@@ -54,6 +54,7 @@
     <None Remove="ViewModels\XKDC\" />
     <None Remove="ViewModels\Shares\" />
     <None Remove="Honeywell.BarcodeReader" />
+    <None Remove="Log\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -259,6 +260,7 @@
     <Folder Include="ViewModels\NKDC\" />
     <Folder Include="ViewModels\XKDC\" />
     <Folder Include="ViewModels\Shares\" />
+    <Folder Include="Log\" />
   </ItemGroup>
 
   <ItemGroup>

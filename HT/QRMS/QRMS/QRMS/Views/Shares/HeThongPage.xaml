@@ -41,7 +41,10 @@
                    Margin="10,0,0,0" Text="Service" FontSize="16"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"/>
             <Entry x:Name="txtService" BackgroundColor="Transparent" TextColor="Black" FontSize="16" MaxLength="50"
-                   Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6"/>
+                   Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6">
+                <Entry.Keyboard> 
+                </Entry.Keyboard>
+            </Entry>
 
             <Label x:Name="lbThietlapLai" TextColor="Red" VerticalTextAlignment="Center"
                    HorizontalTextAlignment="Center" IsVisible="False"

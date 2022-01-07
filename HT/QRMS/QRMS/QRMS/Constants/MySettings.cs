@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
-using QRMS.Controls; 
+using QRMS.Controls;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using QRMS.Models;
 using System;
+using QRMS.API;
+using QRMS.AppLIB.Common;
 
 namespace QRMS.Constants
 {
@@ -125,7 +127,7 @@ namespace QRMS.Constants
             {
                 AppSettings.AddOrUpdateValue<string>(FULL_NAME_QRMS_KHKey, value);
             }
-        } 
+        }
         //
         private const string UserName_QRMS_KHKey = "last_UserName_QRMS_KHKey";
         public static string UserName
@@ -201,7 +203,7 @@ namespace QRMS.Constants
                 AppSettings.AddOrUpdateValue<string>(MaKho_QRMS_KHKey, value);
             }
         }//
-       
+
         public static double Haft_H
         {
             get
@@ -209,7 +211,7 @@ namespace QRMS.Constants
                 return (MySettings.w_QRMS - 32 - 16) / 2;
             }
         }
-        
+
         public static double W1
         {
             get
@@ -392,7 +394,7 @@ namespace QRMS.Constants
         {
             get
             {
-                return (MySettings.w_QRMS *2.0/3.0);
+                return (MySettings.w_QRMS * 2.0 / 3.0);
             }
         }
         public static double W_23_30
@@ -435,14 +437,14 @@ namespace QRMS.Constants
         {
             get
             {
-                return (MySettings.h_QRMS-300) /2;
+                return (MySettings.h_QRMS - 300) / 2;
             }
         }
         public static double Haft_W_2_3
         {
             get
             {
-                return (MySettings.w_QRMS - 32 - 16) *2 / 3;
+                return (MySettings.w_QRMS - 32 - 16) * 2 / 3;
             }
         }
         public static double Haft_W_32
@@ -484,7 +486,7 @@ namespace QRMS.Constants
         {
             get
             {
-                if(MySettings.w_QRMS<400)
+                if (MySettings.w_QRMS < 400)
                     return 35;
                 else
                     return 28;
@@ -512,7 +514,7 @@ namespace QRMS.Constants
         public static string SEAT { get; set; }
         public static string VEH_TYPE { get; set; }
         public static string WEIGHT_TON { get; set; }
-        public static bool IsLuuVaThoat { get; set; } 
+        public static bool IsLuuVaThoat { get; set; }
         public static TTNHDView _TTNHDView { get; set; }
         public static int SoChoNgoi { get; set; }
 
@@ -620,6 +622,28 @@ namespace QRMS.Constants
             catch
             {
                 return null;
+            }
+        }
+
+
+        public static void InsertLogs(int id, DateTime date, string funtion, string exception, string my_view, string username)
+        {
+            try
+            {
+                var result = APIHelper.PostObjectToAPIAsync<BaseModel<object>>
+                                            (Constaint.ServiceAddress, Constaint.APIurl.inserts,
+                                            new
+                                            {
+                                                id = id,
+                                                date = date,
+                                                funtion = funtion,
+                                                exception = exception,
+                                                my_view = my_view,
+                                                username = username
+                                            });
+            }
+            catch (Exception ex)
+            {
             }
         }
     }

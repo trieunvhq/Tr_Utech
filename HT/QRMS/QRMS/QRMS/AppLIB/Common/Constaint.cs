@@ -26,7 +26,7 @@ namespace QRMS.AppLIB.Common
             public const string updateitem = "api-ht/purchaseorderitem/updateitem";
             public const string transferupdateitem = "api-ht/transferinstructionitem/updateitem";
 
-
+            public const string inserts = "api-ht/logging/inserts";
         }
 
         #region AccountLogin
