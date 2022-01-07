@@ -10,12 +10,12 @@ namespace BPL.Factory.HT.PurchaseOrders
 {
     public class PurchaseOrderBPL : BaseBPL
     {
-        public List<PurchaseOrderBPLModel> GetPurchaseOrder(DateTime from_day, DateTime to_day, out string err_code, out string err_msg)
+        public List<PurchaseOrderBPLModel> GetPurchaseOrder(DateTime from_day, DateTime to_day, string WarehouseCode, out string err_code, out string err_msg)
         {
             try
             {
                 var pr = new PurchaseOrderDAL(db);
-                var result = pr.GetPurchaseOrder(from_day, to_day);
+                var result = pr.GetPurchaseOrder(from_day, to_day, WarehouseCode);
                 if (result != null)
                 {
                     err_code = "0";
@@ -38,7 +38,7 @@ namespace BPL.Factory.HT.PurchaseOrders
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return null;

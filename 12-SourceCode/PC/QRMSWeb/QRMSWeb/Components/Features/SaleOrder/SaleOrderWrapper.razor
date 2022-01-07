@@ -23,12 +23,11 @@
                     <h4>Tìm kiếm</h4>
                     <SaleOrderSearchForm OnImport="@OnImport"
                                          OnSearch="@OnSearch"
-                                         @bind-ItemName="@itemName"
-                                         @bind-LocationName="@locationName"
+                                         @bind-ExportStatus="@exportStatus"
+                                         @bind-WareHouseCode="@wareHouseCode"
                                          @bind-SaleOrderNo="@saleOrderNo"
                                          @bind-DateFrom="@dateFrom"
-                                         @bind-DateTo="@dateTo"
-                                         @bind-ItemCode="@itemCode" />
+                                         @bind-DateTo="@dateTo"/>
                 </div>
             </div>
         </div>
@@ -44,7 +43,7 @@
                     }
                     else
                     {
-                        <TableList data="@saleOrderItemModels"
+                        <TableList data="@saleOrderModels"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
@@ -73,9 +72,9 @@
 @code
 {
     private string itemCode = "";
-    private string itemName = "";
+    private string exportStatus = "";
     private string saleOrderNo = "";
-    private string locationName = "";
+    private string wareHouseCode = "";
     private string dateFrom = "";
     private string dateTo = "";
     private int TotalPage = 0;
@@ -89,18 +88,16 @@
 
     private List<TableLabels> labels = new List<TableLabels>()
 {
-        new TableLabels {label = "Số đơn hàng", dataIndex = "SaleOrderNo",columnWidth=150},
+        new TableLabels {label = "Số đơn đặt hàng", dataIndex = "SaleOrderNo",columnWidth=150},
         new TableLabels {label = "Ngày đặt", dataIndex = "SaleOrderDate", dataType="date", columnWidth=110},
-        new TableLabels {label = "Tên linh kiện", dataIndex = "ItemName",columnWidth=250},
-        new TableLabels {label = "Mã linh kiện", dataIndex = "ItemCode",columnWidth=150 },
-        new TableLabels {label = "Khách hàng", dataIndex = "CustomerName",columnWidth=250},
-        new TableLabels {label = "Số lượng", dataIndex = "Quantity", dataType="number", columnWidth=120},
-        new TableLabels {label = "Đơn vị", dataIndex = "Unit",columnWidth=80},
+        new TableLabels {label = "Mã khách hàng", dataIndex = "CustomerCode",columnWidth=150 },
+        new TableLabels {label = "Tên khách hàng", dataIndex = "wareHouseCode",columnWidth=250},
+        new TableLabels {label = "Trạng thái",dataType="status", dataIndex = "ExportStatusName", color="blue", columnWidth=120},
     };
 
     private bool loading = true;
-    private List<SaleOrderItemModel> saleOrderItemModels = new List<SaleOrderItemModel>();
-    private SaleOrderService _SaleOrderItemService;
+    private List<SaleOrderModel> saleOrderModels = new List<SaleOrderModel>();
+    private SaleOrderService _SaleOrderService;
 
     private async Task OnSearch()
     {
@@ -116,7 +113,7 @@
         {
             loading = true;
             CurrentPage = 1;
-            var responseData = await _SaleOrderItemService.ImportSaleOrderItem();
+            var responseData = await _SaleOrderService.ImportSaleOrderItem();
             string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
             if ("0".Equals(errCode))
             {
@@ -133,7 +130,7 @@
         {
             Console.WriteLine(e);
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            saleOrderItemModels = new List<SaleOrderItemModel>();
+            saleOrderModels = new List<SaleOrderModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -145,10 +142,10 @@
         dateFrom = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchStartDate");
         dateTo = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchEndDate");
 
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_LocationName", !String.IsNullOrWhiteSpace(locationName) ? locationName : "");
+        await _localStorageService.SetItemAsStringAsync("search_saleOrder_wareHouseCode", !String.IsNullOrWhiteSpace(wareHouseCode) ? wareHouseCode : "");
         await _localStorageService.SetItemAsStringAsync("search_saleOrder_saleOrderNo", !String.IsNullOrWhiteSpace(saleOrderNo) ? saleOrderNo : "");
         await _localStorageService.SetItemAsStringAsync("search_saleOrder_itemCode", !String.IsNullOrWhiteSpace(itemCode) ? itemCode : "");
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_itemName", !String.IsNullOrWhiteSpace(itemName) ? itemName : "");
+        await _localStorageService.SetItemAsStringAsync("search_saleOrder_exportStatus", !String.IsNullOrWhiteSpace(exportStatus) ? exportStatus : "");
 
         await _localStorageService.SetItemAsStringAsync("search_saleOrder_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
         await _localStorageService.SetItemAsStringAsync("search_saleOrder_dateTo", !String.IsNullOrWhiteSpace(dateTo) ? dateTo : "");
@@ -157,10 +154,10 @@
     }
     private async Task retryParamSearch()
     {
-        locationName = await _localStorageService.GetItemAsStringAsync("search_saleOrder_LocationName") ?? "";
+        wareHouseCode = await _localStorageService.GetItemAsStringAsync("search_saleOrder_wareHouseCode") ?? "";
         saleOrderNo = await _localStorageService.GetItemAsStringAsync("search_saleOrder_saleOrderNo") ?? "";
         itemCode = await _localStorageService.GetItemAsStringAsync("search_saleOrder_itemCode") ?? "";
-        itemName = await _localStorageService.GetItemAsStringAsync("search_saleOrder_itemName") ?? "";
+        exportStatus = await _localStorageService.GetItemAsStringAsync("search_saleOrder_exportStatus") ?? "";
         dateFrom = await _localStorageService.GetItemAsStringAsync("search_saleOrder_dateFrom") ?? "";
         dateTo = await _localStorageService.GetItemAsStringAsync("search_saleOrder_dateTo") ?? "";
 
@@ -172,7 +169,7 @@
     {
         try
         {
-            _SaleOrderItemService = new SaleOrderService(_httpClient);
+            _SaleOrderService = new SaleOrderService(_httpClient);
         }
         catch (Exception e)
         {
@@ -192,16 +189,15 @@
             var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(dateTo);
             var glStrEndDate = glEndDate != null ? glEndDate.ToString() : "";
 
-            var response = await _SaleOrderItemService.SearchSaleOrderItem(CurrentPage, RowPerPage,
-                itemCode, itemName, saleOrderNo, locationName, glStrStartDate, glStrEndDate);
-            saleOrderItemModels = response.rows ?? new List<SaleOrderItemModel>();
+            var response = await _SaleOrderService.SearchSaleOrder(CurrentPage, RowPerPage, exportStatus, saleOrderNo, wareHouseCode, glStrStartDate, glStrEndDate);
+            saleOrderModels = response.rows ?? new List<SaleOrderModel>();
             TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            saleOrderItemModels = new List<SaleOrderItemModel>();
+            saleOrderModels = new List<SaleOrderModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -247,63 +243,21 @@
         }
     }
 
-    private void OnClickDetail(SaleOrderItemModel saleOrderItem)
+    private void OnClickDetail(SaleOrderModel saleOrderItem)
     {
-        UriHelper.NavigateTo($"/SaleOrder/detail/{saleOrderItem.ID}", true);
+        UriHelper.NavigateTo($"/SaleOrder/detail/{saleOrderItem.SaleOrderNo}", true);
     }
 
-    private void OnClickActualScanDetail(SaleOrderItemModel saleOrderItem)
+    private void OnClickActualScanDetail(SaleOrderModel saleOrderItem)
     {
-        UriHelper.NavigateTo($"/SaleOrder/ActualScanDetail/{saleOrderItem.ID}", true);
+        string queryParams = $"ID={saleOrderItem.ID}&SaleOrderNo={saleOrderItem.SaleOrderNo}&WareHouseCode={saleOrderItem.WarehouseCode}";
+        queryParams += $"&SaleOrderDate={saleOrderItem.SaleOrderDate}&ExportStatusName={saleOrderItem.ExportStatusName}";
+        UriHelper.NavigateTo($"/SaleOrder/ActualScanDetail?{queryParams}", true);
     }
 
-    private void OnClickEdit(SaleOrderItemModel saleOrderItem)
+    private async void OnClickExportExcel(SaleOrderModel saleOrder)
     {
-        UriHelper.NavigateTo($"/SaleOrder/edit/{saleOrderItem.ID}", true);
-    }
-
-    private async void OnClickExportExcel(SaleOrderItemModel saleOrderItem)
-    {
-        string query = $"saleOrderId={saleOrderItem.SaleOrderID}";
+        string query = $"saleOrderNo={saleOrder.SaleOrderNo}";
         UriHelper.NavigateTo($"/SaleOrder/ViewExcelReport?{query}", true);
     }
-
-
-
-    private async Task OnClickDelete(SaleOrderItemModel saleOrderItem)
-    {
-        try
-        {
-            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
-                "Thông báo",
-                $"Bạn có muốn xóa đơn {saleOrderItem.SaleOrderNo}",
-                "xóa",
-                "Huỷ", "", "", "");
-
-            if (confirmRemove)
-            {
-                var responseData = await _SaleOrderItemService.DeletesaleOrderItem(saleOrderItem);
-                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
-                if ("0".Equals(errCode))
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã xóa thành công", "success");
-                    await OnInitData();
-                }
-                else if ("-2".Equals(errCode))
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Tài khoản đang được sử dụng", "error");
-                }
-                else
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Xóa thất bại", "error");
-
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
-        }
-    }
-
 }

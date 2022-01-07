@@ -15,28 +15,23 @@ namespace QRMSWeb.Services
         public SaleOrderService(HttpClient client) : base(client)
         {
         }
-        public async Task<PaginateData<List<SaleOrderItemModel>>> SearchSaleOrderItem(int page, int rowPerPage,
-            string itemCode, string itemName, string saleOrderNo, string locationName, string startDate, string endDate)
+        public async Task<PaginateData<List<SaleOrderModel>>> SearchSaleOrder(int page, int rowPerPage,
+            string exportStatus, string saleOrderNo, string wareHouseCode, string startDate, string endDate)
         {
             string queryString = $"page={page}&limit={rowPerPage}";
             
-            if (!String.IsNullOrEmpty(itemCode?.Trim()))
+            if (!String.IsNullOrEmpty(exportStatus?.Trim()))
             {
-                queryString += $"&itemCode={Uri.EscapeDataString(itemCode.Trim())}";
-            }
-            
-            if(!String.IsNullOrEmpty(itemName?.Trim()))
-            {
-                queryString += $"&itemName={Uri.EscapeDataString(itemName.Trim())}";
+                queryString += $"&exportStatus={Uri.EscapeDataString(exportStatus.Trim())}";
             }
             
             if (!String.IsNullOrEmpty(saleOrderNo?.Trim()))
             {
                 queryString += $"&saleOrderNo={Uri.EscapeDataString(saleOrderNo.Trim())}";
             }
-            if (!String.IsNullOrEmpty(locationName?.Trim()))
+            if (!String.IsNullOrEmpty(wareHouseCode?.Trim()))
             {
-                queryString += $"&locationName={Uri.EscapeDataString(locationName.Trim())}";
+                queryString += $"&wareHouseCode={Uri.EscapeDataString(wareHouseCode.Trim())}";
             }
             if (!String.IsNullOrEmpty(startDate?.Trim()))
             {
@@ -47,7 +42,24 @@ namespace QRMSWeb.Services
             {
                 queryString += $"&endDate={endDate?.Trim()}";
             }
-            var response = await Client.GetAsync("api-wa/sale-order/find-all?" + queryString);
+            var response = await Client.GetAsync("api-wa/sale-order/find-all-sale-order?" + queryString);
+            this.checkResponse(response);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<SaleOrderModel>>>(responseBody);
+
+            return responseData.data;
+        }
+
+        public async Task<PaginateData<List<SaleOrderItemModel>>> SearchSaleOrderItem(int page, int rowPerPage,
+            string saleOrderNo)
+        {
+            string queryString = $"page={page}&limit={rowPerPage}";
+
+            if (!String.IsNullOrEmpty(saleOrderNo?.Trim()))
+            {
+                queryString += $"&saleOrderNo={Uri.EscapeDataString(saleOrderNo.Trim())}";
+            }
+            var response = await Client.GetAsync("api-wa/sale-order/find-all-sale-order-item?" + queryString);
             this.checkResponse(response);
             string responseBody = await response.Content.ReadAsStringAsync();
             var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<SaleOrderItemModel>>>(responseBody);
@@ -67,8 +79,24 @@ namespace QRMSWeb.Services
             return await HttpHelper.GetDataResponse<Object>(response);
             
         }
-                
 
+        public async Task<PaginateData<List<TransactionHistoryModel>>> SaleOrderActualScanDetail(int page, int rowPerPage,
+            string saleOrderNo)
+        {
+            string queryString = $"page={page}&limit={rowPerPage}";
+
+
+            if (!String.IsNullOrEmpty(saleOrderNo?.Trim()))
+            {
+                queryString += $"&saleOrderNo={Uri.EscapeDataString(saleOrderNo.Trim())}";
+            }
+            var response = await Client.GetAsync("api-wa/sale-order/sale-order-actual-scan?" + queryString);
+            this.checkResponse(response);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<TransactionHistoryModel>>>(responseBody);
+
+            return responseData.data;
+        }
         public async Task<SaleOrderItemModel> GetsaleOrderItemByID(int saleOrderItemID)
         {
             var response = await Client.GetAsync($"api-wa/sale-order/{saleOrderItemID}");
@@ -78,54 +106,18 @@ namespace QRMSWeb.Services
             return responseData.data;
         }
 
-        public async Task<HttpResponseMessage> CreatesaleOrderItem(SaleOrderItemModel saleOrderItem)
+        public async Task<SaleOrderModel> GetSaleOrderByPurchaseOrderNo(string saleOrderNo)
         {
-            var response = await Client.PostAsync("api_wa/sale-order/create",
-                new StringContent(JsonConvert.SerializeObject(saleOrderItem), Encoding.UTF8, "application/json"));
-
-            if (response.StatusCode != (HttpStatusCode) 200 && response.StatusCode != HttpStatusCode.BadRequest)
-            {
-                /*
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var responseData = JsonConvert.DeserializeObject<ResponseData<Object>>(responseBody);
-                throw new Exception(responseData.Message);*/
-                this.checkResponse(response);
-            }
-
-            return response;
+            var response = await Client.GetAsync($"api-wa/get-sale-order-by-no?SaleOrderNo={saleOrderNo}");
+            this.checkResponse(response);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var responseData = JsonConvert.DeserializeObject<ResponseData<SaleOrderModel>>(responseBody);
+            return responseData.data;
         }
 
-        public async Task<HttpResponseMessage> UpdatesaleOrderItem(SaleOrderItemModel saleOrderItem)
+        public async Task<HttpResponseMessage> GenerateReportFile(string saleOrderNo)
         {
-            var response = await Client.PostAsync("api_wa/sale-order/update",
-                new StringContent(JsonConvert.SerializeObject(saleOrderItem), Encoding.UTF8, "application/json"));
-
-            if (response.StatusCode != (HttpStatusCode) 200 && response.StatusCode != HttpStatusCode.BadRequest)
-            {
-                /*
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var responseData = JsonConvert.DeserializeObject<ResponseData<Object>>(responseBody);
-                throw new Exception(responseData.Message);*/
-                this.checkResponse(response);
-            }
-
-            return response;
-        }
-        public async Task<ResponseData<Object>> DeletesaleOrderItem(SaleOrderItemModel saleOrderItem)
-        {
-            var response = await Client.PostAsync("api_wa/sale-order/delete",
-                new StringContent(JsonConvert.SerializeObject(new {ID = saleOrderItem.ID, USER_ID = 0}), Encoding.UTF8,
-                    "application/json"));
-
-            if (response.StatusCode != (HttpStatusCode) 200 && response.StatusCode != HttpStatusCode.BadRequest)
-            {
-                this.checkResponse(response);
-            }
-            return await HttpHelper.GetDataResponse<Object>(response);
-        }
-        public async Task<HttpResponseMessage> GenerateReportFile(int saleOrderID)
-        {
-            string strQuery = $"saleOrderID={saleOrderID}";
+            string strQuery = $"saleOrderNo={saleOrderNo}";
             var response = await Client.GetAsync($"api_wa/sale-order/export-excel?{strQuery}");
             this.checkResponse(response);
 

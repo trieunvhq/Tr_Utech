@@ -44,7 +44,7 @@ namespace Web_API.Attributes.Web
 
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
-            var baseRespModel = new BaseRespModel(APIMessage.UNAUTHORIZED, APIResponseCode.UNAUTHORIZED, APIErrorCode.UNAUTHORIZED);
+            var baseRespModel = new BaseRespModel(ConstAPIMessage.UNAUTHORIZED, ConstAPIResponseCode.UNAUTHORIZED, ConstAPIErrorCode.UNAUTHORIZED);
             actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, baseRespModel);
         }
 

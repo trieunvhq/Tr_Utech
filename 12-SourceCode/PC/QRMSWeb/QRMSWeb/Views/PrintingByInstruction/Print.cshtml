@@ -1,0 +1,15 @@
+﻿@using QRMSWeb.Components.Features.PrintingByInstruction
+@{
+    ViewData["Title"] = "Danh mục in theo chỉ thị";
+    ViewBag.Id = ViewContext.RouteData.Values["id"];
+
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <component type="typeof(PrintingByInstructionForm)"
+                   params-IsDetail="@true"
+                   param-ID="@(ViewBag.Id)"
+                   render-mode="ServerPrerendered"/>
+    </div>
+</div>

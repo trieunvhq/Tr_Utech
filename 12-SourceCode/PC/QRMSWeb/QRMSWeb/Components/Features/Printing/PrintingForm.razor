@@ -1,0 +1,525 @@
+﻿@using QRMSWeb.Components.Common.Breadcrumb
+@using QRMSWeb.Components.Common.SampleTable
+@using QRMSWeb.Components.Common.TableActions
+@using QRMSWeb.Models
+@using QRMSWeb.Utils
+@using HDLIB
+
+@inject NavigationManager _navigationManager
+@inject NavigationManager UriHelper
+@inject HttpClient _httpClient
+@inject IJSRuntime _jsRuntime
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
+
+<Breadcrumb Title="DANH SÁCH IN NHÃN" levels="@Levels" />
+
+<div class="page-content-wrapper">
+    <div class="row">
+        <div class="col-12 space_search_area">
+            <div class="card">
+                <div class="card-body contain_body">
+                    
+                    <form autocomplete="off" class="search-body-form">
+                        <div class="row search-row-input">
+
+                            <div class="row form-group col-6 pr-5 pl-5">
+                                
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label"></label>
+
+                                    <div class="col-6 pl-0">
+                                        <select @bind="@_LabelPrintItemModel.ItemType"
+                                                class="form-control">
+                                            <option data-limit="70" value="">---</option>
+                                            @foreach (var item in CommonUtils.GetListItemType())
+                                            {
+                                                <option data-limit="70" value="@item.Code">@item.Code - @item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Mã hàng</label>
+                                    <div class="col-9  pl-0">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off"
+                                               @bind="@_LabelPrintItemModel.ItemCode"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Tên hàng</label>
+                                    <div class="col-9 pl-0">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off"
+                                               @bind="@_LabelPrintItemModel.ItemName"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Other Code</label>
+                                    <div class="col-6 pl-0">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off"
+                                               @bind="@_LabelPrintItemModel.OtherCode"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Serial</label>
+                                    <div class="col-6 pl-0">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off"
+                                               @bind="@_LabelPrintItemModel.Serial"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Part No</label>
+                                    <div class="col-9 pl-0">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off"
+                                               @bind="@_LabelPrintItemModel.PartNo"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Lot No</label>
+                                    <div class="col-6 pl-0">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off"
+                                               @bind="@_LabelPrintItemModel.LotNo"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-6 col-form-label">Mf Date</label>
+                                        <div class="col-6 pl-0 pr-0">
+                                            <div class="input-group pjc-date-picker"
+                                                 id="MfDate1" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" data-target="#MfDate1"
+                                                       id="MfDate" placeholder="ngày/tháng/năm" autocomplete="off" format="DD/MM/YYYY"
+                                                       value="@CommonUtils.GetDateVNFormated(_LabelPrintItemModel.MfDate)"
+                                                       @onblur="dateOnchange"/>
+                                                <div class="input-group-append" data-target="#MfDate1" data-toggle="datetimepicker">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-5 col-form-label">Rec Date</label>
+                                        <div class="col-7 pl-0">
+                                            <div class="input-group pjc-date-picker"
+                                                 id="RecDate1" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" data-target="#RecDate1"
+                                                       id="RecDate" placeholder="ngày/tháng/năm" autocomplete="off" format="DD/MM/YYYY"
+                                                       value="@CommonUtils.GetDateVNFormated(_LabelPrintItemModel.RecDate)"
+                                                       @onblur="dateOnchange"/>
+                                                <div class="input-group-append" data-target="#RecDate1" data-toggle="datetimepicker">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-6 col-form-label">Exp Date</label>
+                                        <div class="col-6 pl-0 pr-0">
+                                            <div class="input-group pjc-date-picker"
+                                                 id="ExpDate1" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" data-target="#ExpDate1"
+                                                       id="ExpDate" placeholder="ngày/tháng/năm" autocomplete="off" format="DD/MM/YYYY"
+                                                       value="@CommonUtils.GetDateVNFormated(_LabelPrintItemModel.ExpDate)" 
+                                                       @onblur="dateOnchange"
+                                                       />
+                                                <div class="input-group-append" data-target="#ExpDate1" data-toggle="datetimepicker">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-6 col-form-label">Quantity</label>
+                                        <div class="col-6 pl-0">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off"
+                                                   @bind="@_LabelPrintItemModel.Quantity"
+                                                   class="form-control"
+                                                   onkeypress="return onKeyPressNumber(event, false, false)"
+                                                   onkeyup="return onKeyUpNumberBox(this, 15, 0)">
+                                        </div>
+                                    </div>
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-5 col-form-label">Units</label>
+                                        <div class="col-7 pl-0">
+                                            <input type="text" placeholder=""
+                                                   autocomplete="off"
+                                                   @bind="@_LabelPrintItemModel.Unit"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row col-12 d-flex flex-row justify-content-end btn-row pb-0">
+                                    <div class="button-items">
+                                        <button type="button" class="btn btn-primary waves-effect waves-light"
+                                                disabled="@(string.IsNullOrEmpty(_LabelPrintItemModel.ItemType? .Trim()) || string.IsNullOrEmpty(_LabelPrintItemModel.ItemCode? .Trim()))"
+                                                @onclick="@OnClickAddLabel">
+                                            Thêm nhãn
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group col-6 pr-5 pl-5">
+                                <div class="row col-12">
+                                    <table border="1" style="width:100%;">
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Code</td>
+                                            <td colspan="4" class="label-print-item3">@_LabelPrintItemModel.ItemCode</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Name</td>
+                                            <td colspan="4" class="label-print-item3">@_LabelPrintItemModel.ItemName</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Other Code</td>
+                                            <td colspan="2" class="label-print-item3">@_LabelPrintItemModel.OtherCode</td>
+                                            <td colspan="2" rowspan="8" class="label-print-item2" style="text-align: center;">
+                                                <img src='@_LabelPrintItemModel.QRCodeBase64' alt='' />
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Serial</td>
+                                            <td colspan="2" class="label-print-item3">@_LabelPrintItemModel.Serial</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Part No</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(_LabelPrintItemModel.PartNo)</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Lot No</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(_LabelPrintItemModel.LotNo)</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Mf date</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(CommonUtils.GetDateVNFormated(_LabelPrintItemModel.MfDate))</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Rec date</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(CommonUtils.GetDateVNFormated(_LabelPrintItemModel.RecDate))</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Exp date</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(CommonUtils.GetDateVNFormated(_LabelPrintItemModel.ExpDate))</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Quantity Packing</td>
+                                            <td colspan="1" class="label-print-item3">@CommonUtils.GetNumberFormatValue(_LabelPrintItemModel.Quantity)</td>
+                                            <td colspan="1" class="label-print-item3">@_LabelPrintItemModel.Unit</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="row col-12 d-flex flex-row justify-content-end btn-row pb-0">
+                                    <div class="button-items">
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" disabled="@((TotalRows <= 0) && (string.IsNullOrEmpty(_LabelPrintItemModel.ItemType? .Trim()) || string.IsNullOrEmpty(_LabelPrintItemModel.ItemCode?.Trim())))" @onclick="@OnClickPrint">In nhãn</button>
+
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <div class="col-4 label-print-item">
+                                        <label for="redioDkbsFee" class="col-12 col-form-labelt label-input-form">
+                                            <input type="radio" id="radioInNhieu" name="radioPrint" value="redioDkbsFee"
+                                                   @onclick="() => onClickRadioPrint(1)"> In nhiều
+                                        </label>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="redioDkbsFee" class="col-12 col-form-labelt label-input-form">
+                                            <input type="radio" id="radioIn1Nhan" name="radioPrint" value="redioDkbsFee"
+                                                   @onclick="() => onClickRadioPrint(2)"> In 1 nhãn
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body contain_body">
+                    @if (loading)
+                    {
+                        <div class="text-center">
+                            Đang tải...
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row col-12 d-flex flex-row justify-content-end btn-row pb-0">
+                            <div class="button-items">
+                                <label>Số nhãn in: @(TotalRows) nhãn </label>
+
+                            </div>
+                        </div>
+                        <TableList data="@_LabelPrintItemModels"
+                                   TotalPage="@TotalPage"
+                                   CurrentPage="@CurrentPage"
+                                   OnClickPage="@OnClickPage"
+                                   TableLabelsList="@labels"
+                                   RowPerPage=@RowPerPage
+                                   MinColumnActionWidth="142"
+                                   IndexColSize="60">
+
+                            <TableActionButton Context="item">
+                                <TableCommonAction OnClickQRCode="() => OnClickPreview(item)"
+                                                   ShowDetail="false"
+                                                   ShowQRCode="true"
+                                                   ShowEdit="false"
+                                                   ShowDelete="false" />
+                            </TableActionButton>
+                        </TableList>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public object ID { get; set; }
+
+    [Parameter]
+    public bool IsDetail { get; set; }
+
+    private int TotalPage = 0;
+    private int CurrentPage = 1;
+    private int TotalRows = 0;
+    private const int RowPerPage = 10;
+
+    private bool loading = true;
+    LabelPrintItemModel _LabelPrintItemModel = new LabelPrintItemModel();
+
+    private List<LabelPrintItemModel> _LabelPrintItemModels = new List<LabelPrintItemModel>();
+
+    string radioInNhieu = "checked";
+    string radioIn1Nhan = "";
+
+
+    private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
+    {
+        new BreadcrumbLevel() {name = "In nhãn", path = "#"},
+        new BreadcrumbLevel() {name = "Danh sách in nhãn", path = "/Printing"}
+    };
+
+    private List<TableLabels> labels = new List<TableLabels>()
+{
+        new TableLabels {label = "Code", dataIndex = "ItemCode", columnWidth=150, align="center"},
+        new TableLabels {label = "Name", dataIndex = "ItemName", columnWidth=250, align="center"},
+        new TableLabels {label = "Other Code", dataIndex = "OtherCode",  columnWidth=110},
+        new TableLabels {label = "Serial", dataIndex = "Serial", columnWidth=250},
+        new TableLabels {label = "Part No", dataIndex = "PartNo", columnWidth=150, align="center"},
+        new TableLabels {label = "Lot No", dataIndex = "LotNo", columnWidth=150, align="center"},
+        new TableLabels {label = "Mf Date", dataIndex = "MfDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Rec Date", dataIndex = "RecDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Exp Date", dataIndex = "ExpDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Quantity Packing", dataIndex = "Quantity", columnWidth=150, align="right"},
+        new TableLabels {label = "Unit", dataIndex = "Unit", columnWidth=150, align="center"},
+    };
+
+
+    private async Task OnClickPreview(LabelPrintItemModel labelPrintItemModel)
+    {
+        _LabelPrintItemModel = (labelPrintItemModel??new LabelPrintItemModel()).ShallowCopy();
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PrintingByInstruction");
+        }
+    }
+
+
+    private async Task OnInitData()
+    {
+        try
+        {
+            _LabelPrintItemModel = new LabelPrintItemModel();
+
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            _LabelPrintItemModels = new List<LabelPrintItemModel>();
+            TotalPage = 0;
+        }
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                await _jsRuntime.InvokeVoidAsync("disableAutofill");
+                //set vn date
+                await _jsRuntime.InvokeVoidAsync("vnDatePicker");
+
+                await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "MfDate1");
+                await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "RecDate1");
+                await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "ExpDate1");
+
+                await OnInitData();
+
+                try
+                {
+                    if ("checked".Equals(radioInNhieu))
+                    {
+                        await _jsRuntime.InvokeVoidAsync("setRadioChecked", "radioInNhieu");
+                    }
+                    else if ("checked".Equals(radioIn1Nhan))
+                    {
+                        await _jsRuntime.InvokeVoidAsync("setRadioChecked", "radioIn1Nhan");
+                    }
+                }
+                catch (Exception e) { }
+            }
+
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PrintingByInstruction");
+        }
+    }
+
+    private async Task OnClickPage(int page)
+    {
+        try
+        {
+            loading = true;
+            CurrentPage = page;
+            await InvokeAsync(StateHasChanged);
+            await OnInitData();
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+
+    private void OnClickPrint()
+    {
+    }
+
+    private async Task OnClickAddLabel()
+    {
+        if (_LabelPrintItemModel == null)
+        {
+            await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Nhãn không được để trống", "success");
+            _LabelPrintItemModel = new LabelPrintItemModel();
+            return;
+        }
+        await GetDate();
+
+        _LabelPrintItemModel = QRMSWeb.Helper.ObjectHelper.TrimALlStringValueOfProperties(_LabelPrintItemModel);
+
+        if (string.IsNullOrEmpty(_LabelPrintItemModel.ItemType))
+        {
+            await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Loại hàng không được để trống", "success");
+            return;
+        }
+        if (string.IsNullOrEmpty(_LabelPrintItemModel.ItemCode))
+        {
+            await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Mã hàng không được để trống", "success");
+            return;
+        }
+
+        bool isExisted = false;
+        for (int idx = 0; idx < _LabelPrintItemModels.Count; idx++)
+        {
+
+            if (_LabelPrintItemModels.ElementAt(idx).ItemType == _LabelPrintItemModel.ItemType
+                && _LabelPrintItemModels.ElementAt(idx).ItemCode == _LabelPrintItemModel.ItemCode) {
+                if (_LabelPrintItemModel.ID != _LabelPrintItemModels.ElementAt(idx).ID)
+                {
+                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Bị trùng hoặc thông tin đã nhập cho Loại hàng và Mã hàng", "success");
+                    return;
+                }
+                _LabelPrintItemModels[idx] = _LabelPrintItemModel;
+                isExisted = true;
+                break;
+            }
+        }
+        if (!isExisted)
+        {
+            _LabelPrintItemModel.ID = ((_LabelPrintItemModels.FirstOrDefault()?.ID) ?? 0) + 1;
+            _LabelPrintItemModels.Add(_LabelPrintItemModel);
+        }
+        _LabelPrintItemModels = _LabelPrintItemModels.OrderByDescending(item => item.ID).ToList();
+        _LabelPrintItemModel = _LabelPrintItemModel.ShallowCopy();
+    }
+
+    private async Task dateOnchange()
+    {
+        await GetDate();
+    }
+
+    private async Task GetDate()
+    {
+        var MfDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "MfDate");
+        var RecDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "RecDate");
+        var ExpDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "ExpDate");
+
+        _LabelPrintItemModel.MfDate = CommonUtils.ConvertDateVNFormatedToDate(MfDate);
+        _LabelPrintItemModel.RecDate = CommonUtils.ConvertDateVNFormatedToDate(RecDate);
+        _LabelPrintItemModel.ExpDate = CommonUtils.ConvertDateVNFormatedToDate(ExpDate);
+    }
+    private void onClickRadioPrint(int radio)
+    {
+        if (radio == 1) //tile
+        {
+            radioInNhieu = "";
+            radioIn1Nhan = "checked";
+        }
+        else
+        {
+            radioInNhieu = "checked";
+            radioIn1Nhan = "";
+        }
+    }
+
+}

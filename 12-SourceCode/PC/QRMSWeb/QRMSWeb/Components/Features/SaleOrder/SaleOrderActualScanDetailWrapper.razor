@@ -23,12 +23,11 @@
                     <h4>Tìm kiếm</h4>
                     
                     <SaleOrderActualScanDetailSearchForm 
-                                                         @bind-ItemName="@itemName"
-                                               @bind-LocationName="@locationName"
-                                               @bind-SaleOrderNo="@saleOrderNo"
-                                               @bind-DateFrom="@dateFrom"
-                                               @bind-DateTo="@dateTo"
-                                               @bind-ItemCode="@itemCode" />
+                                               OnExport="@OnExport"
+                                               @bind-WareHouseCode="@WareHouseCode"
+                                               @bind-SaleOrderNo="@SaleOrderNo"
+                                               @bind-SaleOrderDate="@SaleOrderDate"
+                                               @bind-ExportStatusName="@ExportStatusName" />
                 </div>
             </div>
         </div>
@@ -44,7 +43,7 @@
                     }
                     else
                     {
-                        <TableList data="@accounts"
+                        <TableList data="@_saleOrderActualScans"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
@@ -61,11 +60,8 @@
                             </AddButton>-->
 
                             <TableActionButton Context="item">
-                                <TableCommonAction OnClickDetail="() => OnClickDetail(item)"
-                                                   OnClickActualScanDetail="() => OnClickActualScanDetail(item)"
-                                                   OnClickExportExcel="() => OnClickExportExcel(item)"
-                                                   ShowActualScanDetail ="true"
-                                                   ShowExportExcel="true"
+                                <TableCommonAction ShowActualScanDetail ="false"
+                                                   ShowExportExcel="false"
                                                    ShowEdit="false"
                                                    ShowDelete="false" />
                             </TableActionButton>
@@ -81,18 +77,16 @@
 {
     [Parameter]
     public object ID { get; set; }
-    [Parameter]
-    public bool IsDetail { get; set; } = false;
 
     [Parameter]
-    public bool IsUpdate { get; set; } = false;
-
-    private string itemCode = "";
-    private string itemName = "";
-    private string saleOrderNo = "";
-    private string locationName = "";
-    private string dateFrom = "";
-    private string dateTo = "";
+    public string SaleOrderNo { get; set; }
+    [Parameter]
+    public string WareHouseCode { get; set; }
+    [Parameter]
+    public string SaleOrderDate { get; set; }
+    [Parameter]
+    public string ExportStatusName { get; set; }
+    
     private int TotalPage = 0;
     private int CurrentPage = 1;
     private const int RowPerPage = 10;
@@ -114,84 +108,16 @@
     };
 
     private bool loading = true;
-    private List<SaleOrderItemModel> accounts = new List<SaleOrderItemModel>();
+    private List<TransactionHistoryModel> _saleOrderActualScans = new List<TransactionHistoryModel>();
     private SaleOrderService _SaleOrderItemService;
 
     private async Task OnSearch()
     {
         loading = true;
         CurrentPage = 1;
-        await storeParamSearch();
         await OnInitData();
     }
 
-    private async Task OnImport()
-    {
-        try
-        {
-
-            loading = true;
-            CurrentPage = 1;
-
-            try
-            {
-                var responseData = await _SaleOrderItemService.ImportSaleOrderItem();
-                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
-                if ("0".Equals(errCode))
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã lấy thông tin từ hệ thống AMIS thành công", "success");
-                    await OnInitData();
-                }
-                else
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Lấy thông tin từ hệ thống AMIS thất bại", "error");
-
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-                accounts = new List<SaleOrderItemModel>();
-                TotalPage = 0;
-            }
-            loading = false;
-            await InvokeAsync(StateHasChanged);
-
-        }
-        catch (Exception e)
-        {
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-        }
-    }
-    private async Task storeParamSearch()
-    {
-        dateFrom = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchStartDate");
-        dateTo = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchEndDate");
-
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_LocationName", !String.IsNullOrWhiteSpace(locationName) ? locationName : "");
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_saleOrderNo", !String.IsNullOrWhiteSpace(saleOrderNo) ? saleOrderNo : "");
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_itemCode", !String.IsNullOrWhiteSpace(itemCode) ? itemCode : "");
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_itemName", !String.IsNullOrWhiteSpace(itemName) ? itemName : "");
-
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_dateTo", !String.IsNullOrWhiteSpace(dateTo) ? dateTo : "");
-
-        await _localStorageService.SetItemAsStringAsync("search_saleOrder_currnetPage", CurrentPage.ToString());
-    }
-    private async Task retryParamSearch()
-    {
-        locationName = await _localStorageService.GetItemAsStringAsync("search_saleOrder_LocationName") ?? "";
-        saleOrderNo = await _localStorageService.GetItemAsStringAsync("search_saleOrder_saleOrderNo") ?? "";
-        itemCode = await _localStorageService.GetItemAsStringAsync("search_saleOrder_itemCode") ?? "";
-        itemName = await _localStorageService.GetItemAsStringAsync("search_saleOrder_itemName") ?? "";
-        dateFrom = await _localStorageService.GetItemAsStringAsync("search_saleOrder_dateFrom") ?? "";
-        dateTo = await _localStorageService.GetItemAsStringAsync("search_saleOrder_dateTo") ?? "";
-
-        var curPage = await _localStorageService.GetItemAsStringAsync("search_saleOrder_currnetPage") ?? "";
-        CurrentPage = CommonUtils.ConvertStringNumberVNToInt(curPage)??1;
-        if (CurrentPage <= 0) CurrentPage = 1;
-    }
     protected override void OnInitialized()
     {
         try
@@ -209,23 +135,16 @@
     {
         try
         {
-            await retryParamSearch();
-
-            var glStartDate = CommonUtils.ConvertDateVNFormatedToDate(dateFrom);
-            var glStrStartDate = glStartDate != null ? glStartDate.ToString() : "";
-            var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(dateTo);
-            var glStrEndDate = glEndDate != null ? glEndDate.ToString() : "";
-
-            var response = await _SaleOrderItemService.SearchSaleOrderItem(CurrentPage, RowPerPage,
-                itemCode, itemName, saleOrderNo, locationName, glStrStartDate, glStrEndDate);
-            accounts = response.rows ?? new List<SaleOrderItemModel>();
+            var response = await _SaleOrderItemService.SaleOrderActualScanDetail(CurrentPage, RowPerPage,
+                SaleOrderNo);
+            _saleOrderActualScans = response.rows ?? new List<TransactionHistoryModel>();
             TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            accounts = new List<SaleOrderItemModel>();
+            _saleOrderActualScans = new List<TransactionHistoryModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -239,14 +158,6 @@
             if (firstRender)
             {
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
-                await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
-                dateFrom = await _localStorageService.GetItemAsStringAsync("search_saleOrder_dateFrom") ?? "";
-                if (string.IsNullOrEmpty(dateFrom?.Trim()))
-                {
-                    dateFrom = CommonUtils.GetFirstDayOfThisMonth();
-                    await _localStorageService.SetItemAsStringAsync("search_saleOrder_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
-                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchEndDate1");
-                }
                 await OnInitData();
             }
         }
@@ -270,66 +181,10 @@
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
         }
     }
-
-    private void OnClickDetail(SaleOrderItemModel saleOrderItem)
+    
+    private async Task OnExport()
     {
-        UriHelper.NavigateTo($"/SaleOrder/detail/{saleOrderItem.ID}", true);
-    }
-
-    private void OnClickActualScanDetail(SaleOrderItemModel saleOrderItem)
-    {
-        UriHelper.NavigateTo($"/SaleOrder/ActualScanDetail/{saleOrderItem.ID}", true);
-    }
-
-    private void OnClickEdit(SaleOrderItemModel saleOrderItem)
-    {
-        UriHelper.NavigateTo($"/SaleOrder/edit/{saleOrderItem.ID}", true);
-    }
-
-    private async void OnClickExportExcel(SaleOrderItemModel saleOrderItem)
-    {
-        await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "ImportExcel", "success");
-    }
-
-
-
-    private async Task OnClickDelete(SaleOrderItemModel saleOrderItem)
-    {
-        try
-        {
-            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
-                "Thông báo",
-                $"Bạn có muốn xóa đơn {saleOrderItem.SaleOrderNo}",
-                "xóa",
-                "Huỷ", "", "", "");
-
-            if (confirmRemove)
-            {
-                var responseData = await _SaleOrderItemService.DeletesaleOrderItem(saleOrderItem);
-                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
-                if ("0".Equals(errCode))
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã xóa thành công", "success");
-                    await OnInitData();
-                }
-                else if ("-2".Equals(errCode))
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Tài khoản đang được sử dụng", "error");
-                }
-                else
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Xóa thất bại", "error");
-
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
-        }
-    }
-    private void OnClickAdd()
-    {
-        UriHelper.NavigateTo("/SaleOrder/create", true);
+        string query = $"saleOrderNo={SaleOrderNo}";
+        UriHelper.NavigateTo($"/SaleOrder/ViewExcelReport?{query}", true);
     }
 }

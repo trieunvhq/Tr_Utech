@@ -920,8 +920,7 @@
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Padding="0" Clicked="ImageButton_Clicked"
-                                BackgroundColor="Transparent"
-                                Command="{TemplateBinding BindingContext.BackCommand}"
+                                BackgroundColor="Transparent" 
                                 HorizontalOptions="Start"
                                 Source="left_arrow.png">
                                     <ImageButton.Margin>
@@ -935,8 +934,7 @@
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Padding="0"
-                                BackgroundColor="Transparent"
-                                Command="{TemplateBinding BindingContext.BackCommand}" />
+                                BackgroundColor="Transparent" Clicked="ImageButton_Clicked"/>
 
                             </Grid>
                         </local:PancakeView>

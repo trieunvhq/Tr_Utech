@@ -36,10 +36,10 @@ namespace DAL.Factory.Web.Users
             try
             {
                 if (withLock) { 
-                    return db.Users.AsNoTracking().FirstOrDefault(a => a.ID == id && a.RecordStatus != RecordStatus.Deleted);
+                    return db.Users.AsNoTracking().FirstOrDefault(a => a.ID == id && a.RecordStatus != ConstRecordStatus.Deleted);
                 } else
                 {
-                    return db.Users.AsNoTracking().FirstOrDefault(a => a.ID == id && a.RecordStatus != RecordStatus.Deleted && a.RecordStatus != RecordStatus.Locked);
+                    return db.Users.AsNoTracking().FirstOrDefault(a => a.ID == id && a.RecordStatus != ConstRecordStatus.Deleted && a.RecordStatus != ConstRecordStatus.Locked);
                 }
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace DAL.Factory.Web.Users
             try
             {
                 userName = userName?.Trim();
-                return db.Users.AsNoTracking().FirstOrDefault(a => a.Code.ToLower() == userName.ToLower() && a.RecordStatus != RecordStatus.Deleted);
+                return db.Users.AsNoTracking().FirstOrDefault(a => a.Code.ToLower() == userName.ToLower() && a.RecordStatus != ConstRecordStatus.Deleted);
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace DAL.Factory.Web.Users
                 HDLIB.WebPaging.TPaging<User> paging = new HDLIB.WebPaging.TPaging<User>();
                 int offset = (page - 1) * limit;
 
-                string SQL = $"select * from [User] a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
+                string SQL = $"select * from [User] a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }')";
                 SQL += (string.IsNullOrEmpty(username)) ? "" : $" and LOWER(a.Code) LIKE '%{username.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
                 //if (isSearch)
                 //{
@@ -141,7 +141,7 @@ namespace DAL.Factory.Web.Users
             try
             {
                
-                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{RecordStatus.Deleted}') ";
+                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{ConstRecordStatus.Deleted}') ";
                 SQL += $" and a.code = '{userName}' and a.password_hash = '{pass}'";
                 var result = db.Users.SqlQuery(SQL).AsNoTracking().SingleOrDefault();
                 if (result != null)
@@ -166,12 +166,12 @@ namespace DAL.Factory.Web.Users
                 {
                     try
                     {
-                        string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{RecordStatus.Deleted}') ";
+                        string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{ConstRecordStatus.Deleted}') ";
                         SQL += $" and a.code = '{userName}'";
                         var result = db.Users.SqlQuery(SQL).FirstOrDefault();
                         if (result != null)
                         {
-                            result.RecordStatus = RecordStatus.Locked;
+                            result.RecordStatus = ConstRecordStatus.Locked;
                             result.UpdateDate = DateTime.Now;
                             result.UpdateUser = userName;
 
@@ -203,7 +203,7 @@ namespace DAL.Factory.Web.Users
         {
             try
             {
-                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{RecordStatus.Deleted}') ";
+                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{ConstRecordStatus.Deleted}') ";
                 SQL += $" and a.code = '{userName}'";
                 var result = db.Users.SqlQuery(SQL).AsNoTracking().FirstOrDefault();
                 if (result != null)
@@ -224,13 +224,13 @@ namespace DAL.Factory.Web.Users
         {
             try
             {
-                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{RecordStatus.Deleted}') ";
+                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{ConstRecordStatus.Deleted}') ";
                 SQL += $" and a.code = '{userName}'";
                 var result = db.Users.SqlQuery(SQL).AsNoTracking().FirstOrDefault();
                 if (result != null)
                 {
                     result.Password = newPass;
-                    result.RecordStatus = RecordStatus.Update;
+                    result.RecordStatus = ConstRecordStatus.Update;
                     result.UpdateDate = DateTime.Now;
                     result.UpdateUser = userName;
 

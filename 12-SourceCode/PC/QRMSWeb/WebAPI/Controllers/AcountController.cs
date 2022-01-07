@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                _return.ErrorCode = ResponseErrorCode.Error.ToString();
+                _return.ErrorCode = ConstResponseErrorCode.Error.ToString();
                 _return.Message = ex.Message;
             }
             return _return;
@@ -92,6 +92,33 @@ namespace WebAPI.Controllers
             return _return;
         }
 
+
+        [HttpPost]
+        [Route("api-ht/logging/inserts")]
+        public BaseModel InsertLog([FromBody] PrLogsModel input)
+        {
+            var _return = new BaseModel();
+            try
+            {
+                string err_code = "";
+                string err_msg = "";
+
+                var accBPL = new AccountBPL();
+                accBPL.InsertLogs(input, out err_code, out err_msg);
+                _return.data = 1;
+                _return.ErrorCode = err_code;
+                _return.Message = err_msg;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                _return.data = 1;
+                _return.ErrorCode = "99";
+                _return.Message = ex.Message;
+            }
+
+            return _return;
+        }
 
         //public BaseModel CheckAccount([FromBody] JObject jObject)
         //{

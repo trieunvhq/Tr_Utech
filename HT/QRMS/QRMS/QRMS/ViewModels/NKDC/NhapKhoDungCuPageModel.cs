@@ -22,8 +22,9 @@ namespace QRMS.ViewModels
         public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
 
-        public bool IsThongBao { get; set; } = false;
+        public bool IsThongBao { get; set; } = true;
         public string ThongBao { get; set; } = "";
+        public string ThoiGian { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
         private string _ID = "";
         private string _No = "";
@@ -132,7 +133,7 @@ namespace QRMS.ViewModels
                     {
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            if (result.Result.data == 0)
+                            if (result.Result.data == 1)
                             {
                                 App.Dblocal.DeleteHistoryAsyncWithKey(_No);
 
@@ -188,7 +189,7 @@ namespace QRMS.ViewModels
                 Color = Color.Aqua;
                 ThongBao = str;
                 IsThongBao = true;
-                StartDemThoiGianGGS();
+                //StartDemThoiGianGGS();
 
                 if (Historys != null)
                 {
@@ -274,7 +275,7 @@ namespace QRMS.ViewModels
 
                                 //
                                 Color = Color.Green;
-                                ThongBao = "Thành công";
+                                ThongBao = "Thành công"; 
                                 IsThongBao = true;
                                 StartDemThoiGianGGS();
                                 break;
@@ -293,33 +294,38 @@ namespace QRMS.ViewModels
             } 
         }
 
-        private bool tt = false;
+        private int tt = 10;
         private CancellationTokenSource cancellation = new CancellationTokenSource();
         private void StartDemThoiGianGGS()
         {
             StopDemThoiGianGGS();
             CancellationTokenSource cts = this.cancellation;
 
-            Device.StartTimer(TimeSpan.FromSeconds(3),
+            Device.StartTimer(TimeSpan.FromSeconds(1),
                   () =>
                   {
                       if (cts.IsCancellationRequested) return false;
                       if (IsThongBao)
                       {
-                          if (tt)
+                          if (tt <= 0)
                           {
-                              tt = false;
                               IsThongBao = false;
                               ThongBao = "";
+                              ThoiGian = "";
                               StopDemThoiGianGGS();
                           }
-                          tt = true;
+                          else
+                          {
+                              ThoiGian = "  (" + tt + ")";
+                          }    
+                          --tt;
                       }     
                       return true; // or true for periodic behavior
                   });
         }
         public void StopDemThoiGianGGS()
         {
+            tt = 10;
             Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
         }
     }

@@ -5,6 +5,7 @@ using HDLIB;
 using System;
 using DAL;
 using BPL.Factory.HT;
+using BPL.Models;
 
 namespace BPL.Master
 {
@@ -16,13 +17,13 @@ namespace BPL.Master
             try
             {
                 var accountManager = new AccountManagement(db);
-                var result = accountManager.CheckAccount(username_, Cipher.Encrypt(pass_, PasswordEncrypt.PRIVATE_KEY));
+                var result = accountManager.CheckAccount(username_, Cipher.Encrypt(pass_, ConstPasswordEncrypt.PRIVATE_KEY));
                 if (result != null)
                 {
                     var item = new UserBPLModel();
                     item.CopyPropertiesFrom(result);
 
-                    if (item.RecordStatus.Equals(RecordStatus.Locked))
+                    if (item.RecordStatus.Equals(ConstRecordStatus.Locked))
                     {
                         err_code = "5";
                         err_msg = "Đăng nhập thất bại, tài khoản đã bị khóa";
@@ -41,7 +42,7 @@ namespace BPL.Master
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return null;
@@ -69,7 +70,7 @@ namespace BPL.Master
                 }
 
                 // Khóa tài khoản
-                account.RecordStatus = RecordStatus.Locked;
+                account.RecordStatus = ConstRecordStatus.Locked;
                 accountManagement.Edit(account);
 
                 err_code = "0";
@@ -78,7 +79,7 @@ namespace BPL.Master
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 throw;
             }
@@ -117,7 +118,7 @@ namespace BPL.Master
                 account.CopyPropertiesFrom(accountInput);
                 account.RecordStatus = "N";
                 account.CreateDate = DateTime.Now;
-                account.Password = Cipher.Encrypt(accountInput.Password, PasswordEncrypt.PRIVATE_KEY);
+                account.Password = Cipher.Encrypt(accountInput.Password, ConstPasswordEncrypt.PRIVATE_KEY);
 
                 int id = new AccountManagement(db).Insert(account);
                 if (id > 0)
@@ -155,7 +156,7 @@ namespace BPL.Master
                 var accountManagement = new AccountManagement(db);
 
                 // Kiểm tra mật khẩu cũ
-                string currentPasswordHash = Cipher.Encrypt(input.CurrentPassword, PasswordEncrypt.PRIVATE_KEY);
+                string currentPasswordHash = Cipher.Encrypt(input.CurrentPassword, ConstPasswordEncrypt.PRIVATE_KEY);
                 bool checkCurrentPassowrd = accountManagement.CheckCurrentPassowrd(input.AccountId, currentPasswordHash);
                 if (checkCurrentPassowrd == false)
                 {
@@ -165,7 +166,7 @@ namespace BPL.Master
                 }
 
                 // Cập nhật mật khẩu mới
-                string newPasswordHash = Cipher.Encrypt(input.NewPassword, PasswordEncrypt.PRIVATE_KEY);
+                string newPasswordHash = Cipher.Encrypt(input.NewPassword, ConstPasswordEncrypt.PRIVATE_KEY);
                 int updatePassword = accountManagement.UpdatePassword(input.AccountId, newPasswordHash);
                 if (updatePassword == 0)
                 {
@@ -186,7 +187,7 @@ namespace BPL.Master
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 throw;
             }
@@ -224,7 +225,7 @@ namespace BPL.Master
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 throw;
             }
@@ -243,7 +244,7 @@ namespace BPL.Master
                 var accountManagement = new AccountManagement(db);
 
                 // Cập nhật mật khẩu mới
-                string newPasswordHash = Cipher.Encrypt(input.NewPassword, PasswordEncrypt.PRIVATE_KEY);
+                string newPasswordHash = Cipher.Encrypt(input.NewPassword, ConstPasswordEncrypt.PRIVATE_KEY);
                 int updatePassword = accountManagement.UpdatePassword(input.AccountId, newPasswordHash);
                 if (updatePassword == 0)
                 {
@@ -264,7 +265,32 @@ namespace BPL.Master
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
+                err_msg = ex.Message;
+                throw;
+            }
+        }
+
+        public void InsertLogs(PrLogsModel input, out string err_code, out string err_msg)
+        {
+            try
+            {
+                PrLogs cl = new PrLogs();
+                if (cl.Insert(input.id, input.date, input.funtion, input.exception, input.my_view, input.username))
+                {
+                    err_code = "0";
+                    err_msg = "Thành công";
+                }
+                else
+                {
+                    err_code = "-1";
+                    err_msg = "Thất bại";
+                }    
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 throw;
             }

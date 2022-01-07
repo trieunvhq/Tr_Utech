@@ -31,8 +31,8 @@ namespace WebAPI.Controllers.Web
                 if (user_exitst != null)
                 {
                     _return.Message = "Tài khoản đã tồn tại";
-                    _return.RespondCode = APIResponseCode.VALIDATION;
-                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    _return.RespondCode = ConstAPIResponseCode.VALIDATION;
+                    _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                     return _return;
                 }
                 string userName = HelperFunction.GetUserName(User);
@@ -129,17 +129,17 @@ namespace WebAPI.Controllers.Web
                 if (user_exitst != null && user_exitst.ID != userModel.ID)
                 {
                     _return.Message = "Tài khoản đã tồn tại";
-                    _return.RespondCode = APIResponseCode.VALIDATION;
-                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    _return.RespondCode = ConstAPIResponseCode.VALIDATION;
+                    _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                     return _return;
                 }
 
                 var currentAccount = accBLL.GetAccountById(userModel.ID, true);
                 if (currentAccount == null)
                 {
-                    _return.RespondCode = APIResponseCode.BAD_REQUEST;
+                    _return.RespondCode = ConstAPIResponseCode.BAD_REQUEST;
                     _return.Message = "Không tim thấy tài khoản";
-                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                     return _return;
                 }
                 //trim
@@ -152,12 +152,12 @@ namespace WebAPI.Controllers.Web
                 var result = accBLL.EditAcc(userModel, userName);
                 if (result == 1)
                 {
-                    _return.RespondCode = APIResponseCode.SUCCESS;
+                    _return.RespondCode = ConstAPIResponseCode.SUCCESS;
                     _return.Message = "Cập nhật tài khoản thành công";
                 }
                 else
                 {
-                    _return.RespondCode = APIResponseCode.BAD_REQUEST;
+                    _return.RespondCode = ConstAPIResponseCode.BAD_REQUEST;
                     _return.Message = "Lỗi cập nhật tài khoản";
                 }
                 return _return;
@@ -187,31 +187,31 @@ namespace WebAPI.Controllers.Web
 
                 if (currentAccount == null)
                 {
-                    _return.RespondCode = APIResponseCode.BAD_REQUEST;
+                    _return.RespondCode = ConstAPIResponseCode.BAD_REQUEST;
                     _return.Message = "Không tim thấy tài khoản";
-                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                     return _return;
                 }
 
                 //changePasswordDTO
-                var currentPass = Cipher.Encrypt(changePasswordDTO.CURRENT_PASSWORD, PasswordEncrypt.PRIVATE_KEY);
+                var currentPass = Cipher.Encrypt(changePasswordDTO.CURRENT_PASSWORD, ConstPasswordEncrypt.PRIVATE_KEY);
                 if (currentAccount.Password != currentPass)
                 {
-                    _return.RespondCode = APIResponseCode.BAD_REQUEST;
+                    _return.RespondCode = ConstAPIResponseCode.BAD_REQUEST;
                     _return.Message = "Mật khẩu hiện tại không đúng";
-                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                     return _return;
                 }
                 var result = accBLL.UpdatePassword(currentAccount.Code, changePasswordDTO.NEW_PASSWORD, userID);
                 if (result == 1)
                 {
-                    _return.RespondCode = APIResponseCode.SUCCESS;
+                    _return.RespondCode = ConstAPIResponseCode.SUCCESS;
                     _return.Message = "Cập nhật mật khẩu thành công";
                 }
                 else
                 {
-                    _return.RespondCode = APIResponseCode.BAD_REQUEST;
-                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    _return.RespondCode = ConstAPIResponseCode.BAD_REQUEST;
+                    _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                     _return.Message = "Lỗi cập nhật mật khẩu";
                 }
 
@@ -237,9 +237,9 @@ namespace WebAPI.Controllers.Web
                     var currentAccount = accBLL.GetAccountByUserName(restPasswordDTO.Code);
                     if (currentAccount == null)
                     {
-                        _return.RespondCode = APIResponseCode.BAD_REQUEST;
+                        _return.RespondCode = ConstAPIResponseCode.BAD_REQUEST;
                         _return.Message = "Không tìm thấy tài khoản";
-                        _return.ErrorCode = APIErrorCode.VALIDATION;
+                        _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                         return _return;
                     }
                    
@@ -248,13 +248,13 @@ namespace WebAPI.Controllers.Web
                     var result = accBLL.ResetPassword(currentAccount.Code, currentAccount.Password);
                     if (result == 1)
                     {
-                        _return.RespondCode = APIResponseCode.SUCCESS;
+                        _return.RespondCode = ConstAPIResponseCode.SUCCESS;
                         _return.Message = "Mật khẩu mới đã được gửi vào địa chỉ mail của bạn.";
                     }
                     else
                     {
-                        _return.RespondCode = APIResponseCode.BAD_REQUEST;
-                        _return.ErrorCode = APIErrorCode.VALIDATION;
+                        _return.RespondCode = ConstAPIResponseCode.BAD_REQUEST;
+                        _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                         _return.Message = "Lỗi reset mật khẩu";
                     }
 
@@ -494,21 +494,21 @@ namespace WebAPI.Controllers.Web
                 if (account == null)
                 {
                     _return.Message = "Không tìm thấy tài khoản";
-                    _return.RespondCode = APIResponseCode.NOT_FOUND;
+                    _return.RespondCode = ConstAPIResponseCode.NOT_FOUND;
                     _return.ErrorCode = "ACCOUNT_NOT_FOUND";
                     return _return;
                 }
 
-                _return.RespondCode = APIResponseCode.SUCCESS;
+                _return.RespondCode = ConstAPIResponseCode.SUCCESS;
                 _return.data = account;
                 return _return;
             }
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                _return.Message = APIMessage.SYSTEM_ERROR;
-                _return.RespondCode = APIResponseCode.SERVER_ERROR;
-                _return.ErrorCode = APIErrorCode.SYSTEM_ERROR;
+                _return.Message = ConstAPIMessage.SYSTEM_ERROR;
+                _return.RespondCode = ConstAPIResponseCode.SERVER_ERROR;
+                _return.ErrorCode = ConstAPIErrorCode.SYSTEM_ERROR;
                 return _return;
             }
         }

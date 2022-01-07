@@ -70,6 +70,27 @@
             </span>
         </button>
     }
+    @if (ShowPreview)
+    {
+        <button @onclick="OnClickPreview" type="button"
+                class="btn btn-sm btn-outline-success waves-effect waves-light mr-2 table-action-button !important"
+                data-toggle="tooltip" data-placement="bottom" title="Xem chi tiết thực tế scan">
+            <span>
+                <i style="font-size: 18px; color:forestgreen" class="mdi mdi-qrcode"></i>
+            </span>
+        </button>
+    }
+    @if (ShowQRCode)
+    {
+        <button @onclick="OnClickQRCode" type="button"
+                class="btn btn-sm btn-outline-success waves-effect waves-light mr-2 table-action-button !important"
+                data-toggle="tooltip" data-placement="bottom" title="Xem chi tiết thực tế scan">
+            <span>
+                <i style="font-size: 18px; color:forestgreen" class="mdi mdi-qrcode"></i>
+            </span>
+        </button>
+    }
+
 </div>
 
 @code {
@@ -102,6 +123,12 @@
     public bool ShowPrint { get; set; } = false;
 
     [Parameter]
+    public bool ShowPreview { get; set; } = false;
+    [Parameter]
+
+    public bool ShowQRCode { get; set; } = false;
+    [Parameter]
+
     public Action OnClickExportExcel { get; set; }
 
     [Parameter]
@@ -128,4 +155,9 @@
     [Parameter]
     public Action OnClickPrint { get; set; }
 
+    [Parameter]
+    public Action OnClickPreview { get; set; }
+
+    [Parameter]
+    public Action OnClickQRCode { get; set; }
 }

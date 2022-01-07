@@ -16,13 +16,14 @@ namespace DAL.Factory.HT.PurchaseOrders
         public PurchaseOrderDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
 
 
-        public List<PurchaseOrder> GetPurchaseOrder(DateTime from_day, DateTime to_day)
+        public List<PurchaseOrder> GetPurchaseOrder(DateTime from_day, DateTime to_day, string WarehouseCode)
         {
             try
             {
-                //var s = from c in db.PurchaseOrders where c.CreateDate
-                string SQL = $"select * from PurchaseOrder a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
-                SQL += $"and (a.InputStatus is not null and a.InputStatus != '{ InputStatus.Enough }') ";
+                //var s = from c in db.PurchaseOrders where c.WarehouseCode
+                string SQL = $"select * from PurchaseOrder a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }') ";
+                SQL += $"and (a.InputStatus is not null and a.InputStatus != '{ ConstInputStatus.Enough }') ";
+                SQL += $"and (a.WarehouseCode is not null and a.WarehouseCode = '{ WarehouseCode }') ";
                 SQL += $"and CONVERT(date, '{from_day}') <= CONVERT(date, a.CreateDate) ";
                 SQL += $"and CONVERT(date, '{to_day}') >= CONVERT(date, a.CreateDate) ";
                 SQL += $"order by a.CreateDate desc ";

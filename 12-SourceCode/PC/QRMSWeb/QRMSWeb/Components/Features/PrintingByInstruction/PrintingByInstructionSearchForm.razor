@@ -1,25 +1,29 @@
 ﻿@using QRMSWeb.Components.Common.Breadcrumb
 @using QRMSWeb.Components.Common.SampleTable
+@using QRMSWeb.Utils
+@using QRMSWeb.Services
+
 @inject IJSRuntime _jsRuntime
+@inject HttpClient _httpClient
 
 <form autocomplete="off" class="search-body-form">
     <div class="row search-row-input">
         <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Loại nhãn</label>
-            <div class="col-8">
-               
-                <select @onchange="@((evt) => ItemTypeChanged.InvokeAsync(evt.Value?.ToString() ?? string.Empty))"
+            <label class="col-3 col-form-label">Loại nhãn</label>
+            <div class="col-9">
+                <select value="@ItemType" @onchange="@((evt) => ItemTypeChanged.InvokeAsync(evt.Value?.ToString() ?? string.Empty))"
                         class="form-control">
                     <option data-limit="70" value="" selected="@(ItemType == "")">---</option>
-                    <option data-limit="70" value="I" selected="@(ItemType == "DC")">Dụng cụ, thiết bị</option>
-                    <option data-limit="70" value="C" selected="@(ItemType == "NL")">Nguyên liệu</option>
-                    <option data-limit="70" value="C" selected="@(ItemType == "TP")">Thành phẩm</option>
+                    @foreach (var item in CommonUtils.GetListItemType())
+                    {
+                        <option data-limit="70" value="@item.Code">@item.Code - @item.Name</option>
+                    }
                 </select>
             </div>
         </div>
         <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Số chỉ thị</label>
-            <div class="col-8">
+            <label class="col-3 col-form-label">Số chỉ thị</label>
+            <div class="col-9">
                 <input type="text" placeholder=""
                        autocomplete="off"
                        value="@PurchaseOrderNo"
@@ -27,39 +31,59 @@
                        class="form-control">
             </div>
         </div>
-        
+
         <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Mã kho</label>
-            <div class="col-8">
-                <input type="text" placeholder=""
-                       autocomplete="off"
-                       value="@WareHouseCode"
-                       @onchange="@((evt) => WareHouseCodeChanged.InvokeAsync(evt.Value?.ToString()))"
-                       class="form-control">
+            <label class="col-3 col-form-label">Kho</label>
+            <div class="col-9">
+                <select value="@WarehouseCode" @onchange="@((evt) => WarehouseCodeChanged.InvokeAsync(evt.Value?.ToString() ?? string.Empty))"
+                        class="form-control">
+                    <option data-limit="70" value="">---</option>
+                    @foreach (var wareHouse in _wareHouseModels)
+                    {
+                        <option data-limit="70" value="@wareHouse.WarehouseCode">@wareHouse.WarehouseCode - @wareHouse.WarehouseName</option>
+                    }
+                </select>
             </div>
         </div>
         <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Trạng thái</label>
-            <div class="col-8">                
-                <select @onchange="@((evt) => PrintStatusChanged.InvokeAsync(evt.Value?.ToString() ?? string.Empty))"
+            <label class="col-3 col-form-label">Trạng thái</label>
+            <div class="col-9">
+                <select value="@PrintStatus" @onchange="@((evt) => PrintStatusChanged.InvokeAsync(evt.Value?.ToString() ?? string.Empty))"
                         class="form-control">
-                    <option data-limit="70" value="" selected="@(PrintStatus == "")">---</option>
-                    <option data-limit="70" value="I" selected="@(PrintStatus == "N")">Chưa in</option>
-                    <option data-limit="70" value="C" selected="@(PrintStatus == "D")">Đang in</option>
-                    <option data-limit="70" value="C" selected="@(PrintStatus == "Y")">Đã in</option>
+                    <option data-limit="70" value="">---</option>
+                    @foreach (var item in CommonUtils.GetListPrintStatus())
+                    {
+                        <option data-limit="70" value="@item.Code">@item.Code - @item.Name</option>
+                    }
                 </select>
             </div>
         </div>
 
         <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Ngày mua hàng</label>
-            <div class="col-8">
+            <label class="col-3 col-form-label">Từ ngày</label>
+            <div class="col-9">
                 <div class="input-group pjc-date-picker"
-                     id="searchPurchaseOrderDate1" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#searchPurchaseOrderDate1"
-                           id="searchPurchaseOrderDate" placeholder="ngày/tháng/năm" autocomplete="off" format="DD/MM/YYYY"
-                           value="@PurchaseOrderDate" />
-                    <div class="input-group-append" data-target="#searchPurchaseOrderDate1" data-toggle="datetimepicker">
+                     id="searchStartDate1" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#searchStartDate1"
+                           id="searchStartDate" placeholder="ngày/tháng/năm" autocomplete="off"
+                           value="@DateFrom" />
+                    <div class="input-group-append" data-target="#searchStartDate1" data-toggle="datetimepicker">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group col-4">
+            <label class="col-3 col-form-label">Đến ngày</label>
+            <div class="col-9">
+                <div class="input-group pjc-date-picker"
+                     id="searchEndDate1" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#searchEndDate1"
+                           id="searchEndDate" placeholder="ngày/tháng/năm" autocomplete="off" format="DD/MM/YYYY"
+                           value="@DateTo" />
+                    <div class="input-group-append" data-target="#searchEndDate1" data-toggle="datetimepicker">
                         <span class="input-group-text">
                             <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
                         </span>
@@ -71,7 +95,7 @@
     <div class="d-flex flex-row justify-content-end btn-row pb-0 button_search_footer1">
         <div class="button-items">
             <button type="button" class="btn btn-primary waves-effect waves-light" @onclick="@OnSearch">Tìm kiếm</button>
-            <button type="button" class="btn btn-primary waves-effect mr-3" @onclick="@OnImport">Import</button>
+            <button type="button" class="btn btn-primary waves-effect mr-3" @onclick="@OnImport">Nhập từ tệp excel</button>
         </div>
     </div>
 
@@ -87,10 +111,10 @@
 
 
     [Parameter]
-    public string WareHouseCode { get; set; }
+    public string WarehouseCode { get; set; }
 
     [Parameter]
-    public EventCallback<string> WareHouseCodeChanged { get; set; }
+    public EventCallback<string> WarehouseCodeChanged { get; set; }
 
     [Parameter]
     public string PurchaseOrderNo { get; set; }
@@ -99,22 +123,44 @@
     public EventCallback<string> PurchaseOrderNoChanged { get; set; }
 
     [Parameter]
-    public string PurchaseOrderDate { get; set; }
-
-    [Parameter]
-    public EventCallback<string> PurchaseOrderDateChanged { get; set; }
-
-    [Parameter]
     public string PrintStatus { get; set; }
 
     [Parameter]
     public EventCallback<string> PrintStatusChanged { get; set; }
+
+
+    [Parameter]
+    public string DateFrom { get; set; }
+
+    [Parameter]
+    public EventCallback<string> DateFromChanged { get; set; }
+    [Parameter]
+    public string DateTo { get; set; }
+
+    [Parameter]
+    public EventCallback<string> DateToChanged { get; set; }
 
     [Parameter]
     public Func<Task> OnImport { get; set; }
 
     [Parameter]
     public Func<Task> OnSearch { get; set; }
+
+    List<WareHouseModel> _wareHouseModels = new List<WareHouseModel>();
+    WareHouseService _PrintingService;
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            _PrintingService = new WareHouseService(_httpClient);
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try
@@ -124,12 +170,14 @@
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 //set vn date
                 await _jsRuntime.InvokeVoidAsync("vnDatePicker");
+                _wareHouseModels = await _PrintingService.GetAllWareHouses()??new List<WareHouseModel>();
                 StateHasChanged();
             }
         }
         catch (Exception e)
         {
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra", "");
+            _wareHouseModels = new List<WareHouseModel>();
+            //  await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra", "");
         }
     }
 }

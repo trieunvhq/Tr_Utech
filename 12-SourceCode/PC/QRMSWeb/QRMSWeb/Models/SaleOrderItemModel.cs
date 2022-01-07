@@ -23,5 +23,6 @@ namespace QRMSWeb.Models
         public string UserCreate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public string UserUpdate { get; set; }
+        
     }
 }

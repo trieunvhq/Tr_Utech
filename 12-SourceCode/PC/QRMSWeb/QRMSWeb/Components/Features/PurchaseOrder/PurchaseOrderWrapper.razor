@@ -23,12 +23,11 @@
                     <h4>Tìm kiếm</h4>
                     <PurchaseOrderSearchForm OnImport="@OnImport"
                                              OnSearch="@OnSearch"
-                                             @bind-ItemName="@itemName"
-                                             @bind-LocationName="@locationName"
+                                             @bind-WareHouseCode="@wareHouseCode"
+                                             @bind-InputStatus="@inputStatus"
                                              @bind-PurchaseOrderNo="@purchaseOrderNo"
                                              @bind-DateFrom="@dateFrom"
-                                             @bind-DateTo="@dateTo"
-                                             @bind-ItemCode="@itemCode" />
+                                             @bind-DateTo="@dateTo"/>
                 </div>
             </div>
         </div>
@@ -44,7 +43,7 @@
                     }
                     else
                     {
-                        <TableList data="@_purchaseOrderItemModels"
+                        <TableList data="@_purchaseOrderModels"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
@@ -71,10 +70,9 @@
 
 @code
 {
-    private string itemCode = "";
-    private string itemName = "";
+    private string wareHouseCode = "";
     private string purchaseOrderNo = "";
-    private string locationName = "";
+    private string inputStatus = "";
     private string dateFrom = "";
     private string dateTo = "";
     private int TotalPage = 0;
@@ -89,16 +87,14 @@
     private List<TableLabels> labels = new List<TableLabels>()
 {
         new TableLabels {label = "Số đơn hàng", dataIndex = "PurchaseOrderNo",columnWidth=150},
-        new TableLabels {label = "Ngày đặt", dataIndex = "PurchaseOrderDate", dataType="date", columnWidth=110},
-        new TableLabels {label = "Tên linh kiện", dataIndex = "ItemName",columnWidth=250},
-        new TableLabels {label = "Mã linh kiện", dataIndex = "ItemCode",columnWidth=150 },
-        new TableLabels {label = "Mã nhà cung cấp", dataIndex = "SupplierCode",columnWidth=150},
-        new TableLabels {label = "Số lượng", dataIndex = "Quantity", dataType="number", columnWidth=110},
-        new TableLabels {label = "Đơn vị", dataIndex = "Unit",columnWidth=80},
+        new TableLabels {label = "Ngày đơn hàng", dataIndex = "PurchaseOrderDate", dataType="date", columnWidth=110},
+        new TableLabels {label = "Mã nhà cung cấp", dataIndex = "SupplierCode",columnWidth=250},
+        new TableLabels {label = "Tên nhà cung cấp", dataIndex = "SupplierName",columnWidth=150 },
+        new TableLabels {label = "Trạng thái",dataType="status", dataIndex = "InputStatusName",columnWidth=150},
     };
 
     private bool loading = true;
-    private List<PurchaseOrderItemModel> _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+    private List<PurchaseOrderModel> _purchaseOrderModels = new List<PurchaseOrderModel>();
     private PurchaseOrderService _purchaseOrderService;
 
     private async Task OnSearch()
@@ -132,7 +128,7 @@
         {
             Console.WriteLine(e);
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            _purchaseOrderModels = new List<PurchaseOrderModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -143,10 +139,9 @@
         dateFrom = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchStartDate");
         dateTo = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchEndDate");
 
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_LocationName", !String.IsNullOrWhiteSpace(locationName) ? locationName : "");
+        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_inputStatus", !String.IsNullOrWhiteSpace(inputStatus) ? inputStatus : "");
         await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_purchaseOrderNo", !String.IsNullOrWhiteSpace(purchaseOrderNo) ? purchaseOrderNo : "");
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_itemCode", !String.IsNullOrWhiteSpace(itemCode) ? itemCode : "");
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_itemName", !String.IsNullOrWhiteSpace(itemName) ? itemName : "");
+        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_wareHouseCode", !String.IsNullOrWhiteSpace(wareHouseCode) ? wareHouseCode : "");
 
         await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
         await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_dateTo", !String.IsNullOrWhiteSpace(dateTo) ? dateTo : "");
@@ -155,10 +150,9 @@
     }
     private async Task retryParamSearch()
     {
-        locationName = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_LocationName") ?? "";
+        inputStatus = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_inputStatus") ?? "";
         purchaseOrderNo = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_purchaseOrderNo") ?? "";
-        itemCode = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_itemCode") ?? "";
-        itemName = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_itemName") ?? "";
+        wareHouseCode = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_wareHouseCode") ?? "";
 
         dateFrom = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_dateFrom") ?? "";
         dateTo = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_dateTo") ?? "";
@@ -191,7 +185,7 @@
         {
             Console.WriteLine(e);
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            _purchaseOrderModels = new List<PurchaseOrderModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -208,16 +202,16 @@
             var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(dateTo);
             var glStrEndDate = glEndDate != null ? glEndDate.ToString() : "";
 
-            var response = await _purchaseOrderService.SearchPurchaseOrder(CurrentPage, RowPerPage, itemCode, itemName,
-                 purchaseOrderNo, locationName, glStrStartDate, glStrEndDate, true);
-            _purchaseOrderItemModels = response.rows;
+            var response = await _purchaseOrderService.SearchPurchaseOrder(CurrentPage, RowPerPage, wareHouseCode,
+            purchaseOrderNo, inputStatus, glStrStartDate, glStrEndDate, true);
+            _purchaseOrderModels = response.rows;
             TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            _purchaseOrderModels = new List<PurchaseOrderModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -267,21 +261,21 @@
         }
     }
 
-    private void OnClickDetail(PurchaseOrderItemModel purchaseOrderItemModel)
+    private void OnClickDetail(PurchaseOrderModel PurchaseOrderModel)
     {
-        UriHelper.NavigateTo($"/PurchaseOrder/detail/{purchaseOrderItemModel.PurchaseOrderID}", true);
+        UriHelper.NavigateTo($"/PurchaseOrder/detail/{PurchaseOrderModel.PurchaseOrderNo}", true);
     }
-    private void OnClickActualScanDetail(PurchaseOrderItemModel purchaseOrderItemModel)
+    private void OnClickActualScanDetail(PurchaseOrderModel PurchaseOrderModel)
     {
-        string queryParams = $"ID={purchaseOrderItemModel.PurchaseOrderID}&purchaseOrderNo={purchaseOrderItemModel.PurchaseOrderNo}&locationCode={purchaseOrderItemModel.WareHouseCode}";
-        queryParams += $"&dateFrom={dateFrom}&dateTo={dateTo}";
+        string queryParams = $"ID={PurchaseOrderModel.ID}&purchaseOrderNo={PurchaseOrderModel.PurchaseOrderNo}&WareHouseName={PurchaseOrderModel.WarehouseName}";
+        queryParams += $"&PurchaseOrderDate={PurchaseOrderModel.PurchaseOrderDate}";
         UriHelper.NavigateTo($"/PurchaseOrder/ActualScanDetail?{queryParams}", true);
     }
 
 
-    private async void OnClickExportExcel(PurchaseOrderItemModel purchaseOrderItemModel)
+    private async void OnClickExportExcel(PurchaseOrderModel PurchaseOrderModel)
     {
-        string query = $"saleOrderId={purchaseOrderItemModel.PurchaseOrderID}";
-        UriHelper.NavigateTo($"/SaleOrder/ViewExcelReport?{query}", true);
+        string query = $"purchaseOrderNo={PurchaseOrderModel.PurchaseOrderNo}";
+        UriHelper.NavigateTo($"/PurchaseOrder/ViewExcelReport?{query}", true);
     }
 }

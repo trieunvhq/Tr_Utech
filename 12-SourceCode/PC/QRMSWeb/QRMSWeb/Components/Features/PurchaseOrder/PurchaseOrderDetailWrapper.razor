@@ -13,22 +13,20 @@
 @inject IJSRuntime _jsRuntime
 @inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
 
-<Breadcrumb Title="DANH MỤC ĐƠN MUA HÀNG" levels="@Levels" />
+<Breadcrumb Title="CHI TIẾT ĐƠN MUA HÀNG" levels="@Levels" />
 
 <div class="page-content-wrapper">
     <div class="row">
         <div class="col-12 space_search_area">
             <div class="card">
                 <div class="card-body contain_body">
-                    <h4>Tìm kiếm</h4>
-                    <PurchaseOrderSearchForm OnImport="@OnImport"
-                                             OnSearch="@OnSearch"
-                                             @bind-ItemName="@itemName"
-                                             @bind-LocationName="@locationName"
-                                             @bind-PurchaseOrderNo="@purchaseOrderNo"
-                                             @bind-DateFrom="@dateFrom"
-                                             @bind-DateTo="@dateTo"
-                                             @bind-ItemCode="@itemCode" />
+                    <PurchaseOrderDetailSearchForm OnImport="@OnImport"
+                                                   OnSearch="@OnSearch"
+                                                   @bind-WareHouseCode="@wareHouseCode"
+                                                   @bind-SupplierName="@supplierName"
+                                                   @bind-PurchaseOrderNo="@_purchaseOrderNo"
+                                                   @bind-InputStatusName="@inputStatusName"
+                                                   @bind-PurchaseOrderDate="@purchaseOrderDate" />
                 </div>
             </div>
         </div>
@@ -52,15 +50,6 @@
                                    RowPerPage=@RowPerPage
                                    MinColumnActionWidth="110"
                                    IndexColSize="60">
-                            <TableActionButton Context="item">
-                                <TableCommonAction OnClickDetail="() => OnClickDetail(item)"
-                                                   OnClickActualScanDetail="() => OnClickActualScanDetail(item)"
-                                                   OnClickExportExcel="() => OnClickExportExcel(item)"
-                                                   ShowActualScanDetail="true"
-                                                   ShowExportExcel="true"
-                                                   ShowEdit="false"
-                                                   ShowDelete="false" />
-                            </TableActionButton>
                         </TableList>
                     }
                 </div>
@@ -71,12 +60,13 @@
 
 @code
 {
-    private string itemCode = "";
-    private string itemName = "";
-    private string purchaseOrderNo = "";
-    private string locationName = "";
-    private string dateFrom = "";
-    private string dateTo = "";
+    [Parameter]
+    public string PurchaseOrderNo { get; set; }
+    private string wareHouseCode = "";
+    private string supplierName = "";
+    private string _purchaseOrderNo = "";
+    private string inputStatusName = "";
+    private string purchaseOrderDate = "";
     private int TotalPage = 0;
     private int CurrentPage = 1;
     private const int RowPerPage = 10;
@@ -98,6 +88,7 @@
     };
 
     private bool loading = true;
+    private PurchaseOrderModel _purchaseOrderModel = new PurchaseOrderModel();
     private List<PurchaseOrderItemModel> _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
     private PurchaseOrderService _purchaseOrderService;
 
@@ -105,7 +96,6 @@
     {
         loading = true;
         CurrentPage = 1;
-        await storeParamSearch();
         await OnInitData();
     }
 
@@ -138,39 +128,12 @@
         loading = false;
         await InvokeAsync(StateHasChanged);
     }
-    private async Task storeParamSearch()
-    {
-        dateFrom = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchStartDate");
-        dateTo = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchEndDate");
-
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_LocationName", !String.IsNullOrWhiteSpace(locationName) ? locationName : "");
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_purchaseOrderNo", !String.IsNullOrWhiteSpace(purchaseOrderNo) ? purchaseOrderNo : "");
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_itemCode", !String.IsNullOrWhiteSpace(itemCode) ? itemCode : "");
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_itemName", !String.IsNullOrWhiteSpace(itemName) ? itemName : "");
-
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_dateTo", !String.IsNullOrWhiteSpace(dateTo) ? dateTo : "");
-
-        await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_currnetPage", CurrentPage.ToString());
-    }
-    private async Task retryParamSearch()
-    {
-        locationName = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_LocationName") ?? "";
-        purchaseOrderNo = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_purchaseOrderNo") ?? "";
-        itemCode = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_itemCode") ?? "";
-        itemName = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_itemName") ?? "";
-
-        dateFrom = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_dateFrom") ?? "";
-        dateTo = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_dateTo") ?? "";
-
-        var curPage = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_currnetPage") ?? "";
-        CurrentPage = CommonUtils.ConvertStringNumberVNToInt(curPage) ?? 1;
-        if (CurrentPage <= 0) CurrentPage = 1;
-    }
     protected override void OnInitialized()
     {
         try
         {
+            Levels.Add(new BreadcrumbLevel() { name = "Chi tiết đơn mua hàng", path = $"/PurchaseOrder/detail/{PurchaseOrderNo}" });
+
             _purchaseOrderService = new PurchaseOrderService(_httpClient);
         }
         catch (Exception e)
@@ -202,14 +165,17 @@
     {
         try
         {
-            await retryParamSearch();
-            var glStartDate = CommonUtils.ConvertDateVNFormatedToDate(dateFrom);
-            var glStrStartDate = glStartDate != null ? glStartDate.ToString() : "";
-            var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(dateTo);
-            var glStrEndDate = glEndDate != null ? glEndDate.ToString() : "";
-
-            var response = await _purchaseOrderService.SearchPurchaseOrder(CurrentPage, RowPerPage, itemCode, itemName,
-                 purchaseOrderNo, locationName, glStrStartDate, glStrEndDate, false);
+            _purchaseOrderModel = await _purchaseOrderService.GetPurchaseOrderByPurchaseOrderNo(PurchaseOrderNo);
+            if (_purchaseOrderModel != null)
+            {
+                _purchaseOrderNo = _purchaseOrderModel.PurchaseOrderNo;
+                supplierName = _purchaseOrderModel.SupplierName;
+                purchaseOrderDate = _purchaseOrderModel.PurchaseOrderDate.ToString();
+                wareHouseCode = _purchaseOrderModel.WarehouseCode;
+                inputStatusName = _purchaseOrderModel.InputStatusName;
+            }
+            var response = await _purchaseOrderService.SearchPurchaseOrderItem(CurrentPage, RowPerPage,
+             _purchaseOrderNo);
             _purchaseOrderItemModels = response.rows;
             TotalPage = response.pages;
         }
@@ -233,13 +199,6 @@
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
                 await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
-                dateFrom = await _localStorageService.GetItemAsStringAsync("search_purchaseOrder_dateFrom") ?? "";
-                if (string.IsNullOrEmpty(dateFrom?.Trim()))
-                {
-                    dateFrom = CommonUtils.GetFirstDayOfThisMonth();
-                    await _localStorageService.SetItemAsStringAsync("search_purchaseOrder_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
-                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchEndDate1");
-                }
                 await OnInitData();
             }
         }
@@ -262,21 +221,5 @@
         {
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
         }
-    }
-
-    private void OnClickDetail(PurchaseOrderItemModel purchaseOrderItemModel)
-    {
-        UriHelper.NavigateTo($"/PurchaseOrder/detail/{purchaseOrderItemModel.PurchaseOrderID}", true);
-    }
-    private void OnClickActualScanDetail(PurchaseOrderItemModel purchaseOrderItemModel)
-    {
-        UriHelper.NavigateTo($"/PurchaseOrder/ActualScanDetail/{purchaseOrderItemModel.PurchaseOrderID}", true);
-    }
-
-
-    private async void OnClickExportExcel(PurchaseOrderItemModel purchaseOrderItemModel)
-    {
-        string query = $"saleOrderId={purchaseOrderItemModel.PurchaseOrderID}";
-        UriHelper.NavigateTo($"/SaleOrder/ViewExcelReport?{query}", true);
     }
 }

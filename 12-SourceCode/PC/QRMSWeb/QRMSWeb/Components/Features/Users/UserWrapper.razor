@@ -91,12 +91,15 @@
         new TableLabels {label = "Loại tài khoản", dataIndex = "RoleName",columnWidth=150},
         new TableLabels {label = "Email", dataIndex = "Email",columnWidth=150 },
         new TableLabels {label = "Kho", dataIndex = "WarehouseName",columnWidth=200},
-        new TableLabels {label = "Ghi chú", dataIndex = "WarehouseName",columnWidth=150},
+        new TableLabels {label = "Ghi chú", dataIndex = "WarehouseCode",columnWidth=150},
     };
 
     private bool loading = true;
     private List<UserModel> accounts = new List<UserModel>();
     private UserService _userService;
+
+    private List<WareHouseModel> _wareHouseModels = new List<WareHouseModel>();
+    private WareHouseService _wareHouseService;
 
     private async Task OnSearch()
     {
@@ -138,6 +141,7 @@
     {
         try
         {
+            _wareHouseService = new WareHouseService(_httpClient);
             _userService = new UserService(_httpClient);
         }
         catch (Exception e)
@@ -153,6 +157,18 @@
             await retryParamSearch();
             var response = await _userService.SearchAccount(CurrentPage, RowPerPage, username, fullname);
             accounts = response.rows ?? new List<UserModel>();
+            if (accounts.Count >0)
+            {
+                foreach (UserModel account in accounts)
+                {
+                    var wareHouseModel = _wareHouseModels.Where(n => n.WarehouseCode.Equals(account.WarehouseCode)).FirstOrDefault();
+                    if (wareHouseModel != null)
+                    {
+                        account.WarehouseName = wareHouseModel.WarehouseName;
+                    }
+                }
+            }
+
             TotalPage = response.pages;
         }
         catch (Exception e)
@@ -172,6 +188,7 @@
         {
             if (firstRender)
             {
+                _wareHouseModels = await _wareHouseService.GetAllWareHouses();
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
                 await SearchAccount();

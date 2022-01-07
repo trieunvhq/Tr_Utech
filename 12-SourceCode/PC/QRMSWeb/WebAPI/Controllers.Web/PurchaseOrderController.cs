@@ -1,12 +1,7 @@
 ﻿using BLL.Factory.Web.PurchaseOrder;
-using BLL.FactoryBLL.Web.Users;
-using BPL.Models.Web;
-using HDLIB;
+using BLL.Factory.Web.TransactionHistory;
 using HDLIB.Common;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -22,19 +17,18 @@ namespace WebAPI.Controllers.Web
         [AuthRequire]
         [PJICOAuthorize]
         [Route("api-wa/purchase-order/all-purchase-order")]
-        public BaseModel GetListPurchaseOrderItem(int page = 1, int limit = Constant.NumPage,
-            string itemCode = null, string itemName = null, string purchaseOrderNo = null, string locationCode = null,
+        public BaseModel GetListPurchaseOrder(int page = 1, int limit = Constant.NumPage,
+            string wareHouseCode = null, string purchaseOrderNo = null, string inputStatus = null,
             DateTime? startDate = null, DateTime? endDate = null, bool isSearch=true)
         {
             var _return = new BaseModel();
             try
             {
-                itemCode = itemCode?.Trim();
-                itemName = itemName?.Trim();
+                wareHouseCode = wareHouseCode?.Trim();
+                inputStatus = inputStatus?.Trim();
                 purchaseOrderNo = purchaseOrderNo?.Trim();
-                locationCode = locationCode?.Trim();
-                _return.RespondCode = APIResponseCode.SUCCESS;
-                _return.data = new PurchaseOrderBLL().FindAll(page, limit, itemCode, itemName, purchaseOrderNo, locationCode, startDate, endDate, isSearch);
+                _return.RespondCode = ConstAPIResponseCode.SUCCESS;
+                _return.data = new PurchaseOrderBLL().FindAllPurchaseOrder(page, limit, wareHouseCode, purchaseOrderNo, inputStatus, startDate, endDate, isSearch);
 
                 return _return;
             }
@@ -47,23 +41,47 @@ namespace WebAPI.Controllers.Web
                 return _return;
             }
         }
+
+        [HttpGet]
+        [AuthRequire]
+        [PJICOAuthorize]
+        [Route("api-wa/purchase-order/all-purchase-order-item")]
+        public BaseModel GetListPurchaseOrderItem(int page = 1, int limit = Constant.NumPage,
+            string purchaseOrderNo = null)
+        {
+            var _return = new BaseModel();
+            try
+            {
+                purchaseOrderNo = purchaseOrderNo?.Trim();
+                _return.RespondCode = ConstAPIResponseCode.SUCCESS;
+                _return.data = new PurchaseOrderBLL().FindAllPurchaseOrderItem(page, limit, purchaseOrderNo);
+
+                return _return;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                _return.Message = "Lỗi hệ thống";
+                _return.RespondCode = "500";
+                _return.ErrorCode = "SYSTEM_ERROR";
+                return _return;
+            }
+        }
+
         [HttpGet]
         [AuthRequire]
         [PJICOAuthorize]
         [Route("api-wa/purchase-order/purchase-order-actual-scan")]
         public BaseModel GetListPurchaseOrderItemActualScan(int page = 1, int limit = Constant.NumPage,
-            string itemCode = null, string itemName = null, string purchaseOrderNo = null, string locationCode = null,
-            DateTime? startDate = null, DateTime? endDate = null, bool isSearch = true)
+             string purchaseOrderNo = null)
         {
             var _return = new BaseModel();
             try
             {
-                itemCode = itemCode?.Trim();
-                itemName = itemName?.Trim();
                 purchaseOrderNo = purchaseOrderNo?.Trim();
-                locationCode = locationCode?.Trim();
-                _return.RespondCode = APIResponseCode.SUCCESS;
-                _return.data = new PurchaseOrderBLL().FindAll(page, limit, itemCode, itemName, purchaseOrderNo, locationCode, startDate, endDate, isSearch);
+                _return.RespondCode = ConstAPIResponseCode.SUCCESS;
+                _return.data = new TransactionHistoryBLL().FindAll(page, limit, ConstTransactionType.NhapKho, purchaseOrderNo, null
+                    , null, null, null, null,false);
 
                 return _return;
             }
@@ -111,6 +129,38 @@ namespace WebAPI.Controllers.Web
         [HttpGet]
         [AuthRequire]
         [PJICOAuthorize]
+        [Route("api-wa/get-purchase-order-by-no")]
+        public BaseModel GetPurchaseOrderByPurchaseOrderNo(string PurchaseOrderNo = null)
+        {
+            var _return = new BaseModel();
+            try
+            {
+                var result = new PurchaseOrderBLL().GetPurchaseOrderByPurchaseOrderNo(PurchaseOrderNo);
+                if (result != null)
+                {
+                    _return.ErrorCode = "0";
+                    _return.data = result;
+                }
+                else
+                {
+                    _return.Message = "Không tìm thấy thông tin";
+                    _return.ErrorCode = "-1";
+                }
+
+                return _return;
+
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                _return.Message = ex.ToString();
+                return _return;
+            }
+        }
+
+        [HttpGet]
+        [AuthRequire]
+        [PJICOAuthorize]
         [Route("api-wa/purchase-order/import-from-amis")]
         public BaseModel ImportFromAMIS()
         {
@@ -142,13 +192,13 @@ namespace WebAPI.Controllers.Web
         }
         [HttpGet]
         [Route("api_wa/purchase-order/export-excel")]
-        public HttpResponseMessage ReportToExcell(int? saleOrderID)
+        public HttpResponseMessage ReportToExcell(string purchaseOrderNo = null)
         {
             try
             {
                 //Response.BinaryWrite(package.GetAsByteArray());
 
-                var excelResponseBase = new PurchaseOrderBLL().ExportToExcel(saleOrderID);
+                var excelResponseBase = new PurchaseOrderBLL().ExportToExcel(purchaseOrderNo);
                 if (excelResponseBase != null)
                 {
                     var result = new HttpResponseMessage(HttpStatusCode.OK);
@@ -194,7 +244,7 @@ namespace WebAPI.Controllers.Web
                 purchaseOrderNo = purchaseOrderNo?.Trim();
                 printStatus = printStatus?.Trim();
 
-                _return.RespondCode = APIResponseCode.SUCCESS;
+                _return.RespondCode = ConstAPIResponseCode.SUCCESS;
                 _return.data = new PurchaseOrderBLL().FindAllPurchaseOrderPrint(page, limit, itemType, wareHouseCode, purchaseOrderNo,
                     printStatus, purchaseOrderDate, isSearch);
 

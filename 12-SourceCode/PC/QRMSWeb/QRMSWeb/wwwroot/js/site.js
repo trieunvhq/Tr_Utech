@@ -3,6 +3,7 @@
 
 // Write your JavaScript code.
 function showPrompt(title, text, confirmText, cancelText, messageTitle, messageText, messageType) {
+    console.log('error');
     return new Promise(resolve => {
         swal({
             title,
@@ -22,10 +23,11 @@ function showPrompt(title, text, confirmText, cancelText, messageTitle, messageT
                     messageType
                 )*/
                 //showMessage(messageTitle, messageText, messageType)
+                return resolve(1);
             }
 
-            return resolve(result);
-        }).catch(() => resolve(false));
+            return resolve(0);
+        }).catch(() => resolve(0));
     })
 }
 
@@ -171,9 +173,15 @@ function navigateToPage(page) {
     })
 }
 
-function ShowModal(modalID) {
-    $("#" + modalID).modal('show');
+function ShowModal(modalID,) {
+    //click out site or escape ko cho nó đóng
+    $("#" + modalID).modal({
+        backdrop: 'static',
+        keyboard: false,
+        
+    });
     // $("#" + modalID).modal('toggle');
+    $("#" + modalID).modal('show');
 }
 
 function closeModal(modalID) {

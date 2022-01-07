@@ -1,4 +1,6 @@
-﻿using Microsoft.JSInterop;
+﻿using HDLIB;
+using Microsoft.JSInterop;
+using QRCoder;
 using QRMSWeb.Models;
 using QRMSWeb.Services;
 using System;
@@ -542,59 +544,6 @@ namespace QRMSWeb.Utils
         #endregion
 
 
-        public static string GetNameOfDonBaoHiemStatus(string contractStatus)
-        {
-            var _contractStatus = ConvertStringNumberVNToInt(contractStatus);
-            return GetNameOfDonBaoHiemStatus(_contractStatus);
-        }
-        public static string GetNameOfDonBaoHiemStatus(int? contractStatus)
-        {
-            if (contractStatus == null) return "";
-            switch (contractStatus)
-            {
-                case 1:
-                    return "Chưa hoàn thành";
-                case 2:
-                    return "Chờ phê duyệt";
-                case 3:
-                    return "Từ chối phê duyệt";
-                case 4:
-                    return "Đã phê duyệt";
-                case 5:
-                    return "Đã thanh toán";
-                case 6:
-                    return "Hoàn thành";
-                case 7:
-                    return "Sửa đổi bổ sung";
-                case 8:
-                    return "Hủy hợp đồng";
-                case 9:
-                    return "Tái tục";
-                case 10:
-                    return "Yêu cầu sửa đổi bổ sung";
-                case 11:
-                    return "Yêu cầu hủy";
-            }
-            return "";
-        }
-        public static string GetNameOfDonBaoHiemIssueType(string issueType)
-        {
-            if (string.IsNullOrEmpty(issueType?.Trim())) return "";
-            switch (issueType.Trim())
-            {
-                case "A":
-                    return "Phê duyệt";
-                case "N":
-                    return "Cấp mới";
-                case "U":
-                    return "Sửa đổi bổ sung";
-                case "D":
-                    return "Hủy đơn";
-                case "R":
-                    return "Tái tục";
-            }
-            return "";
-        }
 
         public static string GetNameOfSex(string sex)
         {
@@ -608,235 +557,6 @@ namespace QRMSWeb.Utils
                 return "Nữ";
             }
             return "";
-        }
-        public static string GetNameOfLoaiBaoHiem(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return "";
-            if ("5201".Equals(insurProductCode))
-            {
-                return "Xe máy";
-            }
-            else if ("5101".Equals(insurProductCode))
-            {
-                return "Ôto";
-            }
-            return "";
-        }
-        public static bool isBaoHiemCar(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode)) return false;
-            if ("5101".Equals(insurProductCode))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool isBaoHiemMoto(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("5201".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool isBaoHiemVatChatOto(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("5106".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool isBaoHiemDLQuocTe(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("6504".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool isBaoHiemDLTrongNuoc(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("6501".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool isBaoHiemDLNguoiVietNamDuLichNuocNgoai(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("6503".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool isBaoHiemDLNguoiNuocNgoaiDuLichVietNam(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("6502".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool isBaoHiemNhaO(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("3104".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public static bool isBaoHiemBenhHiemNgheo(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("6106".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public static bool isBaoHiemBenhUngThu(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("6105".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool isBaoHiemBenhNhaTuNhan(string insurProductCode)
-        {
-            if (string.IsNullOrEmpty(insurProductCode?.Trim())) return false;
-            if ("3104".Equals(insurProductCode?.Trim()))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public static bool IsCar(string vehicleCode)
-        {
-            if (Constants.Constants.COMMON_TYPE_CODE_CAR.Equals(vehicleCode))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool IsCarMaterial(string vehicleCode)
-        {
-            if (Constants.Constants.COMON_TYPE_CAR_MATERIAL.Equals(vehicleCode))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool IsXeMay(string vehicleCode)
-        {
-            if (Constants.Constants.COMMON_TYPE_CODE_MOTO.Equals(vehicleCode))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool IsXeHangHoa(string vehicleCode)
-        {
-            if (Constants.Constants.COMMON_TYPE_CODE_HH.Equals(vehicleCode))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public static bool IsDaiLyCaNhan(string agentTypeCode)
-        {
-            if ("102".Equals(agentTypeCode))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool IsDaiLyToChuc(string agentTypeCode)
-        {
-            if ("101".Equals(agentTypeCode))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool IsDaiLyDonVi(string agentTypeCode)
-        {
-            if ("202".Equals(agentTypeCode))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool IsDaiLyKhac(string agentTypeCode)
-        {
-            if ("103".Equals(agentTypeCode))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static string GetTenPhanLoaiXe(string phanLoaiCode)
-        {
-            if (string.IsNullOrEmpty(phanLoaiCode?.Trim())) return "";
-            phanLoaiCode = phanLoaiCode.Trim();
-            if ("VEH_CN_M".Equals(phanLoaiCode))
-            {
-                return "Xe máy";
-            }
-            else if ("VEH_CN_C".Equals(phanLoaiCode))
-            {
-                return "Ô tô";
-            }
-            else if ("VEH_HH".Equals(phanLoaiCode))
-            {
-                return "Hàng hóa";
-            }
-            else if ("VEH_HH_CX".Equals(phanLoaiCode))
-            {
-                return "Hàng hóa và chủ xe là một";
-            }
-            else
-            {
-                return "";
-            }
-        }
-        public static string GetNameOfLoaiKhachHang(string custType)
-        {
-            if (string.IsNullOrEmpty(custType?.Trim())) return "a";
-            if ("1".Equals(custType?.Trim()))
-            {
-                return "Cá nhân";
-            }
-            else if ("2".Equals(custType?.Trim()))
-            {
-                return "Tổ chức";
-            }
-            return "";
-        }
-
-        public static bool IsKHCaNhan(string custType)
-        {
-            if (String.IsNullOrEmpty(custType?.Trim())) return false;
-            return "1".Equals(custType.Trim());
-        }
-        public static bool IsKHToChuc(string custType)
-        {
-            if (String.IsNullOrEmpty(custType?.Trim())) return false;
-            return "2".Equals(custType.Trim());
         }
 
         public static string GetStyleSheetMarkChanged(object? oldOjbect, object? curObject, object? oldValue, object? curValue)
@@ -970,9 +690,71 @@ namespace QRMSWeb.Utils
         
         }
 
-        public static bool IsContractFromCusApp(string appType)
+        public static List<SelectItem> GetListItemType()
         {
-            return "C".Equals(appType);
+            List<SelectItem> selectItems = new List<SelectItem>();
+            selectItems.Add(new SelectItem(){
+                Code = "DC",
+                Name = "Dụng cụ, Thiết bị"
+            });
+            selectItems.Add(new SelectItem()
+            {
+                Code = "NL",
+                Name = "Nguyên liệu"
+            });
+            selectItems.Add(new SelectItem()
+            {
+                Code = "TP",
+                Name = "Thành phẩm"
+            });
+            return selectItems;
         }
+        public static string GetItemTypeName(string itemType)
+        {
+            var result = GetListItemType().Where(item => item.Code == itemType).FirstOrDefault();
+            return result?.Name;
+        }
+
+        public static List<SelectItem> GetListPrintStatus()
+        {
+            List<SelectItem> selectItems = new List<SelectItem>();
+            selectItems.Add(new SelectItem()
+            {
+                Code = "N",
+                Name = "Chưa in"
+            });
+            selectItems.Add(new SelectItem()
+            {
+                Code = "D",
+                Name = "Đang in"
+            });
+            selectItems.Add(new SelectItem()
+            {
+                Code = "Y",
+                Name = "Đã in"
+            });
+            return selectItems;
+
+        }
+        public static string GetPrintStatusName(string printStatus)
+        {
+            var result = GetListPrintStatus().Where(item => item.Code == printStatus).FirstOrDefault();
+            return result?.Name;
+        }
+
+        public static string BuildStringNA(string data)
+        {
+            return string.IsNullOrEmpty(data) ? "N/A" : data;
+        }
+
+
+    }
+
+
+
+    public class SelectItem
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
     }
 }

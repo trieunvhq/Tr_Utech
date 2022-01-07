@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace DAL.Factory.Web.PurchaseOrder
+namespace DAL.Factory.Web.TransactionHistory
 {
     public class TransactionHistoryManagement : BaseManagement
     {
@@ -31,30 +31,51 @@ namespace DAL.Factory.Web.PurchaseOrder
         }
 
         public HDLIB.WebPaging.TPaging<DAL.TransactionHistory> FindAll(int page, int limit,
-                    string itemType, string orderNo, DateTime? orderDate, bool isSearch)
+                    string transactionType, string orderNo, DateTime? orderDate,
+            string itemType, string itemCode, DateTime? orderDateFrom, DateTime? orderDateTo, bool isSearch)
         {
             try
             {
-                itemType = itemType?.Trim();
+                transactionType = transactionType?.Trim();
                 orderNo = orderNo?.Trim();
+                itemType = itemType?.Trim();
+                itemCode = itemCode?.Trim();
 
                 HDLIB.WebPaging.TPaging<DAL.TransactionHistory> paging = new HDLIB.WebPaging.TPaging<DAL.TransactionHistory>();
                 int offset = (page - 1) * limit;
-                string SQL = $"select * from TransactionHistory a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
+                string SQL = $"select * from TransactionHistory a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }')";
                 if (isSearch)
                 {
-                    SQL += (string.IsNullOrEmpty(itemType)) ? "" : $" and LOWER(a.ItemType) LIKE '%{itemType.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                    SQL += (string.IsNullOrEmpty(transactionType)) ? "" : $" and LOWER(a.TransactionType) LIKE '%{transactionType.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
                     SQL += (string.IsNullOrEmpty(orderNo)) ? "" : $" and LOWER(a.OrderNo) LIKE '%{orderNo.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                    SQL += (string.IsNullOrEmpty(itemType)) ? "" : $" and LOWER(a.ItemType) LIKE '%{itemType.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                    SQL += (string.IsNullOrEmpty(itemCode)) ? "" : $" and LOWER(a.ItemCode) LIKE '%{itemCode.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
                 }
                 else
                 {
-                    SQL += (string.IsNullOrEmpty(itemType)) ? "" : $" and LOWER(a.ItemType) = '{itemType.ToLower()}'";
+                    SQL += (string.IsNullOrEmpty(transactionType)) ? "" : $" and LOWER(a.TransactionType) = '{transactionType.ToLower()}'";
                     SQL += (string.IsNullOrEmpty(orderNo)) ? "" : $" and LOWER(a.OrderNo) = '{orderNo.ToLower()}'";
+                    SQL += (string.IsNullOrEmpty(itemType)) ? "" : $" and LOWER(a.ItemType) = '{itemType.ToLower()}'";
+                    SQL += (string.IsNullOrEmpty(itemCode)) ? "" : $" and LOWER(a.ItemCode) = '{itemCode.ToLower()}'";
                 }
                 if (orderDate != null)
                 {
                     SQL += $" and (a.OrderDate == convert(datetime, '{ orderDate.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
                 }
+
+                if (orderDateFrom != null && orderDateTo != null)
+                {
+                    SQL += $" and (a.OrderDate between convert(datetime, '{ orderDateFrom.Value.ToString("dd-MM-yyyy 00:00:00") }', 103) and convert(datetime, '{ orderDateTo.Value.ToString("dd-MM-yyyy 23:59:59") }', 103)) ";
+                }
+                else if (orderDateFrom != null)
+                {
+                    SQL += $" and (a.OrderDate >= convert(datetime, '{ orderDateFrom.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
+                }
+                else if (orderDateTo != null)
+                {
+                    SQL += $" and (a.OrderDate <= convert(datetime, '{ orderDateTo.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
+                }
+
 
                 SQL += " order by a.id desc";
                 var exec_sql = db.TransactionHistories.SqlQuery(SQL);
@@ -72,12 +93,69 @@ namespace DAL.Factory.Web.PurchaseOrder
             }
         }
 
-        public List<DAL.TransactionHistory> GetAllBy(string orderNo)
+        public List<DAL.TransactionHistory> FindAllWithOutPagging(string transactionType, string orderNo, DateTime? orderDate,
+            string itemType, string itemCode, DateTime? orderDateFrom, DateTime? orderDateTo, bool isSearch)
+        {
+            try
+            {
+                transactionType = transactionType?.Trim();
+                orderNo = orderNo?.Trim();
+                itemType = itemType?.Trim();
+                itemCode = itemCode?.Trim();
+
+                string SQL = $"select * from TransactionHistory a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }')";
+                if (isSearch)
+                {
+                    SQL += (string.IsNullOrEmpty(transactionType)) ? "" : $" and LOWER(a.TransactionType) LIKE '%{transactionType.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                    SQL += (string.IsNullOrEmpty(orderNo)) ? "" : $" and LOWER(a.OrderNo) LIKE '%{orderNo.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                    SQL += (string.IsNullOrEmpty(itemType)) ? "" : $" and LOWER(a.ItemType) LIKE '%{itemType.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                    SQL += (string.IsNullOrEmpty(itemCode)) ? "" : $" and LOWER(a.ItemCode) LIKE '%{itemCode.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
+                }
+                else
+                {
+                    SQL += (string.IsNullOrEmpty(transactionType)) ? "" : $" and LOWER(a.TransactionType) = '{transactionType.ToLower()}'";
+                    SQL += (string.IsNullOrEmpty(orderNo)) ? "" : $" and LOWER(a.OrderNo) = '{orderNo.ToLower()}'";
+                    SQL += (string.IsNullOrEmpty(itemType)) ? "" : $" and LOWER(a.ItemType) = '{itemType.ToLower()}'";
+                    SQL += (string.IsNullOrEmpty(itemCode)) ? "" : $" and LOWER(a.ItemCode) = '{itemCode.ToLower()}'";
+                }
+                if (orderDate != null)
+                {
+                    SQL += $" and (a.OrderDate == convert(datetime, '{ orderDate.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
+                }
+
+                if (orderDateFrom != null && orderDateTo != null)
+                {
+                    SQL += $" and (a.OrderDate between convert(datetime, '{ orderDateFrom.Value.ToString("dd-MM-yyyy 00:00:00") }', 103) and convert(datetime, '{ orderDateTo.Value.ToString("dd-MM-yyyy 23:59:59") }', 103)) ";
+                }
+                else if (orderDateFrom != null)
+                {
+                    SQL += $" and (a.OrderDate >= convert(datetime, '{ orderDateFrom.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
+                }
+                else if (orderDateTo != null)
+                {
+                    SQL += $" and (a.OrderDate <= convert(datetime, '{ orderDateTo.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
+                }
+
+
+                SQL += " order by a.id desc";
+                return db.TransactionHistories.SqlQuery(SQL).AsNoTracking().ToList();
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Logging.LogError(ex);
+                throw;
+            }
+        }
+
+        public List<DAL.TransactionHistory> GetAllBy(string orderNo,string transactionType)
         {
             try
             {
                 orderNo = (orderNo?.Trim()) ?? "";
-                return db.TransactionHistories.Where(item => orderNo.Equals(item.OrderNo) && item.RecordStatus != Constant.DeletedRecordStatus).ToList();
+
+                return db.TransactionHistories.Where(item => orderNo.Equals(item.OrderNo) && item.TransactionType.Equals(transactionType) && item.RecordStatus != Constant.DeletedRecordStatus).ToList();
             }
             catch (Exception ex)
             {

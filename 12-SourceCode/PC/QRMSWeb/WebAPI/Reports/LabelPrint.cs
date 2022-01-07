@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WMS.Reports {
+namespace WebAPI.Reports {
     using System;
     using System.ComponentModel;
     using CrystalDecisions.Shared;
@@ -16,14 +16,14 @@ namespace WMS.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class MaterialLabel : ReportClass {
+    public class LabelPrint : ReportClass {
         
-        public MaterialLabel() {
+        public LabelPrint() {
         }
         
         public override string ResourceName {
             get {
-                return "MaterialLabel.rpt";
+                return "LabelPrint.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace WMS.Reports {
         
         public override string FullResourceName {
             get {
-                return "WMS.Reports.MaterialLabel.rpt";
+                return "WebAPI.Reports.LabelPrint.rpt";
             }
             set {
                 // Do nothing
@@ -90,9 +90,9 @@ namespace WMS.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedMaterialLabel : Component, ICachedReport {
+    public class CachedLabelPrint : Component, ICachedReport {
         
-        public CachedMaterialLabel() {
+        public CachedLabelPrint() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace WMS.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            MaterialLabel rpt = new MaterialLabel();
+            LabelPrint rpt = new LabelPrint();
             rpt.Site = this.Site;
             return rpt;
         }

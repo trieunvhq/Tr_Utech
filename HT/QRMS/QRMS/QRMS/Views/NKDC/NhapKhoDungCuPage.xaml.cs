@@ -107,12 +107,15 @@ namespace QRMS.Views
         {
             try
             {
+                _MyScan.CloseBarcodeReader();
                 _MyScan = new MyScan(1, ViewModel);
                 _MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
             {
                 UserDialogs.Instance.AlertAsync(ee.Message, "Exception", "OK").ConfigureAwait(false);
+                MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "NhapKhoDungCuPage", MySettings.UserName);
+
             }
         }
 
@@ -120,16 +123,19 @@ namespace QRMS.Views
         {
             row.Height = 250;
 
-            lbThongBao.IsVisible = false;
+            ViewModel.IsThongBao = false;
             lbNen.IsVisible = true;
             scanView.IsVisible = true;
             btnDongQuet.IsVisible = true;
         }
          
 
-        async void scanView_OnScanResult(ZXing.Result result)
+        void scanView_OnScanResult(ZXing.Result result)
         {
-            ViewModel.ScanComplate(result.Text);
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                ViewModel.ScanComplate(result.Text);
+            });
         }
 
         void btnDongQuet_Clicked(System.Object sender, System.EventArgs e)
@@ -137,7 +143,7 @@ namespace QRMS.Views
             row.Height = 50;
             lbNen.IsVisible = false;
             scanView.IsVisible = false;
-            lbThongBao.IsVisible = false;
+            ViewModel.IsThongBao = false; 
             btnDongQuet.IsVisible = false;
             ViewModel.StopDemThoiGianGGS();
         }

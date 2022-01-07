@@ -1,17 +1,28 @@
 {			
 	"ResultCode" : "0",		
 	"ResultMsg" : "",		
-	"Data"	
-	[		
-		{	
-			"ID" : 1,
-			"WarehouseCode" : "HN",
-			"WarehouesName" : "Hà nội"
-		},	
-		{	
-			"ID" : 2,
-			"WarehouseCode" : "HN_1",
-			"WarehouesName" : "Hà nội 1"
-		}
-	]		
+	"Data"	:
+	{			
+		"Page" : 1,
+		"TotalPage" : 5,	
+		"PageSize": 500,	
+		"PageData" :
+		[		
+			{	
+				"ID" : 1,
+				"WarehouseCode" : "HN",
+				"WarehouseName" : "Hà nội"
+			},	
+			{	
+				"ID" : 2,
+				"WarehouseCode" : "HN_1",
+				"WarehouseName" : "Hà nội 1"
+			},
+			{	
+				"ID" : 3,
+				"WarehouseCode" : "VP02KC",
+				"WarehouseName" : "Kho Nhà Máy 2 tại Vĩnh Phúc"
+			}
+		]	
+	}		
 }			

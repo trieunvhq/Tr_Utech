@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
                 string err_code = "";
                 string err_msg = "";
 
-                var result = new PurchaseOrderBPL().GetPurchaseOrder(input.from_day, input.to_day, out err_code, out err_msg);
+                var result = new PurchaseOrderBPL().GetPurchaseOrder(input.from_day, input.to_day, input.WarehouseCode, out err_code, out err_msg);
 
                 _return.ErrorCode = err_code;
                 _return.Message = err_msg;
@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                _return.ErrorCode = ResponseErrorCode.Error.ToString();
+                _return.ErrorCode = ConstResponseErrorCode.Error.ToString();
                 _return.Message = ex.Message;
             }
             return _return;
@@ -68,6 +68,7 @@ namespace WebAPI.Controllers
 
     public class PurchaseOrderModelInput
     {
+        public string WarehouseCode { get; set; }
         public DateTime from_day { get; set; }
         public DateTime to_day { get; set; }
     }

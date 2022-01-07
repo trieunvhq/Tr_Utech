@@ -32,25 +32,16 @@ namespace DAL.Factory.Web.PurchaseOrder
                 throw;
             }
         }
-        public List<DAL.PurchaseOrderItem> GetPurchaseOrderItemBy(int? purchaseOrderID, 
-            string purchaseOrderNo, string supplierCode,
-          string locationCode, string itemCode)
+
+        public DAL.PurchaseOrderItem FindByNo(string purchaseOrderNo)
         {
             try
             {
-                purchaseOrderNo = (purchaseOrderNo?.Trim()) ?? "";
-                supplierCode = (supplierCode?.Trim()) ?? "";
-                locationCode = (locationCode?.Trim()) ?? "";
-                itemCode = (itemCode?.Trim()) ?? "";
-                string SQL = $"select * from PurchaseOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
-
-                SQL += (purchaseOrderID == null || purchaseOrderID <= 0) ? "" : $" and a.purchaseOrderID = {purchaseOrderID}";
-                SQL += (string.IsNullOrEmpty(purchaseOrderNo?.Trim())) ? "" : $" and LOWER(a.purchaseOrderNo) = '{purchaseOrderNo.ToLower()}'";
-                SQL += (string.IsNullOrEmpty(supplierCode?.Trim())) ? "" : $" and LOWER(a.SupplierCode) = '{supplierCode.ToLower()}'";
-                SQL += (string.IsNullOrEmpty(locationCode?.Trim())) ? "" : $" and LOWER(a.LocationCode) = '{locationCode.ToLower()}'";
-                SQL += (string.IsNullOrEmpty(itemCode?.Trim())) ? "" : $" and LOWER(a.ItemCode) = '{itemCode.ToLower()}'";
-                SQL += " order by a.id desc";
-                return db.PurchaseOrderItems.SqlQuery(SQL).AsNoTracking().ToList();
+                var query = db.PurchaseOrderItems.AsQueryable();
+                query = query.Where(n => n.RecordStatus != null && n.RecordStatus != ConstRecordStatus.Deleted);
+                query = query.Where(n => n.PurchaseOrderNo.ToLower().Contains(purchaseOrderNo.ToLower()));
+                var data = query.FirstOrDefault();
+                return data;
             }
             catch (Exception ex)
             {
@@ -59,50 +50,73 @@ namespace DAL.Factory.Web.PurchaseOrder
             }
         }
 
-        public HDLIB.WebPaging.TPaging<DAL.PurchaseOrderItem> FindAll(int page, int limit,
-            string itemCode, string itemName, string purchaseOrderNo, string locationCode, 
+        
+        public List<DAL.PurchaseOrderItem> GetPurchaseOrderItemBy(string purchaseOrderNo)
+        {
+            try
+            {
+                purchaseOrderNo = (purchaseOrderNo?.Trim()) ?? "";
+                var query = db.PurchaseOrderItems.AsQueryable();
+
+                query = query.Where(n => n.RecordStatus != null && n.RecordStatus != ConstRecordStatus.Deleted);
+
+                if (!string.IsNullOrWhiteSpace(purchaseOrderNo))
+                {
+                    query = query.Where(n => n.PurchaseOrderNo.ToLower().Contains(purchaseOrderNo.ToLower()));
+                }
+                var data = query.OrderByDescending(n => n.CreateDate).ToList();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                throw;
+            }
+        }
+
+        public HDLIB.WebPaging.TPaging<DAL.PurchaseOrder> FindAllPurchaseOrder(int page, int limit,
+            string wareHouseCode, string purchaseOrderNo, string inputStatus,
             DateTime? startDate, DateTime? endDate, bool isSearch)
         {
             try
             {
-                itemCode = itemCode?.Trim();
-                itemName = itemName?.Trim();
+                wareHouseCode = wareHouseCode?.Trim();
                 purchaseOrderNo = purchaseOrderNo?.Trim();
-                locationCode = locationCode?.Trim();
+                inputStatus = inputStatus?.Trim();
 
-                HDLIB.WebPaging.TPaging<DAL.PurchaseOrderItem> paging = new HDLIB.WebPaging.TPaging<DAL.PurchaseOrderItem>();
-                int offset = (page - 1) * limit;
-                string SQL = $"select * from PurchaseOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
-                if (isSearch) { 
-                SQL += (string.IsNullOrEmpty(itemCode)) ? "" : $" and LOWER(a.ItemCode) LIKE '%{itemCode.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                SQL += (string.IsNullOrEmpty(itemName)) ? "" : $" and LOWER(a.ItemName) LIKE '%{itemName.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                SQL += (string.IsNullOrEmpty(purchaseOrderNo)) ? "" : $" and LOWER(a.purchaseOrderNo) LIKE '%{purchaseOrderNo.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                SQL += (string.IsNullOrEmpty(locationCode)) ? "" : $" and LOWER(a.LocationCode) LIKE '%{locationCode.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                } else
+                HDLIB.WebPaging.TPaging<DAL.PurchaseOrder> paging = new HDLIB.WebPaging.TPaging<DAL.PurchaseOrder>();
+                var query = db.PurchaseOrders.AsQueryable();
+                query = query.Where(n => n.RecordStatus != null && n.RecordStatus != ConstRecordStatus.Deleted);
+                if (!string.IsNullOrWhiteSpace(wareHouseCode))
                 {
-                    SQL += (string.IsNullOrEmpty(itemCode)) ? "" : $" and LOWER(a.ItemCode) = '{itemCode.ToLower()}'";
-                    SQL += (string.IsNullOrEmpty(purchaseOrderNo)) ? "" : $" and LOWER(a.purchaseOrderNo) = '{purchaseOrderNo.ToLower()}'";
-                    SQL += (string.IsNullOrEmpty(locationCode)) ? "" : $" and LOWER(a.LocationCode) = '{locationCode.ToLower()}'";
+                    query = query.Where(n => n.WarehouseCode.ToLower().Contains(wareHouseCode.ToLower()));
                 }
-                if (startDate != null && endDate != null)
+                if (!string.IsNullOrWhiteSpace(purchaseOrderNo))
                 {
-                    SQL += $" and (a.purchaseOrderDate between convert(datetime, '{ startDate.Value.ToString("dd-MM-yyyy 00:00:00") }', 103) and convert(datetime, '{ endDate.Value.ToString("dd-MM-yyyy 23:59:59") }', 103)) ";
+                    query = query.Where(n => n.PurchaseOrderNo.ToLower().Contains(purchaseOrderNo.ToLower()));
                 }
-                else if (startDate != null)
+                if (!string.IsNullOrWhiteSpace(inputStatus))
                 {
-                    SQL += $" and (a.purchaseOrderDate >= convert(datetime, '{ startDate.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
+                    query = query.Where(n => n.InputStatus.ToLower().Contains(inputStatus.ToLower()));
                 }
-                else if (endDate != null)
+                if (startDate.HasValue && !endDate.HasValue)
                 {
-                    SQL += $" and (a.purchaseOrderDate <= convert(datetime, '{ endDate.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
-                }
+                    query = query.Where(n => n.PurchaseOrderDate >= startDate);
 
-                SQL += " order by a.id desc";
-                var exec_sql = db.PurchaseOrderItems.SqlQuery(SQL);
-                var data = exec_sql.AsNoTracking().Skip(offset).Take(limit).ToList();
-                int total = exec_sql.Count();
+                }else
+                if (!startDate.HasValue && endDate.HasValue)
+                {
+                    query = query.Where(n => n.PurchaseOrderDate <= endDate);
+
+                }else
+                if (startDate.HasValue && endDate.HasValue)
+                {
+                    query = query.Where(n => n.PurchaseOrderDate >= startDate);
+                    query = query.Where(n => n.PurchaseOrderDate <= endDate);
+                }
+                var total = query.Count();
+                var data = query.OrderByDescending(n => n.CreateDate).Skip((page - 1) * limit).Take(limit).ToList();
                 paging.CalculatePaging(data, page, limit, total);
-
                 return paging;
             }
             catch (Exception ex)
@@ -113,8 +127,34 @@ namespace DAL.Factory.Web.PurchaseOrder
             }
         }
 
-        
+        public HDLIB.WebPaging.TPaging<DAL.PurchaseOrderItem> FindAllPurchaseOrderItem(int page, int limit,
+            string purchaseOrderNo)
+        {
+            try
+            {
+                purchaseOrderNo = purchaseOrderNo?.Trim();
 
+                HDLIB.WebPaging.TPaging<DAL.PurchaseOrderItem> paging = new HDLIB.WebPaging.TPaging<DAL.PurchaseOrderItem>();
+                var query = db.PurchaseOrderItems.AsQueryable();
+                
+                query = query.Where(n => n.RecordStatus != null && n.RecordStatus != ConstRecordStatus.Deleted);
+                if (!string.IsNullOrWhiteSpace(purchaseOrderNo))
+                {
+                    query = query.Where(n => n.PurchaseOrderNo.ToLower().Contains(purchaseOrderNo.ToLower()));
+                }
+                var total = query.Count();
+                var data = query.OrderByDescending(n => n.CreateDate).Skip((page - 1) * limit).Take(limit).ToList();
+                paging.CalculatePaging(data, page, limit, total);
+                return paging;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Logging.LogError(ex);
+                throw;
+            }
+        }
+        
         public int GetMaxpurchaseOrderId()
         {
             try
@@ -173,7 +213,7 @@ namespace DAL.Factory.Web.PurchaseOrder
 
                 HDLIB.WebPaging.TPaging<DAL.PurchaseOrderItem> paging = new HDLIB.WebPaging.TPaging<DAL.PurchaseOrderItem>();
                 int offset = (page - 1) * limit;
-                string SQL = $"select * from PurchaseOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
+                string SQL = $"select * from PurchaseOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }')";
                 if (isSearch)
                 {
                     SQL += (string.IsNullOrEmpty(itemType)) ? "" : $" and LOWER(a.ItemType) LIKE '%{itemType.ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";

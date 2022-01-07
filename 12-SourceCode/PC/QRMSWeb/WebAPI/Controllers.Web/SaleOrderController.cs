@@ -1,4 +1,5 @@
 ﻿using BLL.Factory.Web.SaleOrder;
+using BLL.Factory.Web.TransactionHistory;
 using BLL.FactoryBLL.Web.Users;
 using BPL.Models.Web;
 using HDLIB;
@@ -24,22 +25,21 @@ namespace WebAPI.Controllers.Web
         [HttpGet]
         [AuthRequire]
         [PJICOAuthorize]
-        [Route("api-wa/sale-order/find-all")]
+        [Route("api-wa/sale-order/find-all-sale-order")]
         public BaseModel FindListSaleOrders(int page = 1, int limit = Constant.NumPage,
-            string itemCode = null, string itemName = null, string saleOrderNo = null, string locationName = null, 
+            string exportStatus = null, string saleOrderNo = null, string wareHouseCode = null, 
             DateTime? startDate = null,  DateTime? endDate = null)
         {
             var _return = new BaseModel();
 
             try
             {
-                itemCode = itemCode?.Trim();
-                itemName = itemName?.Trim();
+                exportStatus = exportStatus?.Trim();
                 saleOrderNo = saleOrderNo?.Trim();
-                locationName = locationName?.Trim();
+                wareHouseCode = wareHouseCode?.Trim();
 
-                _return.RespondCode = APIResponseCode.SUCCESS;
-                _return.data = new SaleOrderBLL().FindAll(page, limit, itemCode, itemName, saleOrderNo, locationName, startDate, endDate);
+                _return.RespondCode = ConstAPIResponseCode.SUCCESS;
+                _return.data = new SaleOrderBLL().FindAllSaleOrder(page, limit, exportStatus, saleOrderNo, wareHouseCode, startDate, endDate);
                     
                 return _return;
             }
@@ -53,6 +53,92 @@ namespace WebAPI.Controllers.Web
             }
         }
 
+        [HttpGet]
+        [AuthRequire]
+        [PJICOAuthorize]
+        [Route("api-wa/sale-order/find-all-sale-order-item")]
+        public BaseModel FindListSaleOrderItems(int page = 1, int limit = Constant.NumPage,
+            string saleOrderNo = null)
+        {
+            var _return = new BaseModel();
+
+            try
+            {
+                saleOrderNo = saleOrderNo?.Trim();
+
+                _return.RespondCode = ConstAPIResponseCode.SUCCESS;
+                _return.data = new SaleOrderBLL().FindAllSaleOrderItem(page, limit, saleOrderNo);
+
+                return _return;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                _return.Message = "Lỗi hệ thống";
+                _return.RespondCode = "500";
+                _return.ErrorCode = "SYSTEM_ERROR";
+                return _return;
+            }
+        }
+
+        [HttpGet]
+        [AuthRequire]
+        [PJICOAuthorize]
+        [Route("api-wa/get-sale-order-by-no")]
+        public BaseModel GetSaleOrderBySaleOrderNo(string SaleOrderNo = null)
+        {
+            var _return = new BaseModel();
+            try
+            {
+                var result = new SaleOrderBLL().GetSaleOrderBySaleOrderNo(SaleOrderNo);
+                if (result != null)
+                {
+                    _return.ErrorCode = "0";
+                    _return.data = result;
+                }
+                else
+                {
+                    _return.Message = "Không tìm thấy thông tin";
+                    _return.ErrorCode = "-1";
+                }
+
+                return _return;
+
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                _return.Message = ex.ToString();
+                return _return;
+            }
+        }
+
+        [HttpGet]
+        [AuthRequire]
+        [PJICOAuthorize]
+        [Route("api-wa/sale-order/sale-order-actual-scan")]
+        public BaseModel GetListSaleOrderItemActualScan(int page = 1, int limit = Constant.NumPage,
+             string saleOrderNo = null)
+        {
+            var _return = new BaseModel();
+            try
+            {
+                saleOrderNo = saleOrderNo?.Trim();
+                _return.RespondCode = ConstAPIResponseCode.SUCCESS;
+                _return.data = new TransactionHistoryBLL().FindAll(page, limit, ConstTransactionType.XuatKho, saleOrderNo, null
+                    , null, null, null, null, false);
+
+                return _return;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                _return.Message = "Lỗi hệ thống";
+                _return.RespondCode = "500";
+                _return.ErrorCode = "SYSTEM_ERROR";
+                return _return;
+            }
+        }
 
         [HttpGet]
         [AuthRequire]
@@ -86,13 +172,13 @@ namespace WebAPI.Controllers.Web
         }
         [HttpGet]
         [Route("api_wa/sale-order/export-excel")]
-        public HttpResponseMessage ReportToExcell(int? saleOrderID)
+        public HttpResponseMessage ReportToExcell(string saleOrderNo)
         {
             try
             {
                 //Response.BinaryWrite(package.GetAsByteArray());
 
-                var excelResponseBase = new SaleOrderBLL().ExportToExcel(saleOrderID);
+                var excelResponseBase = new SaleOrderBLL().ExportToExcel(saleOrderNo);
                 if (excelResponseBase != null)
                 {
                     var result = new HttpResponseMessage(HttpStatusCode.OK);

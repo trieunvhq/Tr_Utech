@@ -5,6 +5,7 @@
 @using QRMSWeb.Models
 @using QRMSWeb.Helper
 @using QRMSWeb.Utils
+@using QRMSWeb.Constants
 
 @using Microsoft.AspNetCore.Http.Extensions
 @inject NavigationManager _navigationManager
@@ -13,21 +14,18 @@
 @inject IJSRuntime _jsRuntime
 @inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
 
-<Breadcrumb Title="DANH MỤC ĐƠN MUA HÀNG" levels="@Levels" />
+<Breadcrumb Title="CHI TIẾT THỰC TẾ SCAN ĐƠN MUA HÀNG" levels="@Levels" />
 
 <div class="page-content-wrapper">
     <div class="row">
         <div class="col-12 space_search_area">
             <div class="card">
                 <div class="card-body contain_body">
-                    <h4>Tìm kiếm</h4>
                     <PurchaseOrderActualScanDetailSearchForm 
-                                             @bind-ItemName="@itemName"
-                                             @bind-LocationName="@LocationCode"
+                                             OnExport="@OnExport"
+                                             @bind-WareHouseName="@wareHouseName"
                                              @bind-PurchaseOrderNo="@PurchaseOrderNo"
-                                             @bind-DateFrom="@DateFrom"
-                                             @bind-DateTo="@DateTo"
-                                             @bind-ItemCode="@itemCode" />
+                                             @bind-PurchaseOrderDate="@PurchaseOrderDate" />
                 </div>
             </div>
         </div>
@@ -43,7 +41,7 @@
                     }
                     else
                     {
-                        <TableList data="@_purchaseOrderItemModels"
+                        <TableList data="@_purchaseOrderActualScanModels"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
@@ -67,21 +65,12 @@
     [Parameter]
     public string PurchaseOrderNo { get; set; }
     [Parameter]
-    public string LocationCode { get; set; }
+    public string wareHouseName { get; set; }
     [Parameter]
-    public string DateFrom { get; set; }
-    [Parameter]
-    public string DateTo { get; set; }
+    public string PurchaseOrderDate { get; set; }
     [Parameter]
     public bool IsDetail { get; set; } = false;
 
-    private string itemCode = "";
-    private string itemName = "";
-    /*
-    private string purchaseOrderNo = "";
-    private string locationName = "";
-    private string dateFrom = "";
-    private string dateTo = "";*/
     private int TotalPage = 0;
     private int CurrentPage = 1;
     private const int RowPerPage = 10;
@@ -89,25 +78,26 @@
     private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
 {
         new BreadcrumbLevel() {name = "Danh mục đơn mua hàng", path = "/PurchaseOrder"},
-        new BreadcrumbLevel() {name = "Chi tiết Danh mục đơn mua hàng", path = "#"}
+        new BreadcrumbLevel() {name = "Chi tiết thực tế scan đơn mua hàng", path = "#"}
     };
 
     private List<TableLabels> labels = new List<TableLabels>()
 {
-        new TableLabels {label = "Số đơn hàng", dataIndex = "PurchaseOrderNo",columnWidth=150},
-        new TableLabels {label = "Mã linh kiện", dataIndex = "ItemCode",columnWidth=150 },
-        new TableLabels {label = "Tên linh kiện", dataIndex = "ItemName",columnWidth=250},
-        new TableLabels {label = "Mã nhà cung cấp", dataIndex = "SupplierCode",columnWidth=150},
-        new TableLabels {label = "Serial", dataIndex = "Serial",columnWidth=150},
-        new TableLabels {label = "PartNo", dataIndex = "PartNo",columnWidth=150},
-        new TableLabels {label = "Rec date", dataIndex = "RecDate", dataType="date", columnWidth=110},
-        new TableLabels {label = "Exp date", dataIndex = "ExpDate", dataType="date", columnWidth=110},
+        new TableLabels {label = "Ngày nhập kho", dataIndex = "OrderDate",dataType="date",columnWidth=150},
+        new TableLabels {label = "Mã kho", dataIndex = "ItemCode",columnWidth=150 },
+        new TableLabels {label = "Mã hàng", dataIndex = "ItemCode",columnWidth=250},
+        new TableLabels {label = "Tên hàng", dataIndex = "ItemName",columnWidth=250},
+        new TableLabels {label = "Other code", dataIndex = "EXT_OtherCode",columnWidth=150},
+        new TableLabels {label = "Serial", dataIndex = "EXT_Serial",columnWidth=150},
+        new TableLabels {label = "PartNo", dataIndex = "EXT_PartNo",columnWidth=150},
+        new TableLabels {label = "Rec date", dataIndex = "EXT_RecDate", dataType="date", columnWidth=110},
+        new TableLabels {label = "Exp date", dataIndex = "EXT_ExpDate", dataType="date", columnWidth=110},
         new TableLabels {label = "Số lượng", dataIndex = "Quantity", dataType="number", columnWidth=110},
         new TableLabels {label = "Đơn vị tính", dataIndex = "Unit",columnWidth=110},
     };
 
     private bool loading = true;
-    private List<PurchaseOrderItemModel> _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+    private List<TransactionHistoryModel> _purchaseOrderActualScanModels = new List<TransactionHistoryModel>();
     private PurchaseOrderService _purchaseOrderService;
 
     protected override void OnInitialized()
@@ -127,21 +117,19 @@
     {
         try
         {
-            var glStartDate = CommonUtils.ConvertDateVNFormatedToDate(DateFrom);
-            var glStrStartDate = glStartDate != null ? glStartDate.ToString() : "";
-            var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(DateTo);
-            var glStrEndDate = glEndDate != null ? glEndDate.ToString() : "";
+            var _purchaseOrderDate = CommonUtils.ConvertDateVNFormatedToDate(PurchaseOrderDate);
+            var _purchaseOrderDateStr = _purchaseOrderDate != null ? _purchaseOrderDate.ToString() : "";
 
             var response = await _purchaseOrderService.PurchaseOrderActualScanDetail(CurrentPage, RowPerPage,
-                 PurchaseOrderNo, LocationCode, glStrStartDate, glStrEndDate, false);
-            _purchaseOrderItemModels = response.rows;
+                 PurchaseOrderNo);
+            _purchaseOrderActualScanModels = response.rows;
             TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            _purchaseOrderActualScanModels = new List<TransactionHistoryModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -157,15 +145,7 @@
 
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
-                if (string.IsNullOrEmpty(DateFrom)) {
-                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchStartDate1");
-                }
-                if (string.IsNullOrEmpty(DateFrom))
-                {
-                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchEndDate1");
-                }
                 await OnInitData();
-
             }
         }
         catch (Exception e)
@@ -190,9 +170,9 @@
     }
 
 
-    private async void OnClickExportExcel(PurchaseOrderItemModel purchaseOrderItemModel)
+    private async Task OnExport()
     {
-        string query = $"saleOrderId={purchaseOrderItemModel.PurchaseOrderID}";
-        UriHelper.NavigateTo($"/SaleOrder/ViewExcelReport?{query}", true);
+        string query = $"purchaseOrderNo={PurchaseOrderNo}";
+        UriHelper.NavigateTo($"/PurchaseOrder/ViewExcelReport?{query}", true);
     }
 }

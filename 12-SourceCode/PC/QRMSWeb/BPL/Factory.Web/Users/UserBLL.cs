@@ -18,7 +18,7 @@ namespace BLL.FactoryBLL.Web.Users
         {
             try
             {
-                string _pass = Cipher.Encrypt(pass, PasswordEncrypt.PRIVATE_KEY);
+                string _pass = Cipher.Encrypt(pass, ConstPasswordEncrypt.PRIVATE_KEY);
                 var accountManager = new UserManagement(db);
                 var result = accountManager.CheckAccount(user, _pass);
                 if (result != null)
@@ -27,7 +27,7 @@ namespace BLL.FactoryBLL.Web.Users
                     item.CopyPropertiesFrom(result);
                     item.Role = result.Role;
 
-                    if (item.RecordStatus.Equals(RecordStatus.Locked))
+                    if (item.RecordStatus.Equals(ConstRecordStatus.Locked))
                     {
                         objItem = item;
                         return Constant.AccountLocked;
@@ -72,7 +72,7 @@ namespace BLL.FactoryBLL.Web.Users
         {
             try
             {
-                string _newPass = Cipher.Encrypt(newPass, PasswordEncrypt.PRIVATE_KEY);
+                string _newPass = Cipher.Encrypt(newPass, ConstPasswordEncrypt.PRIVATE_KEY);
                 return new UserManagement(db).UpdatePassword(username, _newPass, userID);
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace BLL.FactoryBLL.Web.Users
                 string newPass = new string(Enumerable.Repeat(temp, 8)
                                     .Select(s => s[random.Next(s.Length)]).ToArray());
                 */
-                string _newPassEnc = Cipher.Encrypt(newPass, PasswordEncrypt.PRIVATE_KEY);
+                string _newPassEnc = Cipher.Encrypt(newPass, ConstPasswordEncrypt.PRIVATE_KEY);
                 var result = new UserManagement(db).UpdatePassword(username, _newPassEnc, 0);
                 if (result != 1) return -1;
                 //send mail
@@ -130,8 +130,8 @@ namespace BLL.FactoryBLL.Web.Users
                         {
                             var user = new User();
                             user.CopyPropertiesFrom(item);
-                            user.Password = Cipher.Encrypt(item.Password, PasswordEncrypt.PRIVATE_KEY);
-                            user.RecordStatus = RecordStatus.New;
+                            user.Password = Cipher.Encrypt(item.Password, ConstPasswordEncrypt.PRIVATE_KEY);
+                            user.RecordStatus = ConstRecordStatus.New;
                             user.CreateDate = DateTime.Now;
                             user.CreateUser = userName;
                             lstUsers.Add(user);
@@ -171,7 +171,7 @@ namespace BLL.FactoryBLL.Web.Users
                         var _origin = AccManager.Select(_user.ID);
                         if (_origin == null) return -1;
                         _origin.CopyPropertiesFrom(_user, true);
-                        _origin.RecordStatus = RecordStatus.Update;
+                        _origin.RecordStatus = ConstRecordStatus.Update;
                         _origin.UpdateDate = DateTime.Now;
                         _origin.UpdateUser = userName;
                         var result = AccManager.Update(_origin);
@@ -222,7 +222,7 @@ namespace BLL.FactoryBLL.Web.Users
                 var AccManager = new UserManagement(db);
                 var _origin = AccManager.Select(ID);
                 if (_origin == null) return -1;
-                _origin.RecordStatus = RecordStatus.Locked;
+                _origin.RecordStatus = ConstRecordStatus.Locked;
                 _origin.UpdateDate = DateTime.Now;
                 _origin.UpdateUser = userName;
                 return AccManager.Update(_origin);
@@ -240,7 +240,7 @@ namespace BLL.FactoryBLL.Web.Users
                 var AccManager = new UserManagement(db);
                 var _origin = AccManager.Select(ID);
                 if (_origin == null) return -1;
-                _origin.RecordStatus = RecordStatus.Update;
+                _origin.RecordStatus = ConstRecordStatus.Update;
                 _origin.UpdateDate = DateTime.Now;
                 _origin.UpdateUser = userName;
                 return AccManager.Update(_origin);
@@ -322,7 +322,7 @@ namespace BLL.FactoryBLL.Web.Users
                // var accountManager = new UserManagement(db);
               //  var loginLogManager = new LoginLogManagement(db);
 
-                string _Password = Cipher.Encrypt(Password, PasswordEncrypt.PRIVATE_KEY);
+                string _Password = Cipher.Encrypt(Password, ConstPasswordEncrypt.PRIVATE_KEY);
 
                 if (account.Password != _Password) return -1;
                 /*

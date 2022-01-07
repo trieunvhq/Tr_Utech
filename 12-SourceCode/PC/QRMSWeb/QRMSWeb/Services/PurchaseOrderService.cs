@@ -15,28 +15,24 @@ namespace QRMSWeb.Services
         public PurchaseOrderService(HttpClient client) : base(client)
         {
         }
-        public async Task<PaginateData<List<PurchaseOrderItemModel>>> SearchPurchaseOrder(int page, int rowPerPage,
-            string itemCode, string itemName, string purchaseOrderNo, string locationName, 
+        public async Task<PaginateData<List<PurchaseOrderModel>>> SearchPurchaseOrder(int page, int rowPerPage,
+            string wareHouseCode, string purchaseOrderNo, string inputStatus, 
             string startDate, string endDate, bool isSearch)
         {
             string queryString = $"page={page}&limit={rowPerPage}";
             
-            if (!String.IsNullOrEmpty(itemCode?.Trim()))
+            if (!String.IsNullOrEmpty(wareHouseCode?.Trim()))
             {
-                queryString += $"&itemCode={Uri.EscapeDataString(itemCode.Trim())}";
+                queryString += $"&wareHouseCode={Uri.EscapeDataString(wareHouseCode.Trim())}";
             }
             
-            if(!String.IsNullOrEmpty(itemName?.Trim()))
-            {
-                queryString += $"&itemName={Uri.EscapeDataString(itemName.Trim())}";
-            }
             if (!String.IsNullOrEmpty(purchaseOrderNo?.Trim()))
             {
                 queryString += $"&purchaseOrderNo={Uri.EscapeDataString(purchaseOrderNo.Trim())}";
             }
-            if (!String.IsNullOrEmpty(locationName?.Trim()))
+            if (!String.IsNullOrEmpty(inputStatus?.Trim()))
             {
-                queryString += $"&locationName={Uri.EscapeDataString(locationName.Trim())}";
+                queryString += $"&inputStatus={Uri.EscapeDataString(inputStatus.Trim())}";
             }
             if (!String.IsNullOrEmpty(startDate?.Trim()))
             {
@@ -51,13 +47,30 @@ namespace QRMSWeb.Services
             var response = await Client.GetAsync("api-wa/purchase-order/all-purchase-order?" + queryString);
             this.checkResponse(response);
             string responseBody = await response.Content.ReadAsStringAsync();
+            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<PurchaseOrderModel>>>(responseBody);
+
+            return responseData.data;
+        }
+
+        public async Task<PaginateData<List<PurchaseOrderItemModel>>> SearchPurchaseOrderItem(int page, int rowPerPage,
+            string purchaseOrderNo)
+        {
+            string queryString = $"page={page}&limit={rowPerPage}";
+
+            if (!String.IsNullOrEmpty(purchaseOrderNo?.Trim()))
+            {
+                queryString += $"&purchaseOrderNo={Uri.EscapeDataString(purchaseOrderNo.Trim())}";
+            }
+            var response = await Client.GetAsync("api-wa/purchase-order/all-purchase-order-item?" + queryString);
+            this.checkResponse(response);
+            string responseBody = await response.Content.ReadAsStringAsync();
             var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<PurchaseOrderItemModel>>>(responseBody);
 
             return responseData.data;
         }
 
-        public async Task<PaginateData<List<PurchaseOrderItemModel>>> PurchaseOrderActualScanDetail(int page, int rowPerPage,
-            string purchaseOrderNo, string locationCode, string startDate, string endDate, bool isSearch)
+        public async Task<PaginateData<List<TransactionHistoryModel>>> PurchaseOrderActualScanDetail(int page, int rowPerPage,
+            string purchaseOrderNo)
         {
             string queryString = $"page={page}&limit={rowPerPage}";
 
@@ -66,25 +79,10 @@ namespace QRMSWeb.Services
             {
                 queryString += $"&purchaseOrderNo={Uri.EscapeDataString(purchaseOrderNo.Trim())}";
             }
-            if (!String.IsNullOrEmpty(locationCode?.Trim()))
-            {
-                queryString += $"&locationCode={Uri.EscapeDataString(locationCode.Trim())}";
-            }
-            if (!String.IsNullOrEmpty(startDate?.Trim()))
-            {
-                queryString += $"&startDate={startDate?.Trim()}";
-            }
-
-            if (!String.IsNullOrEmpty(endDate?.Trim()))
-            {
-                queryString += $"&endDate={endDate?.Trim()}";
-            }
-            queryString += $"&isSearch={isSearch}";
-            
             var response = await Client.GetAsync("api-wa/purchase-order/purchase-order-actual-scan?" + queryString);
             this.checkResponse(response);
             string responseBody = await response.Content.ReadAsStringAsync();
-            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<PurchaseOrderItemModel>>>(responseBody);
+            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<TransactionHistoryModel>>>(responseBody);
 
             return responseData.data;
         }
@@ -109,9 +107,17 @@ namespace QRMSWeb.Services
             return responseData.data;
         }
 
-        public async Task<HttpResponseMessage> GenerateReportFile(int saleOrderID)
+        public async Task<PurchaseOrderModel> GetPurchaseOrderByPurchaseOrderNo(string purchaseOrderNo)
         {
-            string strQuery = $"saleOrderID={saleOrderID}";
+            var response = await Client.GetAsync($"api-wa/get-purchase-order-by-no?PurchaseOrderNo={purchaseOrderNo}");
+            this.checkResponse(response);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var responseData = JsonConvert.DeserializeObject<ResponseData<PurchaseOrderModel>>(responseBody);
+            return responseData.data;
+        }
+        public async Task<HttpResponseMessage> GenerateReportFile(string purchaseOrderNo)
+        {
+            string strQuery = $"purchaseOrderNo={purchaseOrderNo}";
             var response = await Client.GetAsync($"api_wa/purchase-order/export-excel?{strQuery}");
             this.checkResponse(response);
             return response;

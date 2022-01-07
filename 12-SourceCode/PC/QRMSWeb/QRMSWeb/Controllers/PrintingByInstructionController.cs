@@ -11,10 +11,7 @@ namespace QRMSWeb.Controllers
 {
     public class PrintingByInstructionController : Controller
     {
-        static readonly HttpClient _httpClient = new HttpClient();
-
-        private PurchaseOrderService _PurchaseOrderService = new PurchaseOrderService(_httpClient);
-
+        
         public IActionResult Index()
         {
             return View();
@@ -34,22 +31,12 @@ namespace QRMSWeb.Controllers
         {
             return View();
         }
-        public IActionResult ActualScanDetail(int? ID=null, string purchaseOrderNo = null,
-            string locationCode = null, string dateFrom = null, string dateTo = null)
-        {
-            ViewBag.ID = ID;
-            ViewBag.PurchaseOrderNo = purchaseOrderNo;
-            ViewBag.LocationCode = locationCode;
-            ViewBag.DateFrom = dateFrom;
-            ViewBag.DateTo = dateTo;
-            return View();
-        }
         public bool Delete()
         {
             return true;
         }
 
-        public IActionResult PrintByInstruction()
+        public IActionResult Print()
         {
             return View();
         }

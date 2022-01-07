@@ -40,7 +40,7 @@ namespace BPL.Factory.HT.PurchaseOrderitems
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return null;
@@ -53,7 +53,7 @@ namespace BPL.Factory.HT.PurchaseOrderitems
             {
                 bool isDoneD = false;
                 bool isDoneY = true;
-                string InputStatus_ = InputStatus.NotYetEntered;
+                string InputStatus_ = ConstInputStatus.NotYetEntered;
 
                 int id = obj[0].PurchaseOrderID;
 
@@ -63,15 +63,15 @@ namespace BPL.Factory.HT.PurchaseOrderitems
                 {
                     if (item.SoLuongDaNhap >= item.Quantity)
                     {
-                        item.InputStatus = InputStatus.Enough;
+                        item.InputStatus = ConstInputStatus.Enough;
                     }
                     else if (item.SoLuongDaNhap > 0)
                     {
-                        item.InputStatus = InputStatus.NotEnough;
+                        item.InputStatus = ConstInputStatus.NotEnough;
                     }
                     else
                     {
-                        item.InputStatus = InputStatus.NotYetEntered;
+                        item.InputStatus = ConstInputStatus.NotYetEntered;
                     }
 
                     //
@@ -92,11 +92,11 @@ namespace BPL.Factory.HT.PurchaseOrderitems
                 //
                 if (isDoneY)
                 {
-                    InputStatus_ = InputStatus.Enough;
+                    InputStatus_ = ConstInputStatus.Enough;
                 }
                 else if (isDoneD)
                 {
-                    InputStatus_ = InputStatus.NotEnough;
+                    InputStatus_ = ConstInputStatus.NotEnough;
                 }
 
                 var pr = new PurchaseOrderitemDAL(db);
@@ -119,7 +119,7 @@ namespace BPL.Factory.HT.PurchaseOrderitems
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return -1;

@@ -15,7 +15,9 @@ namespace DAL
     public partial class TransferInstruction
     {
         public int ID { get; set; }
+        public Nullable<int> TransferOrderAmisID { get; set; }
         public string TransferOrderNo { get; set; }
+        public string OrderNo { get; set; }
         public Nullable<System.DateTime> InstructionDate { get; set; }
         public string GetDataStatus { get; set; }
         public string TransferStatus { get; set; }

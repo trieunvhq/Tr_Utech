@@ -46,10 +46,9 @@
   <ItemGroup>
     <Compile Include="APIManagement\ConnectManagement.cs" />
     <Compile Include="APIManagement\PurchaseOrderAPIManagement.cs" />
+    <Compile Include="APIManagement\WareHouseAPIManagement.cs" />
     <Compile Include="APIManagement\SaleOrderAPIManagement.cs" />
     <Compile Include="APIModels\APIWrapModel.cs" />
-    <Compile Include="APIModels\PurchaseOrderAPI.cs" />
-    <Compile Include="APIModels\SaleOrderAPI.cs" />
     <Compile Include="ConfigInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestStatus.cs" />

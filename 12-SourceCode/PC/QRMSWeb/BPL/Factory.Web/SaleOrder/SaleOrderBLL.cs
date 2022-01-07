@@ -4,6 +4,7 @@ using BPL.Models.Web;
 using BPL.Models.Web.Report;
 using DAL;
 using DAL.Factory.Web.SaleOrder;
+using DAL.Factory.Web.TransactionHistory;
 using HDLIB;
 using HDLIB.Common;
 using OfficeOpenXml.Style;
@@ -16,14 +17,44 @@ namespace BLL.Factory.Web.SaleOrder
 {
     public class SaleOrderBLL: BaseBLL
     {
-        public HDLIB.WebPaging.TPaging<SaleOrderItemModel> FindAll(int page, int limit,
-            string itemCode, string itemName, string saleOrderNo, string locationName, DateTime? startDate, DateTime? endDate)
+        public HDLIB.WebPaging.TPaging<SaleOrderModel> FindAllSaleOrder(int page, int limit,
+            string exportStatus, string saleOrderNo, string wareHouseCode, DateTime? startDate, DateTime? endDate)
+        {
+            try
+            {
+                HDLIB.WebPaging.TPaging<SaleOrderModel> pagging = new HDLIB.WebPaging.TPaging<SaleOrderModel>();
+
+                var result = new SaleOrderItemManagement(db).FindAllSaleOrder(page, limit, exportStatus, saleOrderNo, wareHouseCode, startDate, endDate);
+                List<SaleOrderModel> saleOrderModels = new List<SaleOrderModel>();
+                pagging.limit = result.limit;
+                pagging.page = result.page;
+                pagging.pages = result.pages;
+                pagging.total = result.total;
+                foreach (var row in result.rows)
+                {
+                    var saleOrderModel = new SaleOrderModel();
+                    saleOrderModel.CopyPropertiesFrom(row);
+                    saleOrderModels.Add(saleOrderModel);
+                }
+                pagging.rows = saleOrderModels;
+                return pagging;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                throw;
+            }
+
+        }
+
+        public HDLIB.WebPaging.TPaging<SaleOrderItemModel> FindAllSaleOrderItem(int page, int limit,
+            string saleOrderNo)
         {
             try
             {
                 HDLIB.WebPaging.TPaging<SaleOrderItemModel> pagging = new HDLIB.WebPaging.TPaging<SaleOrderItemModel>();
 
-                var result = new SaleOrderItemManagement(db).FindAll(page, limit, itemCode, itemName, saleOrderNo, locationName, startDate, endDate);
+                var result = new SaleOrderItemManagement(db).FindAllSaleOrderItem(page, limit, saleOrderNo);
                 List<SaleOrderItemModel> saleOrderItemModels = new List<SaleOrderItemModel>();
                 pagging.limit = result.limit;
                 pagging.page = result.page;
@@ -45,6 +76,24 @@ namespace BLL.Factory.Web.SaleOrder
             }
 
         }
+
+        public SaleOrderModel GetSaleOrderBySaleOrderNo(string saleOrderNo)
+        {
+            try
+            {
+                var data = new SaleOrderItemManagement(db).FindByNo(saleOrderNo);
+                SaleOrderModel _saleOrderModel = new SaleOrderModel();
+                _saleOrderModel.CopyPropertiesFrom(data);
+
+                return _saleOrderModel;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                throw;
+            }
+        }
+
         public SaleOrderItemModel GetSaleOrderItemById(int id)
         {
             try
@@ -89,7 +138,7 @@ namespace BLL.Factory.Web.SaleOrder
             {
                 //data.ID = 0;
 
-                data.RecordStatus = RecordStatus.New;
+                data.RecordStatus = ConstRecordStatus.New;
                 if (data.CreateDate == null)
                 {
                     data.CreateDate = DateTime.Now;
@@ -111,7 +160,7 @@ namespace BLL.Factory.Web.SaleOrder
             {
                 //data.ID = 0;
 
-                data.RecordStatus = RecordStatus.New;
+                data.RecordStatus = ConstRecordStatus.New;
                 if (data.CreateDate == null)
                 {
                     data.CreateDate = DateTime.Now;
@@ -135,7 +184,7 @@ namespace BLL.Factory.Web.SaleOrder
                 if (_origin == null) return -1;
                 _origin.CopyPropertiesFrom(data, true);
                 _origin.UpdateDate = DateTime.Now;
-                _origin.RecordStatus = RecordStatus.Update;
+                _origin.RecordStatus = ConstRecordStatus.Update;
                 _origin.UserUpdate = userName;
                 return saleOrderItemManagement.Update(_origin);
             }
@@ -252,12 +301,12 @@ namespace BLL.Factory.Web.SaleOrder
         
 
         #region export excel
-        public ReportResponseBase ExportToExcel(int? saleOrderItemId)
+        public ReportResponseBase ExportToExcel(string saleOrderNo)
         {
             
-            var lstDataSaleOrderItem = GetSaleOrderItemsForReport(saleOrderItemId, null, null, null, null);
+            var lstDataSaleOrderItem = GetSaleOrderItemsForReport(saleOrderNo);
 
-            var file_name = "SaleOrderItemDetail.xlsx";
+            var file_name = "Template_Xuatkhothucte.xlsx";
             string file_path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             // Replace redundance in path
             var temp_file_name = file_path.Replace("file:\\", "").Replace("\\bin", "") + @"\storages\template\reports\" + file_name;
@@ -272,8 +321,8 @@ namespace BLL.Factory.Web.SaleOrder
                     //return null;
                 }
                 var worksheet = package.Workbook.Worksheets[1];
-                var rowStart = 2;
-                var colStart = 1;
+                var rowStart = 1;
+                var colStart = 0;
                 int rowIdx = rowStart;               
 
                 for (int idx = 0; idx < lstDataSaleOrderItem.Count; idx++)
@@ -281,39 +330,78 @@ namespace BLL.Factory.Web.SaleOrder
                     var reportData = lstDataSaleOrderItem.ElementAt(idx);
                     rowIdx++;
                     worksheet.InsertRow(rowIdx, colStart+1);
-                    worksheet.Cells[rowIdx, colStart + 1].Value = rowIdx - rowStart; //stt
+                    worksheet.Cells[rowIdx, colStart + 1].Value = reportData.OrderNo;//Số đơn hàng
                     worksheet.Cells[rowIdx, colStart + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                    worksheet.Cells[rowIdx, colStart + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[rowIdx, colStart + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 2].Value = reportData.SaleOrderNo;
+                    worksheet.Cells[rowIdx, colStart + 2].Value = reportData.OrderDate.Value.ToString("dd-mm-yyyy");//Ngày đơn hàng
                     worksheet.Cells[rowIdx, colStart + 2].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 3].Value = reportData.SaleOrderDate;
+                    worksheet.Cells[rowIdx, colStart + 3].Value = reportData.OrderDate.Value.ToString("dd-mm-yyyy");//Ngày xuất hàng
                     worksheet.Cells[rowIdx, colStart + 3].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                    worksheet.Cells[rowIdx, colStart + 4].Value = reportData.ItemName;
+                    worksheet.Cells[rowIdx, colStart + 4].Value = reportData.WarehouseCode_To;//Mã kho
                     worksheet.Cells[rowIdx, colStart + 4].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 5].Value = reportData.ItemCode;
+                    worksheet.Cells[rowIdx, colStart + 5].Value = reportData.WarehouseName_To;//Tên Kho
                     worksheet.Cells[rowIdx, colStart + 5].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 6].Value = reportData.CustomerName;
+                    worksheet.Cells[rowIdx, colStart + 6].Value = reportData.CustomerName;//Mã khách hàng
                     worksheet.Cells[rowIdx, colStart + 6].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
 
-                    worksheet.Cells[rowIdx, colStart + 7].Value = reportData.Quantity;
+                    worksheet.Cells[rowIdx, colStart + 7].Value = reportData.CustomerName;//Tên khahcs hàng
                     worksheet.Cells[rowIdx, colStart + 7].Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                    worksheet.Cells[rowIdx, colStart + 7].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                    worksheet.Cells[rowIdx, colStart + 7].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 8].Value = reportData.Unit;
+                    worksheet.Cells[rowIdx, colStart + 8].Value = reportData.ItemCode;//Mã hàng
                     worksheet.Cells[rowIdx, colStart + 8].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    worksheet.Cells[rowIdx, colStart + 9].Value = reportData.ItemName;//Tên hàng
+                    worksheet.Cells[rowIdx, colStart + 9].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 9].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                    // worksheet.Cells[rowIdx, 8 + (monthValues.Count - 1) * 3].Style.Font.Bold = true;
+
+                    worksheet.Cells[rowIdx, colStart + 10].Value = reportData.EXT_OtherCode;//Other code
+                    worksheet.Cells[rowIdx, colStart + 10].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 10].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    worksheet.Cells[rowIdx, colStart + 11].Value = reportData.EXT_Serial;//Số serial
+                    worksheet.Cells[rowIdx, colStart + 11].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 11].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    worksheet.Cells[rowIdx, colStart + 12].Value = reportData.EXT_LotNo;//Lot no
+                    worksheet.Cells[rowIdx, colStart + 12].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 12].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    worksheet.Cells[rowIdx, colStart + 13].Value = reportData.EXT_PartNo;//part no
+                    worksheet.Cells[rowIdx, colStart + 13].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 13].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    worksheet.Cells[rowIdx, colStart + 14].Value = reportData.EXT_MfDate;//MF date
+                    worksheet.Cells[rowIdx, colStart + 14].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 14].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    worksheet.Cells[rowIdx, colStart + 15].Value = reportData.EXT_RecDate;//Rec date
+                    worksheet.Cells[rowIdx, colStart + 15].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 15].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    worksheet.Cells[rowIdx, colStart + 16].Value = reportData.EXT_ExpDate;//Exp date
+                    worksheet.Cells[rowIdx, colStart + 16].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 16].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    worksheet.Cells[rowIdx, colStart + 17].Value = reportData.Quantity;//Số lượng
+                    worksheet.Cells[rowIdx, colStart + 17].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 17].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+                    worksheet.Cells[rowIdx, colStart + 18].Value = reportData.Unit;//Đơn vị tính
+                    worksheet.Cells[rowIdx, colStart + 18].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[rowIdx, colStart + 18].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
                 }
                 package.Workbook.Properties.Title = file_name;
@@ -322,19 +410,17 @@ namespace BLL.Factory.Web.SaleOrder
 
         }
         
-        public List<SaleOrderItemModel> GetSaleOrderItemsForReport(int? saleOrderId, string saleOrderNo, 
-            string customerCode, string locationCode, string itemCode )
+        public List<TransactionHistoryModel> GetSaleOrderItemsForReport(string saleOrderNo)
         {
-            var lstSaleOrderItem = new SaleOrderItemManagement(db).GetSaleOrderItemBy(saleOrderId, saleOrderNo,
-                customerCode, locationCode, itemCode);
-            List<SaleOrderItemModel> saleOrderItemModels = new List<SaleOrderItemModel>();
-            foreach(var saleOrderItem in lstSaleOrderItem)
+            var lstTransactionHistory = new TransactionHistoryManagement(db).GetAllBy(saleOrderNo,ConstTransactionType.XuatKho);
+            List<TransactionHistoryModel> transactionHistoryModels = new List<TransactionHistoryModel>();
+            foreach(var transactionHistory in lstTransactionHistory)
             {
-                SaleOrderItemModel saleOrderItemModel = new SaleOrderItemModel();
-                saleOrderItemModel.CopyPropertiesFrom(saleOrderItem);
-                saleOrderItemModels.Add(saleOrderItemModel);
+                TransactionHistoryModel transactionHistoryModel = new TransactionHistoryModel();
+                transactionHistoryModel.CopyPropertiesFrom(transactionHistory);
+                transactionHistoryModels.Add(transactionHistoryModel);
             }
-            return saleOrderItemModels;
+            return transactionHistoryModels;
         }
         #endregion
     }

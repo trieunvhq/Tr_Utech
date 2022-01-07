@@ -20,181 +20,187 @@
             <div class="card">
                 <div class="card-body contain_body">
                     <form autocomplete="off" class="search-body-form">
-                        <div class="search-row-input">
-                            <div class="row form-group col-6">
-                                <div class="row">
-                                    <div class="col-9">
+                        <div class="row search-row-input">
+                            
+                            <div class="row form-group col-6 pr-5 pl-5">
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label"></label>
+                                    <div class="col-6">
                                         <input type="text" placeholder=""
                                                autocomplete="off"
-                                               value="" disabled
+                                               value="@_LabelPrintItemModel?.ItemTypeName" disabled
                                                class="form-control">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <label class="col-4 col-form-label">Code</label>
-                                    <div class="col-8">
-                                        <input type="text" placeholder=""
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Mã hàng</label>
+                                    <div class="col-9">
+                                        <textarea type="text" placeholder=""
                                                autocomplete="off" disabled
-                                               value="" class="form-control">
+                                               value="@(_LabelPrintItemModel?.ItemCode + "-" + _LabelPrintItemModel?.ItemName)"
+                                               rows="2" style="width:100%"/>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <label class="col-3 col-form-label">Name</label>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Other Code</label>
+                                    <div class="col-6">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off" disabled
+                                               value="@_LabelPrintItemModel?.OtherCode"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Serial</label>
+                                    <div class="col-6">
+                                        <input type="text" placeholder=""
+                                               autocomplete="off" disabled
+                                               value="@_LabelPrintItemModel?.Serial"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Part No</label>
                                     <div class="col-9">
                                         <input type="text" placeholder=""
                                                autocomplete="off" disabled
-                                               value=""
+                                               value="@_LabelPrintItemModel?.PartNo"
                                                class="form-control">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <label class="col-4 col-form-label">Other Code</label>
-                                    <div class="col-8">
+                                <div class="row col-12 label-print-item">
+                                    <label class="col-3 col-form-label">Lot No</label>
+                                    <div class="col-6">
                                         <input type="text" placeholder=""
                                                autocomplete="off" disabled
-                                               value=""
+                                               value="@_LabelPrintItemModel?.LotNo"
                                                class="form-control">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <label class="col-4 col-form-label">Part No</label>
-                                    <div class="col-8">
-                                        <input type="text" placeholder=""
-                                               autocomplete="off" disabled
-                                               value=""
-                                               class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="col-4 col-form-label">Lot No</label>
-                                    <div class="col-8">
-                                        <input type="text" placeholder=""
-                                               autocomplete="off" disabled
-                                               value=""
-                                               class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="col-4 col-form-label">Mf Date</label>
-                                        <div class="col-8">
+                                <div class="row col-12 label-print-item">
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-6 col-form-label">Mf Date</label>
+                                        <div class="col-6">
                                             <input type="text" placeholder=""
                                                    autocomplete="off" disabled
-                                                   value=""
+                                                   value="@CommonUtils.GetDateVNFormated(_LabelPrintItemModel?.MfDate)"
                                                    class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <label class="col-4 col-form-label">Rec Date</label>
-                                        <div class="col-8">
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-6 col-form-label">Rec Date</label>
+                                        <div class="col-6">
                                             <input type="text" placeholder=""
                                                    autocomplete="off" disabled
-                                                   value=""
+                                                   value="@CommonUtils.GetDateVNFormated(_LabelPrintItemModel?.RecDate)"
                                                    class="form-control">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="col-4 col-form-label">Exp Date</label>
-                                        <div class="col-8">
+                                <div class="row col-12 label-print-item">
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-6 col-form-label">Exp Date</label>
+                                        <div class="col-6">
                                             <input type="text" placeholder=""
                                                    autocomplete="off" disabled
-                                                   value=""
+                                                   value="@CommonUtils.GetDateVNFormated(_LabelPrintItemModel?.ExpDate)"
                                                    class="form-control">
                                         </div>
                                     </div>
-                                    
+
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="col-4 col-form-label">Quantity</label>
-                                        <div class="col-8">
+                                <div class="row col-12 label-print-item">
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-6 col-form-label">Quantity</label>
+                                        <div class="col-6">
                                             <input type="text" placeholder=""
                                                    autocomplete="off" disabled
-                                                   value=""
+                                                   value="@CommonUtils.GetNumberFormatValue(_LabelPrintItemModel?.Quantity)"
                                                    class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <label class="col-4 col-form-label">Units</label>
-                                        <div class="col-8">
+                                    <div class="row col-6 label-print-item">
+                                        <label class="col-6 col-form-label">Units</label>
+                                        <div class="col-6">
                                             <input type="text" placeholder=""
                                                    autocomplete="off" disabled
-                                                   value=""
+                                                   value="@_LabelPrintItemModel?.Unit"
                                                    class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row form-group col-6">
-                                <table border="1">
-                                    <tr>
-                                        <td colspan="2">Code</td>
-                                        <td colspan="4">@("")</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Name</td>
-                                        <td colspan="4">@("")</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Other Code</td>
-                                        <td colspan="2">@("")</td>
-                                        <td colspan="2" rowspan="8"></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Serial</td>
-                                        <td colspan="2">@("")</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Part No</td>
-                                        <td colspan="2">@("")</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Lot No</td>
-                                        <td colspan="2">@("")</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Mf date</td>
-                                        <td colspan="2">@("")</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Rec date</td>
-                                        <td colspan="2">@("")</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Exp date</td>
-                                        <td colspan="2">@("")</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Quantity Packing</td>
-                                        <td colspan="1">@("")</td>
-                                        <td colspan="1">@("")</td>
-                                    </tr>
-                                </table>
-                                <div class="button-items">
-                                    <button type="button" class="btn btn-primary waves-effect waves-light" @onclick="@OnClickPrint">In nhãn</button>
+                            <div class="row form-group col-6 pr-5 pl-5">
+                                <div class="row col-12">
+                                    <table border="1" style="width:100%;">
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Code</td>
+                                            <td colspan="4" class="label-print-item3">@_LabelPrintItemModel?.ItemCode</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Name</td>
+                                            <td colspan="4" class="label-print-item3">@_LabelPrintItemModel?.ItemName</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Other Code</td>
+                                            <td colspan="2" class="label-print-item3">@_LabelPrintItemModel?.OtherCode</td>
+                                            <td colspan="2" rowspan="8" class="label-print-item2" style="text-align: center;">
+                                                <img src='@_LabelPrintItemModel.QRCodeBase64' alt='' />
 
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Serial</td>
+                                            <td colspan="2" class="label-print-item3">@_LabelPrintItemModel?.Serial</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Part No</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(_LabelPrintItemModel?.PartNo)</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Lot No</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(_LabelPrintItemModel?.LotNo)</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Mf date</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(CommonUtils.GetDateVNFormated(_LabelPrintItemModel?.MfDate))</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Rec date</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(CommonUtils.GetDateVNFormated(_LabelPrintItemModel?.RecDate))</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Exp date</td>
+                                            <td colspan="2" class="label-print-item3">@CommonUtils.BuildStringNA(CommonUtils.GetDateVNFormated(_LabelPrintItemModel?.ExpDate))</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="label-print-item2">Quantity Packing</td>
+                                            <td colspan="1" class="label-print-item3">@CommonUtils.GetNumberFormatValue(_LabelPrintItemModel?.Quantity)</td>
+                                            <td colspan="1" class="label-print-item3">@_LabelPrintItemModel?.Unit</td>
+                                        </tr>
+                                    </table>
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="col-4 col-form-label">In nhiều</label>
-                                        <div class="col-8">
-                                            <input type="text" placeholder=""
-                                                   autocomplete="off" disabled
-                                                   value=""
-                                                   class="form-control">
-                                        </div>
+
+                                <div class="row col-12 label-print-item">
+                                    <div class="col-4 label-print-item">
+                                        <label for="redioDkbsFee" class="col-12 col-form-labelt label-input-form">
+                                            <input type="radio" id="radioInNhieu" name="radioPrint" value="redioDkbsFee"
+                                                   @onclick="() => onClickRadioPrint(1)"> In nhiều
+                                        </label>
+
                                     </div>
                                     <div class="col-6">
-                                        <label class="col-4 col-form-label">In 1 nhãn</label>
-                                        <div class="col-8">
-                                            <input type="text" placeholder=""
-                                                   autocomplete="off" disabled
-                                                   value=""
-                                                   class="form-control">
-                                        </div>
+                                        <label for="redioDkbsFee" class="col-12 col-form-labelt label-input-form">
+                                            <input type="radio" id="radioIn1Nhan" name="radioPrint" value="redioDkbsFee"
+                                                   @onclick="() => onClickRadioPrint(2)"> In 1 nhãn
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row col-12 d-flex flex-row justify-content-end btn-row pb-0">
+                                    <div class="button-items">
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" disabled="@(TotalRows<=0)" @onclick="@OnClickPrint">In nhãn</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +221,13 @@
                     }
                     else
                     {
-                        <TableList data="@_PurchaseOrderItemModels"
+                        <div class="row col-12 d-flex flex-row justify-content-end btn-row pb-0">
+                            <div class="button-items">
+                                <label>Số nhãn in: @(TotalRows) nhãn </label>
+
+                            </div>
+                        </div>
+                        <TableList data="@_LabelPrintItemModels"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
@@ -223,10 +235,11 @@
                                    RowPerPage=@RowPerPage
                                    MinColumnActionWidth="142"
                                    IndexColSize="60">
-                            
+
                             <TableActionButton Context="item">
-                                <TableCommonAction 
-                                                   OnClickPreview="() => OnClickPreview(item)"
+                                <TableCommonAction OnClickQRCode="() => OnClickPreview(item)"
+                                                   ShowDetail="false"
+                                                   ShowQRCode="true"
                                                    ShowEdit="false"
                                                    ShowDelete="false" />
                             </TableActionButton>
@@ -243,37 +256,51 @@
     [Parameter]
     public object ID { get; set; }
 
+    [Parameter]
+    public bool IsDetail { get; set; }
+
     private int TotalPage = 0;
     private int CurrentPage = 1;
+    private int TotalRows = 0;
     private const int RowPerPage = 10;
 
+    private bool loading = true;
+    LabelPrintItemModel _LabelPrintItemModel = new LabelPrintItemModel();
+
+    private List<LabelPrintItemModel> _LabelPrintItemModels = new List<LabelPrintItemModel>();
+    private PrintingService _PrintingService;
+
+    string radioInNhieu = "checked";
+    string radioIn1Nhan = "";
+
+
     private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
-{
-        new BreadcrumbLevel() {name = "Danh sách in nhãn", path = "/PrintingByInstruction/PrintByInstruction"}
+    {
+        new BreadcrumbLevel() {name = "In nhãn",  path = ""},
+        new BreadcrumbLevel() {name = "In nhãn theo chỉ thị", path = "/PrintingByInstruction"},
+        new BreadcrumbLevel() {name = "Danh sách in nhãn", path = "#"}
     };
 
     private List<TableLabels> labels = new List<TableLabels>()
 {
         new TableLabels {label = "Code", dataIndex = "ItemCode", columnWidth=150, align="center"},
         new TableLabels {label = "Name", dataIndex = "ItemName", columnWidth=250, align="center"},
-        new TableLabels {label = "Other Code", dataIndex = "EXT_OtherCode",  columnWidth=110},
-        new TableLabels {label = "Serial", dataIndex = "EXT_Serial", columnWidth=250},
-        new TableLabels {label = "Part No", dataIndex = "EXT_PartNo", columnWidth=150, align="center"},
-        new TableLabels {label = "Lot No", dataIndex = "EXT_LotNo", columnWidth=150, align="center"},
-        new TableLabels {label = "Mf Date", dataIndex = "EXT_MfDate", dataType="date", columnWidth=150, align="center"},
-        new TableLabels {label = "Rec Date", dataIndex = "EXT_RecDate", dataType="date", columnWidth=150, align="center"},
-        new TableLabels {label = "Exp Date", dataIndex = "EXT_ExpDate", dataType="date", columnWidth=150, align="center"},
-        new TableLabels {label = "Quantity Packing", dataIndex = "Quantity", columnWidth=150, align="center"},
+        new TableLabels {label = "Other Code", dataIndex = "OtherCode",  columnWidth=110},
+        new TableLabels {label = "Serial", dataIndex = "Serial", columnWidth=250},
+        new TableLabels {label = "Part No", dataIndex = "PartNo", columnWidth=150, align="center"},
+        new TableLabels {label = "Lot No", dataIndex = "LotNo", columnWidth=150, align="center"},
+        new TableLabels {label = "Mf Date", dataIndex = "MfDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Rec Date", dataIndex = "RecDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Exp Date", dataIndex = "ExpDate", dataType="date", columnWidth=150, align="center"},
+        new TableLabels {label = "Quantity Packing", dataIndex = "Quantity", columnWidth=150, align="right"},
         new TableLabels {label = "Unit", dataIndex = "Unit", columnWidth=150, align="center"},
     };
 
-    private bool loading = true;
-    private List<PurchaseOrderItemModel> _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
-    private PurchaseOrderService _PurchaseOrderItemService;
 
-    private async Task OnClickPreview()
+    private async Task OnClickPreview(LabelPrintItemModel labelPrintItemModel)
     {
-        //TODO
+        _LabelPrintItemModel = labelPrintItemModel??new LabelPrintItemModel();
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task OnClickPrint()
@@ -283,7 +310,7 @@
             loading = true;
             CurrentPage = 1;
             
-            var responseData = await _PurchaseOrderItemService.ImportPurchaseOrderItem();
+            var responseData = await _PrintingService.ImportPurchaseOrderItem();
             string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
             if ("0".Equals(errCode))
             {
@@ -300,7 +327,7 @@
         {
             Console.WriteLine(e);
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            _LabelPrintItemModels = new List<LabelPrintItemModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -311,7 +338,7 @@
     {
         try
         {
-            _PurchaseOrderItemService = new PurchaseOrderService(_httpClient);
+            _PrintingService = new PrintingService(_httpClient);
         }
         catch (Exception e)
         {
@@ -324,17 +351,27 @@
     {
         try
         {
+            var printOrderId = CommonUtils.ConvertStringNumberVNToInt(ID?.ToString()) ?? 0;
+            var labelPrintModel = await _PrintingService.GetLabelPrintDetail(CurrentPage, RowPerPage, printOrderId);
+            if (labelPrintModel != null) {
+                _LabelPrintItemModels = labelPrintModel.LabelPrintItemPagging?.rows??new List<LabelPrintItemModel>();
+                TotalPage = labelPrintModel.LabelPrintItemPagging.pages;
+                TotalRows = labelPrintModel.LabelPrintItemPagging.total;
+            } else
+            {
+                _LabelPrintItemModels =  new List<LabelPrintItemModel>();
+                _LabelPrintItemModel = new LabelPrintItemModel();
+                TotalPage = 0;
+                TotalRows = 0;
+            }
+            _LabelPrintItemModel = _LabelPrintItemModels.Count > 0 ? _LabelPrintItemModels[0] : new LabelPrintItemModel();
 
-            var response = await _PurchaseOrderItemService.SearchPurchaseOrderItemPrint(CurrentPage, RowPerPage,
-                null, null, null, null, null, false);
-            _PurchaseOrderItemModels = response.rows ?? new List<PurchaseOrderItemModel>();
-            TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            _LabelPrintItemModels = new List<LabelPrintItemModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -350,7 +387,21 @@
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
                 await OnInitData();
+
+                try
+                {
+                    if ("checked".Equals(radioInNhieu))
+                    {
+                        await _jsRuntime.InvokeVoidAsync("setRadioChecked", "radioInNhieu");
+                    }
+                    else if ("checked".Equals(radioIn1Nhan))
+                    {
+                        await _jsRuntime.InvokeVoidAsync("setRadioChecked", "radioIn1Nhan");
+                    }
+                }
+                catch (Exception e) { }
             }
+
         }
         catch (Exception e)
         {
@@ -374,45 +425,17 @@
     }
 
 
-    private void OnClickPrint(PurchaseOrderItemModel PurchaseOrderItem)
+    private void onClickRadioPrint(int radio)
     {
-        UriHelper.NavigateTo($"/PrintingByInstruction/Print/{PurchaseOrderItem.ID}", true);
-    }
-
-
-    private async Task OnClickDelete(PurchaseOrderItemModel PurchaseOrderItem)
-    {
-        try
+        if (radio == 1) //tile
         {
-            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
-                "Thông báo",
-                $"Bạn có muốn xóa đơn {PurchaseOrderItem.PurchaseOrderNo}",
-                "xóa",
-                "Huỷ", "", "", "");
-
-            if (confirmRemove)
-            {
-                var responseData = await _PurchaseOrderItemService.DeletePurchaseOrder(PurchaseOrderItem.PurchaseOrderID);
-                string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
-                if ("0".Equals(errCode))
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã xóa thành công", "success");
-                    await OnInitData();
-                }
-                else if ("-2".Equals(errCode))
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đơn đang được sử dụng", "error");
-                }
-                else
-                {
-                    await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Xóa thất bại", "error");
-
-                }
-            }
+            radioInNhieu = "";
+            radioIn1Nhan = "checked";
         }
-        catch (Exception e)
+        else
         {
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+            radioInNhieu = "checked";
+            radioIn1Nhan = "";
         }
     }
 

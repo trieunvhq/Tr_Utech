@@ -15,14 +15,15 @@ namespace DAL.Factory.HT.TransferInstructions
         public TransferInstructionDAL(QRMSEntities db) { this.db = db ?? DataContext.getEntities(); }
 
 
-        public List<TransferInstruction> GetTransferInstruction(DateTime from_day, DateTime to_day)
+        public List<TransferInstruction> GetTransferInstruction(DateTime from_day, DateTime to_day, string WarehouseCode)
         {
             try
             {
-                //var s = from c in db.TransferInstructions where c.CreateDate
-                string SQL = $"select * from TransferInstruction a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
-                SQL += $"and (a.TransferStatus is not null and a.TransferStatus != '{ TransferStatus.Delivered }') ";
-                SQL += $"and (a.TransferType is not null and a.TransferType = '{ TransferType.Export }') ";
+                //var s = from c in db.TransferInstructions where c.WarehouseCode_From
+                string SQL = $"select * from TransferInstruction a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }') ";
+                SQL += $"and (a.TransferStatus is not null and a.TransferStatus != '{ ConstTransferStatus.Delivered }') ";
+                SQL += $"and (a.TransferType is not null and a.TransferType = '{ ConstTransferType.Export }') ";
+                SQL += $"and (a.WarehouseCode_From is not null and a.WarehouseCode_From = '{ WarehouseCode }') ";
                 SQL += $"and CONVERT(date, '{from_day}') <= CONVERT(date, a.CreateDate) ";
                 SQL += $"and CONVERT(date, '{to_day}') >= CONVERT(date, a.CreateDate) ";
                 SQL += $"order by a.CreateDate desc ";

@@ -4,80 +4,44 @@
 
 <form autocomplete="off" class="search-body-form">
     <div class="row search-row-input">
-        <div class="row form-group col-4">
-            <label class="col-3 col-form-label">Mã hàng</label>
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Tên khách hàng</label>
             <div class="col-9">
-                <input type="text" placeholder=""
-                       autocomplete="off" disabled
-                       value="@ItemCode"
-                       @onchange="@((evt) => ItemCodeChanged.InvokeAsync(evt.Value?.ToString()))"
+                <input type="text" placeholder="" disabled
+                       autocomplete="off"
+                       value="@CustomerName"
                        class="form-control">
             </div>
         </div>
-        <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Đơn đặt hàng</label>
-            <div class="col-8">
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Trạng thái</label>
+            <div class="col-9">
+                <input type="text" placeholder=""
+                       autocomplete="off" disabled
+                       value="@ExportStatusName"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Đơn đặt hàng</label>
+            <div class="col-9">
                 <input type="text" placeholder=""
                        autocomplete="off" disabled
                        value="@SaleOrderNo"
-                       @onchange="@((evt) => SaleOrderNoChanged.InvokeAsync(evt.Value?.ToString()))"
                        class="form-control">
             </div>
         </div>
-        <div class="row form-group col-4">
-            <label class="col-3 col-form-label">Từ ngày</label>
-            <div class="col-9">
-                <div class="input-group pjc-date-picker"
-                     id="searchStartDate1" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#searchStartDate1"
-                           id="searchStartDate" placeholder="ngày/tháng/năm" autocomplete="off" disabled
-                           value="@DateFrom" />
-                    <div class="input-group-append" data-target="#searchStartDate1" data-toggle="datetimepicker">
-                        <span class="input-group-text" disabled>
-                            <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true" disabled></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row form-group col-4">
-            <label class="col-3 col-form-label">Tên hàng</label>
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Ngày đặt hàng</label>
             <div class="col-9">
                 <input type="text" placeholder=""
                        autocomplete="off" disabled
-                       value="@ItemName"
-                       @onchange="@((evt) => ItemNameChanged.InvokeAsync(evt.Value?.ToString()))"
+                       value="@SaleOrderDate"
                        class="form-control">
             </div>
         </div>
-        <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Kho</label>
-            <div class="col-8">
-                <input type="text"
-                       autocomplete="off" disabled
-                       value="@LocationName"
-                       @onchange="@((evt) => LocationNameChanged.InvokeAsync(evt.Value?.ToString()))"
-                       placeholder="" class="form-control">
-            </div>
-        </div>
 
-        <div class="row form-group col-4">
-            <label class="col-3 col-form-label">Đến ngày</label>
-            <div class="col-9">
-                <div class="input-group pjc-date-picker" disabled
-                     id="searchEndDate1" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#searchEndDate1"
-                           id="searchEndDate" placeholder="ngày/tháng/năm" autocomplete="off" format="DD/MM/YYYY"
-                           value="@DateTo" />
-                    <div class="input-group-append" data-target="#searchEndDate1" data-toggle="datetimepicker">
-                        <span class="input-group-text">
-                            <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
     <!--
     <div class="d-flex flex-row justify-content-end btn-row pb-0 button_search_footer1">
@@ -92,22 +56,16 @@
 @code {
 
     [Parameter]
-    public string ItemCode { get; set; }
+    public string CustomerName { get; set; }
 
     [Parameter]
-    public EventCallback<string> ItemCodeChanged { get; set; }
+    public EventCallback<string> CustomerNameChanged { get; set; }
 
     [Parameter]
-    public string ItemName { get; set; }
+    public string ExportStatusName { get; set; }
 
     [Parameter]
-    public EventCallback<string> ItemNameChanged { get; set; }
-
-    [Parameter]
-    public string LocationName { get; set; }
-
-    [Parameter]
-    public EventCallback<string> LocationNameChanged { get; set; }
+    public EventCallback<string> ExportStatusNameChanged { get; set; }
 
     [Parameter]
     public string SaleOrderNo { get; set; }
@@ -116,21 +74,10 @@
     public EventCallback<string> SaleOrderNoChanged { get; set; }
 
     [Parameter]
-    public string DateFrom { get; set; }
+    public string SaleOrderDate { get; set; }
 
     [Parameter]
-    public EventCallback<string> DateFromChanged { get; set; }
-    [Parameter]
-    public string DateTo { get; set; }
-
-    [Parameter]
-    public EventCallback<string> DateToChanged { get; set; }
-
-    [Parameter]
-    public Func<Task> OnImport { get; set; }
-
-    [Parameter]
-    public Func<Task> OnSearch { get; set; }
+    public EventCallback<string> SaleOrderDateChanged { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try

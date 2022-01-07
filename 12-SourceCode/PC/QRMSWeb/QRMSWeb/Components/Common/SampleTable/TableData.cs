@@ -14,6 +14,7 @@
 
         public int columnWidth { get; set; } = 0;
         public string align { get; set; } = string.Empty;
+        public string color { get; set; } = string.Empty;
 
         public string[] Link { get; set; } = new string[] { };
         public string[] DialogClickOnLink { get; set; } = new string[] { };

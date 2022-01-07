@@ -28,16 +28,16 @@ namespace WebAPI.Controllers.Web
                 if (account == null)
                 {
                     _return.Message = "Tài khoản không tồn tại";
-                    _return.RespondCode = APIResponseCode.NOT_FOUND;
-                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    _return.RespondCode = ConstAPIResponseCode.NOT_FOUND;
+                    _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                     return _return;
                 }
 
-                if (RecordStatus.Locked.Equals(account.RecordStatus))
+                if (ConstRecordStatus.Locked.Equals(account.RecordStatus))
                 {
                     _return.Message = "Tài khoản đã bị khóa";
-                    _return.RespondCode = APIResponseCode.NOT_FOUND;
-                    _return.ErrorCode = APIErrorCode.VALIDATION;
+                    _return.RespondCode = ConstAPIResponseCode.NOT_FOUND;
+                    _return.ErrorCode = ConstAPIErrorCode.VALIDATION;
                     return _return;
                 }
 
@@ -45,13 +45,13 @@ namespace WebAPI.Controllers.Web
                 if (result == 1)
                 {
                     _return.Message = "Đăng nhập thành công";
-                    _return.RespondCode = APIResponseCode.SUCCESS;
+                    _return.RespondCode = ConstAPIResponseCode.SUCCESS;
                     _return.data = GenarateToken(account);
                 }
                 else
                 {
                     _return.Message = "Đăng nhập thất bại";
-                    _return.RespondCode = APIResponseCode.NOT_FOUND;
+                    _return.RespondCode = ConstAPIResponseCode.NOT_FOUND;
                     _return.ErrorCode ="LOGIN_FAILED";
                 }
 
@@ -61,9 +61,9 @@ namespace WebAPI.Controllers.Web
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                _return.Message = APIMessage.SYSTEM_ERROR;
-                _return.RespondCode = APIResponseCode.SERVER_ERROR;
-                _return.ErrorCode = APIErrorCode.SYSTEM_ERROR;
+                _return.Message = ConstAPIMessage.SYSTEM_ERROR;
+                _return.RespondCode = ConstAPIResponseCode.SERVER_ERROR;
+                _return.ErrorCode = ConstAPIErrorCode.SYSTEM_ERROR;
                 return _return;
             }
         }

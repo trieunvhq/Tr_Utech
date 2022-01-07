@@ -89,6 +89,22 @@
                                                type="text" placeholder="">
                                     </div>
                                 </div>
+                                <div class="form-group col-3">
+                                    <label class="col-12 col-form-labelt label-input-form">Kho</label>
+                                    <div class="col-12">
+                                        <select value="@_UserModel.WarehouseCode"
+                                                @onchange="OnChangeWareHouseCode"
+                                                class="form-control">
+                                            <option value="">---</option>
+                                            @for (int index = 0; index < _wareHouseModels.Count; index++)
+                                            {
+                                                <option data-limit="70" selected="@(_wareHouseModels[index].WarehouseCode.Equals(_UserModel.WarehouseCode))" value="@_wareHouseModels[index].WarehouseCode">
+                                                    @_wareHouseModels[index].WarehouseCode - @_wareHouseModels[index].WarehouseName
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <hr />
@@ -135,6 +151,8 @@
     };
 
     private int? divisionId = null;
+    private List<WareHouseModel> _wareHouseModels = new List<WareHouseModel>();
+    private WareHouseService _wareHouseService ;
     private UserService _userService;
 
     private UserModel _UserModel;
@@ -149,6 +167,7 @@
         {
             Levels.Add(new BreadcrumbLevel() { name = title, path = IsDetail ? $"/usersv/detail/{AccountID}" : IsUpdate ? $"/users/edit/{AccountID}" : "/users/create" });
             _userService = new UserService(_httpClient);
+            _wareHouseService = new WareHouseService(_httpClient);
         }
         catch (Exception e)
         {
@@ -159,6 +178,7 @@
     {
         try
         {
+            _wareHouseModels = await _wareHouseService.GetAllWareHouses();
             if (IsUpdate || IsDetail)
             {
                 _UserModel = await _userService.GetAccountByID(int.Parse(AccountID?.ToString() ?? "0"));
@@ -324,4 +344,16 @@
     {
         return Regex.Match(cmnd, @"^\d+$").Success;
     }
+    private void OnChangeWareHouseCode(ChangeEventArgs evt)
+    {
+        WareHouseModel wareHouseModel = new WareHouseModel();
+        var wareHouseCode = !String.IsNullOrEmpty(evt.Value.ToString()) ? evt.Value.ToString() : null;
+        if (!String.IsNullOrWhiteSpace(wareHouseCode))
+        {
+            wareHouseModel = _wareHouseModels.Where(n => n.WarehouseCode.Equals(wareHouseCode)).FirstOrDefault();
+            _UserModel.WarehouseCode = wareHouseModel.WarehouseCode;
+            _UserModel.WarehouseName = wareHouseModel.WarehouseName;
+        }
+    }
+
 }

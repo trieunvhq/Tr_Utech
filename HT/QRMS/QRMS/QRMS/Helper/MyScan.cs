@@ -1,6 +1,8 @@
 ﻿
 
+using System;
 using Honeywell.AIDC.CrossPlatform;
+using QRMS.Constants;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 
@@ -32,6 +34,8 @@ namespace QRMS.Helper
 				{
 					await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
 						" Message:" + result.Message, "OK");
+					MySettings.InsertLogs(0, DateTime.Now, "OpenBarcodeReader", "OpenAsync failed, Code:" + result.Code +
+						" Message:" + result.Message, "MyScan", MySettings.UserName);
 				}
 			}
 		}

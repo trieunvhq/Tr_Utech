@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                _return.ErrorCode = ResponseErrorCode.Error.ToString();
+                _return.ErrorCode = ConstResponseErrorCode.Error.ToString();
                 _return.Message = ex.Message;
             }
             return _return;
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                _return.ErrorCode = ResponseErrorCode.Error.ToString();
+                _return.ErrorCode = ConstResponseErrorCode.Error.ToString();
                 _return.Message = ex.Message;
             }
             return _return;

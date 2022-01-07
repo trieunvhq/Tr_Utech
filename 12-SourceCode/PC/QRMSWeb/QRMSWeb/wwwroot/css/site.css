@@ -345,3 +345,12 @@ select.form-control:not([size]):not([multiple]) {
     margin-right: auto;
     margin-left: auto;
 }
+.label-print-item {
+    padding:0px;
+    margin:0px;
+}
+.label-print-item2 {
+    width:30%;
+}
+.label-print-item3 {
+}

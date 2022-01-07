@@ -31,6 +31,24 @@ namespace DAL.Factory.Web.SaleOrder
                 throw;
             }
         }
+
+        
+        public DAL.SaleOrder FindByNo(string saleOrderNo)
+            {
+            try
+            {
+                var query = db.SaleOrders.AsQueryable();
+                query = query.Where(n => n.RecordStatus != null && n.RecordStatus != ConstRecordStatus.Deleted);
+                query = query.Where(n => n.SaleOrderNo.ToLower().Contains(saleOrderNo.ToLower()));
+                var data = query.FirstOrDefault();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                throw;
+            }
+        }
         public List<DAL.SaleOrderItem> GetSaleOrderItemBy(int? saleOrderID, string saleOrderNo, string customerCode,
           string locationCode, string itemCode)
         {
@@ -40,7 +58,7 @@ namespace DAL.Factory.Web.SaleOrder
                 customerCode = (customerCode?.Trim()) ?? "";
                 locationCode = (locationCode?.Trim()) ?? "";
                 itemCode = (itemCode?.Trim()) ?? "";
-                string SQL = $"select * from SaleOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
+                string SQL = $"select * from SaleOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }')";
 
                 SQL += (saleOrderID == null || saleOrderID <= 0) ? "" : $" and a.SaleOrderID = {saleOrderID}";
                 SQL += (string.IsNullOrEmpty(saleOrderNo?.Trim())) ? "" : $" and LOWER(a.SaleOrderNo) = '{saleOrderNo.ToLower()}'";
@@ -57,44 +75,67 @@ namespace DAL.Factory.Web.SaleOrder
             }
         }
 
-        public HDLIB.WebPaging.TPaging<DAL.SaleOrderItem> FindAll(int page, int limit,
-            string itemCode, string itemName, string saleOrderNo, string locationName, DateTime? startDate, DateTime? endDate)
+        public List<DAL.SaleOrderItem> GetSaleOrderItemBySaleOrderNo(string saleOrderNo)
         {
             try
             {
-                itemCode = itemCode?.Trim();
-                itemName = itemName?.Trim();
+                saleOrderNo = (saleOrderNo?.Trim()) ?? "";
+                var query = db.SaleOrderItems.AsQueryable();
+                query = query.Where(n => n.RecordStatus != null && n.RecordStatus != ConstRecordStatus.Deleted && n.SaleOrderNo.Contains(saleOrderNo));
+                var data = query.OrderByDescending(n => n.CreateDate).ToList();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                throw;
+            }
+        }
+
+        public HDLIB.WebPaging.TPaging<DAL.SaleOrder> FindAllSaleOrder(int page, int limit,
+            string exportStatus, string saleOrderNo, string wareHouseCode, DateTime? startDate, DateTime? endDate)
+        {
+            try
+            {
+                exportStatus = exportStatus?.Trim();
                 saleOrderNo = saleOrderNo?.Trim();
-                locationName = locationName?.Trim();
+                wareHouseCode = wareHouseCode?.Trim();
 
-                HDLIB.WebPaging.TPaging<DAL.SaleOrderItem> paging = new HDLIB.WebPaging.TPaging<DAL.SaleOrderItem>();
-                int offset = (page - 1) * limit;
-                string SQL = $"select * from SaleOrderItem a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }')";
-
-                SQL += (string.IsNullOrEmpty(itemCode)) ? "" : $" and LOWER(a.ItemCode) LIKE '%{itemCode.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                SQL += (string.IsNullOrEmpty(itemName?.Trim())) ? "" : $" and LOWER(a.ItemName) LIKE '%{itemName.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                SQL += (string.IsNullOrEmpty(saleOrderNo?.Trim())) ? "" : $" and LOWER(a.SaleOrderNo) LIKE '%{saleOrderNo.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-                SQL += (string.IsNullOrEmpty(locationName?.Trim())) ? "" : $" and LOWER(a.LocationName) LIKE '%{locationName.Trim().ToLower().Replace("\\", "\\\\").Replace("'", "''").Replace("%", "\\%").Replace("_", "\\_")}%' ESCAPE '\\'";
-
-                if (startDate != null && endDate != null)
+                HDLIB.WebPaging.TPaging<DAL.SaleOrder> paging = new HDLIB.WebPaging.TPaging<DAL.SaleOrder>();
+                var query = db.SaleOrders.AsQueryable();
+                query = query.Where(n => n.RecordStatus != null && n.RecordStatus != ConstRecordStatus.Deleted);
+                if (!string.IsNullOrWhiteSpace(wareHouseCode))
                 {
-                    SQL += $" and (a.SaleOrderDate between convert(datetime, '{ startDate.Value.ToString("dd-MM-yyyy 00:00:00") }', 103) and convert(datetime, '{ endDate.Value.ToString("dd-MM-yyyy 23:59:59") }', 103)) ";
+                    query = query.Where(n => n.WarehouseCode.ToLower().Contains(wareHouseCode.ToLower()));
                 }
-                else if (startDate != null)
+                if (!string.IsNullOrWhiteSpace(saleOrderNo))
                 {
-                    SQL += $" and (a.SaleOrderDate >= convert(datetime, '{ startDate.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
+                    query = query.Where(n => n.SaleOrderNo.ToLower().Contains(saleOrderNo.ToLower()));
                 }
-                else if (endDate != null)
+                if (!string.IsNullOrWhiteSpace(exportStatus))
                 {
-                    SQL += $" and (a.SaleOrderDate <= convert(datetime, '{ endDate.Value.ToString("dd-MM-yyyy 00:00:00") }', 103))";
+                    query = query.Where(n => n.ExportStatus.ToLower().Contains(exportStatus.ToLower()));
                 }
+                if (startDate.HasValue && !endDate.HasValue)
+                {
+                    query = query.Where(n => n.SaleOrderDate >= startDate);
 
-                SQL += " order by a.id desc";
-                var exec_sql = db.SaleOrderItems.SqlQuery(SQL);
-                var data = exec_sql.AsNoTracking().Skip(offset).Take(limit).ToList();
-                int total = exec_sql.Count();
+                }
+                else
+                if (!startDate.HasValue && endDate.HasValue)
+                {
+                    query = query.Where(n => n.SaleOrderDate <= endDate);
+
+                }
+                else
+                if (startDate.HasValue && endDate.HasValue)
+                {
+                    query = query.Where(n => n.SaleOrderDate >= startDate);
+                    query = query.Where(n => n.SaleOrderDate <= endDate);
+                }
+                var total = query.Count();
+                var data = query.OrderByDescending(n => n.CreateDate).Skip((page - 1) * limit).Take(limit).ToList();
                 paging.CalculatePaging(data, page, limit, total);
-
                 return paging;
             }
             catch (Exception ex)
@@ -104,6 +145,34 @@ namespace DAL.Factory.Web.SaleOrder
                 throw;
             }
         }
+
+        public HDLIB.WebPaging.TPaging<DAL.SaleOrderItem> FindAllSaleOrderItem(int page, int limit,
+            string saleOrderItem)
+        {
+            try
+            {
+                saleOrderItem = saleOrderItem?.Trim();
+
+                HDLIB.WebPaging.TPaging<DAL.SaleOrderItem> paging = new HDLIB.WebPaging.TPaging<DAL.SaleOrderItem>();
+                var query = db.SaleOrderItems.AsQueryable();
+                query = query.Where(n => n.RecordStatus != null && n.RecordStatus != ConstRecordStatus.Deleted);
+                if (!string.IsNullOrWhiteSpace(saleOrderItem))
+                {
+                    query = query.Where(n => n.SaleOrderNo.ToLower().Contains(saleOrderItem.ToLower()));
+                }
+                var total = query.Count();
+                var data = query.OrderByDescending(n => n.CreateDate).Skip((page - 1) * limit).Take(limit).ToList();
+                paging.CalculatePaging(data, page, limit, total);
+                return paging;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Logging.LogError(ex);
+                throw;
+            }
+        }
+
         public int GetMaxSaleOrderId()
         {
             try

@@ -34,17 +34,23 @@ namespace QRMSWeb.Controllers
         {
             return View();
         }
-        public IActionResult ActualScanDetail()
+        public IActionResult ActualScanDetail(int? ID = null, string SaleOrderNo = null,
+            string WareHouseCode = null, string SaleOrderDate = null, string ExportStatusName = null)
         {
+            ViewBag.ID = ID;
+            ViewBag.SaleOrderNo = SaleOrderNo;
+            ViewBag.WareHouseCode = WareHouseCode;
+            ViewBag.SaleOrderDate = SaleOrderDate;
+            ViewBag.ExportStatusName = ExportStatusName;
             return View();
         }
         public bool Delete()
         {
             return true;
         }
-        public async Task<IActionResult> ViewExcelReport(int? saleOrderId)
+        public async Task<IActionResult> ViewExcelReport(string saleOrderNo)
         {
-            var response = await _SaleOrderService.GenerateReportFile(saleOrderId??0);
+            var response = await _SaleOrderService.GenerateReportFile(saleOrderNo);
             //this.HttpContext.Response.AddHeader("content-disposition", "attachment; filename=Information" + DateTime.Now.Year.ToString() + ".xlsx");
 
             //this.HttpContext.Response.RegisterForDispose(response);

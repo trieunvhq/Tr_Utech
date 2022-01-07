@@ -70,15 +70,15 @@ namespace PISAS_API.Service.UploadSigle
                 OriginName = originName;
                 ThumbName = thumbName;
                 KeyMessage = "UPLOAD_SUCCESS";
-                Message = APIMessage.UPLOAD_SUCCESS;
+                Message = ConstAPIMessage.UPLOAD_SUCCESS;
                 Success = true;
                 return;
             }
             catch (Exception ex)
             {
                 Logging.LogError(ex);
-                KeyMessage = APIErrorCode.UPLOAD_FAILED;
-                Message = APIMessage.UPLOAD_FAILED;
+                KeyMessage = ConstAPIErrorCode.UPLOAD_FAILED;
+                Message = ConstAPIMessage.UPLOAD_FAILED;
                 Success = false;
             }
         }
@@ -90,8 +90,8 @@ namespace PISAS_API.Service.UploadSigle
             {
                 if (FileInput == null || FileInput.ContentLength <= 0)
                 {
-                    KeyMessage = APIErrorCode.IMAGE_IS_REQUIRED;
-                    Message = APIMessage.IMAGE_IS_REQUIRED;
+                    KeyMessage = ConstAPIErrorCode.IMAGE_IS_REQUIRED;
+                    Message = ConstAPIMessage.IMAGE_IS_REQUIRED;
                     Success = false;
                     return;
                 }
@@ -118,15 +118,15 @@ namespace PISAS_API.Service.UploadSigle
                 OriginName = originName;
                 ThumbName = thumbName;
                 KeyMessage = "UPLOAD_SUCCESS";
-                Message = APIMessage.UPLOAD_SUCCESS;
+                Message = ConstAPIMessage.UPLOAD_SUCCESS;
                 Success = true;
                 return;
             }
             catch(Exception ex)
             {
                 Logging.LogError(ex);
-                KeyMessage = APIErrorCode.UPLOAD_FAILED;
-                Message = APIMessage.UPLOAD_FAILED;
+                KeyMessage = ConstAPIErrorCode.UPLOAD_FAILED;
+                Message = ConstAPIMessage.UPLOAD_FAILED;
                 Success = false;
             }
         }

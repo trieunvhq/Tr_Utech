@@ -1,0 +1,15 @@
+﻿@using QRMSWeb.Components.Features.TransferDirective
+@{
+    ViewData["Title"] = "Chi tiết chỉ thị chuyển kho";
+    ViewBag.ID = ViewContext.RouteData.Values["id"];
+
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <component type="typeof(TransferDirectiveDetailWrapper)"
+                   param-ID="@(ViewBag.ID)"
+                   param-IsDetail="@(true)"
+                   render-mode="ServerPrerendered"/>
+    </div>
+</div>

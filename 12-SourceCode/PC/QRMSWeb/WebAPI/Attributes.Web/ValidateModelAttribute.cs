@@ -22,7 +22,7 @@ namespace Web_API.Attributes.Web
                     error = ErroModel.ErrorMessage;
                 }
 
-                var baseRespModel = new BaseRespModel(error, APIResponseCode.VALIDATION, APIErrorCode.VALIDATION);
+                var baseRespModel = new BaseRespModel(error, ConstAPIResponseCode.VALIDATION, ConstAPIErrorCode.VALIDATION);
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, baseRespModel);
             }
         }

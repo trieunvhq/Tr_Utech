@@ -20,7 +20,8 @@ namespace BPL.Amis.HT
                     lst.Add(new WarehouseBPLModel()
                     {
                         ID = i.ToString(),
-                        Name = "Kho test số " + i.ToString()
+                        WarehouseCode = "KAMIS" + i.ToString(),
+                        WarehouesName = "Kho test số " + i.ToString()
                     });
                 }
 
@@ -30,7 +31,7 @@ namespace BPL.Amis.HT
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return null;

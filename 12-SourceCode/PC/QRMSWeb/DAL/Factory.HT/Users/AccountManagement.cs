@@ -66,7 +66,7 @@ namespace DAL.Factory.HT.Users
         {
             try
             {
-                var count = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != RecordStatus.Deleted)
+                var count = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != ConstRecordStatus.Deleted)
                     .Where(x => x.Email.ToLower() == email.Trim().ToLower())
                     .Count();
                 if (count > 0) return true;
@@ -89,7 +89,7 @@ namespace DAL.Factory.HT.Users
         {
             try
             {
-                var count = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != RecordStatus.Deleted)
+                var count = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != ConstRecordStatus.Deleted)
                     .Where(x => x.Phone == mobile.Trim())
                     .Count();
                 if (count > 0) return true;
@@ -112,7 +112,7 @@ namespace DAL.Factory.HT.Users
         {
             try
             {
-                var count = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != RecordStatus.Deleted)
+                var count = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != ConstRecordStatus.Deleted)
                     .Where(x => x.Code == user_.Trim())
                     .Count();
                 if (count > 0) return true;
@@ -136,7 +136,7 @@ namespace DAL.Factory.HT.Users
         {
             try
             {
-                var result = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != RecordStatus.Deleted)
+                var result = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != ConstRecordStatus.Deleted)
                     .Where(x => x.Email.ToLower() == user.ToLower() || x.Phone == user.ToLower() || x.Code == user.ToLower())
                     .Where(x => x.Password == pass)
                     .FirstOrDefault();
@@ -156,7 +156,7 @@ namespace DAL.Factory.HT.Users
         {
             try
             {
-                var result = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != RecordStatus.Deleted)
+                var result = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != ConstRecordStatus.Deleted)
                     .Where(x => x.Email.ToLower() == user.ToLower() || x.Phone == user)
                     .FirstOrDefault();
                 if (result != null)
@@ -180,7 +180,7 @@ namespace DAL.Factory.HT.Users
         {
             try
             {
-                var account = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != RecordStatus.Deleted)
+                var account = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != ConstRecordStatus.Deleted)
                     .Where(x => x.Email.ToLower() == emailOrMobile.Trim().ToLower()
                             || x.Phone == emailOrMobile
                     )
@@ -205,7 +205,7 @@ namespace DAL.Factory.HT.Users
         {
             try
             {
-                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{ RecordStatus.Deleted }') ";
+                string SQL = $"select * from User a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }') ";
                 SQL += $"and ID = '{ accountId }'";
                 var result = db.Users.SqlQuery(SQL).FirstOrDefault();
                 if (result != null)
@@ -281,7 +281,7 @@ namespace DAL.Factory.HT.Users
         {
             try
             {
-                var account = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != RecordStatus.Deleted)
+                var account = db.Users.Where(x => x.RecordStatus != null && x.RecordStatus != ConstRecordStatus.Deleted)
                     .Where(x => x.ID == accountId && x.Password == passwordHash)
                     .FirstOrDefault();
                 if (account == null)

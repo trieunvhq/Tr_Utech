@@ -9,15 +9,24 @@ namespace HDLIB.Common
 {
     public class DateTimeHelper
     {
-        public static DateTime? ConvertStringDateTimeToDate(string dateTime, string formatDT = "dd-MM-yyyy")
+        public static DateTime? ConvertStringDateTimeToDate(string dateTime, string formatDT = "dd-MMM-yyyy HH:mm:ss tt")
         {
+            dateTime = dateTime?.Trim();
+            if (string.IsNullOrEmpty(dateTime)) return null;
             try {
-                dateTime = dateTime?.Trim();
                 formatDT = formatDT?.Trim();
-                if (string.IsNullOrEmpty(dateTime) || string.IsNullOrEmpty(formatDT)) return null;
+                if (string.IsNullOrEmpty(formatDT))
+                {
+                    return DateTime.ParseExact(dateTime, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                }
                 return DateTime.ParseExact(dateTime, formatDT, CultureInfo.InvariantCulture);
             }catch(Exception e)
             {
+                try {
+                    return DateTime.Parse(dateTime);
+                }
+                catch (Exception) { }
+
                 return null;
             }
         }

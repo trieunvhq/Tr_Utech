@@ -41,7 +41,7 @@ namespace BPL.Factory.HT.TransactionHistoris
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return -1;

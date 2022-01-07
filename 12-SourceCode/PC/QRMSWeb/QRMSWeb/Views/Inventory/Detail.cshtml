@@ -1,0 +1,15 @@
+﻿@using QRMSWeb.Components.Features.Inventory
+@{
+    ViewData["Title"] = "Chi tiết đơn mua hàng";
+    ViewBag.ID = ViewContext.RouteData.Values["id"];
+
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <component type="typeof(InventoryDetailWrapper)"
+                   param-ID="@(ViewBag.ID)"
+                   param-IsDetail="@(true)"
+                   render-mode="ServerPrerendered"/>
+    </div>
+</div>

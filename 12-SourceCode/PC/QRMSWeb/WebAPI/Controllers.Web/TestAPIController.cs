@@ -43,7 +43,8 @@ namespace AMIS_Test.Controllers.Web
                 string filePath = Path.Combine(path, System.Configuration.ConfigurationSettings.AppSettings["FileWarehouseData"]);
                 if (File.Exists(filePath))
                 {
-                    return JObject.Parse(File.ReadAllText(filePath));
+                    var result= JObject.Parse(File.ReadAllText(filePath));
+                    return result;
                 }
                 return null;
             }

@@ -21,6 +21,8 @@ namespace DAL
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
+        public string WarehouseCode { get; set; }
+        public string WarehouseName { get; set; }
         public string LocationCode { get; set; }
         public string LocationName { get; set; }
         public string ItemType { get; set; }

@@ -5,12 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="349db2483ef444fa832dc1aef40fc06a" Name="Diagram1">
-        <EntityTypeShape EntityType="QRMSModel.PurchaseOrder" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="QRMSModel.PurchaseOrderItem" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="QRMSModel.SaleOrder" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="QRMSModel.SaleOrderItem" Width="1.5" PointX="4.75" PointY="4.75" />
-        <EntityTypeShape EntityType="QRMSModel.TransactionHistory" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="QRMSModel.TransferInstruction" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="QRMSModel.LabelPrint" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QRMSModel.LabelPrintItem" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QRMSModel.PurchaseOrder" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QRMSModel.PurchaseOrderItem" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QRMSModel.SaleOrder" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="QRMSModel.SaleOrderItem" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="QRMSModel.TransactionHistory" Width="1.5" PointX="4.75" PointY="6.75" />
+        <EntityTypeShape EntityType="QRMSModel.TransferInstruction" Width="1.5" PointX="6.75" PointY="6.75" />
         <EntityTypeShape EntityType="QRMSModel.TransferInstructionItem" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="QRMSModel.User" Width="1.5" PointX="8.75" PointY="8.75" />
       </Diagram>

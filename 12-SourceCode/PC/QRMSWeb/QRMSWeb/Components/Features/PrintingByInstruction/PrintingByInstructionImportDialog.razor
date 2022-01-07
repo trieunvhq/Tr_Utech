@@ -1,0 +1,227 @@
+﻿@using Newtonsoft.Json
+@using System.Text.RegularExpressions
+@using QRMSWeb.Services
+@using QRMSWeb.Models
+
+@inject NavigationManager _navigationManager
+@inject HttpClient _httpClient
+@inject IJSRuntime _jsRuntime
+
+<div class="modal fade" id="PrintingByInstructionImportDialog" name="PrintingByInstructionImportDialog"
+     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="min-width: 30%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nhập danh sách nhãn từ tệp excel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="()=>CloseDialog()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @if (loading)
+            {
+                <div class="text-center">
+                    Đang tải...
+                </div>
+            }
+            else
+            {
+                <div class="modal-body" style="">
+
+                    <div class="card">
+                        <div class="card-body contain-body-input-form" style="">
+                            <div class="px-md-4">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="row col-12">
+                                            <InputFile name="UploadExcelFile" id="UploadExcelFile" accept=".xlsx"
+                                                       OnChange="OnChangeFile"
+                                                       class="filestyle" style="display:none" />
+                                            <label for="UploadExcelFile" class="btn btn-primary waves-effect" style="width:150px;">Chọn tệp excel</label>
+                                            <label class="col-form-label">@(uploadExcelFileName)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row btn-row mb-4">
+                    <div class="col-12 d-flex flex-row align-items-center justify-content-end">
+                        <div class="button-items">
+                            <button type="button"
+                                    disabled="@(isSubmitting)"
+                                    class="btn btn-primary waves-effect waves-light mr-3" data-dismiss="modal" @onclick="()=>CloseDialog()">
+                                Huỷ bỏ
+                            </button>
+                            <button type="button"
+                                    disabled="@(isSubmitting || string.IsNullOrEmpty(uploadExcelFileName?.Trim()))"
+                                    class="btn btn-primary waves-effect waves-light mr-3" @onclick="OnImporting">
+                                Nhập
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public bool IsDetail { get; set; } = false;
+    [Parameter]
+    public bool IsEdit { get; set; } = false;
+
+
+    [Parameter]
+    public int showCount { get; set; } = 0;
+
+    public int showCountOld { get; set; } = 0;
+
+    [Parameter]
+    public Func<int, Task> OnImport { get; set; }
+
+    private List<PurchaseOrderItemModel> _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+    private PurchaseOrderService _PurchaseOrderItemService;
+    private PrintingService _PrintingService;
+    // Private vars
+    bool loading = true;
+    bool isSubmitting = false;
+    string uploadExcelFileName = "";
+
+    IBrowserFile uploadExcelFile;
+    // Services
+
+    // Data binding
+    async Task OnInitData()
+    {
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+
+            //    await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/insuranceContractTravelInternational/Complete");
+
+        }
+
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            _PurchaseOrderItemService = new PurchaseOrderService(_httpClient);
+            _PrintingService = new PrintingService(_httpClient);
+        }
+        catch (Exception e)
+        {
+
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra", "");
+            //close dialog
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender || showCountOld != showCount)
+            {
+                await _jsRuntime.InvokeVoidAsync("disableAutofill");
+                showCountOld = showCount;
+                uploadExcelFileName = string.Empty;
+                uploadExcelFile = null;
+                await OnInitData();
+
+                loading = false;
+                StateHasChanged();
+
+            }
+        }
+        catch (Exception e)
+        {
+
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            // await _jsRuntime.InvokeVoidAsync("closeModal", "dialogInsuredPersonForm");
+        }
+    }
+
+    async Task OnImporting()
+    {
+        isSubmitting = true;
+        try
+        {
+            if (uploadExcelFile == null || uploadExcelFile.Size <= 0)
+            {
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Tệp tin bị rỗng", "error");
+                isSubmitting = false;
+                return;
+            }
+
+            if (!(uploadExcelFile.Name.EndsWith(".xlsx") || uploadExcelFile.Name.EndsWith(".xls")))
+            {
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Tệp không phải là excel", "error");
+                isSubmitting = false;
+                return;
+            }
+            var uploadExcelFileData = new byte[uploadExcelFile.Size];
+            await uploadExcelFile.OpenReadStream(Constants.Constants.MAX_UPLOAD_FILE).ReadAsync(uploadExcelFileData);
+
+            var response = await _PrintingService.ImportExcelFile(uploadExcelFileData, uploadExcelFile.Name);
+            if (string.IsNullOrEmpty(response.ErrorCode) || "0".Equals(response.ErrorCode))
+            {
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", $"Đã import thành công. Số lượng: {response.Message}", "success");
+                await _jsRuntime.InvokeVoidAsync("closeModal", "PrintingByInstructionImportDialog");
+                OnImport?.Invoke(1);
+            } else
+            {
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", $"Đã import thất bại.", "error");
+            }
+
+            isSubmitting = false;
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra", "");
+            isSubmitting = false;
+        }
+
+        isSubmitting = false;
+    }
+
+    async Task CloseDialog()
+    {
+        await _jsRuntime.InvokeVoidAsync("closeModal", "PrintingByInstructionImportDialog");
+        OnImport?.Invoke(0);
+    }
+
+    private async Task OnChangeFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            uploadExcelFile = e.GetMultipleFiles().First();
+            /*uploadExcelFileData = new byte[uploadExcelFile.Size];
+            await uploadExcelFile.OpenReadStream(Constants.Constants.MAX_UPLOAD_FILE).ReadAsync(buffers);
+            */
+            // docAttachModel.FILE_CONTENT = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffers)}";
+            uploadExcelFileName = uploadExcelFile.Name;
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", ex.Message, "Có lỗi xảy ra", "");
+        }
+    }
+}

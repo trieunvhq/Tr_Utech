@@ -35,32 +35,26 @@ namespace QRMSWeb.Controllers
             return View();
         }
         public IActionResult ActualScanDetail(int? ID=null, string purchaseOrderNo = null,
-            string locationCode = null, string dateFrom = null, string dateTo = null)
+            string WareHouseName = null, string PurchaseOrderDate = null)
         {
             ViewBag.ID = ID;
             ViewBag.PurchaseOrderNo = purchaseOrderNo;
-            ViewBag.LocationCode = locationCode;
-            ViewBag.DateFrom = dateFrom;
-            ViewBag.DateTo = dateTo;
+            ViewBag.WareHouseName = WareHouseName;
+            ViewBag.PurchaseOrderDate = PurchaseOrderDate;
             return View();
         }
         public bool Delete()
         {
             return true;
         }
-
-        
-        public async Task<IActionResult> ViewExcelReport(int? purchaseOrderId)
+        public async Task<IActionResult> ViewExcelReport(string purchaseOrderNo)
         {
-            var response = await _PurchaseOrderService.GenerateReportFile(purchaseOrderId ?? 0);
+            var response = await _PurchaseOrderService.GenerateReportFile(purchaseOrderNo);
             //this.HttpContext.Response.AddHeader("content-disposition", "attachment; filename=Information" + DateTime.Now.Year.ToString() + ".xlsx");
-
             //this.HttpContext.Response.RegisterForDispose(response);
             //    return new HttpResponseMessageResult(response);
             var bData = await response.Content.ReadAsByteArrayAsync();
-            return File(bData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"PurchaseOrderDetail_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx");
+            return File(bData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"ChiTietScanThucTeDonMuaHang_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx");
         }
-
-       
     }
 }

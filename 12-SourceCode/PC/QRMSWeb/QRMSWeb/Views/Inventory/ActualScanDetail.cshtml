@@ -1,0 +1,17 @@
+﻿@using QRMSWeb.Components.Features.Inventory
+@{
+    ViewData["Title"] = "Chi tiết thực tế scan kiểm kê";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <component type="typeof(InventoryActualScanDetailWrapper)"
+                   param-ID="@(ViewBag.ID)"
+                   param-PurchaseOrderNo="@(ViewBag.PurchaseOrderNo)"
+                   param-LocationCode="@(ViewBag.LocationCode)"
+                   param-DateFrom="@(ViewBag.DateFrom)"
+                   param-DateTo="@(ViewBag.DateTo)"
+                   param-IsDetail="@(true)"
+                   render-mode="ServerPrerendered"/>
+    </div>
+</div>

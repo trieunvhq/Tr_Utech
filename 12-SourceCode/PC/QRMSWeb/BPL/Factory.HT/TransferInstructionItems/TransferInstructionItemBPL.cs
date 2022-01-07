@@ -39,7 +39,7 @@ namespace BPL.Factory.HT.TransferInstructionItems
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return null;
@@ -51,7 +51,7 @@ namespace BPL.Factory.HT.TransferInstructionItems
             try
             {
                 bool isDoneY = true;
-                string TransferStatus_ = TransferStatus.NotDelivered;
+                string TransferStatus_ = ConstTransferStatus.NotDelivered;
 
                 int id = obj[0].TransferOrderID;
 
@@ -61,11 +61,11 @@ namespace BPL.Factory.HT.TransferInstructionItems
                 {
                     if (item.SoLuongDaNhap >= item.Quantity)
                     {
-                        item.TransferStatus = TransferStatus.Delivered;
+                        item.TransferStatus = ConstTransferStatus.Delivered;
                     }
                     else
                     {
-                        item.TransferStatus = TransferStatus.NotDelivered;
+                        item.TransferStatus = ConstTransferStatus.NotDelivered;
                     }
 
                     //
@@ -82,7 +82,7 @@ namespace BPL.Factory.HT.TransferInstructionItems
                 //
                 if (isDoneY)
                 {
-                    TransferStatus_ = TransferStatus.Delivered;
+                    TransferStatus_ = ConstTransferStatus.Delivered;
                 }
 
                 var pr = new TransferInstructionItemDAL(db);
@@ -105,7 +105,7 @@ namespace BPL.Factory.HT.TransferInstructionItems
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return -1;

@@ -40,8 +40,8 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
+    <Reference Include="EPPlus">
+      <HintPath>..\HDLIB\lib\EPPlus\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -60,18 +60,25 @@
   <ItemGroup>
     <Compile Include="Factory.HT\BaseBPL.cs" />
     <Compile Include="Factory.Web\BaseBLL.cs" />
+    <Compile Include="Factory.Web\LabelPrint\LabelPrintBLL.cs" />
     <Compile Include="Factory.Web\PurchaseOrder\PurchaseOrderBLL.cs" />
     <Compile Include="Factory.Web\SaleOrder\SaleOrderBLL.cs" />
     <Compile Include="Factory.Web\TransactionHistory\TransactionHistoryBLL.cs" />
     <Compile Include="Factory.Web\Users\UserBLL.cs" />
+    <Compile Include="Factory.Web\WareHouse\WareHouseBLL.cs" />
     <Compile Include="Models.Web\AuthModel.cs" />
     <Compile Include="Models.Web\EmailModel.cs" />
+    <Compile Include="Models.Web\Print\LabelPrintItemFromExcelFileModel.cs" />
+    <Compile Include="Models.Web\Print\LabelPrintItemModel.cs" />
+    <Compile Include="Models.Web\Print\LabelPrintReportModel.cs" />
     <Compile Include="Models.Web\PurchaseOrderModel.cs" />
     <Compile Include="Models.Web\PurchaseOrderItemModel.cs" />
     <Compile Include="Models.Web\Report\ReportResponseBase.cs" />
     <Compile Include="Models.Web\PurchaseOrderItemInfoAmisModel.cs" />
     <Compile Include="Models.Web\SaleOrderItemModel.cs" />
     <Compile Include="Models.Web\SaleOrderItemInfoAmisModel.cs" />
+    <Compile Include="Models.Web\Print\LabelPrintModel.cs" />
+    <Compile Include="Models.Web\WareHouseModel.cs" />
     <Compile Include="Models.Web\TransactionHistoryModel.cs" />
     <Compile Include="Models.Web\SaleOrderModel.cs" />
     <Compile Include="Models.Web\UserModel.cs" />
@@ -100,6 +107,7 @@
     <Compile Include="Models\TransferInstructionBPLModel.cs" />
     <Compile Include="Models\TransferInstructionItemBPLModel.cs" />
     <Compile Include="Models\XuatKhoDungCuBPLModel.cs" />
+    <Compile Include="Models\PrLogsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AMIS\AMIS.csproj">

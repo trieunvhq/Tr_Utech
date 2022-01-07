@@ -21,12 +21,13 @@
                 <div class="card-body contain_body">
                     <h4>Tìm kiếm</h4>
                     <PrintingByInstructionSearchForm OnImport="@OnImport"
-                                         OnSearch="@OnSearch"
-                                         @bind-ItemType="@itemType"
-                                         @bind-WareHouseCode="@wareHouseCode"
-                                         @bind-PurchaseOrderNo="@purchaseOrderNo"
-                                         @bind-PurchaseOrderDate="@purchaseOrderDate"
-                                         @bind-PrintStatus="@printStatus" />
+                                                     OnSearch="@OnSearch"
+                                                     @bind-ItemType="@itemType"
+                                                     @bind-WareHouseCode="@wareHouseCode"
+                                                     @bind-PurchaseOrderNo="@purchaseOrderNo"
+                                                     @bind-DateFrom="@startDate"
+                                                     @bind-DateTo="@endDate"
+                                                     @bind-PrintStatus="@printStatus" />
                 </div>
             </div>
         </div>
@@ -42,7 +43,7 @@
                     }
                     else
                     {
-                        <TableList data="@_PurchaseOrderItemModels"
+                        <TableList data="@_LabelPrintModels"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
@@ -50,10 +51,12 @@
                                    RowPerPage=@RowPerPage
                                    MinColumnActionWidth="142"
                                    IndexColSize="60">
-                            
+
                             <TableActionButton Context="item">
                                 <TableCommonAction OnClickDelete="() => OnClickDelete(item)"
                                                    OnClickPrint="() => OnClickPrint(item)"
+                                                   ShowPrint="true"
+                                                   ShowDetail="false"
                                                    ShowEdit="false"
                                                    ShowDelete="true" />
                             </TableActionButton>
@@ -64,36 +67,47 @@
         </div>
     </div>
 </div>
+@if (!loading)
+{
+    <PrintingByInstructionImportDialog showCount="@printDialogShowCount"
+                                       OnImport="OnImported">
 
+    </PrintingByInstructionImportDialog>
+}
 @code
 {
     private string itemType = "";
     private string wareHouseCode = "";
     private string purchaseOrderNo = "";
-    private string purchaseOrderDate = "";
     private string printStatus = "";
+    private string startDate = "";
+    private string endDate = "";
+
     private int TotalPage = 0;
     private int CurrentPage = 1;
     private const int RowPerPage = 10;
+    private int printDialogShowCount = 0;
 
     private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
-{
+    {
+        new BreadcrumbLevel() {name = "In nhãn", path = ""},
         new BreadcrumbLevel() {name = "In nhãn theo chỉ thị in", path = "/PrintingByInstruction"}
     };
 
     private List<TableLabels> labels = new List<TableLabels>()
-{
-        new TableLabels {label = "Số chỉ thị in", dataIndex = "PurchaseOrderNo",columnWidth=150, align="center"},
-        new TableLabels {label = "Trạng thái in", dataIndex = "PrintStatusName",columnWidth=250, align="center"},
-        new TableLabels {label = "Ngày mua hàng", dataIndex = "PurchaseOrderDate", dataType="date", columnWidth=110},
-        new TableLabels {label = "Tên kho", dataIndex = "WareHouseName",columnWidth=250},
-        new TableLabels {label = "Mã kho", dataIndex = "WareHouseCode",columnWidth=150, align="center"},
+    {
+        new TableLabels {label = "Số chỉ thị in", dataIndex = "PrintOrderNo",columnWidth=150, align="center"},
+        new TableLabels {label = "Ngày chỉ thị", dataIndex = "PrintOrderDate", dataType="date", columnWidth=110},
         new TableLabels {label = "Loại nhãn", dataIndex = "ItemTypeName",columnWidth=150, align="center"},
+        new TableLabels {label = "Mã kho", dataIndex = "WarehouseCode",columnWidth=150, align="center"},
+        new TableLabels {label = "Tên kho", dataIndex = "WarehouseName",columnWidth=250},
+        new TableLabels {label = "Trạng thái in", dataIndex = "PrintStatusName",columnWidth=250, align="center"},
+
     };
 
     private bool loading = true;
-    private List<PurchaseOrderItemModel> _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
-    private PurchaseOrderService _PurchaseOrderItemService;
+    private List<LabelPrintModel> _LabelPrintModels = new List<LabelPrintModel>();
+    private PrintingService _PrintingService;
 
     private async Task OnSearch()
     {
@@ -106,28 +120,40 @@
     private async Task OnImport()
     {
         try
-        {/*
-            loading = true;
-            CurrentPage = 1;
-            
-            var responseData = await _PurchaseOrderItemService.ImportPurchaseOrderItem();
-            string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
-            if ("0".Equals(errCode))
-            {
-                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã lấy thông tin từ hệ thống AMIS thành công", "success");
-                await OnInitData();
-            }
-            else
-            {
-                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Lấy thông tin từ hệ thống AMIS thất bại", "error");
-
-            }*/
+        {
+            printDialogShowCount++;
+            await InvokeAsync(StateHasChanged);
+            await _jsRuntime.InvokeVoidAsync("ShowModal", "PrintingByInstructionImportDialog");
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            _LabelPrintModels = new List<LabelPrintModel>();
+            TotalPage = 0;
+        }
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+
+    }
+
+    private async Task OnImported(int result)
+    {
+        try
+        {
+            loading = true;
+            CurrentPage = 1;
+            if (result > 0)
+            {
+                // await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã import thành công", "success");
+                await OnInitData();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            _LabelPrintModels = new List<LabelPrintModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -136,34 +162,36 @@
     }
     private async Task storeParamSearch()
     {
-        purchaseOrderDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchPurchaseOrderDate");
+        startDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchStartDate");
+        endDate = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchEndDate");
 
+        await _localStorageService.SetItemAsStringAsync("search_PrintingByInstruction_ItemType", !String.IsNullOrWhiteSpace(itemType) ? itemType : "");
+        await _localStorageService.SetItemAsStringAsync("search_PrintingByInstruction_WareHouseCode", !String.IsNullOrWhiteSpace(wareHouseCode) ? wareHouseCode : "");
+        await _localStorageService.SetItemAsStringAsync("search_PrintingByInstruction_PurchaseOrderNo", !String.IsNullOrWhiteSpace(purchaseOrderNo) ? purchaseOrderNo : "");
+        await _localStorageService.SetItemAsStringAsync("search_PrintingByInstruction_PrintStatus", !String.IsNullOrWhiteSpace(printStatus) ? printStatus : "");
+        await _localStorageService.SetItemAsStringAsync("search_PrintingByInstruction_StartDate", !String.IsNullOrWhiteSpace(startDate) ? startDate : "");
+        await _localStorageService.SetItemAsStringAsync("search_PrintingByInstruction_EndDate", !String.IsNullOrWhiteSpace(endDate) ? endDate : "");
 
-        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_ItemType", !String.IsNullOrWhiteSpace(itemType) ? itemType : "");
-        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_WareHouseCode", !String.IsNullOrWhiteSpace(wareHouseCode) ? wareHouseCode : "");
-        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderNo", !String.IsNullOrWhiteSpace(purchaseOrderNo) ? purchaseOrderNo : "");
-        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_PrintStatus", !String.IsNullOrWhiteSpace(printStatus) ? printStatus : "");
-        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderDate", !String.IsNullOrWhiteSpace(purchaseOrderDate) ? purchaseOrderDate : "");
-
-        await _localStorageService.SetItemAsStringAsync("search_PurchaseOrder_CurrentPage", CurrentPage.ToString());
+        await _localStorageService.SetItemAsStringAsync("search_PrintingByInstruction_CurrentPage", CurrentPage.ToString());
     }
     private async Task retryParamSearch()
     {
-        itemType = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_ItemType") ?? "";
-        wareHouseCode = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_WareHouseCode") ?? "";
-        purchaseOrderNo = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderNo") ?? "";
-        printStatus = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_PrintStatus") ?? "";
-        purchaseOrderDate = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderDate") ?? "";
+        itemType = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_ItemType") ?? "";
+        wareHouseCode = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_WareHouseCode") ?? "";
+        purchaseOrderNo = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_PurchaseOrderNo") ?? "";
+        printStatus = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_PrintStatus") ?? "";
+        startDate = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_StartDate") ?? "";
+        endDate = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_EndDate") ?? "";
 
-        var curPage = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_CurrentPage") ?? "";
-        CurrentPage = CommonUtils.ConvertStringNumberVNToInt(curPage)??1;
+        var curPage = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_CurrentPage") ?? "";
+        CurrentPage = CommonUtils.ConvertStringNumberVNToInt(curPage) ?? 1;
         if (CurrentPage <= 0) CurrentPage = 1;
     }
     protected override void OnInitialized()
     {
         try
         {
-            _PurchaseOrderItemService = new PurchaseOrderService(_httpClient);
+            _PrintingService = new PrintingService(_httpClient);
         }
         catch (Exception e)
         {
@@ -178,19 +206,21 @@
         {
             await retryParamSearch();
 
-            var glPurchaseOrderDate = CommonUtils.ConvertDateVNFormatedToDate(purchaseOrderDate);
-            var glStrglPurchaseOrderDate = glPurchaseOrderDate != null ? glPurchaseOrderDate.ToString() : "";
+            var glStartDate = CommonUtils.ConvertDateVNFormatedToDate(startDate);
+            var glStrgStartDate = glStartDate != null ? glStartDate.ToString() : "";
+            var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(endDate);
+            var glStrgEndDate = glEndDate != null ? glEndDate.ToString() : "";
 
-            var response = await _PurchaseOrderItemService.SearchPurchaseOrderItemPrint(CurrentPage, RowPerPage,
-                itemType, wareHouseCode, purchaseOrderNo, printStatus, purchaseOrderDate, false);
-            _PurchaseOrderItemModels = response.rows ?? new List<PurchaseOrderItemModel>();
+            var response = await _PrintingService.SearchLabelPrint(CurrentPage, RowPerPage,
+            itemType,purchaseOrderNo, wareHouseCode, printStatus, startDate, endDate, false);
+            _LabelPrintModels = response.rows ?? new List<LabelPrintModel>();
             TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _PurchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            _LabelPrintModels = new List<LabelPrintModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -205,10 +235,16 @@
             {
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
-                purchaseOrderDate = await _localStorageService.GetItemAsStringAsync("search_PurchaseOrder_PurchaseOrderDate") ?? "";
-                if (string.IsNullOrEmpty(purchaseOrderDate?.Trim()))
+                startDate = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_StartDate") ?? "";
+                if (string.IsNullOrEmpty(startDate?.Trim()))
                 {
-                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchPurchaseOrderDate1");
+
+                    startDate = CommonUtils.GetDateVNFormated(DateTime.Now);
+                    await _localStorageService.SetItemAsStringAsync("search_PrintingByInstruction_StartDate", !String.IsNullOrWhiteSpace(startDate) ? startDate : "");
+                }
+                endDate = await _localStorageService.GetItemAsStringAsync("search_PrintingByInstruction_EndDate") ?? "";
+                if (string.IsNullOrEmpty(endDate?.Trim())) {
+                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchEndDate1");
                 }
                 await OnInitData();
             }
@@ -235,25 +271,26 @@
     }
 
 
-    private void OnClickPrint(PurchaseOrderItemModel PurchaseOrderItem)
+    private void OnClickPrint(LabelPrintModel labelPrintModel)
     {
-        UriHelper.NavigateTo($"/PrintingByInstruction/Print/{PurchaseOrderItem.ID}", true);
+        UriHelper.NavigateTo($"/PrintingByInstruction/Print/{labelPrintModel.ID}", true);
+
     }
 
 
-    private async Task OnClickDelete(PurchaseOrderItemModel PurchaseOrderItem)
+    private async Task OnClickDelete(LabelPrintModel labelPrintModel)
     {
         try
         {
-            bool confirmRemove = await _jsRuntime.InvokeAsync<bool>("showPrompt",
+            var confirmRemove = await _jsRuntime.InvokeAsync<int>("showPrompt",
                 "Thông báo",
-                $"Bạn có muốn xóa đơn {PurchaseOrderItem.PurchaseOrderNo}",
+                $"Bạn có chắc chắn muốn xóa chỉ thị in nhãn {labelPrintModel.PrintOrderNo} không?",
                 "xóa",
                 "Huỷ", "", "", "");
 
-            if (confirmRemove)
+            if (confirmRemove == 1)
             {
-                var responseData = await _PurchaseOrderItemService.DeletePurchaseOrder(PurchaseOrderItem.PurchaseOrderID);
+                var responseData = await _PrintingService.DeleteLabelPrint(labelPrintModel);
                 string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
                 if ("0".Equals(errCode))
                 {

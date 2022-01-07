@@ -10,12 +10,12 @@ namespace BPL.Factory.HT.TransferInstructions
 {
     public class TransferInstructionBPL : BaseBPL
     {
-        public List<TransferInstructionBPLModel> GetTransferInstruction(DateTime from_day, DateTime to_day, out string err_code, out string err_msg)
+        public List<TransferInstructionBPLModel> GetTransferInstruction(DateTime from_day, DateTime to_day, string WarehouseCode, out string err_code, out string err_msg)
         {
             try
             {
                 var pr = new TransferInstructionDAL(db);
-                var result = pr.GetTransferInstruction(from_day, to_day);
+                var result = pr.GetTransferInstruction(from_day, to_day, WarehouseCode);
                 if (result != null)
                 {
                     err_code = "0";
@@ -38,7 +38,7 @@ namespace BPL.Factory.HT.TransferInstructions
             }
             catch (Exception ex)
             {
-                err_code = ResponseErrorCode.Error.ToString();
+                err_code = ConstResponseErrorCode.Error.ToString();
                 err_msg = ex.Message;
                 Logging.LogError(ex);
                 return null;

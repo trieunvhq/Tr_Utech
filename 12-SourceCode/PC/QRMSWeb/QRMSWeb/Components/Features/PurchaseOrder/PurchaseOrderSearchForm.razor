@@ -1,22 +1,42 @@
-﻿@using QRMSWeb.Components.Common.Breadcrumb
+﻿@using QRMSWeb.Services
+@using QRMSWeb.Models
+@using QRMSWeb.Helper
+@using QRMSWeb.Utils
+@using QRMSWeb.Components.Common.Breadcrumb
 @using QRMSWeb.Components.Common.SampleTable
+@inject HttpClient _httpClient
 @inject IJSRuntime _jsRuntime
 
 <form autocomplete="off" class="search-body-form">
     <div class="row search-row-input">
-        <div class="row form-group col-4">
-            <label class="col-3 col-form-label">Mã hàng</label>
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Kho</label>
             <div class="col-9">
-                <input type="text" placeholder=""
-                       autocomplete="off"
-                       value="@ItemCode"
-                       @onchange="@((evt) => ItemCodeChanged.InvokeAsync(evt.Value?.ToString()))"
-                       class="form-control">
+                <select value="@WareHouseCode"
+                        @onchange="@((evt) => WareHouseCodeChanged.InvokeAsync(evt.Value?.ToString()))"
+                        class="form-control">
+                    <option value="">---</option>
+                    @for (int index = 0; index < _wareHouseModels.Count; index++)
+                    {
+                        <option data-limit="70" selected="@(_wareHouseModels[index].WarehouseCode.Equals(WareHouseCode))" value="@_wareHouseModels[index].WarehouseCode">
+                            @_wareHouseModels[index].WarehouseCode - @_wareHouseModels[index].WarehouseName
+                        </option>
+                    }
+                </select>
+                <!--<input type="text" placeholder=""
+    autocomplete="off"
+    value="@WareHouseCode"
+    @onchange="@((evt) => WareHouseCodeChanged.InvokeAsync(evt.Value?.ToString()))"
+    class="form-control">-->
             </div>
         </div>
-        <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Đơn mua hàng</label>
-            <div class="col-8">
+        <div class="row form-group col-6">
+            <label class="col-4 col-form-label">Ngày đơn hàng</label>
+
+        </div>
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Đơn mua hàng</label>
+            <div class="col-9">
                 <input type="text" placeholder=""
                        autocomplete="off"
                        value="@PurchaseOrderNo"
@@ -41,34 +61,24 @@
             </div>
         </div>
 
-        <div class="row form-group col-4">
-            <label class="col-3 col-form-label">Tên hàng</label>
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Trạng thái</label>
             <div class="col-9">
-                <input type="text" placeholder=""
-                       autocomplete="off"
-                       value="@ItemName"
-                       @onchange="@((evt) => ItemNameChanged.InvokeAsync(evt.Value?.ToString()))"
-                       class="form-control">
+                <select value="@InputStatus" @onchange="@((evt) => InputStatusChanged.InvokeAsync(evt.Value?.ToString()))" class="form-control">
+                    <option value="">---</option>
+                    <option value="Y">Đã nhập</option>
+                    <option value="D">Đang nhập</option>
+                    <option value="N">Chưa nhập</option>
+                </select>
             </div>
         </div>
-        <div class="row form-group col-4">
-            <label class="col-4 col-form-label">Kho</label>
-            <div class="col-8">
-                <input type="text"
-                       autocomplete="off"
-                       value="@LocationName"
-                       @onchange="@((evt) => LocationNameChanged.InvokeAsync(evt.Value?.ToString()))"
-                       placeholder="" class="form-control">
-            </div>
-        </div>
-
         <div class="row form-group col-4">
             <label class="col-3 col-form-label">Đến ngày</label>
             <div class="col-9">
                 <div class="input-group pjc-date-picker"
                      id="searchEndDate1" data-target-input="nearest">
                     <input type="text" class="form-control datetimepicker-input" data-target="#searchEndDate1"
-                           id="searchEndDate" placeholder="ngày/tháng/năm" autocomplete="off" format="DD/MM/YYYY"
+                           id="searchEndDate" placeholder="ngày/tháng/năm" autocomplete="off"
                            value="@DateTo" />
                     <div class="input-group-append" data-target="#searchEndDate1" data-toggle="datetimepicker">
                         <span class="input-group-text">
@@ -91,22 +101,16 @@
 @code {
 
     [Parameter]
-    public string ItemCode { get; set; }
+    public string WareHouseCode { get; set; }
 
     [Parameter]
-    public EventCallback<string> ItemCodeChanged { get; set; }
+    public EventCallback<string> WareHouseCodeChanged { get; set; }
 
     [Parameter]
-    public string ItemName { get; set; }
+    public string InputStatus { get; set; }
 
     [Parameter]
-    public EventCallback<string> ItemNameChanged { get; set; }
-
-    [Parameter]
-    public string LocationName { get; set; }
-
-    [Parameter]
-    public EventCallback<string> LocationNameChanged { get; set; }
+    public EventCallback<string> InputStatusChanged { get; set; }
 
     [Parameter]
     public string PurchaseOrderNo { get; set; }
@@ -130,12 +134,29 @@
 
     [Parameter]
     public Func<Task> OnSearch { get; set; }
+
+
+    private List<WareHouseModel> _wareHouseModels = new List<WareHouseModel>();
+    private WareHouseService _wareHouseService;
+    protected override void OnInitialized()
+    {
+        try
+        {
+            _wareHouseService = new WareHouseService(_httpClient);
+        }
+        catch (Exception e)
+        {
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PurchaseOrder");
+        }
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try
         {
             if (firstRender)
             {
+                _wareHouseModels = await _wareHouseService.GetAllWareHouses();
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 //set vn date
                 await _jsRuntime.InvokeVoidAsync("vnDatePicker");
