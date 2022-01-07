@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using QRMS.Models;
+using QRMS.Models.KKDC;
 using SQLite;
 
 namespace QRMS
@@ -159,6 +160,38 @@ namespace QRMS
             string Sql = $"Delete From XuatKhoDungCuModel Where TransferOrderNo = '{no}'";
 
             _ = _database.ExecuteAsync(Sql);
+        }
+
+
+        //Kiểm kê dụng cụ:
+        public Task<List<KKDCModel>> GetTransactionHistory_KKDC(string OrderNo, string WarehouseCode_From)
+        {
+            string Sql = $"Select DISTRINCT TransactionType, OrderNo, WarehouseCode_From, WarehouseName_From, WarehouseType_From, ";
+                   Sql += $"WarehouseCode_To, WarehouseName_To, WarehouseType_To, ItemCode, ItemName, ItemType, Unit ";
+                   Sql += $"From TransactionHistoryModel a ";
+                   Sql += $"(case when(select sum(b.[Quantity]) from TransactionHistoryModel b ";
+                   Sql += $"where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
+                   Sql += $"and b.[ItemName] = a.[ItemName] ";
+                   Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) is null then 0 ";
+                   Sql += $"else (select sum(b.[Quantity]) from TransactionHistoryModel b where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
+                   Sql += $"and b.[ItemName] = a.[ItemName] ";
+                   Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) end) SoLuongKiemKe, ";
+
+                   Sql += $"(case when(select COUNT(*) from TransactionHistoryModel b ";
+                   Sql += $"where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
+                   Sql += $"and b.[ItemName] = a.[ItemName] ";
+                   Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) is null then 0 ";
+                   Sql += $"else (select COUNT(*) from TransactionHistoryModel b where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
+                   Sql += $"and b.[ItemName] = a.[ItemName] ";
+                   Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) end) SoNhan ";
+
+                   Sql += $"Where a.OrderNo = '{OrderNo}' and a.TransactionType = 'K' ";
+                   Sql += $"and a.WarehouseCode_From = '{WarehouseCode_From}' and a.TransactionType = 'K' ";
+
+
+            var data = _database.QueryAsync<KKDCModel>(Sql);
+
+            return data;
         }
     }
 }
