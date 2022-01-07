@@ -21,6 +21,7 @@ namespace QRMS.ViewModels
         public DateTime TuNgay { get; set; } = DateTime.Now;
         public DateTime DenNgay { get; set; } = DateTime.Now;
         public string Name { get; set; }
+        public string Code_Kho { get; set; }
 
         public ChonDonMuaHangPageModel()
         {
@@ -32,7 +33,7 @@ namespace QRMS.ViewModels
         {
             var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PurchaseOrder>>>
                                               (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorder, new {
-                                                  WarehouseCode = MySettings.CodeKho,
+                                                  WarehouseCode = Code_Kho,
                                                   from_day = TuNgay.Date,
                                                   to_day = DenNgay.Date
                                               });

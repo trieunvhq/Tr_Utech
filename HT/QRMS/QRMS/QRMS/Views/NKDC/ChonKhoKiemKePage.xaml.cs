@@ -67,7 +67,7 @@ namespace QRMS.Views
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonDonMuaHangPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonDonMuaHangPage(ViewModel.WarehouesCode));
         }
 
         async void SoLoai_Tapped(System.Object sender, System.EventArgs e)

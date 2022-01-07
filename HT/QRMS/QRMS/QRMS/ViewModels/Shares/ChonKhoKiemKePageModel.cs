@@ -17,6 +17,7 @@ namespace QRMS.ViewModels
         public WarehouseBPLModel SelectedKho { get; set; }
 
         public string WarehouesName { get; set; }
+        public string WarehouesCode { get; set; }
 
         public ChonKhoKiemKePageModel()
         {
@@ -40,12 +41,14 @@ namespace QRMS.ViewModels
                         {
                             ID = result.Result.data[i].ID,
                             WarehouesName = result.Result.data[i].WarehouesName,
+                            WarehouseCode = result.Result.data[i].WarehouseCode,
                         });
                     }
                     if (MySettings.CodeKho != "")
                     {
                         SelectedKho = Khos.Where(a => a.ID == MySettings.CodeKho).FirstOrDefault();
                         WarehouesName = SelectedKho.WarehouesName;
+                        WarehouesCode = SelectedKho.WarehouseCode;
                     }
                 });
             }
@@ -60,6 +63,7 @@ namespace QRMS.ViewModels
                     case 3:
                         SelectedKho = model_;
                         WarehouesName = SelectedKho.WarehouesName;
+                        WarehouesCode = SelectedKho.WarehouseCode;
                         break;
                 }
 

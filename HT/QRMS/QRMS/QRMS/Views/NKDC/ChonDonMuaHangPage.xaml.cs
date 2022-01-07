@@ -12,7 +12,7 @@ namespace QRMS.Views
     public partial class ChonDonMuaHangPage : ContentPage
     {
         public ChonDonMuaHangPageModel ViewModel { get; set; } = new ChonDonMuaHangPageModel();
-        public ChonDonMuaHangPage()
+        public ChonDonMuaHangPage(string code_kho_)
         {
             InitializeComponent();
 
@@ -22,7 +22,7 @@ namespace QRMS.Views
 
             ViewModel.Initialize();
             BindingContext = ViewModel;
-
+            ViewModel.Code_Kho = code_kho_;
             row_trencung.Height = 20;
 
             if (Device.Idiom == TargetIdiom.Phone)

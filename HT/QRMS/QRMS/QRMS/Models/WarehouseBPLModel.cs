@@ -7,5 +7,6 @@ namespace QRMS.Models
         public string ID { get; set; }
         public string WarehouseCode { get; set; }
         public string WarehouesName { get; set; }
+        public string Name { get; set; }
     }
 }

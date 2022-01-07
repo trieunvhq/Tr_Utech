@@ -58,7 +58,13 @@ namespace PIAMA.Views.Shared
             _ModelKhos = ModelKhos_;
             _ModelDonHangs = ModelDonHangs_;
             if(_ModelKhos!=null)
+            {
+                for(int i=0;i<ModelKhos_.Count;++i)
+                {
+                    _ModelKhos[i].Name = _ModelKhos[i].WarehouesName;
+                }    
                 lst_combobox.ItemsSource = _ModelKhos;
+            }    
             else if (_ModelDonHangs != null)
                 lst_combobox.ItemsSource = _ModelDonHangs;
 
