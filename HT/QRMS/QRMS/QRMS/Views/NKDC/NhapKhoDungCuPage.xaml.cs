@@ -122,12 +122,11 @@ namespace QRMS.Views
 
         void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
         {
-            row.Height = 150;
+            //row.Height = 150;
 
+            ViewModel.IsTat = false;
             ViewModel.IsThongBao = false;
-            lbNen.IsVisible = true;
-            scanView.IsVisible = true;
-            btnDongQuet.IsVisible = true;
+            ViewModel.IsQuet = true; 
         }
          
 
@@ -141,11 +140,10 @@ namespace QRMS.Views
 
         void btnDongQuet_Clicked(System.Object sender, System.EventArgs e)
         {
-            row.Height = 50;
-            lbNen.IsVisible = false;
-            scanView.IsVisible = false;
-            ViewModel.IsThongBao = false; 
-            btnDongQuet.IsVisible = false;
+            //row.Height = 50;
+            ViewModel.IsTat = true;
+            ViewModel.IsThongBao = false;
+            ViewModel.IsQuet = false;
             ViewModel.StopDemThoiGianGGS();
         }
          

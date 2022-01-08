@@ -21,8 +21,9 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="1"/>
-                <RowDefinition x:Name="row" Height="50"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
@@ -42,25 +43,36 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
+            
+            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                   Margin="10,5,10,5" IsVisible="{Binding IsThongBao}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontSize="18" Text="{Binding ThongBao}" FontAttributes="Bold" TextColor="{Binding Color}"/> 
+                        <Span FontSize="18" Text="{Binding ThoiGian}" FontAttributes="Bold" TextColor="Black"/> 
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.Row="5" TextColor="Black" FontSize="14"/>
+                   Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/>
             <Label Text="Số lượng &#x0a;đơn mua" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="2" Grid.Row="5" TextColor="Black" FontSize="14"/>
+                   Grid.Column="2" Grid.Row="6" TextColor="Black" FontSize="14"/>
             <Label Text="Số lượng &#x0a;đã nhập" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="4" Grid.Row="5" TextColor="Black" FontSize="14"/>
+                   Grid.Column="4" Grid.Row="6" TextColor="Black" FontSize="14"/>
             <Label Text="Số box" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="6" Grid.Row="5" TextColor="Black" FontSize="14"/>
+                   Grid.Column="6" Grid.Row="6" TextColor="Black" FontSize="14"/>
 
              
-            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"/>
-            <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="5"/>
-            <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="5"/>
-            <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="5"/> 
-            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="6"/>
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="5"/>
+            <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="6"/>
+            <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="6"/>
+            <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="6"/> 
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"/>
 
 
-            <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7" BackgroundColor="White"
+            <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
                ItemsSource="{Binding DonHangs}" x:Name="lst_combobox" SeparatorVisibility="None"
                   RowHeight="51" ItemTapped="lst_combobox_ItemTapped">
                 <ListView.ItemTemplate>
@@ -102,7 +114,7 @@
                 </ListView.ItemTemplate>
             </ListView>
            
-            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8">
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
@@ -130,32 +142,17 @@
             </Grid>
 
             
-            <Label BackgroundColor="Black" Opacity=".6" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
-                   x:Name="lbNen" IsVisible="False"/>
-            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"  IsVisible="False">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <forms1:ZXingScannerView x:Name="scanView"
+            <Label BackgroundColor="Black" Opacity=".6" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="10"
+                 IsVisible="{Binding IsQuet}"/>
+             
+                <forms1:ZXingScannerView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
+                      IsVisible="{Binding IsQuet}"
                       OnScanResult="scanView_OnScanResult"
                       IsScanning="True"/>
-            </Grid>
-             
-            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"
-                   x:Name="lbThongBao" VerticalTextAlignment="Start" HorizontalTextAlignment="Center"
-                   Margin="20,80,20,0">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span FontSize="18" Text="{Binding ThongBao}" FontAttributes="Bold" TextColor="{Binding Color}"/> 
-                        <Span FontSize="18" Text="{Binding ThoiGian}" FontAttributes="Bold" TextColor="Black"/> 
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" TextColor="White"
-                x:Name="btnDongQuet" Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
-                StartColor="Red" EndColor="DarkRed" IsVisible="False"/>
+            
+            <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" TextColor="White"
+                Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
+                StartColor="Red" EndColor="DarkRed"  IsVisible="{Binding IsQuet}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

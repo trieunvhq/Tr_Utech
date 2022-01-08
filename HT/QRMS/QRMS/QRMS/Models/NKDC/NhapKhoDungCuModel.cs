@@ -21,7 +21,7 @@ namespace QRMS.Models
         public decimal SoLuongDaNhap { get; set; }
         public int SoLuongBox { get; set; }
 
-        public Color Color { get; set; } = Color.Black;
-        public Color ColorSLDaNhap { get; set; } = Color.Black;
+        public string Color { get; set; } = "#000000";
+        public string ColorSLDaNhap { get; set; } = "#000000";
     }
 }

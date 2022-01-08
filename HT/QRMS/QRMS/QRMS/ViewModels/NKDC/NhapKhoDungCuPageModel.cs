@@ -22,6 +22,9 @@ namespace QRMS.ViewModels
         public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
 
+        public bool IsTat { get; set; } = false;
+        public bool IsQuet { get; set; } = false;
+
         public bool IsThongBao { get; set; } = true;
         public string ThongBao { get; set; } = "";
         public string ThoiGian { get; set; } = "";
@@ -52,11 +55,11 @@ namespace QRMS.ViewModels
                     if (!DonHangs.Contains(item))
                     {
                         if (item.SoLuongDaNhap >= item.Quantity)
-                            item.ColorSLDaNhap = Color.Red;
+                            item.ColorSLDaNhap = "#ff0000";
                         else
-                            item.ColorSLDaNhap = Color.Black;
+                            item.ColorSLDaNhap = "#000000";
                         //
-                        item.Color = Color.Black;
+                        item.Color = "#000000";
                         //
                         DonHangs.Add(item);
                     }
@@ -101,11 +104,11 @@ namespace QRMS.ViewModels
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             {
                                 if (result.Result.data[i].SoLuongDaNhap >= result.Result.data[i].Quantity)
-                                    result.Result.data[i].ColorSLDaNhap = Color.Red;
+                                    result.Result.data[i].ColorSLDaNhap = "#ff0000";
                                 else
-                                    result.Result.data[i].ColorSLDaNhap = Color.Black;
+                                    result.Result.data[i].ColorSLDaNhap = "#000000";
                                 //
-                                result.Result.data[i].Color = Color.Black;
+                                result.Result.data[i].Color = "#000000";
                                 //
                                 if (result.Result.data[i].ItemCode == id)
                                 {
@@ -195,16 +198,33 @@ namespace QRMS.ViewModels
                 });
             }
         }
-         
+        private bool isDaDuocQuet;
+         private void ShowThongBao(bool isshow)
+        { 
+            // 
+            if (isshow)
+            {
+                if (isDaDuocQuet)
+                {
+                    Color = Color.Red;
+                    ThongBao = "Mã QR đã được quét"; 
+                }
+                else
+                {
+                    Color = Color.Green;
+                    ThongBao = "Thành công"; 
+                }
+                IsThongBao = true;
+            }
+            else
+            {
+                IsThongBao = false;
+            }
+        }
         public async void ScanComplate(string str)
         {
             try
-            {
-                Color = Color.Aqua;
-                ThongBao = str;
-                IsThongBao = true;
-                //StartDemThoiGianGGS();
-
+            {  
                 if (Historys != null)
                 {
                     bool IsTonTai_ = false;
@@ -223,10 +243,8 @@ namespace QRMS.ViewModels
 
                     if (IsTonTai_)
                     {
-                        Color = Color.Red;
-                        ThongBao = "Mã QR đã được quét";
-                        IsThongBao = true;
-                        StartDemThoiGianGGS();
+                        isDaDuocQuet = true;
+                       // StartDemThoiGianGGS();
                     }
                     else
                     {
@@ -244,8 +262,8 @@ namespace QRMS.ViewModels
                                         model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                         model_.SoLuongBox = model_.SoLuongBox + 1;
                                         DonHangs.RemoveAt(i);
-                                        model_.Color = Color.Blue;
-                                        model_.ColorSLDaNhap = Color.Blue;
+                                        model_.Color = "#0008ff";
+                                        model_.ColorSLDaNhap = "#0008ff";
                                         DonHangs.Insert(0, model_);
                                     }
                                 }
@@ -254,8 +272,8 @@ namespace QRMS.ViewModels
                                     model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                     model_.SoLuongBox = model_.SoLuongBox + 1;
                                     DonHangs.RemoveAt(i);
-                                    model_.Color = Color.Blue;
-                                    model_.ColorSLDaNhap = Color.Blue;
+                                    model_.Color = "#0008ff";
+                                    model_.ColorSLDaNhap = "#0008ff";
                                     DonHangs.Insert(0, model_);
                                 }
 
@@ -291,11 +309,9 @@ namespace QRMS.ViewModels
                                 Historys.Add(history);
                                 await App.Dblocal.SaveHistoryAsync(history);
 
+                                isDaDuocQuet = false;
                                 //
-                                Color = Color.Green;
-                                ThongBao = "Thành công"; 
-                                IsThongBao = true;
-                                StartDemThoiGianGGS();
+                                StartDemThoiGian_HienThiCam();
                                 break;
                             }
                         }
@@ -345,6 +361,47 @@ namespace QRMS.ViewModels
         {
             tt = 10;
             Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
+        }
+        // 
+        private CancellationTokenSource cancellation_HienThiCam = new CancellationTokenSource();
+        private int tt_HienThiCam = 0;
+        private void StartDemThoiGian_HienThiCam()
+        {
+            StopDemThoiGian_HienThiCam();
+            CancellationTokenSource cts = this.cancellation_HienThiCam;
+
+            Device.StartTimer(TimeSpan.FromSeconds(5),
+                  () =>
+                  {
+                      if (IsTat)
+                          StopDemThoiGian_HienThiCam();
+                      if (cts.IsCancellationRequested) return false;
+                      if (IsQuet)
+                      {
+                          if (tt_HienThiCam == 0)
+                          {
+                              IsQuet = false;
+                              ShowThongBao(true); 
+                          }
+                          else if (tt_HienThiCam == 1)
+                          {
+                              IsQuet = true;
+                              ShowThongBao(false);
+                              StopDemThoiGian_HienThiCam();
+                          }
+                          else
+                          {
+                              ThoiGian = "  (" + tt + ")";
+                          }
+                          ++tt_HienThiCam;
+                      }
+                      return true; // or true for periodic behavior
+                  });
+        }
+        public void StopDemThoiGian_HienThiCam()
+        {
+            tt_HienThiCam = 0;
+            Interlocked.Exchange(ref this.cancellation_HienThiCam, new CancellationTokenSource()).Cancel();
         }
     }
 }
