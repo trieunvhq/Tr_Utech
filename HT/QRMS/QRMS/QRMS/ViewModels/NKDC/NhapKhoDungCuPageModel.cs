@@ -51,6 +51,13 @@ namespace QRMS.ViewModels
                 {
                     if (!DonHangs.Contains(item))
                     {
+                        if (item.SoLuongDaNhap >= item.Quantity)
+                            item.ColorSLDaNhap = Color.Red;
+                        else
+                            item.ColorSLDaNhap = Color.Black;
+                        //
+                        item.Color = Color.Black;
+                        //
                         DonHangs.Add(item);
                     }
                 }
@@ -93,6 +100,13 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             {
+                                if (result.Result.data[i].SoLuongDaNhap >= result.Result.data[i].Quantity)
+                                    result.Result.data[i].ColorSLDaNhap = Color.Red;
+                                else
+                                    result.Result.data[i].ColorSLDaNhap = Color.Black;
+                                //
+                                result.Result.data[i].Color = Color.Black;
+                                //
                                 if (result.Result.data[i].ItemCode == id)
                                 {
                                     DonHangs.Insert(0, result.Result.data[i]);
@@ -230,6 +244,8 @@ namespace QRMS.ViewModels
                                         model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                         model_.SoLuongBox = model_.SoLuongBox + 1;
                                         DonHangs.RemoveAt(i);
+                                        model_.Color = Color.Blue;
+                                        model_.ColorSLDaNhap = Color.Blue;
                                         DonHangs.Insert(0, model_);
                                     }
                                 }
@@ -238,6 +254,8 @@ namespace QRMS.ViewModels
                                     model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                     model_.SoLuongBox = model_.SoLuongBox + 1;
                                     DonHangs.RemoveAt(i);
+                                    model_.Color = Color.Blue;
+                                    model_.ColorSLDaNhap = Color.Blue;
                                     DonHangs.Insert(0, model_);
                                 }
 

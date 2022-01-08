@@ -60,8 +60,6 @@
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="6"/>
 
 
-
-
             <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7" BackgroundColor="White"
                ItemsSource="{Binding DonHangs}" x:Name="lst_combobox" SeparatorVisibility="None"
                   RowHeight="51" ItemTapped="lst_combobox_ItemTapped">
@@ -85,13 +83,13 @@
                                 </Grid.RowDefinitions>
                                  
                                 <Label Text="{Binding ItemName}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.Row="0" TextColor="Black" FontSize="14"/>
+                   Grid.Column="0" Grid.Row="0" TextColor="{Binding Color}" FontSize="14"/>
                                 <Label Text="{Binding Quantity}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="2" Grid.Row="0" TextColor="Black" FontSize="14"/>
+                   Grid.Column="2" Grid.Row="0" TextColor="{Binding Color}" FontSize="14"/>
                                 <Label Text="{Binding SoLuongDaNhap}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="4" Grid.Row="0" TextColor="Black" FontSize="14"/>
+                   Grid.Column="4" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}"/>
                                 <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="6" Grid.Row="0" TextColor="Black" FontSize="14"/>
+                   Grid.Column="6" Grid.Row="0" TextColor="{Binding Color}" FontSize="14"/>
                                 
                                  
                                 <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="0"/>
@@ -132,16 +130,19 @@
             </Grid>
 
             
-            <Label BackgroundColor="Black" Opacity=".3" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
+            <Label BackgroundColor="Black" Opacity=".6" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
                    x:Name="lbNen" IsVisible="False"/>
-             <forms1:ZXingScannerView x:Name="scanView" IsVisible="False"
-                                        OnScanResult="scanView_OnScanResult"
-                                        IsScanning="True"
-                                        WidthRequest="300"
-                                        HeightRequest="300"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="CenterAndExpand"
-                                     Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"/>
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="6"  IsVisible="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <forms1:ZXingScannerView x:Name="scanView"
+                      OnScanResult="scanView_OnScanResult"
+                      IsScanning="True"/>
+            </Grid>
+             
             <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"
                    x:Name="lbThongBao" VerticalTextAlignment="Start" HorizontalTextAlignment="Center"
                    Margin="20,80,20,0">
