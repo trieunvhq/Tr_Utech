@@ -198,21 +198,26 @@ namespace QRMS.ViewModels
                 });
             }
         }
-        private bool isDaDuocQuet;
+        private int _trangthai_quet;
          private void ShowThongBao(bool isshow)
         { 
             // 
             if (isshow)
             {
-                if (isDaDuocQuet)
+                if (_trangthai_quet==1)
                 {
-                    Color = Color.Red;
+                    Color = Color.Blue;
                     ThongBao = "Mã QR đã được quét"; 
                 }
-                else
+                else if (_trangthai_quet == 2)
                 {
                     Color = Color.Green;
-                    ThongBao = "Thành công"; 
+                    ThongBao = "Thành công";
+                }
+                else if (_trangthai_quet == 3)
+                {
+                    Color = Color.Red;
+                    ThongBao = "Mã không tồn tại";
                 }
                 IsThongBao = true;
             }
@@ -224,7 +229,8 @@ namespace QRMS.ViewModels
         public async void ScanComplate(string str)
         {
             try
-            {  
+            {
+                _trangthai_quet = 0;
                 if (Historys != null)
                 {
                     bool IsTonTai_ = false;
@@ -243,8 +249,7 @@ namespace QRMS.ViewModels
 
                     if (IsTonTai_)
                     {
-                        isDaDuocQuet = true;
-                        StartDemThoiGian_HienThiCam();
+                        _trangthai_quet = 1; 
                     }
                     else
                     {
@@ -309,13 +314,15 @@ namespace QRMS.ViewModels
                                 Historys.Add(history);
                                 await App.Dblocal.SaveHistoryAsync(history);
 
-                                isDaDuocQuet = false;
+                                _trangthai_quet = 2;
                                 //
-                                StartDemThoiGian_HienThiCam();
                                 break;
                             }
                         }
+                        if (_trangthai_quet != 2)
+                            _trangthai_quet = 3;
                     }
+                    StartDemThoiGian_HienThiCam();
                 }
                 else
                  {
