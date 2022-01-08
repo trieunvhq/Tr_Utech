@@ -244,7 +244,7 @@ namespace QRMS.ViewModels
                     if (IsTonTai_)
                     {
                         isDaDuocQuet = true;
-                       // StartDemThoiGianGGS();
+                        StartDemThoiGian_HienThiCam();
                     }
                     else
                     {
@@ -370,31 +370,20 @@ namespace QRMS.ViewModels
             StopDemThoiGian_HienThiCam();
             CancellationTokenSource cts = this.cancellation_HienThiCam;
 
+            IsQuet = false;
+            ShowThongBao(true);
+
             Device.StartTimer(TimeSpan.FromSeconds(5),
                   () =>
                   {
                       if (IsTat)
                           StopDemThoiGian_HienThiCam();
                       if (cts.IsCancellationRequested) return false;
-                      if (IsQuet)
-                      {
-                          if (tt_HienThiCam == 0)
-                          {
-                              IsQuet = false;
-                              ShowThongBao(true); 
-                          }
-                          else if (tt_HienThiCam == 1)
-                          {
-                              IsQuet = true;
-                              ShowThongBao(false);
-                              StopDemThoiGian_HienThiCam();
-                          }
-                          else
-                          {
-                              ThoiGian = "  (" + tt + ")";
-                          }
-                          ++tt_HienThiCam;
-                      }
+
+                      IsQuet = true;
+                      ShowThongBao(false);
+
+                      ++tt_HienThiCam;
                       return true; // or true for periodic behavior
                   });
         }

@@ -148,7 +148,7 @@
                 <forms1:ZXingScannerView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
                       IsVisible="{Binding IsQuet}"
                       OnScanResult="scanView_OnScanResult"
-                      IsScanning="True"/>
+                      IsScanning="{Binding IsQuet}"/>
             
             <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" TextColor="White"
                 Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
