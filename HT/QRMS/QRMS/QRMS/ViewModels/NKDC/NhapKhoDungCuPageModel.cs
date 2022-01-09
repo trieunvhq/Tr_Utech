@@ -236,10 +236,13 @@ namespace QRMS.ViewModels
                 IsThongBao = false;
             }
         }
+        public bool isDangQuet = false;
         public async void ScanComplate(string str)
         {
             try
             {
+                if (isDangQuet)
+                    return;
                 if (!_daQuetQR.Contains(str))
                     _daQuetQR.Add(str);
                 else
@@ -250,6 +253,7 @@ namespace QRMS.ViewModels
                 _trangthai_quet = 0;
                 if (Historys != null)
                 {
+                    isDangQuet = true;
                     bool IsTonTai_ = false;
                     int index_ = 0;
                     var qr = MySettings.QRRead(str);
@@ -405,7 +409,7 @@ namespace QRMS.ViewModels
                       if (cts.IsCancellationRequested) return false;
                       Device.BeginInvokeOnMainThread(async () =>
                       {
-
+                          isDangQuet = false;
                           IsQuet = true;
                           ShowThongBao(false);
 
