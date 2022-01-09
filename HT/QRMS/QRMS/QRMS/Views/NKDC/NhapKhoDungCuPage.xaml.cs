@@ -9,6 +9,8 @@ using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using ZXing;
+using ZXing.Mobile;
 using ZXing.Net.Mobile.Forms;
 
 namespace QRMS.Views
@@ -137,10 +139,9 @@ namespace QRMS.Views
             //grid.Children.Add(scannerView, 0, 8, 0, 10);
             //camera.IsScanning = true;
 
-            camera = new ZXingScannerView();
-            camera.OnScanResult += (result) => { scanView_OnScanResult(result); };
+
             camera.IsScanning = true;
-            grid.Children.Add(camera, 0, 8, 0, 10);
+            camera.IsAnalyzing = true;
         }
         void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
         {
@@ -157,7 +158,9 @@ namespace QRMS.Views
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
+                camera.IsAnalyzing = false;
                 ViewModel.ScanComplate(result.Text);
+                camera.IsAnalyzing = true;
             });
         }
 

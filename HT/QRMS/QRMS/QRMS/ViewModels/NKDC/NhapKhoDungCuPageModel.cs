@@ -414,7 +414,7 @@ namespace QRMS.ViewModels
                           IsQuet = true;
                           _NhapKhoDungCuPage.ResetCamera();
                           ShowThongBao(false);
-
+                          StopDemThoiGian_HienThiCam();
                           ++tt_HienThiCam;
                       });
                       return true; // or true for periodic behavior
