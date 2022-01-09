@@ -29,6 +29,7 @@ namespace QRMS.Views
             ViewModel = new NhapKhoDungCuPageModel(id, no, d); 
             ViewModel.Initialize();
             BindingContext = ViewModel;
+            ViewModel._NhapKhoDungCuPage = this;
             //_MyScan = new MyScan(1, ViewModel);
             //
             row_trencung.Height = 20;
@@ -126,7 +127,10 @@ namespace QRMS.Views
             }
         }
 
-
+        public void ResetCamera()
+        {
+            camera.IsScanning = true;
+        }
         void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
         {
             //row.Height = 150;

@@ -17,7 +17,8 @@ using Xamarin.Forms;
 namespace QRMS.ViewModels
 {
     public class NhapKhoDungCuPageModel : BaseViewModel
-    { 
+    {
+        public NhapKhoDungCuPage _NhapKhoDungCuPage;
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
         public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
@@ -411,6 +412,7 @@ namespace QRMS.ViewModels
                       {
                           isDangQuet = false;
                           IsQuet = true;
+                          _NhapKhoDungCuPage.ResetCamera();
                           ShowThongBao(false);
 
                           ++tt_HienThiCam;
