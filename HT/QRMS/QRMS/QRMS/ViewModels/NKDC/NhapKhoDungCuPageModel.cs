@@ -397,17 +397,20 @@ namespace QRMS.ViewModels
             IsQuet = false;
             ShowThongBao(true);
 
-            Device.StartTimer(TimeSpan.FromSeconds(5),
+            Device.StartTimer(TimeSpan.FromSeconds(2),
                   () =>
                   {
                       if (IsTat)
                           StopDemThoiGian_HienThiCam();
                       if (cts.IsCancellationRequested) return false;
+                      Device.BeginInvokeOnMainThread(async () =>
+                      {
 
-                      IsQuet = true;
-                      ShowThongBao(false);
+                          IsQuet = true;
+                          ShowThongBao(false);
 
-                      ++tt_HienThiCam;
+                          ++tt_HienThiCam;
+                      });
                       return true; // or true for periodic behavior
                   });
         }
