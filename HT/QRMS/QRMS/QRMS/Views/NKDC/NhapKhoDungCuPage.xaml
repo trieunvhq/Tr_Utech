@@ -147,7 +147,7 @@
 
          
             <forms1:ZXingScannerView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
-                      x:Name="camera" IsVisible="{Binding IsQuet}" IsAnalyzing="{Binding IsQuet}" IsTorchOn="{Binding IsQuet}"
+                      x:Name="camera" IsVisible="{Binding IsQuet}" IsAnalyzing="{Binding IsQuet}"
                       OnScanResult="scanView_OnScanResult"
                       IsScanning="{Binding IsQuet}"/>
 
