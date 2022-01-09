@@ -9,29 +9,30 @@ namespace QRMS
 {
     public class Dblocal
     {
-        private readonly SQLiteAsyncConnection _database;
+        private readonly SQLiteConnection _database;
 
         public Dblocal(string dbPath)
         {
-            _database = new SQLiteAsyncConnection(dbPath);
-            _database.CreateTableAsync<TransactionHistoryModel>().Wait();
-            _database.CreateTableAsync<NhapKhoDungCuModel>().Wait();
-            _database.CreateTableAsync<XuatKhoDungCuModel>().Wait();
+            _database = new SQLiteConnection(dbPath);
+            _database.CreateTable<TransactionHistoryModel>();
+            _database.CreateTable<NhapKhoDungCuModel>();
+            _database.CreateTable<XuatKhoDungCuModel>();
+            //_database.CreateTableAsync<XuatKhoDungCuModel>().Wait();
         }
 
-        public Task<List<TransactionHistoryModel>> GetHistoryAsync()
+        public List<TransactionHistoryModel> GetHistoryAsync()
         {
-            return _database.Table<TransactionHistoryModel>().ToListAsync();
+            return _database.Table<TransactionHistoryModel>().ToList();
         }
 
-        public Task<List<TransactionHistoryModel>> GetHistoryAsyncWithKey(string purchaseno)
+        public List<TransactionHistoryModel> GetHistoryAsyncWithKey(string purchaseno)
         {
             string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{purchaseno}'";
 
-            return _database.QueryAsync<TransactionHistoryModel>(Sql);
+            return _database.Query<TransactionHistoryModel>(Sql);
         }
 
-        public Task<int> SaveHistoryAsync(TransactionHistoryModel history)
+        public int SaveHistoryAsync(TransactionHistoryModel history)
         {
             //if (history.ID != 0)
             //{
@@ -41,19 +42,19 @@ namespace QRMS
             //{
             //    return _database.InsertAsync(history);
             //}
-            return _database.InsertAsync(history);
+            return _database.Insert(history);
         }
 
-        public Task<int> DeleteHistoryAsync(TransactionHistoryModel history)
+        public int DeleteHistoryAsync(TransactionHistoryModel history)
         {
-            return _database.DeleteAsync(history);
+            return _database.Delete(history);
         }
 
-        public Task<List<TransactionHistoryModel>> SelectOneHistoryAsync(int id)
+        public List<TransactionHistoryModel> SelectOneHistoryAsync(int id)
         {
             string Sql = $"Select * From TransactionHistoryModel Where ID = {id}";
 
-            var data = _database.QueryAsync<TransactionHistoryModel>(Sql);
+            var data = _database.Query<TransactionHistoryModel>(Sql);
 
             return data;
         }
@@ -62,54 +63,61 @@ namespace QRMS
         {
             string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{purchaseno}'";
 
-            _ = _database.ExecuteAsync(Sql);
+            _ = _database.Execute(Sql);
         }
 
         public void DeleteHistoryAsyncWithID(int id)
         {
             string Sql = $"Delete From TransactionHistoryModel Where ID = {id}";
 
-            _ = _database.ExecuteAsync(Sql);
+            _ = _database.Execute(Sql);
         }
 
         public void DeleteHistoryAll()
         {
-            _database.DeleteAllAsync<TransactionHistoryModel>();
+            _database.DeleteAll<TransactionHistoryModel>();
         }
 
 
         //For table NhapKhoDungCuModel:
-        public Task<List<NhapKhoDungCuModel>> GetPurchaseOrderAsyncWithKey(string purchaseno)
+        public List<NhapKhoDungCuModel> GetPurchaseOrderAsyncWithKey(string purchaseno)
         {
-            string Sql = $"Select * From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchaseno}'";
-
-            return _database.QueryAsync<NhapKhoDungCuModel>(Sql);
+            try
+            {
+                string Sql = $"Select * From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchaseno}'";
+                var result = _database.Query<NhapKhoDungCuModel>(Sql);
+                return result;
+            }
+            catch (Exception ea)
+            {
+                return null;
+            }
         }
 
-        public Task<int> SavePurchaseOrderAsync(NhapKhoDungCuModel purchase)
+        public int SavePurchaseOrderAsync(NhapKhoDungCuModel purchase)
         {
             string Sql = $"Select * From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchase.PurchaseOrderNo}' ";
-                   Sql += $"and ID = {purchase.ID} and PurchaseOrderID = '{purchase.PurchaseOrderID}' ";
+                   Sql += $"and ID = {purchase.ID} and PurchaseOrderID = {purchase.PurchaseOrderID} ";
                    Sql += $"and ItemCode = '{purchase.ItemCode}' and ItemName = '{purchase.ItemName}' ";
                    Sql += $"and ItemType = '{purchase.ItemType}' and Unit = '{purchase.Unit}' ";
                    Sql += $"and InputStatus = '{purchase.InputStatus}' and RecordStatus = '{purchase.RecordStatus}' ";
 
-            var res = _database.QueryAsync<NhapKhoDungCuModel>(Sql);
+            var res = _database.Query<NhapKhoDungCuModel>(Sql);
 
-            if (res.Result.Count == 0)
-                return _database.InsertAsync(purchase);
+            if (res.Count == 0)
+                return _database.Insert(purchase);
 
-            else return null;
+            else return -1;
         }
 
-        public Task<int> UpdatePurchaseOrderAsync(NhapKhoDungCuModel purchase)
+        public int UpdatePurchaseOrderAsync(NhapKhoDungCuModel purchase)
         {
             string Sql = $"Update NhapKhoDungCuModel set ";
                    Sql += $"SoLuongDaNhap = {purchase.SoLuongDaNhap}, ";
                    Sql += $"SoLuongBox = {purchase.SoLuongBox} ";
                    Sql += $"Where ID = {purchase.ID}";
 
-            return _database.ExecuteAsync(Sql);
+            return _database.Execute(Sql);
         }
 
 
@@ -117,19 +125,19 @@ namespace QRMS
         {
             string Sql = $"Delete From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchaseno}'";
 
-            _ = _database.ExecuteAsync(Sql);
+            _ = _database.Execute(Sql);
         }
 
 
         //For table XuatKhoDungCuModel:
-        public Task<List<XuatKhoDungCuModel>> GetTransferInstructionAsyncWithKey(string no)
+        public List<XuatKhoDungCuModel> GetTransferInstructionAsyncWithKey(string no)
         {
             string Sql = $"Select * From XuatKhoDungCuModel Where TransferOrderNo = '{no}'";
 
-            return _database.QueryAsync<XuatKhoDungCuModel>(Sql);
+            return _database.Query<XuatKhoDungCuModel>(Sql);
         }
 
-        public Task<int> SaveTransferInstructionAsync(XuatKhoDungCuModel no)
+        public int SaveTransferInstructionAsync(XuatKhoDungCuModel no)
         {
             string Sql = $"Select * From XuatKhoDungCuModel Where TransferOrderNo = '{no.TransferOrderNo}' ";
             Sql += $"and ID = { no.ID} and TransferOrderID = '{no.TransferOrderID}' ";
@@ -137,21 +145,21 @@ namespace QRMS
             Sql += $"and ItemType = '{no.ItemType}' and Unit = '{no.Unit}' ";
             Sql += $"and TransferType = '{no.TransferType}' and RecordStatus = '{no.RecordStatus}' ";
 
-            var res = _database.QueryAsync<NhapKhoDungCuModel>(Sql);
+            var res = _database.Query<NhapKhoDungCuModel>(Sql);
 
-            if (res.Result.Count == 0)
-                return _database.InsertAsync(no);
-            else return null;
+            if (res.Count == 0)
+                return _database.Insert(no);
+            else return -1;
         }
 
-        public Task<int> UpdateTransferInstructionAsync(XuatKhoDungCuModel no)
+        public int UpdateTransferInstructionAsync(XuatKhoDungCuModel no)
         {
             string Sql = $"Update XuatKhoDungCuModel set ";
             Sql += $"SoLuongDaNhap = {no.SoLuongDaNhap}, ";
             Sql += $"SoLuongBox = {no.SoLuongBox} ";
             Sql += $"Where ID = {no.ID}";
 
-            return _database.ExecuteAsync(Sql);
+            return _database.Execute(Sql);
         }
 
 
@@ -159,12 +167,12 @@ namespace QRMS
         {
             string Sql = $"Delete From XuatKhoDungCuModel Where TransferOrderNo = '{no}'";
 
-            _ = _database.ExecuteAsync(Sql);
+            _ = _database.Execute(Sql);
         }
 
 
         //Kiểm kê dụng cụ:
-        public Task<List<KKDCModel>> GetTransactionHistory_KKDC(string OrderNo, string WarehouseCode_From)
+        public List<KKDCModel> GetTransactionHistory_KKDC(string OrderNo, string WarehouseCode_From)
         {
             string Sql = $"Select DISTRINCT TransactionType, OrderNo, WarehouseCode_From, WarehouseName_From, WarehouseType_From, ";
                    Sql += $"WarehouseCode_To, WarehouseName_To, WarehouseType_To, ItemCode, ItemName, ItemType, Unit ";
@@ -189,7 +197,7 @@ namespace QRMS
                    Sql += $"and a.WarehouseCode_From = '{WarehouseCode_From}' and a.TransactionType = 'K' ";
 
 
-            var data = _database.QueryAsync<KKDCModel>(Sql);
+            var data = _database.Query<KKDCModel>(Sql);
 
             return data;
         }

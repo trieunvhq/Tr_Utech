@@ -52,14 +52,14 @@ namespace QRMS.ViewModels
         }
 
 
-        protected async void LoadDbLocal()
+        protected void LoadDbLocal()
         {
             try
             {
                 DonHangs.Clear();
                 Historys.Clear();
 
-                List<NhapKhoDungCuModel> donhang_ = await App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
+                List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
                 foreach (NhapKhoDungCuModel item in donhang_)
                 {
                     if (!DonHangs.Contains(item))
@@ -75,7 +75,7 @@ namespace QRMS.ViewModels
                     }
                 }
 
-                List<TransactionHistoryModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_No);
+                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
                 foreach (TransactionHistoryModel item in historys)
                 {
                     if (!Historys.Contains(item))
@@ -312,7 +312,7 @@ namespace QRMS.ViewModels
                                     DonHangs.Insert(0, model_);
                                 }
 
-                                await App.Dblocal.UpdatePurchaseOrderAsync(model_);
+                                App.Dblocal.UpdatePurchaseOrderAsync(model_);
 
                                 TransactionHistoryModel history = new TransactionHistoryModel
                                 {
@@ -342,7 +342,7 @@ namespace QRMS.ViewModels
                                 };
 
                                 Historys.Add(history);
-                                await App.Dblocal.SaveHistoryAsync(history);
+                                App.Dblocal.SaveHistoryAsync(history);
 
                                 _trangthai_quet = 2;
                                 //

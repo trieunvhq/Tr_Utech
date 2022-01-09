@@ -38,11 +38,11 @@ namespace QRMS.ViewModels
             LoadModels("");
         }
 
-        protected async void LoadDbLocal()
+        protected void LoadDbLocal()
         {
             DonHangs.Clear();
             Historys.Clear();
-            List<XuatKhoDungCuModel> donhang_ = await App.Dblocal.GetTransferInstructionAsyncWithKey(_No);
+            List<XuatKhoDungCuModel> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_No);
             foreach (XuatKhoDungCuModel item in donhang_)
             {
                 if (!DonHangs.Contains(item))
@@ -51,7 +51,7 @@ namespace QRMS.ViewModels
                 }
             }
 
-            List<TransactionHistoryModel> historys = await App.Dblocal.GetHistoryAsyncWithKey(_No);
+            List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
             foreach(TransactionHistoryModel item in historys)
             {
                 if (!Historys.Contains(item))
@@ -210,7 +210,7 @@ namespace QRMS.ViewModels
                                 DonHangs.Insert(0, model_);
                             }
 
-                            await App.Dblocal.UpdateTransferInstructionAsync(model_);
+                            App.Dblocal.UpdateTransferInstructionAsync(model_);
 
                             TransactionHistoryModel history = new TransactionHistoryModel
                             {
@@ -240,7 +240,7 @@ namespace QRMS.ViewModels
                             };
 
                             Historys.Add(history);
-                            await App.Dblocal.SaveHistoryAsync(history);
+                            App.Dblocal.SaveHistoryAsync(history);
 
                             //
                             Color = Color.Green;
