@@ -289,8 +289,12 @@ namespace QRMS.ViewModels
                                         model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                         model_.SoLuongBox = model_.SoLuongBox + 1;
                                         DonHangs.RemoveAt(i);
+                                        if(model_.SoLuongDaNhap>=model_.Quantity)
+                                            model_.ColorSLDaNhap = "#ff0000";
+                                        else
+                                            model_.ColorSLDaNhap = "#0008ff";
+
                                         model_.Color = "#0008ff";
-                                        model_.ColorSLDaNhap = "#0008ff";
                                         DonHangs.Insert(0, model_);
                                     }
                                 }
@@ -299,8 +303,12 @@ namespace QRMS.ViewModels
                                     model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                     model_.SoLuongBox = model_.SoLuongBox + 1;
                                     DonHangs.RemoveAt(i);
-                                    model_.Color = "#0008ff";
-                                    model_.ColorSLDaNhap = "#0008ff";
+                                    if (model_.SoLuongDaNhap >= model_.Quantity)
+                                        model_.ColorSLDaNhap = "#ff0000";
+                                    else
+                                        model_.ColorSLDaNhap = "#0008ff";
+
+                                    model_.Color = "#0008ff"; 
                                     DonHangs.Insert(0, model_);
                                 }
 
