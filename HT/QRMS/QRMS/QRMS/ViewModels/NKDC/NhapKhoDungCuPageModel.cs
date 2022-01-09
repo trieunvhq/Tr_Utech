@@ -22,6 +22,8 @@ namespace QRMS.ViewModels
         public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ComboModel SelectedDonHang { get; set; }
 
+        private List<string> _daQuetQR;
+
         public bool IsTat { get; set; } = false;
         public bool IsQuet { get; set; } = false;
 
@@ -41,6 +43,13 @@ namespace QRMS.ViewModels
             _Date = d;
             LoadModels("");
         }
+
+        public override void OnAppearing()
+        {
+            _daQuetQR = new List<string>();
+            base.OnAppearing();
+        }
+
 
         protected async void LoadDbLocal()
         {
@@ -198,8 +207,9 @@ namespace QRMS.ViewModels
                 });
             }
         }
+
         private int _trangthai_quet;
-         private void ShowThongBao(bool isshow)
+        private void ShowThongBao(bool isshow)
         { 
             // 
             if (isshow)
@@ -230,6 +240,13 @@ namespace QRMS.ViewModels
         {
             try
             {
+                if (!_daQuetQR.Contains(str))
+                    _daQuetQR.Add(str);
+                else
+                {
+                    StartDemThoiGian_HienThiCam();
+                }    
+
                 _trangthai_quet = 0;
                 if (Historys != null)
                 {

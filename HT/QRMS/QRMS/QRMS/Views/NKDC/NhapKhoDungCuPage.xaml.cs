@@ -103,6 +103,12 @@ namespace QRMS.Views
         {
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.OnAppearing();
+        }
+
         void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
         {
             try
@@ -119,6 +125,7 @@ namespace QRMS.Views
 
             }
         }
+
 
         void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
         {

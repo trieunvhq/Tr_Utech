@@ -20,7 +20,6 @@ namespace QRMS.Models
         public string RecordStatus { get; set; }
         public decimal SoLuongDaNhap { get; set; }
         public int SoLuongBox { get; set; }
-
         public string Color { get; set; } = "#000000";
         public string ColorSLDaNhap { get; set; } = "#000000";
     }
