@@ -6,7 +6,7 @@
     xmlns:control="clr-namespace:QRMS.Controls" xmlns:forms1="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
     x:Class="QRMS.Views.NhapKhoDungCuPage">
     <ContentPage.Content>
-        <Grid RowSpacing="0" BackgroundColor="White">
+        <Grid x:Name="grid" RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1"/>
@@ -14,7 +14,7 @@
                 <ColumnDefinition Width="1"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="1"/>
-                <ColumnDefinition Width="*"/> 
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="row_trencung"/>
@@ -43,14 +43,14 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            
+
             <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                    Margin="10,5,10,5" IsVisible="{Binding IsThongBao}">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span FontSize="18" Text="{Binding ThongBao}" FontAttributes="Bold" TextColor="{Binding Color}"/> 
-                        <Span FontSize="18" Text="{Binding ThoiGian}" FontAttributes="Bold" TextColor="Black"/> 
+                        <Span FontSize="18" Text="{Binding ThongBao}" FontAttributes="Bold" TextColor="{Binding Color}"/>
+                        <Span FontSize="18" Text="{Binding ThoiGian}" FontAttributes="Bold" TextColor="Black"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -64,11 +64,11 @@
             <Label Text="Số box" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="6" Grid.Row="6" TextColor="Black" FontSize="14"/>
 
-             
+
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="5"/>
             <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="6"/>
             <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="6"/>
-            <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="6"/> 
+            <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="6"/>
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"/>
 
 
@@ -87,13 +87,13 @@
                                     <ColumnDefinition Width="1"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="1"/>
-                                    <ColumnDefinition Width="*"/> 
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>   
+                                <Grid.RowDefinitions>
                                     <RowDefinition Height="50"/>
-                                    <RowDefinition Height="1"/> 
+                                    <RowDefinition Height="1"/>
                                 </Grid.RowDefinitions>
-                                 
+
                                 <Label Text="{Binding ItemName}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="0" TextColor="{Binding Color}" FontSize="14"/>
                                 <Label Text="{Binding Quantity}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
@@ -102,18 +102,18 @@
                    Grid.Column="4" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}"/>
                                 <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="6" Grid.Row="0" TextColor="{Binding Color}" FontSize="14"/>
-                                
-                                 
+
+
                                 <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="0"/>
                                 <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="0"/>
-                                <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="0"/> 
-                                <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1"/> 
+                                <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="0"/>
+                                <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-           
+
             <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
@@ -124,32 +124,32 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-            <helper:ButtonCustoms Text="Quay lại" Grid.Column="0"
+                <helper:ButtonCustoms Text="Quay lại" Grid.Column="0"
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
-            <helper:ButtonCustoms Text="Quét" Grid.Column="2" CornerRadius="0"
+                <helper:ButtonCustoms Text="Quét" Grid.Column="2" CornerRadius="0"
                 Clicked="BtnQuet_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
-                
-            <helper:ButtonCustoms Text="Camera" Grid.Column="4" CornerRadius="0"
+
+                <helper:ButtonCustoms Text="Camera" Grid.Column="4" CornerRadius="0"
                 Clicked="BtnCamera_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
-            <helper:ButtonCustoms Text="Lưu lại" Grid.Column="6" CornerRadius="0"
+                <helper:ButtonCustoms Text="Lưu lại" Grid.Column="6" CornerRadius="0"
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             </Grid>
 
-            
+
             <Label BackgroundColor="Black" Opacity=".6" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="10"
                  IsVisible="{Binding IsQuet}"/>
-             
-                <forms1:ZXingScannerView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
+
+            <forms1:ZXingScannerView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
                       x:Name="camera" IsVisible="{Binding IsQuet}" IsAnalyzing="{Binding IsQuet}" IsTorchOn="{Binding IsQuet}"
                       OnScanResult="scanView_OnScanResult"
                       IsScanning="{Binding IsQuet}"/>
-            
+
             <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" TextColor="White"
                 Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
                 StartColor="Red" EndColor="DarkRed"  IsVisible="{Binding IsQuet}"/>
