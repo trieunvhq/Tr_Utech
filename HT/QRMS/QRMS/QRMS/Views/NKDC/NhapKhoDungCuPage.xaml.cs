@@ -130,11 +130,17 @@ namespace QRMS.Views
 
         public void ResetCamera()
         {
-            ZXingScannerView scannerView = new ZXingScannerView();
-            scannerView.OnScanResult += (result) => { scanView_OnScanResult(result); };
-            //scannerView.OnScanResult += scanView_OnScanResult();
-            grid.Children.Add(scannerView, 0, 8, 0, 10);
+
+            //ZXingScannerView scannerView = new ZXingScannerView();
+            //scannerView.OnScanResult += (result) => { scanView_OnScanResult(result); };
+            ////scannerView.OnScanResult += scanView_OnScanResult();
+            //grid.Children.Add(scannerView, 0, 8, 0, 10);
             //camera.IsScanning = true;
+
+            camera = new ZXingScannerView();
+            camera.OnScanResult += (result) => { scanView_OnScanResult(result); };
+            camera.IsScanning = true;
+            grid.Children.Add(camera, 0, 8, 0, 10);
         }
         void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
         {
