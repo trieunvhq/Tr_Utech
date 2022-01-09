@@ -45,6 +45,7 @@ namespace DAL
         public string CustomerName { get; set; }
         public string SupplierCode { get; set; }
         public string SupplierName { get; set; }
+        public string ExportStatus { get; set; }
         public string RecordStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string UserCreate { get; set; }

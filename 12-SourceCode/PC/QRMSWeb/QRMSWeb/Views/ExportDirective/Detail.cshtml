@@ -1,15 +1,14 @@
 ﻿@using QRMSWeb.Components.Features.ExportDirective
 @{
     ViewData["Title"] = "Chi tiết chỉ thị xuất kho";
-    ViewBag.ID = ViewContext.RouteData.Values["id"];
+    ViewBag.TranferNo = ViewContext.RouteData.Values["id"];
 
 }
 
 <div class="content">
     <div class="container-fluid">
         <component type="typeof(ExportDirectiveDetailWrapper)"
-                   param-ID="@(ViewBag.ID)"
-                   param-IsDetail="@(true)"
+                   param-TranferNo="@(ViewBag.TranferNo)"
                    render-mode="ServerPrerendered"/>
     </div>
 </div>

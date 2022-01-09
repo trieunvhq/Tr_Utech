@@ -1,17 +1,14 @@
 ﻿@using QRMSWeb.Components.Features.ExportDirective
 @{
-    ViewData["Title"] = "Chi tiết thực tế scan";
+    ViewData["Title"] = "Chi tiết scan thực tế chỉ thị xuất kho";
+    ViewBag.TranferOrderNo = ViewContext.RouteData.Values["id"];
+
 }
 
 <div class="content">
     <div class="container-fluid">
         <component type="typeof(ExportDirectiveActualScanDetailWrapper)"
-                   param-ID="@(ViewBag.ID)"
-                   param-PurchaseOrderNo="@(ViewBag.PurchaseOrderNo)"
-                   param-LocationCode="@(ViewBag.LocationCode)"
-                   param-DateFrom="@(ViewBag.DateFrom)"
-                   param-DateTo="@(ViewBag.DateTo)"
-                   param-IsDetail="@(true)"
-                   render-mode="ServerPrerendered"/>
+                   param-TranferOrderNo="@(ViewBag.TranferOrderNo)"
+                   render-mode="ServerPrerendered" />
     </div>
 </div>

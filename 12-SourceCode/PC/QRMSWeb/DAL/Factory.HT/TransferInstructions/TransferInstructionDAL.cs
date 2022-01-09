@@ -24,9 +24,9 @@ namespace DAL.Factory.HT.TransferInstructions
                 SQL += $"and (a.TransferStatus is not null and a.TransferStatus != '{ ConstTransferStatus.Delivered }') ";
                 SQL += $"and (a.TransferType is not null and a.TransferType = '{ ConstTransferType.Export }') ";
                 SQL += $"and (a.WarehouseCode_From is not null and a.WarehouseCode_From = '{ WarehouseCode }') ";
-                SQL += $"and CONVERT(date, '{from_day}') <= CONVERT(date, a.CreateDate) ";
-                SQL += $"and CONVERT(date, '{to_day}') >= CONVERT(date, a.CreateDate) ";
-                SQL += $"order by a.CreateDate desc ";
+                SQL += $"and CONVERT(date, '{from_day}') <= CONVERT(date, a.InstructionDate) ";
+                SQL += $"and CONVERT(date, '{to_day}') >= CONVERT(date, a.InstructionDate) ";
+                SQL += $"order by a.InstructionDate desc ";
                 var data = db.TransferInstructions.SqlQuery(SQL).AsNoTracking().ToList();
 
                 return data;
@@ -87,6 +87,31 @@ namespace DAL.Factory.HT.TransferInstructions
             {
                 Logging.LogError(ex);
                 return -1;
+            }
+        }
+
+        //Chuyển kho
+        public List<TransferInstruction> GetTransferWarehousesDAL(DateTime from_day, DateTime to_day, string WarehouseCode_From, string WarehouseCode_To)
+        {
+            try
+            {
+                //var s = from c in db.TransferInstructions where c.InstructionDate
+                string SQL = $"select * from TransferInstruction a where (a.RecordStatus is not null and a.RecordStatus != '{ ConstRecordStatus.Deleted }') ";
+                SQL += $"and (a.TransferStatus is not null and a.TransferStatus != '{ ConstTransferStatus.Delivered }') ";
+                SQL += $"and (a.TransferType is not null and a.TransferType = '{ ConstTransferType.WarehouseTransfer}') ";
+                SQL += $"and (a.WarehouseCode_From is not null and a.WarehouseCode_From = '{ WarehouseCode_From }') ";
+                SQL += $"and (a.WarehouseCode_To is not null and a.WarehouseCode_To = '{ WarehouseCode_To }') ";
+                SQL += $"and CONVERT(date, '{from_day}') <= CONVERT(date, a.InstructionDate) ";
+                SQL += $"and CONVERT(date, '{to_day}') >= CONVERT(date, a.InstructionDate) ";
+                SQL += $"order by a.InstructionDate desc ";
+                var data = db.TransferInstructions.SqlQuery(SQL).AsNoTracking().ToList();
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                return null;
             }
         }
 

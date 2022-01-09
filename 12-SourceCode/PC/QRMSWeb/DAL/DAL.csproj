@@ -37,14 +37,19 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.11\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,10 +68,16 @@
     <Compile Include="Factory.HT\Procedures\PrTransferInstruction.cs" />
     <Compile Include="Factory.HT\Procedures\PrTransferInstructionItem.cs" />
     <Compile Include="Factory.HT\Procedures\PrUser.cs" />
+    <Compile Include="Factory.HT\SaleOrderItems\SaleOrderItemDAL.cs" />
+    <Compile Include="Factory.HT\SaleOrders\SaleOrderDAL.cs" />
+    <Compile Include="Factory.Web\ExportEquipment\ExportEquipmentManagement.cs" />
     <Compile Include="Factory.Web\LabelPrint\LabelPrintItemManagement.cs" />
     <Compile Include="Factory.Web\LabelPrint\LabelPrintManagement.cs" />
     <Compile Include="Factory.Web\PurchaseOrder\PurchaseOrderItemManagement.cs" />
     <Compile Include="Factory.Web\PurchaseOrder\PurchaseOrderManagement.cs" />
+    <Compile Include="Factory.Web\ImportEquipment\ImportEquipmentManagement.cs" />
+    <Compile Include="Factory.Web\TransferInstruction\TransferInstructionItemManagement.cs" />
+    <Compile Include="Factory.Web\TransferInstruction\TransferInstructionManagement.cs" />
     <Compile Include="Factory.Web\SaleOrder\SaleOrderItemManagement.cs" />
     <Compile Include="Factory.HT\TransferInstructionItems\TransferInstructionItemDAL.cs" />
     <Compile Include="Factory.HT\TransferInstructions\TransferInstructionDAL.cs" />
@@ -132,6 +143,7 @@
     <Compile Include="Factory.HT\Procedures\SqlPrimitiveConverters.cs" />
     <Compile Include="Model.HT\XuatKhoDungCuModelDAL.cs" />
     <Compile Include="Factory.HT\Procedures\PrLogs.cs" />
+    <Compile Include="Model.HT\SaleOrderItemScanDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HDLIB\HDLIB.csproj">

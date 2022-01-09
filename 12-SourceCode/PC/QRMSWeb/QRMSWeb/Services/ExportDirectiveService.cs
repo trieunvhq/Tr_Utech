@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using QRMSWeb.Helper;
+using QRMSWeb.Constants;
 using QRMSWeb.Models;
 
 namespace QRMSWeb.Services
@@ -15,28 +16,21 @@ namespace QRMSWeb.Services
         public ExportDirectiveService(HttpClient client) : base(client)
         {
         }
-        public async Task<PaginateData<List<PurchaseOrderItemModel>>> SearchPurchaseOrder(int page, int rowPerPage,
-            string itemCode, string itemName, string purchaseOrderNo, string locationName, 
-            string startDate, string endDate, bool isSearch)
+        public async Task<PaginateData<List<TransferInstructionModel>>> SearchExportDirective(int page, int rowPerPage,
+           string tranferOrderNo, string wareHouseCode_from, string wareHouseCode_to, string startDate, string endDate)
         {
-            string queryString = $"page={page}&limit={rowPerPage}";
-            
-            if (!String.IsNullOrEmpty(itemCode?.Trim()))
+            string queryString = $"page={page}&limit={rowPerPage}&transferType={ConstTransferType.XuatKho}";
+            if (!String.IsNullOrEmpty(tranferOrderNo?.Trim()))
             {
-                queryString += $"&itemCode={Uri.EscapeDataString(itemCode.Trim())}";
+                queryString += $"&transferNo={Uri.EscapeDataString(tranferOrderNo.Trim())}";
             }
-            
-            if(!String.IsNullOrEmpty(itemName?.Trim()))
+            if (!String.IsNullOrEmpty(wareHouseCode_from?.Trim()))
             {
-                queryString += $"&itemName={Uri.EscapeDataString(itemName.Trim())}";
+                queryString += $"&wareHouseCode_from={Uri.EscapeDataString(wareHouseCode_from.Trim())}";
             }
-            if (!String.IsNullOrEmpty(purchaseOrderNo?.Trim()))
+            if (!String.IsNullOrEmpty(wareHouseCode_to?.Trim()))
             {
-                queryString += $"&purchaseOrderNo={Uri.EscapeDataString(purchaseOrderNo.Trim())}";
-            }
-            if (!String.IsNullOrEmpty(locationName?.Trim()))
-            {
-                queryString += $"&locationName={Uri.EscapeDataString(locationName.Trim())}";
+                queryString += $"&wareHouseCode_to={Uri.EscapeDataString(wareHouseCode_to.Trim())}";
             }
             if (!String.IsNullOrEmpty(startDate?.Trim()))
             {
@@ -47,50 +41,34 @@ namespace QRMSWeb.Services
             {
                 queryString += $"&endDate={endDate?.Trim()}";
             }
-            queryString += $"&isSearch={isSearch}";
-            var response = await Client.GetAsync("api-wa/purchase-order/all-purchase-order?" + queryString);
+            var response = await Client.GetAsync("api-wa/transfer-ins/find-all-transfer-ins?" + queryString);
             this.checkResponse(response);
             string responseBody = await response.Content.ReadAsStringAsync();
-            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<PurchaseOrderItemModel>>>(responseBody);
+            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<TransferInstructionModel>>>(responseBody);
 
             return responseData.data;
         }
 
-        public async Task<PaginateData<List<PurchaseOrderItemModel>>> PurchaseOrderActualScanDetail(int page, int rowPerPage,
-            string purchaseOrderNo, string locationCode, string startDate, string endDate, bool isSearch)
+        public async Task<PaginateData<List<TransferInstructionItemModel>>> SearchExportDirectiveItem(int page, int rowPerPage,
+            string tranferOrderNo)
         {
-            string queryString = $"page={page}&limit={rowPerPage}";
+            string queryString = $"page={page}&limit={rowPerPage}&transferType={ConstTransferType.XuatKho}";
 
-            
-            if (!String.IsNullOrEmpty(purchaseOrderNo?.Trim()))
+            if (!String.IsNullOrEmpty(tranferOrderNo?.Trim()))
             {
-                queryString += $"&purchaseOrderNo={Uri.EscapeDataString(purchaseOrderNo.Trim())}";
+                queryString += $"&tranferOrderNo={Uri.EscapeDataString(tranferOrderNo.Trim())}";
             }
-            if (!String.IsNullOrEmpty(locationCode?.Trim()))
-            {
-                queryString += $"&locationCode={Uri.EscapeDataString(locationCode.Trim())}";
-            }
-            if (!String.IsNullOrEmpty(startDate?.Trim()))
-            {
-                queryString += $"&startDate={startDate?.Trim()}";
-            }
-
-            if (!String.IsNullOrEmpty(endDate?.Trim()))
-            {
-                queryString += $"&endDate={endDate?.Trim()}";
-            }
-            queryString += $"&isSearch={isSearch}";
-            
-            var response = await Client.GetAsync("api-wa/purchase-order/purchase-order-actual-scan?" + queryString);
+            var response = await Client.GetAsync("api-wa/transfer-ins/find-all-transfer-ins-item?" + queryString);
             this.checkResponse(response);
             string responseBody = await response.Content.ReadAsStringAsync();
-            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<PurchaseOrderItemModel>>>(responseBody);
+            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<TransferInstructionItemModel>>>(responseBody);
 
             return responseData.data;
         }
-        public async Task<ResponseData<Object>> ImportPurchaseOrder()
+
+        public async Task<ResponseData<Object>> ImportExportDirectiveItem()
         {
-            string url = $"api-wa/purchase-order/import-from-amis";
+            string url = $"api-wa/transfer-ins/import-from-amis";
             var response = await Client.GetAsync(url);
             if (response.StatusCode != (HttpStatusCode)200 && response.StatusCode != HttpStatusCode.BadRequest)
             {
@@ -98,76 +76,44 @@ namespace QRMSWeb.Services
             }
 
             return await HttpHelper.GetDataResponse<Object>(response);
+
         }
 
-        public async Task<PurchaseOrderModel> GetPurchaseOrderByID(int purchaseOrderID)
+        public async Task<PaginateData<List<TransactionHistoryModel>>> ExportDirectiveActualScanDetail(int page, int rowPerPage,
+            string tranferOrderNo)
         {
-            var response = await Client.GetAsync($"api-wa/purchase-order/{purchaseOrderID}");
+            string queryString = $"page={page}&limit={rowPerPage}&transferType={ConstTransferType.XuatKho}";
+
+
+            if (!String.IsNullOrEmpty(tranferOrderNo?.Trim()))
+            {
+                queryString += $"&tranferOrderNo={Uri.EscapeDataString(tranferOrderNo.Trim())}";
+            }
+            var response = await Client.GetAsync("api-wa/transfer-ins/transfer-ins-actual-scan?" + queryString);
             this.checkResponse(response);
             string responseBody = await response.Content.ReadAsStringAsync();
-            var responseData = JsonConvert.DeserializeObject<ResponseData<PurchaseOrderModel>>(responseBody);
+            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<TransactionHistoryModel>>>(responseBody);
+
             return responseData.data;
         }
 
-        public async Task<HttpResponseMessage> GenerateReportFile(int saleOrderID)
+        public async Task<TransferInstructionModel> GetExportDirectiveByTranferOrderNo(string tranferOrderNo)
         {
-            string strQuery = $"saleOrderID={saleOrderID}";
-            var response = await Client.GetAsync($"api_wa/purchase-order/export-excel?{strQuery}");
+            var response = await Client.GetAsync($"api-wa/get-transfer-ins-by-no?transferOrderNo={tranferOrderNo}&transferType={ConstTransferType.XuatKho}");
             this.checkResponse(response);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var responseData = JsonConvert.DeserializeObject<ResponseData<TransferInstructionModel>>(responseBody);
+            return responseData.data;
+        }
+
+        public async Task<HttpResponseMessage> GenerateReportFile(string tranferOrderNo)
+        {
+            string strQuery = $"tranferOrderNo={tranferOrderNo}&transferType={ConstTransferType.XuatKho}";
+            var response = await Client.GetAsync($"api_wa/transfer-ins/export-excel?{strQuery}");
+            this.checkResponse(response);
+
             return response;
+
         }
-
-        #region Print
-        public async Task<ResponseData<Object>> DeletePurchaseOrder(int ID)
-        {
-            var response = await Client.PostAsync("api_wa/purchase-order/delete",
-                new StringContent(JsonConvert.SerializeObject(new { ID = ID }), Encoding.UTF8,
-                    "application/json"));
-
-            if (response.StatusCode != (HttpStatusCode)200 && response.StatusCode != HttpStatusCode.BadRequest)
-            {
-                this.checkResponse(response);
-            }
-            return await HttpHelper.GetDataResponse<Object>(response);
-        }
-
-         public async Task<PaginateData<List<PurchaseOrderItemModel>>> SearchPurchaseOrderItemPrint(int page, int rowPerPage,
-            string itemType, string wareHouseCode, string purchaseOrderNo, string printStatus,
-            string purchaseOrderDate, bool isSearch)
-         {
-            string queryString = $"page={page}&limit={rowPerPage}";
-
-            if (!String.IsNullOrEmpty(itemType?.Trim()))
-            {
-                queryString += $"&itemType={Uri.EscapeDataString(itemType.Trim())}";
-            }
-
-            if (!String.IsNullOrEmpty(wareHouseCode?.Trim()))
-            {
-                queryString += $"&wareHouseCode={Uri.EscapeDataString(wareHouseCode.Trim())}";
-            }
-            if (!String.IsNullOrEmpty(purchaseOrderNo?.Trim()))
-            {
-                queryString += $"&purchaseOrderNo={Uri.EscapeDataString(purchaseOrderNo.Trim())}";
-            }
-            
-            if (!String.IsNullOrEmpty(printStatus?.Trim()))
-            {
-                queryString += $"&printStatus={printStatus?.Trim()}";
-            }
-
-            if (!String.IsNullOrEmpty(purchaseOrderDate?.Trim()))
-            {
-                queryString += $"&purchaseOrderDate={purchaseOrderDate?.Trim()}";
-            }
-            queryString += $"&isSearch={isSearch}";
-            var response = await Client.GetAsync("api-wa/purchase-order/all-purchase-order-print?" + queryString);
-            this.checkResponse(response);
-            string responseBody = await response.Content.ReadAsStringAsync();
-            var responseData = JsonConvert.DeserializeObject<ResponsePaginateData<List<PurchaseOrderItemModel>>>(responseBody);
-
-            return responseData.data;
-        }
-        #endregion
     }
 }

@@ -13,21 +13,19 @@
 @inject IJSRuntime _jsRuntime
 @inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
 
-<Breadcrumb Title="CHI TIẾT THỰC TẾ SCAN" levels="@Levels" />
+<Breadcrumb Title="CHI TIẾT ĐƠN ĐẶT HÀNG" levels="@Levels" />
 
 <div class="page-content-wrapper">
     <div class="row">
         <div class="col-12 space_search_area">
             <div class="card">
                 <div class="card-body contain_body">
-                    <h4>Tìm kiếm</h4>
-                    
                     <SaleOrderActualScanDetailSearchForm 
                                                OnExport="@OnExport"
-                                               @bind-WareHouseCode="@WareHouseCode"
-                                               @bind-SaleOrderNo="@SaleOrderNo"
-                                               @bind-SaleOrderDate="@SaleOrderDate"
-                                               @bind-ExportStatusName="@ExportStatusName" />
+                                               @bind-WareHouseCode="@wareHouseCode"
+                                               @bind-ExportStatusName="@exportStatusName"
+                                               @bind-SaleOrderNo="@saleOrderNo"
+                                               @bind-SaleOrderDate="@saleOrderDate" />
                 </div>
             </div>
         </div>
@@ -43,7 +41,7 @@
                     }
                     else
                     {
-                        <TableList data="@_saleOrderActualScans"
+                        <TableList data="@_transactionHistoryModels"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
@@ -58,13 +56,6 @@
                                     </button>
                                 </div>
                             </AddButton>-->
-
-                            <TableActionButton Context="item">
-                                <TableCommonAction ShowActualScanDetail ="false"
-                                                   ShowExportExcel="false"
-                                                   ShowEdit="false"
-                                                   ShowDelete="false" />
-                            </TableActionButton>
                         </TableList>
                     }
                 </div>
@@ -76,39 +67,47 @@
 @code
 {
     [Parameter]
-    public object ID { get; set; }
+    public object SaleOrderNo { get; set; }
+    [Parameter]
+    public bool IsDetail { get; set; } = false;
 
     [Parameter]
-    public string SaleOrderNo { get; set; }
-    [Parameter]
-    public string WareHouseCode { get; set; }
-    [Parameter]
-    public string SaleOrderDate { get; set; }
-    [Parameter]
-    public string ExportStatusName { get; set; }
-    
+    public bool IsUpdate { get; set; } = false;
+
+    private string itemCode = "";
+    private string wareHouseCode = "";
+    private string saleOrderNo = "";
+    private string exportStatusName = "";
+    private string saleOrderDate = "";
     private int TotalPage = 0;
     private int CurrentPage = 1;
     private const int RowPerPage = 10;
 
     private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
 {
-        new BreadcrumbLevel() {name = "Chi tiết thực tế scan", path = "/SaleOrder/ActualScanDetail"}
+        new BreadcrumbLevel() {name = "Danh mục đơn đặt hàng", path = "/SaleOrder"}
     };
 
     private List<TableLabels> labels = new List<TableLabels>()
 {
-        new TableLabels {label = "Số đơn hàng", dataIndex = "SaleOrderNo",columnWidth=150},
-        new TableLabels {label = "Ngày đặt", dataIndex = "SaleOrderDate", dataType="date", columnWidth=110},
-        new TableLabels {label = "Tên linh kiện", dataIndex = "ItemName",columnWidth=250},
-        new TableLabels {label = "Mã linh kiện", dataIndex = "ItemCode",columnWidth=150 },
-        new TableLabels {label = "Khách hàng", dataIndex = "CustomerName",columnWidth=250},
-        new TableLabels {label = "Số lượng", dataIndex = "Quantity", dataType="number", columnWidth=120},
-        new TableLabels {label = "Đơn vị", dataIndex = "Unit",columnWidth=80},
+        new TableLabels {label = "Ngày xuất kho", dataIndex = "OrderDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Mã hàng", dataIndex = "ItemCode", columnWidth=110},
+        new TableLabels {label = "Tên hàng", dataIndex = "ItemName",columnWidth=110},
+        new TableLabels {label = "Other code", dataIndex = "EXT_OtherCode",columnWidth=110},
+        new TableLabels {label = "Serial no", dataIndex = "EXT_Serial", columnWidth=110},
+        new TableLabels {label = "Lot no", dataIndex = "EXT_LotNo",columnWidth=110},
+        new TableLabels {label = "Part no", dataIndex = "EXT_PartNo",columnWidth=110},
+        new TableLabels {label = "Mf date", dataIndex = "EXT_MfDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Rec date", dataIndex = "EXT_RecDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Exp date", dataIndex = "EXT_ExpDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Số lượng", dataIndex = "Quantity",dataType="number",columnWidth=80},
+        new TableLabels {label = "Đơn vị", dataIndex = "Unit",columnWidth=110},
     };
 
     private bool loading = true;
-    private List<TransactionHistoryModel> _saleOrderActualScans = new List<TransactionHistoryModel>();
+    private SaleOrderModel _saleOrderModel;
+
+    private List<TransactionHistoryModel> _transactionHistoryModels = new List<TransactionHistoryModel>();
     private SaleOrderService _SaleOrderItemService;
 
     private async Task OnSearch()
@@ -117,16 +116,16 @@
         CurrentPage = 1;
         await OnInitData();
     }
-
     protected override void OnInitialized()
     {
         try
         {
+            Levels.Add(new BreadcrumbLevel() { name = "Chi tiết scan thực tế đơn đặt hàng", path = "#" });
             _SaleOrderItemService = new SaleOrderService(_httpClient);
         }
         catch (Exception e)
         {
-            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/SaleOrder/ActualScanDetail");
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/SaleOrder");
         }
     }
 
@@ -135,16 +134,19 @@
     {
         try
         {
+            var glStartDate = CommonUtils.ConvertDateVNFormatedToDate(saleOrderDate);
+            var glStrStartDate = glStartDate != null ? glStartDate.ToString() : "";
+
             var response = await _SaleOrderItemService.SaleOrderActualScanDetail(CurrentPage, RowPerPage,
-                SaleOrderNo);
-            _saleOrderActualScans = response.rows ?? new List<TransactionHistoryModel>();
+                saleOrderNo);
+            _transactionHistoryModels = response.rows ?? new List<TransactionHistoryModel>();
             TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _saleOrderActualScans = new List<TransactionHistoryModel>();
+            _transactionHistoryModels = new List<TransactionHistoryModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -157,13 +159,29 @@
         {
             if (firstRender)
             {
+                _saleOrderModel = await _SaleOrderItemService.GetSaleOrderByPurchaseOrderNo(SaleOrderNo.ToString());
+                if (_saleOrderModel != null)
+                {
+                    wareHouseCode = _saleOrderModel.WarehouseCode;
+                    saleOrderNo = _saleOrderModel.SaleOrderNo;
+                    exportStatusName = _saleOrderModel.ExportStatusName;
+                    saleOrderDate = _saleOrderModel.SaleOrderDate.ToString();
+                }
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
+                await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
+                saleOrderDate = await _localStorageService.GetItemAsStringAsync("search_saleOrder_saleOrderDate") ?? "";
+                if (string.IsNullOrEmpty(saleOrderDate?.Trim()))
+                {
+                    saleOrderDate = CommonUtils.GetFirstDayOfThisMonth();
+                    await _localStorageService.SetItemAsStringAsync("search_saleOrder_saleOrderDate", !String.IsNullOrWhiteSpace(saleOrderDate) ? saleOrderDate : "");
+                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchEndDate1");
+                }
                 await OnInitData();
             }
         }
         catch (Exception e)
         {
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/SaleOrder/ActualScanDetail");
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/SaleOrder");
         }
     }
 
@@ -181,7 +199,6 @@
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
         }
     }
-    
     private async Task OnExport()
     {
         string query = $"saleOrderNo={SaleOrderNo}";

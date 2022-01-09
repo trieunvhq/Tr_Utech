@@ -8,6 +8,7 @@ using DAL.Factory.Web.LabelPrint;
 using DAL.Factory.Web.SaleOrder;
 using HDLIB;
 using HDLIB.Common;
+using HDLIB.Helper;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
@@ -503,63 +504,9 @@ namespace BLL.Factory.Web.LabelPrint
 
         }
 
-        /// <summary>
-        /// In nhãn được dàn trang trên A4
-        /// </summary>
-        /// <param name="dataInput"></param>
-        /// <returns></returns>
-        public string LabelPrint(List<LabelPrintItemModel> dataInput)
+        public int UpdatePrintStatus(List<int> labelPrintItemIds)
         {
-            //DataInputModel dataPrint = dataInput.ToList().FirstOrDefault() ?? new DataInputModel();
-            Logging.LogMessage("-----Begin Print Label-----");
-            try
-            {
-                List<List<LabelPrintReportModel>> printDataSource = new List<List<LabelPrintReportModel>>()
-                {
-                    new List<LabelPrintReportModel>(),
-                    new List<LabelPrintReportModel>()
-                };
-                /*
-                                string physicalImgPath = HttpContext.Server.MapPath("~/" + Helper.FileHelper.IMG_QR_PATH);
-                                if (!Directory.Exists(physicalImgPath)) { Directory.CreateDirectory(physicalImgPath); }
-                                //Helper.FileHelper.DeleteAllFileInFolder(physicalImgPath);
-
-                                for (int i = 0; i < dataInput.Length; i++)
-                                {
-                                    int _index = i % 2;
-                                    dataInput[i].BagNo = dataInput.Length <= 1 ? dataInput[i].BagNo ?? 1 : i + 1;
-                                    printDataSource[_index].Add(dataInput[i].GetLabelModel(ServiceClient, physicalImgPath));
-                                }
-
-                                Response.Buffer = false;
-                                Response.ClearContent();
-                                Response.ClearHeaders();
-
-                                string physicalReportPath = HttpContext.Server.MapPath($"~/{Helper.FileHelper.IMG_REPORT_PATH}");
-                                string reportFile = "MaterialLabel.rpt";
-                                string base64 = new Helper
-                                    .CrystalReportHelper<List<Reports.MaterialLabelModel>>()
-                                    .GenerateBase64Reports(physicalReportPath, reportFile, subPrintDataSource: printDataSource);
-
-                                foreach (var item in printDataSource)
-                                {
-                                    Helper.FileHelper.DeleteFiles(item.Select(a => a.QRCode).ToArray());
-                                }
-
-                                HDLIB.Logging.LogError(new Exception(base64));
-                                return Content(base64);
-                */
-                return null;
-            }
-            catch (Exception ex)
-            {
-                Logging.LogError(ex);
-                return null;
-            }
-            finally
-            {
-                Logging.LogError(new Exception("-----Begin Print Material-----"));
-            }
+            return 1;
         }
         #endregion
 

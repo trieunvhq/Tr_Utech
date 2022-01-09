@@ -1,0 +1,210 @@
+﻿@using QRMSWeb.Components.Common.Breadcrumb
+@using QRMSWeb.Components.Common.SampleTable
+@using QRMSWeb.Components.Common.TableActions
+@using QRMSWeb.Services
+@using QRMSWeb.Models
+@using QRMSWeb.Helper
+@using QRMSWeb.Utils
+
+@using Microsoft.AspNetCore.Http.Extensions
+@inject NavigationManager _navigationManager
+@inject NavigationManager UriHelper
+@inject HttpClient _httpClient
+@inject IJSRuntime _jsRuntime
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
+
+<Breadcrumb Title="NHẬP KHO DỤNG CỤ" levels="@Levels" />
+
+<div class="page-content-wrapper">
+    <div class="row">
+        <div class="col-12 space_search_area">
+            <div class="card">
+                <div class="card-body contain_body">
+                    <h4>Tìm kiếm</h4>
+                    <ImportEquipmentSearchForm OnSearch="@OnSearch"
+                                         @bind-ItemCode="@itemCode"
+                                         @bind-WareHouseCode="@wareHouseCode"
+                                         @bind-OrderNo="@OrderNo"
+                                         @bind-DateFrom="@dateFrom"
+                                         @bind-DateTo="@dateTo"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body contain_body">
+                    @if (loading)
+                    {
+                        <div class="text-center">
+                            Đang tải...
+                        </div>
+                    }
+                    else
+                    {
+                        <TableList data="@importEquipmentModels"
+                                   TotalPage="@TotalPage"
+                                   CurrentPage="@CurrentPage"
+                                   OnClickPage="@OnClickPage"
+                                   TableLabelsList="@labels"
+                                   RowPerPage=@RowPerPage
+                                   MinColumnActionWidth="142"
+                                   IndexColSize="60">
+                        </TableList>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    private string itemCode = "";
+    private string OrderNo = "";
+    private string wareHouseCode = "";
+    private string dateFrom = "";
+    private string dateTo = "";
+    private int TotalPage = 0;
+    private int CurrentPage = 1;
+    private const int RowPerPage = 10;
+
+    private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
+{
+        new BreadcrumbLevel() {name = "Nhập kho dụng cụ", path = "/ImportEquipment"}
+    };
+
+    private List<TableLabels> labels = new List<TableLabels>()
+{
+        new TableLabels {label = "Ngày nhập kho", dataIndex = "OrderDate",dataType="date",columnWidth=120},
+        new TableLabels {label = "Mã linh kiện", dataIndex = "ItemCode", columnWidth=110},
+        new TableLabels {label = "Tên linh kiện", dataIndex = "ItemName",columnWidth=200},
+        new TableLabels {label = "Other code", dataIndex = "EXT_OtherCode",columnWidth=110},
+        new TableLabels {label = "Serial no", dataIndex = "EXT_Serial", columnWidth=110},
+        new TableLabels {label = "Lot no", dataIndex = "EXT_LotNo",columnWidth=110},
+        new TableLabels {label = "Part no", dataIndex = "EXT_PartNo",columnWidth=110},
+        new TableLabels {label = "Mf date", dataIndex = "EXT_MfDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Rec date", dataIndex = "EXT_RecDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Exp date", dataIndex = "EXT_ExpDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Số lượng", dataIndex = "Quantity",dataType="number",columnWidth=80},
+        new TableLabels {label = "Đơn vị", dataIndex = "Unit",columnWidth=110},
+    };
+
+    private bool loading = true;
+    private List<TransactionHistoryModel> importEquipmentModels = new List<TransactionHistoryModel>();
+    private ImportEquipmentService _importEquipmentService;
+
+    private async Task OnSearch()
+    {
+        loading = true;
+        CurrentPage = 1;
+        await storeParamSearch();
+        await OnInitData();
+    }
+
+    private async Task storeParamSearch()
+    {
+        dateFrom = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchStartDate");
+        dateTo = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchEndDate");
+
+        await _localStorageService.SetItemAsStringAsync("search_importEquipment_wareHouseCode", !String.IsNullOrWhiteSpace(wareHouseCode) ? wareHouseCode : "");
+        await _localStorageService.SetItemAsStringAsync("search_importEquipment_OrderNo", !String.IsNullOrWhiteSpace(OrderNo) ? OrderNo : "");
+        await _localStorageService.SetItemAsStringAsync("search_importEquipment_itemCode", !String.IsNullOrWhiteSpace(itemCode) ? itemCode : "");
+        await _localStorageService.SetItemAsStringAsync("search_importEquipment_itemCode", !String.IsNullOrWhiteSpace(itemCode) ? itemCode : "");
+
+        await _localStorageService.SetItemAsStringAsync("search_importEquipment_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
+        await _localStorageService.SetItemAsStringAsync("search_importEquipment_dateTo", !String.IsNullOrWhiteSpace(dateTo) ? dateTo : "");
+
+        await _localStorageService.SetItemAsStringAsync("search_importEquipment_currnetPage", CurrentPage.ToString());
+    }
+    private async Task retryParamSearch()
+    {
+        wareHouseCode = await _localStorageService.GetItemAsStringAsync("search_importEquipment_wareHouseCode") ?? "";
+        OrderNo = await _localStorageService.GetItemAsStringAsync("search_importEquipment_OrderNo") ?? "";
+        itemCode = await _localStorageService.GetItemAsStringAsync("search_importEquipment_itemCode") ?? "";
+        itemCode = await _localStorageService.GetItemAsStringAsync("search_importEquipment_itemCode") ?? "";
+        dateFrom = await _localStorageService.GetItemAsStringAsync("search_importEquipment_dateFrom") ?? "";
+        dateTo = await _localStorageService.GetItemAsStringAsync("search_importEquipment_dateTo") ?? "";
+
+        var curPage = await _localStorageService.GetItemAsStringAsync("search_importEquipment_currnetPage") ?? "";
+        CurrentPage = CommonUtils.ConvertStringNumberVNToInt(curPage)??1;
+        if (CurrentPage <= 0) CurrentPage = 1;
+    }
+    protected override void OnInitialized()
+    {
+        try
+        {
+            _importEquipmentService = new ImportEquipmentService(_httpClient);
+        }
+        catch (Exception e)
+        {
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/ImportEquipment");
+        }
+    }
+
+
+    private async Task OnInitData()
+    {
+        try
+        {
+            await retryParamSearch();
+
+            var glStartDate = CommonUtils.ConvertDateVNFormatedToDate(dateFrom);
+            var glStrStartDate = glStartDate != null ? glStartDate.ToString() : "";
+            var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(dateTo);
+            var glStrEndDate = glEndDate != null ? glEndDate.ToString() : "";
+
+            var response = await _importEquipmentService.SearchImportEquipment(CurrentPage, RowPerPage, itemCode, OrderNo, wareHouseCode, glStrStartDate, glStrEndDate);
+            importEquipmentModels = response.rows ?? new List<TransactionHistoryModel>();
+            TotalPage = response.pages;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
+            importEquipmentModels = new List<TransactionHistoryModel>();
+            TotalPage = 0;
+        }
+        loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                await _jsRuntime.InvokeVoidAsync("disableAutofill");
+                await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
+                dateFrom = await _localStorageService.GetItemAsStringAsync("search_importEquipment_dateFrom") ?? "";
+                if (string.IsNullOrEmpty(dateFrom?.Trim()))
+                {
+                    dateFrom = CommonUtils.GetFirstDayOfThisMonth();
+                    await _localStorageService.SetItemAsStringAsync("search_importEquipment_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
+                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchEndDate1");
+                }
+                await OnInitData();
+            }
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/ImportEquipment");
+        }
+    }
+
+    private async Task OnClickPage(int page)
+    {
+        try
+        {
+            loading = true;
+            CurrentPage = page;
+            await InvokeAsync(StateHasChanged);
+            await OnInitData();
+        }
+        catch (Exception e)
+        {
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
+        }
+    }
+}

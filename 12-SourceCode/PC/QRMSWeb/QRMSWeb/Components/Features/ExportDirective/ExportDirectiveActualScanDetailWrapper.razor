@@ -13,21 +13,20 @@
 @inject IJSRuntime _jsRuntime
 @inject Blazored.LocalStorage.ILocalStorageService _localStorageService;
 
-<Breadcrumb Title="CHI TIẾT CHỈ THỊ XUẤT KHO THỰC TẾ ĐÃ SCAN" levels="@Levels" />
+<Breadcrumb Title="CHI TIẾT SCAN THỰC TẾ CHỈ THỊ XUẤT KHO" levels="@Levels" />
 
 <div class="page-content-wrapper">
     <div class="row">
         <div class="col-12 space_search_area">
             <div class="card">
                 <div class="card-body contain_body">
-                    <h4>Tìm kiếm</h4>
                     <ExportDirectiveActualScanDetailSearchForm 
-                                             @bind-ItemName="@itemName"
-                                             @bind-LocationName="@LocationCode"
-                                             @bind-PurchaseOrderNo="@PurchaseOrderNo"
-                                             @bind-DateFrom="@DateFrom"
-                                             @bind-DateTo="@DateTo"
-                                             @bind-ItemCode="@itemCode" />
+                                               OnExport="@OnExport"
+                                               @bind-WarehouseName_From="@WarehouseName_From"
+                                                 @bind-WarehouseName_To="@WarehouseName_To"
+                                                 @bind-TransferStatusName="@TransferStatusName"
+                                                 @bind-TranferOrderNo="@_TranferOrderNo"
+                                                 @bind-InstructionDate="@InstructionDate"/>
                 </div>
             </div>
         </div>
@@ -43,14 +42,21 @@
                     }
                     else
                     {
-                        <TableList data="@_TransactionHistoryModels"
+                        <TableList data="@_transactionHistoryModels"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
                                    TableLabelsList="@labels"
                                    RowPerPage=@RowPerPage
+                                   MinColumnActionWidth="142"
                                    IndexColSize="60">
-                            
+                            <!--<AddButton>
+                                <div class="d-flex flex-row justify-content-end">
+                                    <button @onclick="OnClickAdd" type="button" class="btn btn-primary waves-effect waves-light">
+                                        Thêm mới
+                                    </button>
+                                </div>
+                            </AddButton>-->
                         </TableList>
                     }
                 </div>
@@ -62,63 +68,62 @@
 @code
 {
     [Parameter]
-    public object ID { get; set; }
+    public object TranferOrderNo { get; set; }
 
-    [Parameter]
-    public string PurchaseOrderNo { get; set; }
-    [Parameter]
-    public string LocationCode { get; set; }
-    [Parameter]
-    public string DateFrom { get; set; }
-    [Parameter]
-    public string DateTo { get; set; }
-    [Parameter]
-    public bool IsDetail { get; set; } = false;
 
-    private string itemCode = "";
-    private string itemName = "";
-    /*
-    private string purchaseOrderNo = "";
-    private string locationName = "";
-    private string dateFrom = "";
-    private string dateTo = "";*/
+    private string WarehouseName_From = "";
+    private string WarehouseName_To = "";
+    private string _TranferOrderNo = "";
+    private string TransferStatusName = "";
+    private string InstructionDate = "";
+
     private int TotalPage = 0;
     private int CurrentPage = 1;
     private const int RowPerPage = 10;
 
     private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
 {
-        new BreadcrumbLevel() {name = "Danh mục đơn mua hàng", path = "/PurchaseOrder"},
-        new BreadcrumbLevel() {name = "Chi tiết Danh mục đơn mua hàng", path = "#"}
+        new BreadcrumbLevel() {name = "Danh mục chỉ thị xuất kho", path = "/ExportDirective"}
     };
 
     private List<TableLabels> labels = new List<TableLabels>()
 {
-        new TableLabels {label = "Số đơn hàng", dataIndex = "PurchaseOrderNo",columnWidth=150},
-        new TableLabels {label = "Mã linh kiện", dataIndex = "ItemCode",columnWidth=150 },
-        new TableLabels {label = "Tên linh kiện", dataIndex = "ItemName",columnWidth=250},
-        new TableLabels {label = "Mã nhà cung cấp", dataIndex = "SupplierCode",columnWidth=150},
-        new TableLabels {label = "Serial", dataIndex = "Serial",columnWidth=150},
-        new TableLabels {label = "PartNo", dataIndex = "PartNo",columnWidth=150},
-        new TableLabels {label = "Rec date", dataIndex = "RecDate", dataType="date", columnWidth=110},
-        new TableLabels {label = "Exp date", dataIndex = "ExpDate", dataType="date", columnWidth=110},
-        new TableLabels {label = "Số lượng", dataIndex = "Quantity", dataType="number", columnWidth=110},
-        new TableLabels {label = "Đơn vị tính", dataIndex = "Unit",columnWidth=110},
+        new TableLabels {label = "Ngày chuyển", dataIndex = "OrderDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Mã hàng", dataIndex = "ItemCode",columnWidth=110},
+        new TableLabels {label = "Tên hàng", dataIndex = "ItemName",columnWidth=110},
+        new TableLabels {label = "Other code", dataIndex = "EXT_OtherCode",columnWidth=110},
+        new TableLabels {label = "Serial no", dataIndex = "EXT_Serial", columnWidth=110},
+        new TableLabels {label = "Lot no", dataIndex = "EXT_LotNo",columnWidth=110},
+        new TableLabels {label = "Part no", dataIndex = "EXT_PartNo",columnWidth=110},
+        new TableLabels {label = "Mf date", dataIndex = "EXT_MfDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Rec date", dataIndex = "EXT_RecDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Exp date", dataIndex = "EXT_ExpDate",dataType="date",columnWidth=110},
+        new TableLabels {label = "Số lượng", dataIndex = "Quantity",dataType="number",columnWidth=80},
+        new TableLabels {label = "Đơn vị", dataIndex = "Unit",columnWidth=110},
     };
 
     private bool loading = true;
-    private List<TransactionHistoryModel> _TransactionHistoryModels = new List<TransactionHistoryModel>();
-    private PurchaseOrderService _purchaseOrderService;
+    private TransferInstructionModel _exportDirectiveModel;
 
+    private List<TransactionHistoryModel> _transactionHistoryModels = new List<TransactionHistoryModel>();
+    private ExportDirectiveService _exportDirectiveService;
+
+    private async Task OnSearch()
+    {
+        loading = true;
+        CurrentPage = 1;
+        await OnInitData();
+    }
     protected override void OnInitialized()
     {
         try
         {
-            _purchaseOrderService = new PurchaseOrderService(_httpClient);
+            Levels.Add(new BreadcrumbLevel() { name = "Chi tiết scan thực tế chỉ thị xuất kho", path = "#" });
+            _exportDirectiveService = new ExportDirectiveService(_httpClient);
         }
         catch (Exception e)
         {
-            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PurchaseOrder");
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/ExportDirective");
         }
     }
 
@@ -127,21 +132,16 @@
     {
         try
         {
-            var glStartDate = CommonUtils.ConvertDateVNFormatedToDate(DateFrom);
-            var glStrStartDate = glStartDate != null ? glStartDate.ToString() : "";
-            var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(DateTo);
-            var glStrEndDate = glEndDate != null ? glEndDate.ToString() : "";
-
-            var response = await _purchaseOrderService.PurchaseOrderActualScanDetail(CurrentPage, RowPerPage,
-                 PurchaseOrderNo);
-            _TransactionHistoryModels = response.rows;
+            var response = await _exportDirectiveService.ExportDirectiveActualScanDetail(CurrentPage, RowPerPage,
+                _TranferOrderNo);
+            _transactionHistoryModels = response.rows ?? new List<TransactionHistoryModel>();
             TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _TransactionHistoryModels = new List<TransactionHistoryModel>();
+            _transactionHistoryModels = new List<TransactionHistoryModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -154,23 +154,22 @@
         {
             if (firstRender)
             {
-
-                await _jsRuntime.InvokeVoidAsync("disableAutofill");
-                await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
-                if (string.IsNullOrEmpty(DateFrom)) {
-                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchStartDate1");
-                }
-                if (string.IsNullOrEmpty(DateFrom))
+                _exportDirectiveModel = await _exportDirectiveService.GetExportDirectiveByTranferOrderNo(TranferOrderNo.ToString());
+                if (_exportDirectiveModel != null)
                 {
-                    await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchEndDate1");
+                    WarehouseName_From = _exportDirectiveModel.WarehouseName_From;
+                    WarehouseName_To = _exportDirectiveModel.WarehouseName_To;
+                    _TranferOrderNo = _exportDirectiveModel.TransferOrderNo;
+                    TransferStatusName = _exportDirectiveModel.TransferStatusName;
+                    InstructionDate = _exportDirectiveModel.InstructionDate.ToString();
                 }
+                await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 await OnInitData();
-
             }
         }
         catch (Exception e)
         {
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/PurchaseOrder");
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/ExportDirective");
         }
     }
 
@@ -188,11 +187,9 @@
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "Có lỗi xảy ra.", "");
         }
     }
-
-
-    private async void OnClickExportExcel(TransactionHistoryModel TransactionHistoryModel)
+    private async Task OnExport()
     {
-        string query = $"saleOrderId={TransactionHistoryModel.ID}";
-        UriHelper.NavigateTo($"/SaleOrder/ViewExcelReport?{query}", true);
+        string query = $"transferNo={_TranferOrderNo}";
+        UriHelper.NavigateTo($"/ExportDirective/ViewExcelReport?{query}", true);
     }
 }

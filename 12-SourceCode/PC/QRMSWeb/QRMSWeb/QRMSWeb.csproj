@@ -14,6 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Components\Features\ImportEquipment\SaleOrderActualScanDetailSearchForm.razor" />
+    <Content Remove="Components\Features\ImportEquipment\SaleOrderActualScanDetailWrapper.razor" />
+    <Content Remove="Components\Features\ImportEquipment\SaleOrderDetailSearchForm.razor" />
+    <Content Remove="Components\Features\ImportEquipment\SaleOrderDetailWrapper.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.5" />
     <PackageReference Include="Flurl.Http" Version="3.2.0" />
     <PackageReference Include="Markdig" Version="0.24.0" />

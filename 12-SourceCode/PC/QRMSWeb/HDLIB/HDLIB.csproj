@@ -58,8 +58,8 @@
     <Reference Include="ClosedXML, Version=0.95.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.95.3\lib\net40\ClosedXML.dll</HintPath>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.15.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.15.0\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -106,10 +106,10 @@
   <ItemGroup>
     <Compile Include="Helper\BarcodeHelper.cs" />
     <Compile Include="Common\Cipher.cs" />
-    <Compile Include="Common\DateTimeHelper.cs" />
+    <Compile Include="Helper\DateTimeHelper.cs" />
     <Compile Include="Common\HelperFunction.cs" />
     <Compile Include="Common\Constant.cs" />
-    <Compile Include="Common\NumberHelper.cs" />
+    <Compile Include="Helper\NumberHelper.cs" />
     <Compile Include="Helper\DataStructureHelper.cs" />
     <Compile Include="Excel.cs" />
     <Compile Include="Constants.cs" />

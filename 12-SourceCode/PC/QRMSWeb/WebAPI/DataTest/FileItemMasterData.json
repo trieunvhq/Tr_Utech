@@ -1,12 +1,12 @@
 {									
 	"ResultCode" : "0",								
 	"ResultMsg" : "",								
-	"Data"								
+	"Data":								
 	{								
 		"Page" : 1,							
 		"TotalPage" : 1,							
-		"PageSize" : 100						
-		"PageData"						
+		"PageSize" : 100,						
+		"PageData":				
 		[							
 			{						
 				"ID" : 1,			

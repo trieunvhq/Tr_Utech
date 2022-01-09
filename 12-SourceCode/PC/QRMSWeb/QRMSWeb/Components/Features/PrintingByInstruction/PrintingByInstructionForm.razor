@@ -26,10 +26,11 @@
                                 <div class="row col-12 label-print-item">
                                     <label class="col-3 col-form-label"></label>
                                     <div class="col-6">
-                                        <input type="text" placeholder=""
-                                               autocomplete="off"
-                                               value="@_LabelPrintItemModel?.ItemTypeName" disabled
-                                               class="form-control">
+                                        <input type="text" placeholder=
+                                        <a href="C:\Projects\HDS\QRCODE-MAG-SYS-UTECH\12-SourceCode\PC\QRMSWeb\QRMSWeb\Components\Features\PrintingByInstruction\PrintingByInstructionForm.razor">C:\Projects\HDS\QRCODE-MAG-SYS-UTECH\12-SourceCode\PC\QRMSWeb\QRMSWeb\Components\Features\PrintingByInstruction\PrintingByInstructionForm.razor</a>""
+                                        autocomplete="off"
+                                        value="@_LabelPrintItemModel?.ItemTypeName" disabled
+                                        class="form-control">
                                     </div>
                                 </div>
                                 <div class="row col-12 label-print-item">
@@ -199,7 +200,7 @@
                                 </div>
                                 <div class="row col-12 d-flex flex-row justify-content-end btn-row pb-0">
                                     <div class="button-items">
-                                        <button type="button" class="btn btn-primary waves-effect waves-light" disabled="@(TotalRows<=0)" @onclick="@OnClickPrint">In nhãn</button>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" disabled="@(TotalRows<=0 || isPrinting)" @onclick="@OnClickPrint">In nhãn</button>
 
                                     </div>
                                 </div>
@@ -265,6 +266,8 @@
     private const int RowPerPage = 10;
 
     private bool loading = true;
+    private bool isPrinting = false;
+
     LabelPrintItemModel _LabelPrintItemModel = new LabelPrintItemModel();
 
     private List<LabelPrintItemModel> _LabelPrintItemModels = new List<LabelPrintItemModel>();
@@ -284,7 +287,7 @@
     private List<TableLabels> labels = new List<TableLabels>()
 {
         new TableLabels {label = "Code", dataIndex = "ItemCode", columnWidth=150, align="center"},
-        new TableLabels {label = "Name", dataIndex = "ItemName", columnWidth=250, align="center"},
+        new TableLabels {label = "Name", dataIndex = "ItemName", columnWidth=250},
         new TableLabels {label = "Other Code", dataIndex = "OtherCode",  columnWidth=110},
         new TableLabels {label = "Serial", dataIndex = "Serial", columnWidth=250},
         new TableLabels {label = "Part No", dataIndex = "PartNo", columnWidth=150, align="center"},
@@ -306,22 +309,36 @@
     private async Task OnClickPrint()
     {
         try
-        {/*
-            loading = true;
-            CurrentPage = 1;
-            
-            var responseData = await _PrintingService.ImportPurchaseOrderItem();
+        {
+            isPrinting = true;
+            ResponseData<Object> responseData = null;
+            if ("checked".Equals(radioInNhieu))
+            {
+                responseData = await _PrintingService.PrintAll(_LabelPrintItemModel.PrintOrderNo);
+            } else
+            {
+                responseData = await _PrintingService.PrintItem(new List<LabelPrintItemModel>() { _LabelPrintItemModel });
+            }
+
+
+
             string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
             if ("0".Equals(errCode))
             {
-                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã lấy thông tin từ hệ thống AMIS thành công", "success");
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Đã tạo xong nhãn để in", "success");
+
+                //thực hiện in
+
+                // in xong thực hiện update trạng thái
+
+                //get lại danh sách.
                 await OnInitData();
             }
             else
             {
-                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Lấy thông tin từ hệ thống AMIS thất bại", "error");
+                await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Lỗi tạo nhãn để in", "error");
 
-            }*/
+            }
         }
         catch (Exception e)
         {
@@ -330,7 +347,7 @@
             _LabelPrintItemModels = new List<LabelPrintItemModel>();
             TotalPage = 0;
         }
-        loading = false;
+        isPrinting = false;
         await InvokeAsync(StateHasChanged);
 
     }

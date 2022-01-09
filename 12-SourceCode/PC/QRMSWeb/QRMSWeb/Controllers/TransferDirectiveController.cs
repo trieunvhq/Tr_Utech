@@ -13,7 +13,7 @@ namespace QRMSWeb.Controllers
     {
         static readonly HttpClient _httpClient = new HttpClient();
 
-        private TransferDirectiveService _ImportDirectiveService = new TransferDirectiveService(_httpClient);
+        private TransferDirectiveService _TranferDirectiveService = new TransferDirectiveService(_httpClient);
 
         public IActionResult Index()
         {
@@ -34,33 +34,24 @@ namespace QRMSWeb.Controllers
         {
             return View();
         }
-        public IActionResult ActualScanDetail(int? ID=null, string purchaseOrderNo = null,
-            string locationCode = null, string dateFrom = null, string dateTo = null)
+        public IActionResult ActualScanDetail()
         {
-            ViewBag.ID = ID;
-            ViewBag.PurchaseOrderNo = purchaseOrderNo;
-            ViewBag.LocationCode = locationCode;
-            ViewBag.DateFrom = dateFrom;
-            ViewBag.DateTo = dateTo;
+            
             return View();
         }
         public bool Delete()
         {
             return true;
         }
-
-        
-        public async Task<IActionResult> ViewExcelReport(int? ID)
+        public async Task<IActionResult> ViewExcelReport(string transferNo)
         {
-            var response = await _ImportDirectiveService.GenerateReportFile(ID ?? 0);
+            var response = await _TranferDirectiveService.GenerateReportFile(transferNo);
             //this.HttpContext.Response.AddHeader("content-disposition", "attachment; filename=Information" + DateTime.Now.Year.ToString() + ".xlsx");
 
             //this.HttpContext.Response.RegisterForDispose(response);
             //    return new HttpResponseMessageResult(response);
             var bData = await response.Content.ReadAsByteArrayAsync();
-            return File(bData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"TransferDirectiveDetail_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx");
+            return File(bData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"ChiThiXuatKho_{transferNo}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx");
         }
-
-       
     }
 }

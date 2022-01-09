@@ -36,6 +36,32 @@ namespace WebAPI.Controllers
             }
             return _return;
         }
+
+        [HttpPost]
+        [Route("api-ht/transferinstruction/gettransferwarehouses")]
+        public BaseModel GetTransferWarehouses([FromBody] GetTransferInstructionInput input)
+        {
+            var _return = new BaseModel();
+            try
+            {
+                string err_code = "";
+                string err_msg = "";
+
+                var result = new TransferInstructionBPL().GetTransferWarehousesBPL(input.from_day, input.to_day, input.WarehouseCode_From, input.WarehouseCode_To, out err_code, out err_msg);
+
+                _return.ErrorCode = err_code;
+                _return.Message = err_msg;
+                _return.data = result;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError(ex);
+                _return.ErrorCode = ConstResponseErrorCode.Error.ToString();
+                _return.Message = ex.Message;
+            }
+            return _return;
+        }
+
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
@@ -62,5 +88,14 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
+    }
+
+
+    public class GetTransferInstructionInput
+    {
+        public string WarehouseCode_From { get; set; }
+        public string WarehouseCode_To { get; set; }
+        public DateTime from_day { get; set; }
+        public DateTime to_day { get; set; }
     }
 }

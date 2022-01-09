@@ -1,17 +1,14 @@
 ﻿@using QRMSWeb.Components.Features.SaleOrder
 @{
-    ViewData["Title"] = "Chi tiết thực tế scan";
+    ViewData["Title"] = "Chi tiết scan thực tế đơn đặt hàng";
+    ViewBag.SaleOrderNo = ViewContext.RouteData.Values["id"];
 
 }
 
 <div class="content">
     <div class="container-fluid">
         <component type="typeof(SaleOrderActualScanDetailWrapper)"
-                   param-ID="@(ViewBag.ID)"
                    param-SaleOrderNo="@(ViewBag.SaleOrderNo)"
-                   param-WareHouseCode="@(ViewBag.WareHouseCode)"
-                   param-SaleOrderDate="@(ViewBag.SaleOrderDate)"
-                   param-ExportStatusName="@(ViewBag.ExportStatusName)"
-                   render-mode="ServerPrerendered"/>
+                   render-mode="ServerPrerendered" />
     </div>
 </div>

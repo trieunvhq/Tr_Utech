@@ -22,13 +22,12 @@
                 <div class="card-body contain_body">
                     <h4>Tìm kiếm</h4>
                     <TransferDirectiveSearchForm OnImport="@OnImport"
-                                             OnSearch="@OnSearch"
-                                             @bind-ItemName="@itemName"
-                                             @bind-LocationName="@locationName"
-                                             @bind-PurchaseOrderNo="@purchaseOrderNo"
-                                             @bind-DateFrom="@dateFrom"
-                                             @bind-DateTo="@dateTo"
-                                             @bind-ItemCode="@itemCode" />
+                                         OnSearch="@OnSearch"
+                                         @bind-WareHouseCode_From="@wareHouseCode_from"
+                                         @bind-WareHouseCode_To="@wareHouseCode_to"
+                                         @bind-TransferNo="@transferNo"
+                                         @bind-DateFrom="@dateFrom"
+                                         @bind-DateTo="@dateTo"/>
                 </div>
             </div>
         </div>
@@ -44,19 +43,20 @@
                     }
                     else
                     {
-                        <TableList data="@_purchaseOrderItemModels"
+                        <TableList data="@transferDirectiveModels"
                                    TotalPage="@TotalPage"
                                    CurrentPage="@CurrentPage"
                                    OnClickPage="@OnClickPage"
                                    TableLabelsList="@labels"
                                    RowPerPage=@RowPerPage
-                                   MinColumnActionWidth="110"
+                                   MinColumnActionWidth="142"
                                    IndexColSize="60">
+                            
                             <TableActionButton Context="item">
                                 <TableCommonAction OnClickDetail="() => OnClickDetail(item)"
                                                    OnClickActualScanDetail="() => OnClickActualScanDetail(item)"
                                                    OnClickExportExcel="() => OnClickExportExcel(item)"
-                                                   ShowActualScanDetail="true"
+                                                   ShowActualScanDetail ="true"
                                                    ShowExportExcel="true"
                                                    ShowEdit="false"
                                                    ShowDelete="false" />
@@ -72,9 +72,10 @@
 @code
 {
     private string itemCode = "";
-    private string itemName = "";
-    private string purchaseOrderNo = "";
-    private string locationName = "";
+    private string exportStatus = "";
+    private string transferNo = "";
+    private string wareHouseCode_from = "";
+    private string wareHouseCode_to = "";
     private string dateFrom = "";
     private string dateTo = "";
     private int TotalPage = 0;
@@ -83,23 +84,22 @@
 
     private List<BreadcrumbLevel> Levels = new List<BreadcrumbLevel>()
 {
-        new BreadcrumbLevel() {name = "Danh mục chỉ thị chuyển kho", path = "/TranferDirective"}
+        new BreadcrumbLevel() {name = "Danh mục chỉ thị chuyển kho", path = "/TransferDirective"}
     };
 
     private List<TableLabels> labels = new List<TableLabels>()
 {
-        new TableLabels {label = "Số đơn hàng", dataIndex = "PurchaseOrderNo",columnWidth=150},
-        new TableLabels {label = "Ngày đặt", dataIndex = "PurchaseOrderDate", dataType="date", columnWidth=110},
-        new TableLabels {label = "Tên linh kiện", dataIndex = "ItemName",columnWidth=250},
-        new TableLabels {label = "Mã linh kiện", dataIndex = "ItemCode",columnWidth=150 },
-        new TableLabels {label = "Mã nhà cung cấp", dataIndex = "SupplierCode",columnWidth=150},
-        new TableLabels {label = "Số lượng", dataIndex = "Quantity", dataType="number", columnWidth=110},
-        new TableLabels {label = "Đơn vị", dataIndex = "Unit",columnWidth=80},
+        new TableLabels {label = "Số lệnh chuyển", dataIndex = "TransferOrderNo",columnWidth=150},
+        new TableLabels {label = "Ngày lệnh", dataIndex = "InstructionDate", dataType="date", columnWidth=110},
+        new TableLabels {label = "Mã kho đến", dataIndex = "WarehouseCode_From",columnWidth=150 },
+        new TableLabels {label = "Tên kho đến", dataIndex = "WarehouseName_From",columnWidth=150 },
+        new TableLabels {label = "Mã kho đi", dataIndex = "WarehouseCode_To",columnWidth=150 },
+        new TableLabels {label = "Tên kho đi", dataIndex = "WarehouseName_To",columnWidth=150 },
     };
 
     private bool loading = true;
-    private List<PurchaseOrderItemModel> _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
-    private PurchaseOrderService _purchaseOrderService;
+    private List<TransferInstructionModel> transferDirectiveModels = new List<TransferInstructionModel>();
+    private TransferDirectiveService _transferDirectiveService;
 
     private async Task OnSearch()
     {
@@ -115,7 +115,7 @@
         {
             loading = true;
             CurrentPage = 1;
-            var responseData = await _purchaseOrderService.ImportPurchaseOrder();
+            var responseData = await _transferDirectiveService.ImportTransferDirectiveItem();
             string errCode = String.IsNullOrEmpty(responseData.ErrorCode?.Trim()) ? "0" : responseData.ErrorCode?.Trim();
             if ("0".Equals(errCode))
             {
@@ -132,92 +132,75 @@
         {
             Console.WriteLine(e);
             await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            transferDirectiveModels = new List<TransferInstructionModel>();
             TotalPage = 0;
         }
         loading = false;
         await InvokeAsync(StateHasChanged);
+
     }
     private async Task storeParamSearch()
     {
         dateFrom = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchStartDate");
         dateTo = await _jsRuntime.InvokeAsync<string>("getValByElId", "searchEndDate");
 
-        await _localStorageService.SetItemAsStringAsync("search_TranferDirective_LocationName", !String.IsNullOrWhiteSpace(locationName) ? locationName : "");
-        await _localStorageService.SetItemAsStringAsync("search_TranferDirective_purchaseOrderNo", !String.IsNullOrWhiteSpace(purchaseOrderNo) ? purchaseOrderNo : "");
-        await _localStorageService.SetItemAsStringAsync("search_TranferDirective_itemCode", !String.IsNullOrWhiteSpace(itemCode) ? itemCode : "");
-        await _localStorageService.SetItemAsStringAsync("search_TranferDirective_itemName", !String.IsNullOrWhiteSpace(itemName) ? itemName : "");
+        await _localStorageService.SetItemAsStringAsync("search_exportdirective_wareHouseCode_from", !String.IsNullOrWhiteSpace(wareHouseCode_from) ? wareHouseCode_from : "");
+        await _localStorageService.SetItemAsStringAsync("search_exportdirective_wareHouseCode_to", !String.IsNullOrWhiteSpace(wareHouseCode_to) ? wareHouseCode_to : "");
+        await _localStorageService.SetItemAsStringAsync("search_exportdirective_transferNo", !String.IsNullOrWhiteSpace(transferNo) ? transferNo : "");
+        await _localStorageService.SetItemAsStringAsync("search_exportdirective_itemCode", !String.IsNullOrWhiteSpace(itemCode) ? itemCode : "");
+        await _localStorageService.SetItemAsStringAsync("search_exportdirective_exportStatus", !String.IsNullOrWhiteSpace(exportStatus) ? exportStatus : "");
 
-        await _localStorageService.SetItemAsStringAsync("search_TranferDirective_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
-        await _localStorageService.SetItemAsStringAsync("search_TranferDirective_dateTo", !String.IsNullOrWhiteSpace(dateTo) ? dateTo : "");
+        await _localStorageService.SetItemAsStringAsync("search_exportdirective_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
+        await _localStorageService.SetItemAsStringAsync("search_exportdirective_dateTo", !String.IsNullOrWhiteSpace(dateTo) ? dateTo : "");
 
-        await _localStorageService.SetItemAsStringAsync("search_TranferDirective_currnetPage", CurrentPage.ToString());
+        await _localStorageService.SetItemAsStringAsync("search_exportdirective_currnetPage", CurrentPage.ToString());
     }
     private async Task retryParamSearch()
     {
-        locationName = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_LocationName") ?? "";
-        purchaseOrderNo = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_purchaseOrderNo") ?? "";
-        itemCode = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_itemCode") ?? "";
-        itemName = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_itemName") ?? "";
+        wareHouseCode_from = await _localStorageService.GetItemAsStringAsync("search_exportdirective_wareHouseCode_from") ?? "";
+        transferNo = await _localStorageService.GetItemAsStringAsync("search_exportdirective_transferNo") ?? "";
+        itemCode = await _localStorageService.GetItemAsStringAsync("search_exportdirective_itemCode") ?? "";
+        exportStatus = await _localStorageService.GetItemAsStringAsync("search_exportdirective_exportStatus") ?? "";
+        dateFrom = await _localStorageService.GetItemAsStringAsync("search_exportdirective_dateFrom") ?? "";
+        dateTo = await _localStorageService.GetItemAsStringAsync("search_exportdirective_dateTo") ?? "";
 
-        dateFrom = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_dateFrom") ?? "";
-        dateTo = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_dateTo") ?? "";
-
-        var curPage = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_currnetPage") ?? "";
-        CurrentPage = CommonUtils.ConvertStringNumberVNToInt(curPage) ?? 1;
+        var curPage = await _localStorageService.GetItemAsStringAsync("search_exportdirective_currnetPage") ?? "";
+        CurrentPage = CommonUtils.ConvertStringNumberVNToInt(curPage)??1;
         if (CurrentPage <= 0) CurrentPage = 1;
     }
     protected override void OnInitialized()
     {
         try
         {
-            _purchaseOrderService = new PurchaseOrderService(_httpClient);
+            _transferDirectiveService = new TransferDirectiveService(_httpClient);
         }
         catch (Exception e)
         {
-            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/TranferDirective");
+            _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/TransferDirective");
         }
     }
 
-    private async Task ImportPurchaseOrder()
-    {
-        try
-        {
-            var response = await _purchaseOrderService.ImportPurchaseOrder();
-            await _jsRuntime.InvokeVoidAsync("showMessage", "Thông báo", "Thành công", "success");
-
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
-            TotalPage = 0;
-        }
-        loading = false;
-        await InvokeAsync(StateHasChanged);
-    }
 
     private async Task OnInitData()
     {
         try
         {
             await retryParamSearch();
+
             var glStartDate = CommonUtils.ConvertDateVNFormatedToDate(dateFrom);
             var glStrStartDate = glStartDate != null ? glStartDate.ToString() : "";
             var glEndDate = CommonUtils.ConvertDateVNFormatedToDate(dateTo);
             var glStrEndDate = glEndDate != null ? glEndDate.ToString() : "";
 
-            var response = await _purchaseOrderService.SearchPurchaseOrderItem(CurrentPage, RowPerPage,
-                 purchaseOrderNo);
-            _purchaseOrderItemModels = response.rows;
+            var response = await _transferDirectiveService.SearchTransferDirective(CurrentPage, RowPerPage, transferNo, wareHouseCode_from, wareHouseCode_to, glStrStartDate, glStrEndDate);
+            transferDirectiveModels = response.rows ?? new List<TransferInstructionModel>();
             TotalPage = response.pages;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             //await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "");
-            _purchaseOrderItemModels = new List<PurchaseOrderItemModel>();
+            transferDirectiveModels = new List<TransferInstructionModel>();
             TotalPage = 0;
         }
         loading = false;
@@ -232,15 +215,11 @@
             {
                 await _jsRuntime.InvokeVoidAsync("disableAutofill");
                 await SystemHelper.clearSearchParameter(_navigationManager, _localStorageService);
-                dateFrom = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_dateFrom") ?? "";
+                dateFrom = await _localStorageService.GetItemAsStringAsync("search_exportdirective_dateFrom") ?? "";
                 if (string.IsNullOrEmpty(dateFrom?.Trim()))
                 {
                     dateFrom = CommonUtils.GetFirstDayOfThisMonth();
-                    await _localStorageService.SetItemAsStringAsync("search_TranferDirective_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
-                }
-                dateTo = await _localStorageService.GetItemAsStringAsync("search_TranferDirective_dateTo") ?? "";
-                if (string.IsNullOrEmpty(dateTo?.Trim()))
-                {
+                    await _localStorageService.SetItemAsStringAsync("search_exportdirective_dateFrom", !String.IsNullOrWhiteSpace(dateFrom) ? dateFrom : "");
                     await _jsRuntime.InvokeAsync<string>("clearDateTimePickerByElId", "searchEndDate1");
                 }
                 await OnInitData();
@@ -248,7 +227,7 @@
         }
         catch (Exception e)
         {
-            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/TranferDirective");
+            await _jsRuntime.InvokeVoidAsync("handleException", e.Message, "", "/TransferDirective");
         }
     }
 
@@ -267,21 +246,19 @@
         }
     }
 
-    private void OnClickDetail(PurchaseOrderItemModel purchaseOrderItemModel)
+    private void OnClickDetail(TransferInstructionModel transferIns)
     {
-        UriHelper.NavigateTo($"/TranferDirective/detail/{purchaseOrderItemModel.PurchaseOrderID}", true);
-    }
-    private void OnClickActualScanDetail(PurchaseOrderItemModel purchaseOrderItemModel)
-    {
-        string queryParams = $"ID={purchaseOrderItemModel.PurchaseOrderID}&purchaseOrderNo={purchaseOrderItemModel.PurchaseOrderNo}&locationCode={purchaseOrderItemModel.WareHouseCode}";
-        queryParams += $"&dateFrom={dateFrom}&dateTo={dateTo}";
-        UriHelper.NavigateTo($"/TranferDirective/ActualScanDetail?{queryParams}", true);
+        UriHelper.NavigateTo($"/TransferDirective/detail/{transferIns.TransferOrderNo}", true);
     }
 
-
-    private async void OnClickExportExcel(PurchaseOrderItemModel purchaseOrderItemModel)
+    private void OnClickActualScanDetail(TransferInstructionModel transferIns)
     {
-        string query = $"saleOrderId={purchaseOrderItemModel.PurchaseOrderID}";
-        UriHelper.NavigateTo($"/TranferDirective/ViewExcelReport?{query}", true);
+        UriHelper.NavigateTo($"/TransferDirective/ActualScanDetail/{transferIns.TransferOrderNo}", true);
+    }
+
+    private async void OnClickExportExcel(TransferInstructionModel transferIns)
+    {
+        string query = $"transferNo={transferIns.TransferOrderNo}";
+        UriHelper.NavigateTo($"/TransferDirective/ViewExcelReport?{query}", true);
     }
 }

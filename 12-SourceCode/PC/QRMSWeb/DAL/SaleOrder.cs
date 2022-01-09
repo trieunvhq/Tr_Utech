@@ -22,6 +22,7 @@ namespace DAL
         public Nullable<System.DateTime> SaleOrderDate { get; set; }
         public string WarehouseCode { get; set; }
         public string WarehouseName { get; set; }
+        public string OutputStatus { get; set; }
         public string ExportStatus { get; set; }
         public string GetDataStatus { get; set; }
         public string RecordStatus { get; set; }

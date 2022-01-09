@@ -5,111 +5,92 @@
 <form autocomplete="off" class="search-body-form">
     <div class="row search-row-input">
         <div class="row form-group col-6">
-            <label class="col-4 col-form-label">Kho</label>
-            <div class="col-8">
-                <input type="text"
-                       disabled
-                       value="@LocationName"
-                       @onchange="@((evt) => LocationNameChanged.InvokeAsync(evt.Value?.ToString()))"
-                       placeholder="" class="form-control">
-            </div>
-        </div>
-        
-        
-        <div class="row form-group col-6">
-            <label class="col-3 col-form-label">Từ ngày</label>
+            <label class="col-3 col-form-label">Kho đến</label>
             <div class="col-9">
-                <div class="input-group pjc-date-picker"
-                     id="searchStartDate1" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#searchStartDate1"
-                           id="searchStartDate" placeholder="ngày/tháng/năm" disabled
-                           value="@DateFrom" />
-                    <div class="input-group-append" data-target="#searchStartDate1" data-toggle="datetimepicker">
-                        <span class="input-group-text">
-                            <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true" disabled></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-            
-        <div class="row form-group col-6">
-            <label class="col-4 col-form-label">Đơn mua hàng</label>
-            <div class="col-8">
-                <input type="text" placeholder=""
-                       value="@PurchaseOrderNo" disabled
-                       @onchange="@((evt) => PurchaseOrderNoChanged.InvokeAsync(evt.Value?.ToString()))"
+                <input type="text" placeholder="" disabled
+                       autocomplete="off"
+                       value="@WarehouseName_From"
                        class="form-control">
             </div>
         </div>
-        
         <div class="row form-group col-6">
-            <label class="col-3 col-form-label">Đến ngày</label>
+            <label class="col-3 col-form-label">Kho đi</label>
             <div class="col-9">
-                <div class="input-group pjc-date-picker"
-                     id="searchEndDate1" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#searchEndDate1"
-                           id="searchEndDate" placeholder="ngày/tháng/năm" format="DD/MM/YYYY"
-                           value="@DateTo" disabled />
-                    <div class="input-group-append" data-target="#searchEndDate12" data-toggle="datetimepicker2">
-                        <span class="input-group-text">
-                            <i class="fa fa-calendar teal-color" style="color: cadetblue" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                </div>
+                <input type="text" placeholder="" disabled
+                       autocomplete="off"
+                       value="@WarehouseName_To"
+                       class="form-control">
             </div>
         </div>
-            -->
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Trạng thái</label>
+            <div class="col-9">
+                <input type="text" placeholder=""
+                       autocomplete="off" disabled
+                       value="@TransferStatusName"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Số yêu cầu</label>
+            <div class="col-9">
+                <input type="text" placeholder=""
+                       autocomplete="off" disabled
+                       value="@TranferOrderNo"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="row form-group col-6">
+            <label class="col-3 col-form-label">Ngày yêu cầu</label>
+            <div class="col-9">
+                <input type="text" placeholder=""
+                       autocomplete="off" disabled
+                       value="@InstructionDate"
+                       class="form-control">
+            </div>
+        </div>
+
     </div>
-    <!--
     <div class="d-flex flex-row justify-content-end btn-row pb-0 button_search_footer1">
         <div class="button-items">
-            <button type="button" class="btn btn-primary waves-effect waves-light" @onclick="@OnSearch">Tìm kiếm</button>
-            <button type="button" class="btn btn-primary waves-effect mr-3" @onclick="@OnImport">Cập nhật từ AMIS</button>
+            <button type="button" class="btn btn-primary waves-effect mr-3" @onclick="@OnExport">Export</button>
         </div>
     </div>
-        -->
 </form>
 
 @code {
 
     [Parameter]
-    public string ItemCode { get; set; }
+    public string WarehouseName_From { get; set; }
 
     [Parameter]
-    public EventCallback<string> ItemCodeChanged { get; set; }
+    public EventCallback<string> WarehouseName_FromChanged { get; set; }
 
     [Parameter]
-    public string ItemName { get; set; }
+    public string WarehouseName_To { get; set; }
 
     [Parameter]
-    public EventCallback<string> ItemNameChanged { get; set; }
+    public EventCallback<string> WarehouseName_ToChanged { get; set; }
 
     [Parameter]
-    public string LocationName { get; set; }
+    public string TransferStatusName { get; set; }
 
     [Parameter]
-    public EventCallback<string> LocationNameChanged { get; set; }
+    public EventCallback<string> TransferStatusNameChanged { get; set; }
 
     [Parameter]
-    public string PurchaseOrderNo { get; set; }
+    public string TranferOrderNo { get; set; }
 
     [Parameter]
-    public EventCallback<string> PurchaseOrderNoChanged { get; set; }
+    public EventCallback<string> TranferOrderNoChanged { get; set; }
 
     [Parameter]
-    public string DateFrom { get; set; }
+    public string InstructionDate { get; set; }
+    [Parameter]
+    public EventCallback<string> InstructionDateChanged { get; set; }
 
     [Parameter]
-    public EventCallback<string> DateFromChanged { get; set; }
-    [Parameter]
-    public string DateTo { get; set; }
-
-    [Parameter]
-    public EventCallback<string> DateToChanged { get; set; }
-
-    [Parameter]
-    public Func<Task> OnImport { get; set; }
+    public Func<Task> OnExport { get; set; }
 
     [Parameter]
     public Func<Task> OnSearch { get; set; }

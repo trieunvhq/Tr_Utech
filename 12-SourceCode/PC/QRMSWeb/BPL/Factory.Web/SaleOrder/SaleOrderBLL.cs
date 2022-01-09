@@ -7,6 +7,7 @@ using DAL.Factory.Web.SaleOrder;
 using DAL.Factory.Web.TransactionHistory;
 using HDLIB;
 using HDLIB.Common;
+using HDLIB.Helper;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -334,11 +335,11 @@ namespace BLL.Factory.Web.SaleOrder
                     worksheet.Cells[rowIdx, colStart + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 2].Value = reportData.OrderDate.Value.ToString("dd-mm-yyyy");//Ngày đơn hàng
+                    worksheet.Cells[rowIdx, colStart + 2].Value = reportData.OrderDate.Value.ToString("dd-MM-yyyy");//Ngày đơn hàng
                     worksheet.Cells[rowIdx, colStart + 2].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 3].Value = reportData.OrderDate.Value.ToString("dd-mm-yyyy");//Ngày xuất hàng
+                    worksheet.Cells[rowIdx, colStart + 3].Value = reportData.OrderDate.Value.ToString("dd-MM-yyyy");//Ngày xuất hàng
                     worksheet.Cells[rowIdx, colStart + 3].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
@@ -383,15 +384,15 @@ namespace BLL.Factory.Web.SaleOrder
                     worksheet.Cells[rowIdx, colStart + 13].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 13].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 14].Value = reportData.EXT_MfDate;//MF date
+                    worksheet.Cells[rowIdx, colStart + 14].Value = reportData.EXT_MfDate.Value.ToString("dd-MM-yyyy");//MF date
                     worksheet.Cells[rowIdx, colStart + 14].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 14].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 15].Value = reportData.EXT_RecDate;//Rec date
+                    worksheet.Cells[rowIdx, colStart + 15].Value = reportData.EXT_RecDate.Value.ToString("dd-MM-yyyy");//Rec date
                     worksheet.Cells[rowIdx, colStart + 15].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 15].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                    worksheet.Cells[rowIdx, colStart + 16].Value = reportData.EXT_ExpDate;//Exp date
+                    worksheet.Cells[rowIdx, colStart + 16].Value = reportData.EXT_ExpDate.Value.ToString("dd-MM-yyyy");//Exp date
                     worksheet.Cells[rowIdx, colStart + 16].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[rowIdx, colStart + 16].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 

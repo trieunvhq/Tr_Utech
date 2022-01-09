@@ -1,16 +1,16 @@
 {				
 	"ResultCode" : "0",			
 	"ResultMsg" : "",		
-	"Data"		
+	"Data" :
 	{			
 		"Page" : 1,
 		"TotalPage" : 1,
 		"PageSize" : 500,		
-		"PageData" 
+		"PageData" :
 		[		
 			{	
 				"TransferOrderID" : 1,
-				"TransferOrderType" : "TOT_01",
+				"TransferOrderType" : "C",
 				"TransferOrderNo" : "TON_01",
 				"TransferOrderDate" : "11-01-2022",
 				"FWarehouseCode" : "HN",
@@ -19,14 +19,14 @@
 				"TWarehouseName" : "Hà nội 1",
 				"ItemCode" : "TC_01",
 				"ItemName" : "Item Name 1",
-				"ItemType" : "IT_01",
+				"ItemType" : "C",
 				"Unit" : "Cái",
-				"Quantity" : 300,
+				"Quantity" : 300
 			},
 			{	
 				"TransferOrderID" : 2,
-				"TransferOrderType" : "TOT_01",
-				"TransferOrderNo" : "TON_01",
+				"TransferOrderType" : "C",
+				"TransferOrderNo" : "TON_02",
 				"TransferOrderDate" : "12-01-2022",
 				"FWarehouseCode" : "HN_1",
 				"FWarehouseName" : "Hà nội 1",
@@ -34,14 +34,14 @@
 				"TWarehouseName" : "Hà nội",
 				"ItemCode" : "TC_01",
 				"ItemName" : "Item Name 1",
-				"ItemType" : "IT_01",
+				"ItemType" : "C",
 				"Unit" : "Cái",
-				"Quantity" : 50,
+				"Quantity" : 50
 			},
 			{	
 				"TransferOrderID" : 3,
-				"TransferOrderType" : "TOT_01",
-				"TransferOrderNo" : "TON_01",
+				"TransferOrderType" : "O",
+				"TransferOrderNo" : "TON_03",
 				"TransferOrderDate" : "13-01-2022",
 				"FWarehouseCode" : "HN",
 				"FWarehouseName" : "Hà nội",
@@ -49,9 +49,9 @@
 				"TWarehouseName" : "Hà nội 1",
 				"ItemCode" : "TC_01",
 				"ItemName" : "Item Name 1",
-				"ItemType" : "IT_01",
+				"ItemType" : "C",
 				"Unit" : "Cái",
-				"Quantity" : 100,
+				"Quantity" : 100
 			},
 		]		
 	}			

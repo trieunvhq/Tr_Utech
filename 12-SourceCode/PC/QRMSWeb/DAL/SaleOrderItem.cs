@@ -30,6 +30,7 @@ namespace DAL
         public string ItemName { get; set; }
         public decimal Quantity { get; set; }
         public string Unit { get; set; }
+        public string OutputStatus { get; set; }
         public string RecordStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string UserCreate { get; set; }

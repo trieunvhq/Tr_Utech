@@ -110,7 +110,7 @@ namespace AMIS_Test.Controllers.Web
                 string filePath = Path.Combine(path, System.Configuration.ConfigurationSettings.AppSettings["FileTransferOrderData"]);
                 if (File.Exists(filePath))
                 {
-                    return JObject.Parse(File.ReadAllText(filePath));
+                    return  JObject.Parse(File.ReadAllText(filePath));
                 }
                 return null;
             }

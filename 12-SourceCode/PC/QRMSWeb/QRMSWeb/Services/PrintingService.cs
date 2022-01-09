@@ -148,6 +148,31 @@ namespace QRMSWeb.Services
 
             return responseData.data;
         }
+        
+        public async Task<ResponseData<Object>> PrintAll(string printOrderNo)
+        {
+            var response = await Client.PostAsync($"api_wa/printing-by-instruction-order/print-label-by-instruction/{printOrderNo}",
+                new StringContent(JsonConvert.SerializeObject(new { printOrderNo }), Encoding.UTF8,
+                    "application/json"));
+
+            if (response.StatusCode != (HttpStatusCode)200 && response.StatusCode != HttpStatusCode.BadRequest)
+            {
+                this.checkResponse(response);
+            }
+            return await HttpHelper.GetDataResponse<Object>(response);
+        }
+        public async Task<ResponseData<Object>> PrintItem(List<LabelPrintItemModel> labelPrintItemModels)
+        {
+            var response = await Client.PostAsync($"api_wa/printing-by-instruction-order/print-label",
+                new StringContent(JsonConvert.SerializeObject(labelPrintItemModels), Encoding.UTF8,
+                    "application/json"));
+
+            if (response.StatusCode != (HttpStatusCode)200 && response.StatusCode != HttpStatusCode.BadRequest)
+            {
+                this.checkResponse(response);
+            }
+            return await HttpHelper.GetDataResponse<Object>(response);
+        }
 
         #endregion
     }

@@ -5,8 +5,8 @@
 <form autocomplete="off" class="search-body-form">
     <div class="row search-row-input">
         <div class="row form-group col-6">
-            <label class="col-4 col-form-label">Kho</label>
-            <div class="col-8">
+            <label class="col-3 col-form-label">Kho</label>
+            <div class="col-9">
                 <input type="text"
                        disabled
                        value="@WareHouseName"
@@ -34,8 +34,8 @@
         </div>
             
         <div class="row form-group col-6">
-            <label class="col-4 col-form-label">Đơn mua hàng</label>
-            <div class="col-8">
+            <label class="col-3 col-form-label">Đơn mua hàng</label>
+            <div class="col-9">
                 <input type="text" placeholder=""
                        value="@PurchaseOrderNo" disabled
                        @onchange="@((evt) => PurchaseOrderNoChanged.InvokeAsync(evt.Value?.ToString()))"

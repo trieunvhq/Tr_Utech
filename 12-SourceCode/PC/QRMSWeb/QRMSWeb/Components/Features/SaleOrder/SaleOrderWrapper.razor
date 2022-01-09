@@ -250,9 +250,7 @@
 
     private void OnClickActualScanDetail(SaleOrderModel saleOrderItem)
     {
-        string queryParams = $"ID={saleOrderItem.ID}&SaleOrderNo={saleOrderItem.SaleOrderNo}&WareHouseCode={saleOrderItem.WarehouseCode}";
-        queryParams += $"&SaleOrderDate={saleOrderItem.SaleOrderDate}&ExportStatusName={saleOrderItem.ExportStatusName}";
-        UriHelper.NavigateTo($"/SaleOrder/ActualScanDetail?{queryParams}", true);
+        UriHelper.NavigateTo($"/SaleOrder/ActualScanDetail/{saleOrderItem.SaleOrderNo}", true);
     }
 
     private async void OnClickExportExcel(SaleOrderModel saleOrder)

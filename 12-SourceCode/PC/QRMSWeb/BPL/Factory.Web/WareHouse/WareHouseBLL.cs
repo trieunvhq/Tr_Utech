@@ -39,29 +39,6 @@ namespace BLL.Factory.Web.WareHouse
             }
 
         }
-        
-        public int Insert(DAL.TransactionHistory data, string userName)
-        {
-            try
-            {
-                //data.ID = 0;
-
-                data.RecordStatus = ConstRecordStatus.New;
-                if (data.CreateDate == null)
-                {
-                    data.CreateDate = DateTime.Now;
-                }
-                data.UserCreate = userName;
-
-                return new TransactionHistoryManagement(db).Insert(data);
-            }
-            catch (Exception ex)
-            {
-                Logging.LogError(ex);
-                throw;
-            }
-        }
-
     }
 
 

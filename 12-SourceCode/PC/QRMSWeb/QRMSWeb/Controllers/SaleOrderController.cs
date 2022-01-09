@@ -34,14 +34,9 @@ namespace QRMSWeb.Controllers
         {
             return View();
         }
-        public IActionResult ActualScanDetail(int? ID = null, string SaleOrderNo = null,
-            string WareHouseCode = null, string SaleOrderDate = null, string ExportStatusName = null)
+        public IActionResult ActualScanDetail()
         {
-            ViewBag.ID = ID;
-            ViewBag.SaleOrderNo = SaleOrderNo;
-            ViewBag.WareHouseCode = WareHouseCode;
-            ViewBag.SaleOrderDate = SaleOrderDate;
-            ViewBag.ExportStatusName = ExportStatusName;
+            
             return View();
         }
         public bool Delete()

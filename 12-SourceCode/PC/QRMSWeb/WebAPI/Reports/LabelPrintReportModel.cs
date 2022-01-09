@@ -7,8 +7,6 @@ namespace WebAPI.Reports
 {
     public class LabelPrintReportModel
     {
-        public int ID { get; set; }
-        public int LabelPrintID { get; set; }
         public string PrintOrderNo { get; set; }
         public string PrintOrderDate { get; set; }
         public string ItemCode { get; set; }
@@ -23,15 +21,10 @@ namespace WebAPI.Reports
         public string ExpDate { get; set; }
         public string Quantity { get; set; }
         public string Unit { get; set; }
-        public string PrintStatus { get; set; }
-        public string RecordStatus { get; set; }
-        public string CreateDate { get; set; }
-        public string CreateUser { get; set; }
-        public string UpdateDate { get; set; }
-        public string UpdateUser { get; set; }
 
         public string ItemTypeName { get; set; }
 
         public string QRCodeBase64  { get; set; }
+        public string QRCode { get; set; }
     }
 }
