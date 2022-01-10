@@ -105,27 +105,27 @@ namespace PIAMA.Views.Shared
             {
                 if(_KhoPageModel!=null)
                 {
-                    _KhoPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
+                    _KhoPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
                 }
                 else if (_ChonDonMuaHangPageModel != null)
                 {
-                    _ChonDonMuaHangPageModel.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                    _ChonDonMuaHangPageModel.LoadDataCombobox(((ComboModel)e.Item));
                 }
                 else if (_ChonKhoKiemKePageModel != null)
                 {
-                    _ChonKhoKiemKePageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
+                    _ChonKhoKiemKePageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
                 }
                 else if (_ChonChiThiXuatHangViewModel != null)
                 {
-                    _ChonChiThiXuatHangViewModel.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                    _ChonChiThiXuatHangViewModel.LoadDataCombobox(((ComboModel)e.Item));
                 }
                 else if (_XK_CCTXHPageModel != null)
                 {
-                    _XK_CCTXHPageModel.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                    _XK_CCTXHPageModel.LoadDataCombobox(((ComboModel)e.Item));
                 }
                 else if (_XKDC_CKKKPageModel != null)
                 {
-                    _XKDC_CKKKPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
+                    _XKDC_CKKKPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
                 }
                 await Application.Current.MainPage.Navigation.PopAsync();
             } 

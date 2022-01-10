@@ -63,18 +63,12 @@ namespace QRMS.ViewModels
             }
         }
 
-        public void LoadDataCombobox(ComboModel model_, int tt)
+        public void LoadDataCombobox(ComboModel model_)
         {
             Device.BeginInvokeOnMainThread(() =>
             {
-                switch (tt)
-                {
-                    case 2:
-                        SelectedDonHang = model_;
-                        Name = SelectedDonHang.Name;
-                        break;
-                }
-
+                SelectedDonHang = model_;
+                Name = SelectedDonHang.Name;
             });
         }
         public void LoadComboxSoLoai()

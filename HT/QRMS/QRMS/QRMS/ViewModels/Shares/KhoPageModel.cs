@@ -58,19 +58,13 @@ namespace QRMS.ViewModels
             }
         }
 
-        public void LoadDataCombobox(WarehouseBPLModel model_, int tt)
+        public void LoadDataCombobox(WarehouseBPLModel model_)
         {
             Device.BeginInvokeOnMainThread(() =>
-            {
-                switch (tt)
-                {
-                    case 1:
-                        SelectedKho = model_;
-                        WarehouesName = SelectedKho.WarehouesName;
-                        WarehouseCode = SelectedKho.WarehouseCode;
-                        break; 
-                }
-
+            { 
+                SelectedKho = model_;
+                WarehouesName = SelectedKho.WarehouesName;
+                WarehouseCode = SelectedKho.WarehouseCode;
             });
         } 
         public void LoadComboxSoLoai()
