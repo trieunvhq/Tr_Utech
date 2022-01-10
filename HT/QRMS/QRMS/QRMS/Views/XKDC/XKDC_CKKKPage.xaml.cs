@@ -9,10 +9,10 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
-    public partial class XKDC_ChonKhoKiemKePage : ContentPage
+    public partial class XKDC_CKKKPage : ContentPage
     {
-        public ChonKhoKiemKePageModel ViewModel { get; set; }
-        public XKDC_ChonKhoKiemKePage()
+        public XKDC_CKKKPageModel ViewModel { get; set; }
+        public XKDC_CKKKPage()
         {
             InitializeComponent();
 
@@ -21,7 +21,7 @@ namespace QRMS.Views
             Shell.SetTabBarIsVisible(this, false);
 
 
-            ViewModel = new ChonKhoKiemKePageModel();
+            ViewModel = new XKDC_CKKKPageModel();
             ViewModel.Initialize();
             BindingContext = ViewModel;
 
@@ -67,7 +67,7 @@ namespace QRMS.Views
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_ChonChiThiXuatHangPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XK_CCTXHPage(ViewModel.WarehouesCode));
         }
 
         async void SoLoai_Tapped(System.Object sender, System.EventArgs e)
@@ -79,7 +79,7 @@ namespace QRMS.Views
                     ViewModel.LoadComboxSoLoai();
                     await Controls.LoadingUtility.HideAsync();
                 });
-            }); 
+            });
         }
     }
 }

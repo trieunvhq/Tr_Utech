@@ -19,6 +19,7 @@ namespace PIAMA.Views.Shared
         public ChonDonMuaHangPageModel _ViewModel2;
         public ChonKhoKiemKePageModel _ViewModel3;
         public ChonChiThiXuatHangViewModel _ViewModel4;
+        public XK_CCTXHPageModel _ViewModel5;
         public T_ComboboxPage(int tt
             , ObservableCollection<WarehouseBPLModel> ModelKhos_
             , ObservableCollection<ComboModel> ModelDonHangs_
@@ -26,13 +27,15 @@ namespace PIAMA.Views.Shared
             , KhoPageModel viewModel_
             , ChonDonMuaHangPageModel ViewModel2_
             , ChonKhoKiemKePageModel ViewModel3_
-            , ChonChiThiXuatHangViewModel ViewModel4_)
+            , ChonChiThiXuatHangViewModel ViewModel4_
+            , XK_CCTXHPageModel ViewModel5_)
         {
             _tt = tt; 
             _ViewModel = viewModel_;
             _ViewModel2 = ViewModel2_;
             _ViewModel3 = ViewModel3_;
             _ViewModel4 = ViewModel4_;
+            _ViewModel5 = ViewModel5_;
 
 
             switch (tt)
@@ -141,6 +144,9 @@ namespace PIAMA.Views.Shared
                         break;
                     case 4:
                         _ViewModel4.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                        break;
+                    case 5:
+                        _ViewModel5.LoadDataCombobox(((ComboModel)e.Item), _tt);
                         break;
                 }    
                 await Application.Current.MainPage.Navigation.PopAsync();

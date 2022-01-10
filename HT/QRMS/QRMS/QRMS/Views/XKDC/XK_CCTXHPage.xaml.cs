@@ -1,6 +1,5 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿ 
+using System; 
 using QRMS.Constants;
 using QRMS.ViewModels;
 using Xamarin.Forms;
@@ -9,10 +8,10 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
-    public partial class XKDC_ChonChiThiXuatHangPage : ContentPage
+    public partial class XK_CCTXHPage : ContentPage
     {
-        public ChonChiThiXuatHangViewModel ViewModel { get; set; } = new ChonChiThiXuatHangViewModel();
-        public XKDC_ChonChiThiXuatHangPage()
+        public XK_CCTXHPageModel ViewModel { get; set; } = new XK_CCTXHPageModel();
+        public XK_CCTXHPage(string code_kho_)
         {
             InitializeComponent();
 
@@ -22,7 +21,7 @@ namespace QRMS.Views
 
             ViewModel.Initialize();
             BindingContext = ViewModel;
-
+            ViewModel.Code_Kho = code_kho_;
             row_trencung.Height = 20;
 
             if (Device.Idiom == TargetIdiom.Phone)
@@ -66,18 +65,16 @@ namespace QRMS.Views
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
             if (ViewModel.SelectedDonHang != null)
-                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_ScanQRPage(ViewModel.SelectedDonHang.ID,
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage(ViewModel.SelectedDonHang.ID,
                     ViewModel.SelectedDonHang.Name, Convert.ToDateTime(ViewModel.SelectedDonHang.PurchaseOrderDate)));
 
         }
 
         void BtnLayDonMuaHang_CLicked(System.Object sender, System.EventArgs e)
         {
-
         }
 
-
-        async void ChiThiXuatHang_Tapped(System.Object sender, System.EventArgs e)
+        async void DonMuaHang_Tapped(System.Object sender, System.EventArgs e)
         {
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
             {

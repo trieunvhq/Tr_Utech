@@ -29,16 +29,22 @@
 		<item name="android:colorActivatedHighlight">@android:color/transparent</item>
 		<item name="android:listSelector">@android:color/transparent</item>
 		<item name="android:cacheColorHint">@android:color/transparent</item>
+		<item name="android:importantForAutofill">noExcludeDescendants</item>
+		<item name="android:importantForAutofill">no</item> 
 	</style>
 	<style name="ListViewStyle.Light" parent="android:style/Widget.ListView">
 		<item name="android:listSelector">@android:color/transparent</item>
 		<item name="android:cacheColorHint">@android:color/transparent</item>
 			<item name="android:colorActivatedHighlight">@android:color/transparent</item>
+		<item name="android:importantForAutofill">noExcludeDescendants</item>
+		<item name="android:importantForAutofill">no</item> 
 	</style>
 	<style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
 		<item name="colorAccent">#FFDA9F</item>
 		<item name="android:listSelector">@android:color/transparent</item>
 		<item name="android:cacheColorHint">@android:color/transparent</item>
 		<item name="android:colorActivatedHighlight">@android:color/transparent</item>
+		<item name="android:importantForAutofill">noExcludeDescendants</item>
+		<item name="android:importantForAutofill">no</item> 
 	</style>
 </resources>

@@ -65,7 +65,12 @@ namespace QRMS.Views
                 }
             }
         }
-         
+
+        protected override bool OnBackButtonPressed()
+        {
+            BtnQuayLai_CLicked(null, null);
+            return true;
+        }
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
