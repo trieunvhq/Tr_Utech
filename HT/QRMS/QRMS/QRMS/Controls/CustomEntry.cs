@@ -5,6 +5,9 @@ namespace QRMS.Controls
 {
     public class CustomEntry : Entry
     {
+        public CustomEntry(){
+            this.IsSpellCheckEnabled = false;
+        }
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CornerRadius), typeof(int), typeof(CustomEntry), 0);
         public static readonly BindableProperty BorderThicknessProperty = BindableProperty.Create(nameof(BorderThickness), typeof(int), typeof(CustomEntry), 0);
         public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(CustomEntry), Color.Transparent);

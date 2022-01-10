@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:helper="clr-namespace:QRMS.Helper" xmlns:control="clr-namespace:QRMS.Controls"
-    x:Class="QRMS.Views.XKDC_ChonChiThiXuatHangPage">
+    x:Class="QRMS.Views.XK_CCTXHPage">
     <ContentPage.Content>
         <Grid RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
@@ -47,18 +47,18 @@
 
              <helper:ButtonCustoms Text="Lấy chỉ thị" Grid.Column="2"
                                    Grid.ColumnSpan="2" Grid.Row="8" CornerRadius="0"
-                Clicked="ChiThiXuatHang_Tapped" GradientOrientation="Horizontal"
+                Clicked="DonMuaHang_Tapped" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
 
              <Label TextColor="Black" VerticalTextAlignment="Center"
-                   Margin="10,0,0,0" Text="Đơn mua hàng" FontSize="16"
+                   Margin="10,0,0,0" Text="Chỉ thị xuất hàng" FontSize="16"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10"/>
              
               <control:ComboboxView Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="10"
-                x:Name="txtChiThiXuatHang" Text="{Binding Name}">
+                x:Name="txtDonMuaHang" Text="{Binding Name}">
                 <control:ComboboxView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="ChiThiXuatHang_Tapped" />
+                    <TapGestureRecognizer Tapped="DonMuaHang_Tapped" />
                 </control:ComboboxView.GestureRecognizers>
             </control:ComboboxView>
 

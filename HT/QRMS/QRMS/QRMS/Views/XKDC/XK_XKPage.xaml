@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:helper="clr-namespace:QRMS.Helper"
-    x:Class="QRMS.Views.XuatKhoPage">
+    x:Class="QRMS.Views.XK_XKPage">
     <ContentPage.Content>
         <Grid RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
@@ -30,15 +30,15 @@
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2"/>
 
             <helper:ButtonCustoms Text="1. XUẤT KHO DỤNG CỤ" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4" CornerRadius="0"
-                Clicked="BtnDungCu_CLicked" GradientOrientation="Horizontal"
+                Clicked="BtnXuatKhoDungCu_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             
             <helper:ButtonCustoms Text="2. XUẤT KHO NGUYÊN LIỆU" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
-                Clicked="BtnNguyenLieu_CLicked" GradientOrientation="Horizontal"
+                Clicked="BtnXuatKhoNguyenLieu_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
               <helper:ButtonCustoms Text="3. XUẤT KHO THÀNH PHẨM" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" CornerRadius="0"
-                Clicked="BtnThanhPham_CLicked" GradientOrientation="Horizontal"
+                Clicked="BtnXuatKhoThanhPham_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="10" CornerRadius="0"

@@ -1,6 +1,4 @@
-﻿ 
-using System;
-using System.Collections.Generic;
+﻿  
 using QRMS.Constants;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -8,9 +6,9 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
-    public partial class XuatKhoPage : ContentPage
+    public partial class XK_XKPage : ContentPage
     {
-        public XuatKhoPage()
+        public XK_XKPage()
         {
             InitializeComponent();
 
@@ -56,22 +54,19 @@ namespace QRMS.Views
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        async void BtnDungCu_CLicked(System.Object sender, System.EventArgs e)
-        {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_ChonKhoKiemKePage());
 
+        async void BtnXuatKhoDungCu_CLicked(System.Object sender, System.EventArgs e)
+        {
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_CKKKPage());
         }
 
-        async void BtnNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
+        void BtnXuatKhoNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_ChonKhoKiemKePage());
-
         }
 
-        async void BtnThanhPham_CLicked(System.Object sender, System.EventArgs e)
+        void BtnXuatKhoThanhPham_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_ChonKhoKiemKePage());
-
         }
     }
 }
+
