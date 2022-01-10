@@ -75,7 +75,8 @@ namespace QRMS.ViewModels
         } 
         public void LoadComboxSoLoai()
         {
-            var page = new T_ComboboxPage(1,Khos,null, this,null, null, null);
+            MySettings.Title = "Chọn kho";
+            var page = new T_ComboboxPage(1,Khos,null);
             Application.Current.MainPage.Navigation.PushAsync(page);
         }
         

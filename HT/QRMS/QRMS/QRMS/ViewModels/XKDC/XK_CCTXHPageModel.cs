@@ -1,8 +1,10 @@
 ﻿ 
 using PIAMA.Views.Shared;
 using QRMS.API;
-using QRMS.AppLIB.Common; 
+using QRMS.AppLIB.Common;
+using QRMS.Constants;
 using QRMS.Models;
+using QRMS.Models.XKDC;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;  
@@ -29,7 +31,7 @@ namespace QRMS.ViewModels
 
         public void LoadModels(bool tt)
         {
-            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<XuatKhoDungCuModel>>>
+            var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<SaleOrder>>>
                                               (Constaint.ServiceAddress, Constaint.APIurl.transfergetitem, new
                                               {
                                                   WarehouseCode = Code_Kho,
@@ -47,14 +49,16 @@ namespace QRMS.ViewModels
                         DonHangs.Add(new ComboModel
                         {
                             ID = result.Result.data[i].ID.ToString(),
-                            Name = result.Result.data[i].PurchaseOrderNo,
-                            PurchaseOrderDate = Convert.ToDateTime(result.Result.data[i].PurchaseOrderDate)
+                            Name = result.Result.data[i].SaleOrderNo,
+                            PurchaseOrderDate = Convert.ToDateTime(result.Result.data[i].SaleOrderDate)
                         });
                     }
 
                     if (tt)
-                    {
-                        var page = new T_ComboboxPage(2, null, DonHangs, null, null, null, null,this);
+                    { 
+                        MySettings.Title = "Chọn chỉ thị xuất kho";
+                        var page = new T_ComboboxPage(6, null, DonHangs);
+                        page._XK_CCTXHPageModel = this;
                         Application.Current.MainPage.Navigation.PushAsync(page);
                     }
                 });
