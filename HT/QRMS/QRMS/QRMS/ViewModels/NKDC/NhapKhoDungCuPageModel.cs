@@ -248,8 +248,10 @@ namespace QRMS.ViewModels
                     _daQuetQR.Add(str);
                 else
                 {
-                    StartDemThoiGian_HienThiCam();
-                }    
+                    IsQuet = false;
+                    ShowThongBao(true);
+                    //StartDemThoiGian_HienThiCam();
+                }
 
                 _trangthai_quet = 0;
                 if (Historys != null)
@@ -355,7 +357,9 @@ namespace QRMS.ViewModels
                         if (_trangthai_quet != 2)
                             _trangthai_quet = 3;
                     }
-                    StartDemThoiGian_HienThiCam();
+                    IsQuet = false;
+                    ShowThongBao(true);
+                    //StartDemThoiGian_HienThiCam();
                 }
                 else
                  {
@@ -368,73 +372,73 @@ namespace QRMS.ViewModels
             } 
         }
 
-        private int tt = 10;
-        private CancellationTokenSource cancellation = new CancellationTokenSource();
-        private void StartDemThoiGianGGS()
-        {
-            StopDemThoiGianGGS();
-            CancellationTokenSource cts = this.cancellation;
+        //private int tt = 10;
+        //private CancellationTokenSource cancellation = new CancellationTokenSource();
+        //private void StartDemThoiGianGGS()
+        //{
+        //    StopDemThoiGianGGS();
+        //    CancellationTokenSource cts = this.cancellation;
 
-            Device.StartTimer(TimeSpan.FromSeconds(1),
-                  () =>
-                  {
-                      if (cts.IsCancellationRequested) return false;
-                      if (IsThongBao)
-                      {
-                          if (tt <= 0)
-                          {
-                              IsThongBao = false;
-                              ThongBao = "";
-                              ThoiGian = "";
-                              StopDemThoiGianGGS();
-                          }
-                          else
-                          {
-                              ThoiGian = "  (" + tt + ")";
-                          }    
-                          --tt;
-                      }     
-                      return true; // or true for periodic behavior
-                  });
-        }
-        public void StopDemThoiGianGGS()
-        {
-            tt = 10;
-            Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
-        }
-        // 
-        private CancellationTokenSource cancellation_HienThiCam = new CancellationTokenSource();
-        private int tt_HienThiCam = 0;
-        private void StartDemThoiGian_HienThiCam()
-        {
-            StopDemThoiGian_HienThiCam();
-            CancellationTokenSource cts = this.cancellation_HienThiCam;
+        //    Device.StartTimer(TimeSpan.FromSeconds(1),
+        //          () =>
+        //          {
+        //              if (cts.IsCancellationRequested) return false;
+        //              if (IsThongBao)
+        //              {
+        //                  if (tt <= 0)
+        //                  {
+        //                      IsThongBao = false;
+        //                      ThongBao = "";
+        //                      ThoiGian = "";
+        //                      StopDemThoiGianGGS();
+        //                  }
+        //                  else
+        //                  {
+        //                      ThoiGian = "  (" + tt + ")";
+        //                  }    
+        //                  --tt;
+        //              }     
+        //              return true; // or true for periodic behavior
+        //          });
+        //}
+        //public void StopDemThoiGianGGS()
+        //{
+        //    tt = 10;
+        //    Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
+        //}
+        //// 
+        //private CancellationTokenSource cancellation_HienThiCam = new CancellationTokenSource();
+        //private int tt_HienThiCam = 0;
+        //private void StartDemThoiGian_HienThiCam()
+        //{
+        //    StopDemThoiGian_HienThiCam();
+        //    CancellationTokenSource cts = this.cancellation_HienThiCam;
 
-            IsQuet = false;
-            ShowThongBao(true);
+        //    IsQuet = false;
+        //    ShowThongBao(true);
 
-            Device.StartTimer(TimeSpan.FromSeconds(2),
-                  () =>
-                  {
-                      if (IsTat)
-                          StopDemThoiGian_HienThiCam();
-                      if (cts.IsCancellationRequested) return false;
-                      Device.BeginInvokeOnMainThread(async () =>
-                      {
-                          isDangQuet = false;
-                          IsQuet = true;
-                          _NhapKhoDungCuPage.ResetCamera();
-                          ShowThongBao(false);
-                          StopDemThoiGian_HienThiCam();
-                          ++tt_HienThiCam;
-                      });
-                      return true; // or true for periodic behavior
-                  });
-        }
-        public void StopDemThoiGian_HienThiCam()
-        {
-            tt_HienThiCam = 0;
-            Interlocked.Exchange(ref this.cancellation_HienThiCam, new CancellationTokenSource()).Cancel();
-        }
+        //    Device.StartTimer(TimeSpan.FromSeconds(2),
+        //          () =>
+        //          {
+        //              if (IsTat)
+        //                  StopDemThoiGian_HienThiCam();
+        //              if (cts.IsCancellationRequested) return false;
+        //              Device.BeginInvokeOnMainThread(async () =>
+        //              {
+        //                  isDangQuet = false;
+        //                  IsQuet = true;
+        //                  _NhapKhoDungCuPage.ResetCamera();
+        //                  ShowThongBao(false);
+        //                  StopDemThoiGian_HienThiCam();
+        //                  ++tt_HienThiCam;
+        //              });
+        //              return true; // or true for periodic behavior
+        //          });
+        //}
+        //public void StopDemThoiGian_HienThiCam()
+        //{
+        //    tt_HienThiCam = 0;
+        //    Interlocked.Exchange(ref this.cancellation_HienThiCam, new CancellationTokenSource()).Cancel();
+        //}
     }
 }

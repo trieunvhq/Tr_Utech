@@ -9,14 +9,12 @@ using Xamarin.Forms;
 namespace QRMS.Helper
 {
     public class MyScan
-	{
-		private int _TT = 0;
+	{ 
 		private BarcodeReader mSelectedReader = null;
 		public NhapKhoDungCuPageModel _NhapKhoDungCuPageModel;
-		public MyScan(int tt, NhapKhoDungCuPageModel NhapKhoDungCuPageModel_)
-		{
-			_TT = tt;
-			_NhapKhoDungCuPageModel = NhapKhoDungCuPageModel_;
+		public XK_XKDCPageModel _XK_XKDCPageModel;
+		public MyScan()
+		{ 
 		} 
 		public async void OpenBarcodeReader()
 		{
@@ -52,13 +50,14 @@ namespace QRMS.Helper
 		private void MBarcodeReader_BarcodeDataReady(object sender, BarcodeDataArgs e)
 		{
 			var barcode = e.Data;
-			switch(_TT)
-            {
-				case 1:// Nhập kho dụng cụ
-					_NhapKhoDungCuPageModel.ScanComplate(barcode);
-					break;
-            }				
-			//Code logic scan ở đây;
+			if(_NhapKhoDungCuPageModel!=null)
+			{
+				_NhapKhoDungCuPageModel.ScanComplate(barcode);
+			}
+			else if (_XK_XKDCPageModel != null)
+			{
+				_XK_XKDCPageModel.ScanComplate(barcode);
+			} 
 		}
 
 		public async void CloseBarcodeReader()

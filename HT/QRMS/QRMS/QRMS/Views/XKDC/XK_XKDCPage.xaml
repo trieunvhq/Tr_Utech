@@ -29,7 +29,7 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="lbTieuDe" Text="Nhập kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
+            <Label x:Name="lbTieuDe" Text="Xuất kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="2"/>
@@ -57,9 +57,9 @@
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/>
-            <Label Text="Số lượng &#x0a;đơn mua" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            <Label Text="Số lượng &#x0a;chỉ thị" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="2" Grid.Row="6" TextColor="Black" FontSize="14"/>
-            <Label Text="Số lượng &#x0a;đã nhập" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            <Label Text="Số lượng &#x0a;đã xuất" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="6" TextColor="Black" FontSize="14"/>
             <Label Text="Số box" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="6" Grid.Row="6" TextColor="Black" FontSize="14"/>

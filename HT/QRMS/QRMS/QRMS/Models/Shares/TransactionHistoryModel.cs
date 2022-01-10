@@ -37,13 +37,13 @@ namespace QRMS.Models
         public string CustomerName { get; set; }
         public string SupplierCode { get; set; }
         public string SupplierName { get; set; }
-        public string ExportStatus { get; set; }
+        public string ExportStatus { get; set; } = "N";
         public string RecordStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string UserCreate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public string UserUpdate { get; set; }
         public int page { get; set; }
-        public string token { get; set; }
+        public string token { get; set; } 
     }
 }

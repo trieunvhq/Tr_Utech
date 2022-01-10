@@ -28,6 +28,7 @@ namespace QRMS.AppLIB.Common
 
             public const string inserts = "api-ht/logging/inserts";
             public const string getsaleorderitem = "api-ht/saleorderitem/getsaleorderitem";
+            public const string updatesaleorderitem = "api-ht/saleorderitem/updatesaleorderitem";
         }
 
         #region AccountLogin

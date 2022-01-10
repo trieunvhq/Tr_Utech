@@ -124,7 +124,8 @@ namespace QRMS.Views
             {
                 if(_MyScan!=null)
                     _MyScan.CloseBarcodeReader();
-                _MyScan = new MyScan(1, ViewModel);
+                _MyScan = new MyScan();
+                _MyScan._NhapKhoDungCuPageModel = ViewModel;
                 _MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
@@ -175,7 +176,7 @@ namespace QRMS.Views
             ViewModel.IsTat = true;
             ViewModel.IsThongBao = false;
             ViewModel.IsQuet = false;
-            ViewModel.StopDemThoiGianGGS();
+            //ViewModel.StopDemThoiGianGGS();
         }
          
 

@@ -20,7 +20,7 @@ namespace QRMS.ViewModels
     {
         public XK_XKDCPage _XK_XKDCPage;
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
-        public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
+        public ObservableCollection<SaleOrderItemScanBPL> DonHangs { get; set; } = new ObservableCollection<SaleOrderItemScanBPL>();
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR;
@@ -59,8 +59,9 @@ namespace QRMS.ViewModels
                 DonHangs.Clear();
                 Historys.Clear();
 
-                List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
-                foreach (NhapKhoDungCuModel item in donhang_)
+                List<SaleOrderItemScanBPL> donhang_ = new List<SaleOrderItemScanBPL>();
+                //List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
+                foreach (SaleOrderItemScanBPL item in donhang_)
                 {
                     if (!DonHangs.Contains(item))
                     {
@@ -75,7 +76,8 @@ namespace QRMS.ViewModels
                     }
                 }
 
-                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
+                List<TransactionHistoryModel> historys = new List<TransactionHistoryModel>();
+                //List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
                 foreach (TransactionHistoryModel item in historys)
                 {
                     if (!Historys.Contains(item))
@@ -99,7 +101,7 @@ namespace QRMS.ViewModels
 
                 if (DonHangs.Count == 0)
                 {
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<SaleOrderItem>>>
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<SaleOrderItemScanBPL>>>
                                                  (Constaint.ServiceAddress, Constaint.APIurl.getsaleorderitem,
                                                  new
                                                  {
@@ -109,7 +111,7 @@ namespace QRMS.ViewModels
                     {
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
+                            DonHangs = new ObservableCollection<SaleOrderItemScanBPL>();
 
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             {
@@ -128,8 +130,8 @@ namespace QRMS.ViewModels
                                 {
                                     DonHangs.Add(result.Result.data[i]);
                                 }
-
-                                App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
+                                
+                                //App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
                             }
                         });
                     }
@@ -165,13 +167,13 @@ namespace QRMS.ViewModels
                                 App.Dblocal.DeleteHistoryAsyncWithKey(_No);
 
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
+                                                (Constaint.ServiceAddress, Constaint.APIurl.updatesaleorderitem,
                                                 DonHangs);
                                 if (result2 != null && result2.Result != null)
                                 {
                                     if (result2.Result.data == 1)
                                     {
-                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_No);
+                                        //App.Dblocal.DeletePurchaseOrderAsyncWithKey(_No);
                                         await Controls.LoadingUtility.HideAsync();
                                         await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
                                         LoadModels("");
@@ -248,7 +250,9 @@ namespace QRMS.ViewModels
                     _daQuetQR.Add(str);
                 else
                 {
-                    StartDemThoiGian_HienThiCam();
+                    IsQuet = false;
+                    ShowThongBao(true);
+                    //StartDemThoiGian_HienThiCam();
                 }
 
                 _trangthai_quet = 0;
@@ -280,7 +284,7 @@ namespace QRMS.ViewModels
                             if (DonHangs[i].ItemCode == qr.Code)
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                                NhapKhoDungCuModel model_ = DonHangs[i];
+                                SaleOrderItemScanBPL model_ = DonHangs[i];
                                 if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
                                 {
                                     var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
@@ -312,7 +316,7 @@ namespace QRMS.ViewModels
                                     DonHangs.Insert(0, model_);
                                 }
 
-                                App.Dblocal.UpdatePurchaseOrderAsync(model_);
+                                //App.Dblocal.UpdatePurchaseOrderAsync(model_);
 
                                 TransactionHistoryModel history = new TransactionHistoryModel
                                 {
@@ -355,7 +359,9 @@ namespace QRMS.ViewModels
                         if (_trangthai_quet != 2)
                             _trangthai_quet = 3;
                     }
-                    StartDemThoiGian_HienThiCam();
+                    IsQuet = false;
+                    ShowThongBao(true);
+                    //StartDemThoiGian_HienThiCam();
                 }
                 else
                 {
@@ -368,73 +374,73 @@ namespace QRMS.ViewModels
             }
         }
 
-        private int tt = 10;
-        private CancellationTokenSource cancellation = new CancellationTokenSource();
-        private void StartDemThoiGianGGS()
-        {
-            StopDemThoiGianGGS();
-            CancellationTokenSource cts = this.cancellation;
+        //private int tt = 10;
+        //private CancellationTokenSource cancellation = new CancellationTokenSource();
+        //private void StartDemThoiGianGGS()
+        //{
+        //    StopDemThoiGianGGS();
+        //    CancellationTokenSource cts = this.cancellation;
 
-            Device.StartTimer(TimeSpan.FromSeconds(1),
-                  () =>
-                  {
-                      if (cts.IsCancellationRequested) return false;
-                      if (IsThongBao)
-                      {
-                          if (tt <= 0)
-                          {
-                              IsThongBao = false;
-                              ThongBao = "";
-                              ThoiGian = "";
-                              StopDemThoiGianGGS();
-                          }
-                          else
-                          {
-                              ThoiGian = "  (" + tt + ")";
-                          }
-                          --tt;
-                      }
-                      return true; // or true for periodic behavior
-                  });
-        }
-        public void StopDemThoiGianGGS()
-        {
-            tt = 10;
-            Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
-        }
-        // 
-        private CancellationTokenSource cancellation_HienThiCam = new CancellationTokenSource();
-        private int tt_HienThiCam = 0;
-        private void StartDemThoiGian_HienThiCam()
-        {
-            StopDemThoiGian_HienThiCam();
-            CancellationTokenSource cts = this.cancellation_HienThiCam;
+        //    Device.StartTimer(TimeSpan.FromSeconds(1),
+        //          () =>
+        //          {
+        //              if (cts.IsCancellationRequested) return false;
+        //              if (IsThongBao)
+        //              {
+        //                  if (tt <= 0)
+        //                  {
+        //                      IsThongBao = false;
+        //                      ThongBao = "";
+        //                      ThoiGian = "";
+        //                      StopDemThoiGianGGS();
+        //                  }
+        //                  else
+        //                  {
+        //                      ThoiGian = "  (" + tt + ")";
+        //                  }
+        //                  --tt;
+        //              }
+        //              return true; // or true for periodic behavior
+        //          });
+        //}
+        //public void StopDemThoiGianGGS()
+        //{
+        //    tt = 10;
+        //    Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
+        //}
+        //// 
+        //private CancellationTokenSource cancellation_HienThiCam = new CancellationTokenSource();
+        //private int tt_HienThiCam = 0;
+        //private void StartDemThoiGian_HienThiCam()
+        //{
+        //    StopDemThoiGian_HienThiCam();
+        //    CancellationTokenSource cts = this.cancellation_HienThiCam;
 
-            IsQuet = false;
-            ShowThongBao(true);
+        //    IsQuet = false;
+        //    ShowThongBao(true);
 
-            Device.StartTimer(TimeSpan.FromSeconds(2),
-                  () =>
-                  {
-                      if (IsTat)
-                          StopDemThoiGian_HienThiCam();
-                      if (cts.IsCancellationRequested) return false;
-                      Device.BeginInvokeOnMainThread(async () =>
-                      {
-                          isDangQuet = false;
-                          IsQuet = true;
-                          _XK_XKDCPage.ResetCamera();
-                          ShowThongBao(false);
-                          StopDemThoiGian_HienThiCam();
-                          ++tt_HienThiCam;
-                      });
-                      return true; // or true for periodic behavior
-                  });
-        }
-        public void StopDemThoiGian_HienThiCam()
-        {
-            tt_HienThiCam = 0;
-            Interlocked.Exchange(ref this.cancellation_HienThiCam, new CancellationTokenSource()).Cancel();
-        }
+        //    Device.StartTimer(TimeSpan.FromSeconds(2),
+        //          () =>
+        //          {
+        //              if (IsTat)
+        //                  StopDemThoiGian_HienThiCam();
+        //              if (cts.IsCancellationRequested) return false;
+        //              Device.BeginInvokeOnMainThread(async () =>
+        //              {
+        //                  isDangQuet = false;
+        //                  IsQuet = true;
+        //                  _XK_XKDCPage.ResetCamera();
+        //                  ShowThongBao(false);
+        //                  StopDemThoiGian_HienThiCam();
+        //                  ++tt_HienThiCam;
+        //              });
+        //              return true; // or true for periodic behavior
+        //          });
+        //}
+        //public void StopDemThoiGian_HienThiCam()
+        //{
+        //    tt_HienThiCam = 0;
+        //    Interlocked.Exchange(ref this.cancellation_HienThiCam, new CancellationTokenSource()).Cancel();
+        //}
     }
 }
