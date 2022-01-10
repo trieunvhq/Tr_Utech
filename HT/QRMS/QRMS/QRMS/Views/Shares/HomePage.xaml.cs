@@ -65,7 +65,7 @@ namespace QRMS.Views
 
         async void BtnXuatKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XuatKhoPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XK_XKPage());
         }
 
         void BtnKiemKe_CLicked(System.Object sender, System.EventArgs e)

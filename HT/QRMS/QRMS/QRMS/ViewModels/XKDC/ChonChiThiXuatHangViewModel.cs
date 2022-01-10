@@ -52,8 +52,9 @@ namespace QRMS.ViewModels
                     }
                   
                     if(tt)
-                    { 
-                        var page = new T_ComboboxPage(4,null,DonHangs, null, null, null, this);
+                    {
+                        MySettings.Title = "Chọn chỉ thị xuất hàng";
+                        var page = new T_ComboboxPage(4,null,DonHangs);
                         Application.Current.MainPage.Navigation.PushAsync(page);
                     }    
                 });

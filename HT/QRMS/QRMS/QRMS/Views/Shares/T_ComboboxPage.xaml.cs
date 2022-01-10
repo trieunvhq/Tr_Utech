@@ -14,45 +14,17 @@ namespace PIAMA.Views.Shared
     {
         public ObservableCollection<WarehouseBPLModel> _ModelKhos { get; set; } = new ObservableCollection<WarehouseBPLModel>();
         public ObservableCollection<ComboModel> _ModelDonHangs { get; set; } = new ObservableCollection<ComboModel>();
-        private int _tt;
-        public KhoPageModel _ViewModel;
-        public ChonDonMuaHangPageModel _ViewModel2;
-        public ChonKhoKiemKePageModel _ViewModel3;
-        public ChonChiThiXuatHangViewModel _ViewModel4;
-        public XK_CCTXHPageModel _ViewModel5;
+       
+        public KhoPageModel _KhoPageModel;
+        public ChonDonMuaHangPageModel _ChonDonMuaHangPageModel;
+        public ChonKhoKiemKePageModel _ChonKhoKiemKePageModel;
+        public ChonChiThiXuatHangViewModel _ChonChiThiXuatHangViewModel;
+        public XK_CCTXHPageModel _XK_CCTXHPageModel;
+        public XKDC_CKKKPageModel _XKDC_CKKKPageModel; 
         public T_ComboboxPage(int tt
             , ObservableCollection<WarehouseBPLModel> ModelKhos_
-            , ObservableCollection<ComboModel> ModelDonHangs_
-
-            , KhoPageModel viewModel_
-            , ChonDonMuaHangPageModel ViewModel2_
-            , ChonKhoKiemKePageModel ViewModel3_
-            , ChonChiThiXuatHangViewModel ViewModel4_
-            , XK_CCTXHPageModel ViewModel5_)
-        {
-            _tt = tt; 
-            _ViewModel = viewModel_;
-            _ViewModel2 = ViewModel2_;
-            _ViewModel3 = ViewModel3_;
-            _ViewModel4 = ViewModel4_;
-            _ViewModel5 = ViewModel5_;
-
-
-            switch (tt)
-            {
-                case 1:
-                    MySettings.Title = "Chọn kho";
-                    break;
-                case 2:
-                    MySettings.Title = "Chọn đơn hàng";
-                    break;
-                case 3:
-                    MySettings.Title = "Chọn kho";
-                    break;
-                case 4:
-                    MySettings.Title = "Chọn chỉ thị xuất hàng";
-                    break;
-            }    
+            , ObservableCollection<ComboModel> ModelDonHangs_ )
+        { 
             InitializeComponent();
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
@@ -131,24 +103,30 @@ namespace PIAMA.Views.Shared
         { 
             if (e.Item != null)
             {
-                switch(_tt)
+                if(_KhoPageModel!=null)
                 {
-                    case 1:
-                        _ViewModel.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
-                        break;
-                    case 2:
-                        _ViewModel2.LoadDataCombobox(((ComboModel)e.Item), _tt);
-                        break;
-                    case 3:
-                        _ViewModel3.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
-                        break;
-                    case 4:
-                        _ViewModel4.LoadDataCombobox(((ComboModel)e.Item), _tt);
-                        break;
-                    case 5:
-                        _ViewModel5.LoadDataCombobox(((ComboModel)e.Item), _tt);
-                        break;
-                }    
+                    _KhoPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
+                }
+                else if (_ChonDonMuaHangPageModel != null)
+                {
+                    _ChonDonMuaHangPageModel.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                }
+                else if (_ChonKhoKiemKePageModel != null)
+                {
+                    _ChonKhoKiemKePageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
+                }
+                else if (_ChonChiThiXuatHangViewModel != null)
+                {
+                    _ChonChiThiXuatHangViewModel.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                }
+                else if (_XK_CCTXHPageModel != null)
+                {
+                    _XK_CCTXHPageModel.LoadDataCombobox(((ComboModel)e.Item), _tt);
+                }
+                else if (_XKDC_CKKKPageModel != null)
+                {
+                    _XKDC_CKKKPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item), _tt);
+                }
                 await Application.Current.MainPage.Navigation.PopAsync();
             } 
         }
