@@ -32,7 +32,7 @@ namespace QRMS.ViewModels
         public void LoadModels(bool tt)
         {
             var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<SaleOrder>>>
-                                              (Constaint.ServiceAddress, Constaint.APIurl.transfergetitem, new
+                                              (Constaint.ServiceAddress, Constaint.APIurl.gesaleordertitem, new
                                               {
                                                   WarehouseCode = Code_Kho,
                                                   from_day = TuNgay.Date,
