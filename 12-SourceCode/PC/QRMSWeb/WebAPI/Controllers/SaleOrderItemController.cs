@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
     public class SaleOrderItemController : ApiController
     {
         [HttpPost]
-        [Route("api-ht/saleorderitem/getitem")]
+        [Route("api-ht/saleorderitem/getsaleorderitem")]
         public BaseModel GetSaleOrderItems([FromBody] JObject input)
         {
             var _return = new BaseModel();
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("api-ht/saleorderitem/updateitem")]
+        [Route("api-ht/saleorderitem/updatesaleorderitem")]
         public BaseModel UpdateSaleOrderItems([FromBody] List<SaleOrderItemScanBPL> input)
         {
             var _return = new BaseModel();
