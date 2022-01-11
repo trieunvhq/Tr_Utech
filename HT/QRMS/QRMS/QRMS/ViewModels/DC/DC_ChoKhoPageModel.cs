@@ -1,9 +1,11 @@
-﻿ 
+﻿
+using Acr.UserDialogs;
 using PIAMA.Views.Shared;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
-using QRMS.Models; 
+using QRMS.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel; 
 using System.Linq; 
@@ -108,7 +110,7 @@ namespace QRMS.ViewModels
                     
                     var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
-                                                Historys);
+                                                CKDCModel_);
                     if (result != null && result.Result != null)
                     {
                         Device.BeginInvokeOnMainThread(async () =>
@@ -116,33 +118,9 @@ namespace QRMS.ViewModels
                             if (result.Result.data == 1)
                             {
                                 App.Dblocal.DeleteHistoryAsyncWithKey(_No);
-                                Historys.Clear();
-
-                                var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
-                                                DonHangs);
-                                if (result2 != null && result2.Result != null)
-                                {
-                                    if (result2.Result.data == 1)
-                                    {
-                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_No);
-                                        DonHangs.Clear();
-
-                                        await Controls.LoadingUtility.HideAsync();
-                                        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
-                                        LoadModels("");
-                                    }
-                                    else
-                                    {
-                                        await Controls.LoadingUtility.HideAsync();
-                                        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
-                                    }
-                                }
-                                else
-                                {
-                                    await Controls.LoadingUtility.HideAsync();
-                                    await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
-                                }
+                                 
+                                await Controls.LoadingUtility.HideAsync();
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
                             }
                             else
                             {

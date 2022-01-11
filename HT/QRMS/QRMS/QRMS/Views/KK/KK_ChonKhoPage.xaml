@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:helper="clr-namespace:QRMS.Helper" xmlns:control="clr-namespace:QRMS.Controls"
+    x:Class="QRMS.Views.KK_ChonKhoPage">
+    <ContentPage.Content>
+        <Grid RowSpacing="0" BackgroundColor="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="row_trencung"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="0"/>
+                <RowDefinition Height="0"/> 
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/> 
+            </Grid.RowDefinitions>
+
+            <Label Text="Chọn kho kiểm kê" Margin="10,0,0,0" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
+            
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>
+
+            <Label TextColor="Black" VerticalTextAlignment="Center"
+                   Margin="10,0,0,0" Text="Kho kiểm kê" FontSize="16"
+                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"/>
+      
+             <control:ComboboxView Margin="0,0,10,0"
+                x:Name="inputModel" Text="{Binding WarehouesName}"
+                 Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4">
+                <control:ComboboxView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="SoLoai_Tapped" />
+                </control:ComboboxView.GestureRecognizers>
+            </control:ComboboxView>
+
+
+            <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="8" CornerRadius="0"
+                Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal"
+                StartColor="#00a79d" EndColor="#05aff2"/>
+            
+            <helper:ButtonCustoms Text="Tiếp tục" Grid.Column="3" Grid.Row="8" CornerRadius="0"
+                Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
+                StartColor="#00a79d" EndColor="#05aff2"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
