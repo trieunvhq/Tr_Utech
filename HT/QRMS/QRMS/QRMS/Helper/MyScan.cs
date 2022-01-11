@@ -13,6 +13,7 @@ namespace QRMS.Helper
 		private BarcodeReader mSelectedReader = null;
 		public NhapKhoDungCuPageModel _NhapKhoDungCuPageModel;
 		public XK_XKDCPageModel _XK_XKDCPageModel;
+		public DC_SCANPageModel _DC_SCANPageModel;
 		public MyScan()
 		{ 
 		} 
@@ -57,7 +58,11 @@ namespace QRMS.Helper
 			else if (_XK_XKDCPageModel != null)
 			{
 				_XK_XKDCPageModel.ScanComplate(barcode);
-			} 
+			}
+			else if (_DC_SCANPageModel != null)
+			{
+				_DC_SCANPageModel.ScanComplate(barcode);
+			}
 		}
 
 		public async void CloseBarcodeReader()

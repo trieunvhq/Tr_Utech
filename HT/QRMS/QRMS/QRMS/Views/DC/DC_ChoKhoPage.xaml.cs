@@ -1,6 +1,7 @@
 ﻿ 
 using System;
 using System.Collections.Generic;
+using Acr.UserDialogs;
 using QRMS.Constants;
 using QRMS.Controls;
 using QRMS.ViewModels;
@@ -68,7 +69,21 @@ namespace QRMS.Views
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XK_CCTXHPage(ViewModel.WarehouesCode1));
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    if(ViewModel.SelectedKho1==null || ViewModel.SelectedKho2==null)
+                    { 
+                        await UserDialogs.Instance.ConfirmAsync("Vui lòng chọn kho", "Thông báo", "Đồng ý", "");
+                    }
+                    else
+                    {
+                        ViewModel.LuuLais();
+                    }    
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
         }
 
         async void SoLoai_Tapped(System.Object sender, System.EventArgs e)
@@ -82,6 +97,11 @@ namespace QRMS.Views
                     await Controls.LoadingUtility.HideAsync();
                 });
             });
+        }
+
+        async void BtnTiepTuc_CLicked(System.Object sender, System.EventArgs e)
+        {
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XK_CCTXHPage(ViewModel.WarehouesCode1));
         }
     }
 }

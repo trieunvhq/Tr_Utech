@@ -98,5 +98,72 @@ namespace QRMS.ViewModels
             Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
+        public async void LuuLais()
+        {
+            try
+            {
+                await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+                {
+                    List<CKDCModel> CKDCModel_ = App.Dblocal.GetTransactionHistory_CKDC(WarehouesCode1+"_"+ WarehouesCode2, WarehouesCode1, WarehouesCode2);
+                    
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                Historys);
+                    if (result != null && result.Result != null)
+                    {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            if (result.Result.data == 1)
+                            {
+                                App.Dblocal.DeleteHistoryAsyncWithKey(_No);
+                                Historys.Clear();
+
+                                var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
+                                                DonHangs);
+                                if (result2 != null && result2.Result != null)
+                                {
+                                    if (result2.Result.data == 1)
+                                    {
+                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_No);
+                                        DonHangs.Clear();
+
+                                        await Controls.LoadingUtility.HideAsync();
+                                        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                                        LoadModels("");
+                                    }
+                                    else
+                                    {
+                                        await Controls.LoadingUtility.HideAsync();
+                                        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                    }
+                                }
+                                else
+                                {
+                                    await Controls.LoadingUtility.HideAsync();
+                                    await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                }
+                            }
+                            else
+                            {
+                                await Controls.LoadingUtility.HideAsync();
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                            }
+                        });
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Controls.LoadingUtility.HideAsync();
+
+                    UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
+                    MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
+                });
+            }
+        }
+
     }
 }
