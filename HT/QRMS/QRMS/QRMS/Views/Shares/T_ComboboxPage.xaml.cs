@@ -20,9 +20,9 @@ namespace PIAMA.Views.Shared
         public ChonKhoKiemKePageModel _ChonKhoKiemKePageModel;
         public ChonChiThiXuatHangViewModel _ChonChiThiXuatHangViewModel;
         public XK_CCTXHPageModel _XK_CCTXHPageModel;
-        public XKDC_CKKKPageModel _XKDC_CKKKPageModel; 
-        public T_ComboboxPage(int tt
-            , ObservableCollection<WarehouseBPLModel> ModelKhos_
+        public XKDC_CKKKPageModel _XKDC_CKKKPageModel;
+        public DC_ChoKhoPageModel _DC_ChoKhoPageModel;
+        public T_ComboboxPage(ObservableCollection<WarehouseBPLModel> ModelKhos_
             , ObservableCollection<ComboModel> ModelDonHangs_ )
         { 
             InitializeComponent();

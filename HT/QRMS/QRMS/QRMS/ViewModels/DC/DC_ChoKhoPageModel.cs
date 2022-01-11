@@ -1,0 +1,102 @@
+﻿ 
+using PIAMA.Views.Shared;
+using QRMS.API;
+using QRMS.AppLIB.Common;
+using QRMS.Constants;
+using QRMS.Models; 
+using System.Collections.Generic;
+using System.Collections.ObjectModel; 
+using System.Linq; 
+using Xamarin.Forms; 
+
+namespace QRMS.ViewModels
+{
+    public class DC_ChoKhoPageModel : BaseViewModel
+    {
+        public ObservableCollection<WarehouseBPLModel> Kho1s { get; set; } = new ObservableCollection<WarehouseBPLModel>();
+        public WarehouseBPLModel SelectedKho1 { get; set; }
+
+        public string WarehouesName1 { get; set; }
+        public string WarehouesCode1 { get; set; }
+
+
+        public ObservableCollection<WarehouseBPLModel> Kho2s { get; set; } = new ObservableCollection<WarehouseBPLModel>();
+        public WarehouseBPLModel SelectedKho2 { get; set; }
+
+        public string WarehouesName2 { get; set; }
+        public string WarehouesCode2 { get; set; }
+
+        public DC_ChoKhoPageModel()
+        {
+            LoadModels();
+        }
+
+
+        public void LoadModels()
+        {
+            var result = APIHelper.GetObjectFromAPIAsync<BaseModel<List<WarehouseBPLModel>>>
+                                              (Constaint.ServiceAddress, Constaint.APIurl.getlistwarehouses, null);
+            if (result != null && result.Result != null && result.Result.data != null)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Kho1s = new ObservableCollection<WarehouseBPLModel>();
+                    Kho2s = new ObservableCollection<WarehouseBPLModel>();
+
+                    for (int i = 0; i < result.Result.data.Count; ++i)
+                    {
+                        Kho1s.Add(new WarehouseBPLModel
+                        {
+                            ID = result.Result.data[i].ID,
+                            WarehouesName = result.Result.data[i].WarehouesName,
+                            WarehouseCode = result.Result.data[i].WarehouseCode,
+                        });
+                        Kho2s.Add(new WarehouseBPLModel
+                        {
+                            ID = result.Result.data[i].ID,
+                            WarehouesName = result.Result.data[i].WarehouesName,
+                            WarehouseCode = result.Result.data[i].WarehouseCode,
+                        });
+                    }
+                    if (MySettings.CodeKho != "")
+                    {
+                        SelectedKho1 = Kho1s.Where(a => a.WarehouseCode == MySettings.CodeKho).FirstOrDefault();
+                        if (SelectedKho1 != null)
+                        {
+                            WarehouesName1 = SelectedKho1.WarehouesName;
+                            WarehouesCode1 = SelectedKho1.WarehouseCode;
+                        }
+                    }
+                });
+            }
+        }
+
+        public void LoadDataCombobox(WarehouseBPLModel model_)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if(_loai_kho=="1")
+                {
+                    SelectedKho1 = model_;
+                    WarehouesName1 = SelectedKho1.WarehouesName;
+                    WarehouesCode1 = SelectedKho1.WarehouseCode;
+                }
+                else if (_loai_kho == "2")
+                {
+                    SelectedKho2 = model_;
+                    WarehouesName2 = SelectedKho2.WarehouesName;
+                    WarehouesCode2 = SelectedKho2.WarehouseCode;
+                }    
+            });
+        }
+        public string _loai_kho = "1";
+        public void LoadComboxSoLoai()
+        {
+            MySettings.Title = "Chọn kho";
+            var page = new T_ComboboxPage(Kho1s, null);
+            page._DC_ChoKhoPageModel = this;
+            Application.Current.MainPage.Navigation.PushAsync(page);
+        }
+
+    }
+}
