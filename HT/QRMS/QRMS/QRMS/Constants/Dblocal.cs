@@ -234,7 +234,7 @@ namespace QRMS
             string Sql = $"Select * ";
             Sql += $"From TransactionHistoryModel ";
             Sql += $"Where OrderNo = '{OrderNo}' and TransactionType = 'K' ";
-            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' ";
 
             var data = _database.Query<TransactionHistoryModel>(Sql);
 
@@ -247,15 +247,10 @@ namespace QRMS
                             TransactionType = item.TransactionType,
                             OrderNo = item.OrderNo,
                             WarehouseCode_From = item.WarehouseCode_From,
-                            WarehouseName_From = item.WarehouseName_From,
-                            WarehouseType_From = item.WarehouseType_From,
-                            WarehouseCode_To = item.WarehouseCode_To,
-                            WarehouseName_To = item.WarehouseName_To,
-                            WarehouseType_To = item.WarehouseType_To,
                             ItemCode = item.ItemCode,
                             ItemName = item.ItemName,
                             ItemType = item.ItemType,
-                            SoLuongKiemKe = 0,
+                            SoLuongQuet = 0,
                             SoNhan = 0,
                             Unit = item.Unit,
                             EXT_Serial = item.EXT_Serial,
@@ -272,7 +267,7 @@ namespace QRMS
                         {
                             if (kk.ItemCode == item.ItemCode)
                             {
-                                kk.SoLuongKiemKe += item.Quantity;
+                                kk.SoLuongQuet += item.Quantity;
                                 kk.SoNhan += 1;
                             }    
                         }
@@ -309,6 +304,64 @@ namespace QRMS
             //var data = _database.Query<KKDCModel>(Sql);
 
             //return data;
+        }
+
+
+        //Kiểm kê dụng cụ:
+        public List<CKDCModel> GetTransactionHistory_CKDC(string OrderNo, string WarehouseCode_From)
+        {
+            List<CKDCModel> rs = new List<CKDCModel>();
+
+            List<string> lstCode = new List<string>();
+
+            string Sql = $"Select * ";
+            Sql += $"From TransactionHistoryModel ";
+            Sql += $"Where OrderNo = '{OrderNo}' and TransactionType = 'C' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' ";
+
+            var data = _database.Query<TransactionHistoryModel>(Sql);
+
+            if (data != null)
+            {
+                foreach (TransactionHistoryModel item in data)
+                {
+                    if (!lstCode.Contains(item.ItemCode))
+                        rs.Add(new CKDCModel
+                        {
+                            TransactionType = item.TransactionType,
+                            OrderNo = item.OrderNo,
+                            WarehouseCode_From = item.WarehouseCode_From,
+                            WarehouseName_From = item.WarehouseName_From,
+                            WarehouseType_From = item.WarehouseType_From,
+                            WarehouseCode_To = item.WarehouseCode_To,
+                            WarehouseName_To = item.WarehouseName_To,
+                            WarehouseType_To = item.WarehouseType_To,
+                            ItemCode = item.ItemCode,
+                            ItemName = item.ItemName,
+                            ItemType = item.ItemType,
+                            SoLuongQuet = 0,
+                            SoNhan = 0,
+                            Unit = item.Unit,
+                        });
+                }
+
+                if (rs != null)
+                {
+                    foreach (CKDCModel kk in rs)
+                    {
+                        foreach (TransactionHistoryModel item in data)
+                        {
+                            if (kk.ItemCode == item.ItemCode)
+                            {
+                                kk.SoLuongQuet += item.Quantity;
+                                kk.SoNhan += 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return rs;
         }
     }
 }
