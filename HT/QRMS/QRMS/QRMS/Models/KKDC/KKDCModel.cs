@@ -17,5 +17,8 @@ namespace QRMS.Models.KKDC
         public Decimal SoLuongKiemKe { get; set; }
         public Decimal SoNhan { get; set; }
         public string Unit { get; set; }
+        public string EXT_Serial { get; set; }
+        public string EXT_PartNo { get; set; }
+        public string EXT_LotNo { get; set; }
     }
 }

@@ -75,6 +75,14 @@ namespace QRMS
             _ = _database.Execute(Sql);
         }
 
+        public void DeleteHistoryAsyncWithOrderNo_WarehouseCode(string OrderNo, string WarehouseCode_From, string TransactionType)
+        {
+            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = '{TransactionType}' ";
+
+            _ = _database.Execute(Sql);
+        }
+
         public void DeleteHistoryAll()
         {
             _database.DeleteAll<TransactionHistoryModel>();
@@ -219,32 +227,88 @@ namespace QRMS
         //Kiểm kê dụng cụ:
         public List<KKDCModel> GetTransactionHistory_KKDC(string OrderNo, string WarehouseCode_From)
         {
-            string Sql = $"Select DISTRINCT TransactionType, OrderNo, WarehouseCode_From, WarehouseName_From, WarehouseType_From, ";
-                   Sql += $"WarehouseCode_To, WarehouseName_To, WarehouseType_To, ItemCode, ItemName, ItemType, Unit ";
-                   Sql += $"From TransactionHistoryModel a ";
-                   Sql += $"(case when(select sum(b.[Quantity]) from TransactionHistoryModel b ";
-                   Sql += $"where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
-                   Sql += $"and b.[ItemName] = a.[ItemName] ";
-                   Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) is null then 0 ";
-                   Sql += $"else (select sum(b.[Quantity]) from TransactionHistoryModel b where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
-                   Sql += $"and b.[ItemName] = a.[ItemName] ";
-                   Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) end) SoLuongKiemKe, ";
+            List<KKDCModel> rs = new List<KKDCModel>();
 
-                   Sql += $"(case when(select COUNT(*) from TransactionHistoryModel b ";
-                   Sql += $"where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
-                   Sql += $"and b.[ItemName] = a.[ItemName] ";
-                   Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) is null then 0 ";
-                   Sql += $"else (select COUNT(*) from TransactionHistoryModel b where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
-                   Sql += $"and b.[ItemName] = a.[ItemName] ";
-                   Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) end) SoNhan ";
+            List<string> lstCode = new List<string>();
 
-                   Sql += $"Where a.OrderNo = '{OrderNo}' and a.TransactionType = 'K' ";
-                   Sql += $"and a.WarehouseCode_From = '{WarehouseCode_From}' and a.TransactionType = 'K' ";
+            string Sql = $"Select * ";
+            Sql += $"From TransactionHistoryModel ";
+            Sql += $"Where OrderNo = '{OrderNo}' and TransactionType = 'K' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
+
+            var data = _database.Query<TransactionHistoryModel>(Sql);
+
+            if (data != null)
+            {
+                foreach(TransactionHistoryModel item in data)
+                {
+                    if (!lstCode.Contains(item.ItemCode))
+                        rs.Add(new KKDCModel{
+                            TransactionType = item.TransactionType,
+                            OrderNo = item.OrderNo,
+                            WarehouseCode_From = item.WarehouseCode_From,
+                            WarehouseName_From = item.WarehouseName_From,
+                            WarehouseType_From = item.WarehouseType_From,
+                            WarehouseCode_To = item.WarehouseCode_To,
+                            WarehouseName_To = item.WarehouseName_To,
+                            WarehouseType_To = item.WarehouseType_To,
+                            ItemCode = item.ItemCode,
+                            ItemName = item.ItemName,
+                            ItemType = item.ItemType,
+                            SoLuongKiemKe = 0,
+                            SoNhan = 0,
+                            Unit = item.Unit,
+                            EXT_Serial = item.EXT_Serial,
+                            EXT_PartNo = item.EXT_PartNo,
+                            EXT_LotNo = item.EXT_LotNo,
+                        });
+                }
+
+                if (rs != null)
+                {
+                    foreach(KKDCModel kk in rs)
+                    {
+                        foreach (TransactionHistoryModel item in data)
+                        {
+                            if (kk.ItemCode == item.ItemCode)
+                            {
+                                kk.SoLuongKiemKe += item.Quantity;
+                                kk.SoNhan += 1;
+                            }    
+                        }
+                    }    
+                }    
+            }    
 
 
-            var data = _database.Query<KKDCModel>(Sql);
+            return rs;
 
-            return data;
+            //string Sql = $"Select DISTRINCT TransactionType, OrderNo, WarehouseCode_From, WarehouseName_From, WarehouseType_From, ";
+            //       Sql += $"WarehouseCode_To, WarehouseName_To, WarehouseType_To, ItemCode, ItemName, ItemType, Unit ";
+            //       Sql += $"From TransactionHistoryModel a ";
+            //       Sql += $"(case when(select sum(b.[Quantity]) from TransactionHistoryModel b ";
+            //       Sql += $"where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
+            //       Sql += $"and b.[ItemName] = a.[ItemName] ";
+            //       Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) is null then 0 ";
+            //       Sql += $"else (select sum(b.[Quantity]) from TransactionHistoryModel b where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
+            //       Sql += $"and b.[ItemName] = a.[ItemName] ";
+            //       Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) end) SoLuongKiemKe, ";
+
+            //       Sql += $"(case when(select COUNT(*) from TransactionHistoryModel b ";
+            //       Sql += $"where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
+            //       Sql += $"and b.[ItemName] = a.[ItemName] ";
+            //       Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) is null then 0 ";
+            //       Sql += $"else (select COUNT(*) from TransactionHistoryModel b where b.[OrderNo] = a.[OrderNo] and b.[ItemCode] = a.[ItemCode] ";
+            //       Sql += $"and b.[ItemName] = a.[ItemName] ";
+            //       Sql += $"and b.[ItemType] = a.[ItemType] and b.WarehouseCode_From = a.WarehouseCode_From and b.TransactionType = a.TransactionType) end) SoNhan ";
+
+            //       Sql += $"Where a.OrderNo = '{OrderNo}' and a.TransactionType = 'K' ";
+            //       Sql += $"and a.WarehouseCode_From = '{WarehouseCode_From}' and a.TransactionType = 'K' ";
+
+
+            //var data = _database.Query<KKDCModel>(Sql);
+
+            //return data;
         }
     }
 }

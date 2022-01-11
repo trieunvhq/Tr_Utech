@@ -23,7 +23,7 @@ namespace QRMS.Models
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
         public string ItemType { get; set; }
-        public Nullable<decimal> Quantity { get; set; }
+        public Decimal Quantity { get; set; }
         public string Unit { get; set; }
         public string EXT_OtherCode { get; set; }
         public string EXT_Serial { get; set; }
