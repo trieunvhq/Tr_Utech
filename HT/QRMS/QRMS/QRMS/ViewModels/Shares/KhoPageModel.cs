@@ -50,7 +50,7 @@ namespace QRMS.ViewModels
                     }
                     if(MySettings.CodeKho!="")
                     {
-                        SelectedKho = Khos.Where(a => a.ID == MySettings.CodeKho).FirstOrDefault();
+                        SelectedKho = Khos.Where(a => a.WarehouseCode == MySettings.CodeKho).FirstOrDefault();
                         WarehouesName = SelectedKho.WarehouesName;
                         WarehouseCode = SelectedKho.WarehouseCode;
                     } 
