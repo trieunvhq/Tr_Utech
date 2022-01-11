@@ -55,6 +55,7 @@ namespace QRMS.ViewModels
                     {
                         MySettings.Title = "Chọn chỉ thị xuất hàng";
                         var page = new T_ComboboxPage(4,null,DonHangs);
+                        page._ChonChiThiXuatHangViewModel = this;
                         Application.Current.MainPage.Navigation.PushAsync(page);
                     }    
                 });

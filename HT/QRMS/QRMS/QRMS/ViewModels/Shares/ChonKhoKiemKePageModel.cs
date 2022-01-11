@@ -70,6 +70,7 @@ namespace QRMS.ViewModels
         {
             MySettings.Title = "Chọn kho";
             var page = new T_ComboboxPage(3, Khos, null);
+            page._ChonKhoKiemKePageModel = this;
             Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

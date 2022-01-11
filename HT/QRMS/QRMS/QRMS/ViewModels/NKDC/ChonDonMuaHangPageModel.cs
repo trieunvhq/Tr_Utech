@@ -57,6 +57,7 @@ namespace QRMS.ViewModels
                     { 
                         MySettings.Title = "Chọn kho";
                         var page = new T_ComboboxPage(2,null,DonHangs);
+                        page._ChonDonMuaHangPageModel = this;
                         Application.Current.MainPage.Navigation.PushAsync(page);
                     }    
                 });
