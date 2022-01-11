@@ -59,8 +59,8 @@ namespace QRMS.ViewModels
                 DonHangs.Clear();
                 Historys.Clear();
 
-                List<SaleOrderItemScanBPL> donhang_ = new List<SaleOrderItemScanBPL>();
-                //List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
+                //List<SaleOrderItemScanBPL> donhang_ = new List<SaleOrderItemScanBPL>();
+                List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_No);
                 foreach (SaleOrderItemScanBPL item in donhang_)
                 {
                     if (!DonHangs.Contains(item))
@@ -76,8 +76,8 @@ namespace QRMS.ViewModels
                     }
                 }
 
-                List<TransactionHistoryModel> historys = new List<TransactionHistoryModel>();
-                //List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
+                //List<TransactionHistoryModel> historys = new List<TransactionHistoryModel>();
+                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
                 foreach (TransactionHistoryModel item in historys)
                 {
                     if (!Historys.Contains(item))
@@ -131,7 +131,7 @@ namespace QRMS.ViewModels
                                     DonHangs.Add(result.Result.data[i]);
                                 }
                                 
-                                //App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
+                                App.Dblocal.SaveSaleOrderItemScanAsync(result.Result.data[i]);
                             }
                         });
                     }
@@ -165,6 +165,7 @@ namespace QRMS.ViewModels
                             if (result.Result.data == 1)
                             {
                                 App.Dblocal.DeleteHistoryAsyncWithKey(_No);
+                                Historys.Clear();
 
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.updatesaleorderitem,
@@ -173,7 +174,9 @@ namespace QRMS.ViewModels
                                 {
                                     if (result2.Result.data == 1)
                                     {
-                                        //App.Dblocal.DeletePurchaseOrderAsyncWithKey(_No);
+                                        App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_No);
+                                        DonHangs.Clear();
+
                                         await Controls.LoadingUtility.HideAsync();
                                         await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
                                         LoadModels("");
@@ -316,7 +319,7 @@ namespace QRMS.ViewModels
                                     DonHangs.Insert(0, model_);
                                 }
 
-                                //App.Dblocal.UpdatePurchaseOrderAsync(model_);
+                                App.Dblocal.UpdateSaleOrderItemScanAsync(model_);
 
                                 TransactionHistoryModel history = new TransactionHistoryModel
                                 {

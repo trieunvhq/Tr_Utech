@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using QRMS.Models;
 using QRMS.Models.KKDC;
+using QRMS.Models.XKDC;
 using SQLite;
 
 namespace QRMS
@@ -16,6 +17,7 @@ namespace QRMS
             _database = new SQLiteConnection(dbPath);
             _database.CreateTable<TransactionHistoryModel>();
             _database.CreateTable<NhapKhoDungCuModel>();
+            _database.CreateTable<SaleOrderItemScanBPL>(); //Xuất kho DC_new
             _database.CreateTable<XuatKhoDungCuModel>();
             //_database.CreateTableAsync<XuatKhoDungCuModel>().Wait();
         }
@@ -127,6 +129,49 @@ namespace QRMS
 
             _ = _database.Execute(Sql);
         }
+
+
+        //For table Xuất kho dụng cụ :
+        public List<SaleOrderItemScanBPL> GetSaleOrderItemScanAsyncWithKey(string no)
+        {
+            string Sql = $"Select * From SaleOrderItemScanBPL Where SaleOrderNo = '{no}'";
+
+            return _database.Query<SaleOrderItemScanBPL>(Sql);
+        }
+
+        public int SaveSaleOrderItemScanAsync(SaleOrderItemScanBPL no)
+        {
+            string Sql = $"Select * From SaleOrderItemScanBPL Where SaleOrderNo = '{no.SaleOrderNo}' ";
+            Sql += $"and ID = { no.ID} and SaleOrderID = '{no.SaleOrderID}' ";
+            Sql += $"and ItemCode = '{no.ItemCode}' and ItemName = '{no.ItemName}' ";
+            Sql += $"and ItemType = '{no.ItemType}' and Unit = '{no.Unit}' ";
+            Sql += $"and RecordStatus = '{no.RecordStatus}' ";
+
+            var res = _database.Query<SaleOrderItemScanBPL>(Sql);
+
+            if (res.Count == 0)
+                return _database.Insert(no);
+            else return -1;
+        }
+
+        public int UpdateSaleOrderItemScanAsync(SaleOrderItemScanBPL no)
+        {
+            string Sql = $"Update SaleOrderItemScanBPL set ";
+            Sql += $"SoLuongDaNhap = {no.SoLuongDaNhap}, ";
+            Sql += $"SoLuongBox = {no.SoLuongBox} ";
+            Sql += $"Where ID = {no.ID}";
+
+            return _database.Execute(Sql);
+        }
+
+
+        public void DeleteSaleOrderItemScanBPLAsyncWithKey(string no)
+        {
+            string Sql = $"Delete From SaleOrderItemScanBPL Where SaleOrderNo = '{no}'";
+
+            _ = _database.Execute(Sql);
+        }
+
 
 
         //For table XuatKhoDungCuModel:

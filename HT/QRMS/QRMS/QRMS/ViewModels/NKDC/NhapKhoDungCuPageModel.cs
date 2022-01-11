@@ -163,6 +163,7 @@ namespace QRMS.ViewModels
                             if (result.Result.data == 1)
                             {
                                 App.Dblocal.DeleteHistoryAsyncWithKey(_No);
+                                Historys.Clear();
 
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
@@ -172,6 +173,8 @@ namespace QRMS.ViewModels
                                     if (result2.Result.data == 1)
                                     {
                                         App.Dblocal.DeletePurchaseOrderAsyncWithKey(_No);
+                                        DonHangs.Clear();
+
                                         await Controls.LoadingUtility.HideAsync();
                                         await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
                                         LoadModels("");

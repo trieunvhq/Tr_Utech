@@ -1,6 +1,10 @@
 ﻿using System;
+using SQLite;
+
+
 namespace QRMS.Models.XKDC
 {
+    [Table("SaleOrderItemScanBPL")]
     public class SaleOrderItemScanBPL
     {
         public int ID { get; set; }
