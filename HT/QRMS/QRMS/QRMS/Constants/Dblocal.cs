@@ -75,10 +75,10 @@ namespace QRMS
             _ = _database.Execute(Sql);
         }
 
-        public void DeleteHistoryAsyncWithOrderNo_WarehouseCode(string OrderNo, string WarehouseCode_From, string TransactionType)
+        public void DeleteHistory_KKDC(string OrderNo, string WarehouseCode_From)
         {
             string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
-            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = '{TransactionType}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
 
             _ = _database.Execute(Sql);
         }
