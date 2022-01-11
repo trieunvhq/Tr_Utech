@@ -307,8 +307,8 @@ namespace QRMS
         }
 
 
-        //Kiểm kê dụng cụ:
-        public List<CKDCModel> GetTransactionHistory_CKDC(string OrderNo, string WarehouseCode_From)
+        //Chuyển kho dụng cụ:
+        public List<CKDCModel> GetTransactionHistory_CKDC(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
         {
             List<CKDCModel> rs = new List<CKDCModel>();
 
@@ -318,6 +318,7 @@ namespace QRMS
             Sql += $"From TransactionHistoryModel ";
             Sql += $"Where OrderNo = '{OrderNo}' and TransactionType = 'C' ";
             Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' ";
+            Sql += $"and WarehouseCode_To = '{WarehouseCode_To}' ";
 
             var data = _database.Query<TransactionHistoryModel>(Sql);
 
