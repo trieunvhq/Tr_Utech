@@ -1,38 +1,32 @@
 ﻿ 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System; 
 using Acr.UserDialogs;
 using QRMS.Constants;
 using QRMS.Helper;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using ZXing;
-using ZXing.Mobile;
-using ZXing.Net.Mobile.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific; 
 
 namespace QRMS.Views
 {
-    public partial class DC_SCANPage : ContentPage
+    public partial class KK_SCANPage : ContentPage
     {
-        MyScan _MyScan;
-        private string _PuschaseNo = "";
+        MyScan _MyScan; 
 
-        public DC_SCANPageModel ViewModel { get; set; }
-        public DC_SCANPage(string id, string no, DateTime d)
-        {
-            _PuschaseNo = no;
+        public KK_SCANPageModel ViewModel { get; set; }
+        public KK_SCANPage(string no)
+        { 
             InitializeComponent();
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new DC_SCANPageModel(id, no, d);
+            ViewModel = new KK_SCANPageModel();
+            ViewModel.WarehouesCode = no;
             ViewModel.Initialize();
             BindingContext = ViewModel;
-            ViewModel._DC_SCANPage = this;
+            ViewModel._KK_SCANPage = this;
             //_MyScan = new MyScan(1, ViewModel);
             //
             row_trencung.Height = 20;
@@ -77,15 +71,14 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    //var answer = await UserDialogs.Instance.ConfirmAsync("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Thông báo", "Có lưu", "Không lưu");
-                    //if (answer)
-                    //{
-                    //}
-                    //else
-                    //{
-                    //    App.Dblocal.DeleteHistoryAll();
-                    //    App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PuschaseNo);
-                    //}
+                    var answer = await UserDialogs.Instance.ConfirmAsync("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Thông báo", "Có lưu", "Không lưu");
+                    if (answer)
+                    {
+                    }
+                    else
+                    { 
+                        App.Dblocal.DeleteHistory_KKDC(ViewModel.WarehouesCode, ViewModel.WarehouesCode);
+                    }
 
                     await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                     await Controls.LoadingUtility.HideAsync();
@@ -93,7 +86,20 @@ namespace QRMS.Views
             });
 
         }
-         
+
+
+        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        {
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    ViewModel.LuuLais();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
+        }
 
         void lst_combobox_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
@@ -112,13 +118,13 @@ namespace QRMS.Views
                 if (_MyScan != null)
                     _MyScan.CloseBarcodeReader();
                 _MyScan = new MyScan();
-                _MyScan._DC_SCANPageModel = ViewModel;
+                _MyScan._KK_SCANPageModel = ViewModel;
                 _MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
             {
                 UserDialogs.Instance.AlertAsync(ee.Message, "Exception", "OK").ConfigureAwait(false);
-                MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "DC_SCANPage", MySettings.UserName);
+                MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "KK_SCANPage", MySettings.UserName);
 
             }
         }

@@ -14,6 +14,7 @@ namespace QRMS.Helper
 		public NhapKhoDungCuPageModel _NhapKhoDungCuPageModel;
 		public XK_XKDCPageModel _XK_XKDCPageModel;
 		public DC_SCANPageModel _DC_SCANPageModel;
+		public KK_SCANPageModel _KK_SCANPageModel;
 		public MyScan()
 		{ 
 		} 
@@ -62,6 +63,10 @@ namespace QRMS.Helper
 			else if (_DC_SCANPageModel != null)
 			{
 				_DC_SCANPageModel.ScanComplate(barcode);
+			}
+			else if (_KK_SCANPageModel != null)
+			{
+				_KK_SCANPageModel.ScanComplate(barcode);
 			}
 		}
 

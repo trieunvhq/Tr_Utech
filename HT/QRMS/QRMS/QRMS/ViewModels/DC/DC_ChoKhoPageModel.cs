@@ -117,7 +117,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeleteHistoryAsyncWithKey(_No);
+                                App.Dblocal.DeleteHistory_CKDC(WarehouesCode1 + "_" + WarehouesCode2, WarehouesCode1, WarehouesCode2);
                                  
                                 await Controls.LoadingUtility.HideAsync();
                                 await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");

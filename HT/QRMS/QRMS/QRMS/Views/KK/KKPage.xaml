@@ -30,15 +30,15 @@
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2"/>
 
             <helper:ButtonCustoms Text="1. KIỂM KÊ DỤNG CỤ" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4" CornerRadius="0"
-                Clicked="BtnChuyenKhoDungCu_CLicked" GradientOrientation="Horizontal"
+                Clicked="BtnKiemKeDungCu_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             
             <helper:ButtonCustoms Text="2. KIỂM KÊ NGUYÊN LIỆU" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
-                Clicked="BtnChuyenKhoNguyenLieu_CLicked" GradientOrientation="Horizontal"
+                Clicked="BtnKiemKeNguyenLieu_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
               <helper:ButtonCustoms Text="3. KIỂM KÊ THÀNH PHẨM" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" CornerRadius="0"
-                Clicked="BtnChuyenKhoThanhPham_CLicked" GradientOrientation="Horizontal"
+                Clicked="BtnKiemKeThanhPham_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="10" CornerRadius="0"

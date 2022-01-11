@@ -22,6 +22,7 @@ namespace PIAMA.Views.Shared
         public XK_CCTXHPageModel _XK_CCTXHPageModel;
         public XKDC_CKKKPageModel _XKDC_CKKKPageModel;
         public DC_ChoKhoPageModel _DC_ChoKhoPageModel;
+        public KK_ChonKhoPageModel _KK_ChonKhoPageModel;
         public T_ComboboxPage(ObservableCollection<WarehouseBPLModel> ModelKhos_
             , ObservableCollection<ComboModel> ModelDonHangs_ )
         { 
@@ -126,6 +127,10 @@ namespace PIAMA.Views.Shared
                 else if (_XKDC_CKKKPageModel != null)
                 {
                     _XKDC_CKKKPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
+                }
+                else if (_KK_ChonKhoPageModel != null)
+                {
+                    _KK_ChonKhoPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
                 }
                 await Application.Current.MainPage.Navigation.PopAsync();
             } 
