@@ -69,7 +69,7 @@ namespace QRMS.ViewModels
         public void LoadComboxSoLoai()
         {
             MySettings.Title = "Chọn kho";
-            var page = new T_ComboboxPage(6, Khos, null);
+            var page = new T_ComboboxPage(Khos, null);
             page._XKDC_CKKKPageModel = this;
             Application.Current.MainPage.Navigation.PushAsync(page);
         }
