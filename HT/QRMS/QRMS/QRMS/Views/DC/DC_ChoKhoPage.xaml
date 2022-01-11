@@ -52,13 +52,29 @@
                 </control:ComboboxView.GestureRecognizers>
             </control:ComboboxView>
 
-            <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="8" CornerRadius="0"
-                Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal"
+            <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <helper:ButtonCustoms Text="Quay lại" Grid.Column="0"
+                Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
                 StartColor="#00a79d" EndColor="#05aff2"/>
-            
-            <helper:ButtonCustoms Text="Tiếp tục" Grid.Column="3" Grid.Row="8" CornerRadius="0"
+
+                <helper:ButtonCustoms Text="Lưu lại" Grid.Column="2" Grid.ColumnSpan="3" CornerRadius="0"
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
+                  
+                <helper:ButtonCustoms Text="Tiếp tục" Grid.Column="6" CornerRadius="0"
+                Clicked="BtnTiepTuc_CLicked" GradientOrientation="Horizontal"
+                StartColor="#00a79d" EndColor="#05aff2"/>
+            </Grid>
+           
         </Grid>
     </ContentPage.Content>
 </ContentPage>

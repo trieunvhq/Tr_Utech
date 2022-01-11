@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:helper="clr-namespace:QRMS.Helper"
     xmlns:control="clr-namespace:QRMS.Controls" xmlns:forms1="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
-    x:Class="QRMS.Views.XK_XKDCPage">
+    x:Class="QRMS.Views.DC_SCANPage">
     <ContentPage.Content>
         <Grid x:Name="grid" RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="lbTieuDe" Text="Xuất kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
+            <Label x:Name="lbTieuDe" Text="Điều chuyển kho" Margin="10,0,0,0" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="2"/>
@@ -38,7 +38,7 @@
                    Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Đơn mua hàng: " TextColor="#B5BCCD" FontSize="15"/>
+                        <Span Text="Chỉ thị: " TextColor="#B5BCCD" FontSize="15"/>
                         <Span  x:Name="lbDonMuaHang" TextColor="Red" Text="" FontSize="16" FontAttributes="Bold"/>
                     </FormattedString>
                 </Label.FormattedText>
@@ -55,11 +55,11 @@
                 </Label.FormattedText>
             </Label>
 
-            <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            <Label Text="Mã hàng" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/>
             <Label Text="Số lượng &#x0a;chỉ thị" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="2" Grid.Row="6" TextColor="Black" FontSize="14"/>
-            <Label Text="Số lượng &#x0a;đã xuất" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            <Label Text="Số lượng &#x0a;đã chuyển" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="6" TextColor="Black" FontSize="14"/>
             <Label Text="Số box" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="6" Grid.Row="6" TextColor="Black" FontSize="14"/>
@@ -114,10 +114,10 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9">
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/> 
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="1"/>
                     <ColumnDefinition Width="50"/>
@@ -134,11 +134,7 @@
 
                 <helper:ButtonCustoms Text="Camera" Grid.Column="4" CornerRadius="0"
                 Clicked="BtnCamera_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
-
-                <helper:ButtonCustoms Text="Lưu lại" Grid.Column="6" CornerRadius="0"
-                Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                StartColor="#00a79d" EndColor="#05aff2"/> 
             </Grid>
 
 

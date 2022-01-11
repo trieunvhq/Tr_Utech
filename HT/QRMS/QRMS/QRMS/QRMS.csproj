@@ -58,6 +58,7 @@
     <None Remove="Models\KKDC\" />
     <None Remove="Views\DC\" />
     <None Remove="ViewModels\DC\" />
+    <None Remove="Views\KK\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -267,6 +268,7 @@
     <Folder Include="Models\KKDC\" />
     <Folder Include="Views\DC\" />
     <Folder Include="ViewModels\DC\" />
+    <Folder Include="Views\KK\" />
   </ItemGroup>
 
   <ItemGroup>
