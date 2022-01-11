@@ -41,7 +41,7 @@
                     </Grid.RowDefinitions>
                      
                     <Image Grid.Row="1" Source="logo.png"
-                       Margin="20,50,20,30"/>
+                       Margin="40,20,40,20"/>
 
                     <StackLayout Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                          
