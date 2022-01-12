@@ -75,12 +75,28 @@ namespace QRMS
             _ = _database.Execute(Sql);
         }
 
+        public List<TransactionHistoryModel> GetAllHistory_KKDC(string OrderNo, string WarehouseCode_From)
+        {
+            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
+        }
+
         public void DeleteHistory_KKDC(string OrderNo, string WarehouseCode_From)
         {
             string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
             Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
 
             _ = _database.Execute(Sql);
+        }
+
+        public List<TransactionHistoryModel> GetAllHistory_CKDC(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
+        {
+            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{OrderNo}' and  WarehouseCode_To = '{WarehouseCode_To}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'C' ";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
         }
 
         public void DeleteHistory_CKDC(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
