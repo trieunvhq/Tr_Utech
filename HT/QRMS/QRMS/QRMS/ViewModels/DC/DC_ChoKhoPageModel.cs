@@ -100,48 +100,6 @@ namespace QRMS.ViewModels
             Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
-        public async void LuuLais()
-        {
-            try
-            {
-                await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-                {
-                    List<CKDCModel> CKDCModel_ = App.Dblocal.GetTransactionHistory_CKDC(WarehouesCode1+"_"+ WarehouesCode2, WarehouesCode1, WarehouesCode2);
-                    
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
-                                                CKDCModel_);
-                    if (result != null && result.Result != null)
-                    {
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            if (result.Result.data == 1)
-                            {
-                                App.Dblocal.DeleteHistory_CKDC(WarehouesCode1 + "_" + WarehouesCode2, WarehouesCode1, WarehouesCode2);
-                                 
-                                await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
-                            }
-                            else
-                            {
-                                await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
-                            }
-                        });
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Controls.LoadingUtility.HideAsync();
-
-                    UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
-                    MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
-                });
-            }
-        }
 
     }
 }

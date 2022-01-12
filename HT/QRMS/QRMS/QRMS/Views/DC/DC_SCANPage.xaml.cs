@@ -17,19 +17,17 @@ namespace QRMS.Views
 {
     public partial class DC_SCANPage : ContentPage
     {
-        MyScan _MyScan;
-        private string _PuschaseNo = "";
+        MyScan _MyScan; 
 
         public DC_SCANPageModel ViewModel { get; set; }
-        public DC_SCANPage(string id, string no, DateTime d)
-        {
-            _PuschaseNo = no;
+        public DC_SCANPage(string tukho_, string denkho_)
+        { 
             InitializeComponent();
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new DC_SCANPageModel(id, no, d);
+            ViewModel = new DC_SCANPageModel(tukho_, denkho_);
             ViewModel.Initialize();
             BindingContext = ViewModel;
             ViewModel._DC_SCANPage = this;
@@ -164,6 +162,18 @@ namespace QRMS.Views
             ViewModel.IsThongBao = false;
             ViewModel.IsQuet = false;
             //ViewModel.StopDemThoiGianGGS();
+        }
+
+        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        {
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    ViewModel.LuuLais();
+                    await Controls.LoadingUtility.HideAsync();
+                });
+            });
         }
 
 

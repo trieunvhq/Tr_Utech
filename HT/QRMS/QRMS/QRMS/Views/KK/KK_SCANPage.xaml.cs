@@ -15,7 +15,7 @@ namespace QRMS.Views
         MyScan _MyScan; 
 
         public KK_SCANPageModel ViewModel { get; set; }
-        public KK_SCANPage(string no)
+        public KK_SCANPage(string kho_)
         { 
             InitializeComponent();
 
@@ -23,7 +23,7 @@ namespace QRMS.Views
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
             ViewModel = new KK_SCANPageModel();
-            ViewModel.WarehouesCode = no;
+            ViewModel._WarehouesCode = kho_;
             ViewModel.Initialize();
             BindingContext = ViewModel;
             ViewModel._KK_SCANPage = this;
@@ -77,7 +77,7 @@ namespace QRMS.Views
                     }
                     else
                     { 
-                        App.Dblocal.DeleteHistory_KKDC(ViewModel.WarehouesCode, ViewModel.WarehouesCode);
+                        App.Dblocal.DeleteHistory_KKDC(ViewModel._LenhKiemKe, ViewModel._WarehouesCode);
                     }
 
                     await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();

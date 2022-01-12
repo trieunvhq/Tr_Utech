@@ -66,10 +66,6 @@
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
-                <helper:ButtonCustoms Text="Lưu lại" Grid.Column="2" Grid.ColumnSpan="3" CornerRadius="0"
-                Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
-                  
                 <helper:ButtonCustoms Text="Tiếp tục" Grid.Column="6" CornerRadius="0"
                 Clicked="BtnTiepTuc_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>

@@ -1,17 +1,13 @@
 ﻿
-using Acr.UserDialogs;
-using PIAMA.Views.Shared;
+using Acr.UserDialogs; 
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
-using QRMS.Models;
-using QRMS.Resources;
+using QRMS.Models; 
 using QRMS.Views;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel; 
-using System.Linq;
-using System.Threading;
+using System.Collections.ObjectModel;  
 using Xamarin.Forms; 
 
 namespace QRMS.ViewModels

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?> 
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -29,20 +29,39 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="lbTieuDe" Text="Nhập kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
+            <Label x:Name="lbTieuDe" Text="Kiểm kê dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="2"/>
 
-            <Label Margin="10,0,0,0" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Đơn mua hàng: " TextColor="#B5BCCD" FontSize="15"/>
-                        <Span  x:Name="lbDonMuaHang" TextColor="Red" Text="" FontSize="16" FontAttributes="Bold"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Margin="10,0,10,0" VerticalTextAlignment="Center"
+                       Grid.Column="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Lệnh kiểm kê: " TextColor="#B5BCCD" FontSize="15"/> 
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <control:CustomEntry x:Name="txtMaKK" FontSize="15" TextColor="Black"
+                       Text="{Binding _LenhKiemKe}"  Grid.Column="1"/>
+                
+                <Label Margin="10,0,10,0" VerticalTextAlignment="Center"
+                       Grid.Column="2">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Kho: " TextColor="#B5BCCD" FontSize="15"/>
+                            <Span Text="{Binding _WarehouesCode}" TextColor="#B5BCCD" FontSize="15"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
+
 
             <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
@@ -145,7 +164,7 @@
             <Label BackgroundColor="Black" Opacity=".6" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="10"
                  IsVisible="{Binding IsQuet}"/>
 
-         
+
             <forms1:ZXingScannerView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="9"
                       x:Name="camera" IsVisible="{Binding IsQuet}" IsAnalyzing="{Binding IsQuet}"
                       OnScanResult="scanView_OnScanResult"

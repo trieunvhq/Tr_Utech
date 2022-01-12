@@ -1,17 +1,13 @@
-﻿ 
+﻿
 using Acr.UserDialogs;
-using PIAMA.Views.Shared;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
-using QRMS.Models;
-using QRMS.Resources;
+using QRMS.Models; 
 using QRMS.Views;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel; 
-using System.Linq;
-using System.Threading;
+using System.Collections.ObjectModel;  
 using Xamarin.Forms; 
 
 namespace QRMS.ViewModels
@@ -20,7 +16,7 @@ namespace QRMS.ViewModels
     {
         public DC_SCANPage _DC_SCANPage;
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
-        public ObservableCollection<NhapKhoDungCuModel> DonHangs { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
+        public ObservableCollection<CKDCModel> TongQuats { get; set; } = new ObservableCollection<CKDCModel>();
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR;
@@ -32,17 +28,15 @@ namespace QRMS.ViewModels
         public string ThongBao { get; set; } = "";
         public string ThoiGian { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
-        private string _ID = "";
-        private string _No = "";
-        private DateTime _Date;
+        private string _TuKho = "";
+        private string _DenKho = "";
+        private string _LenhDC = "";
 
 
-        public DC_SCANPageModel(string id, string no, DateTime d)
+        public DC_SCANPageModel(string TuKho_, string DenKho_)
         {
-            _ID = id;
-            _No = no;
-            _Date = d;
-            LoadModels("");
+            _TuKho = TuKho_;
+            _DenKho = DenKho_; 
         }
 
         public override void OnAppearing()
@@ -56,32 +50,69 @@ namespace QRMS.ViewModels
         {
             try
             {
-                DonHangs.Clear();
+                TongQuats.Clear();
                 Historys.Clear();
+                 
+                List<string> OrderNo_ = new List<string>();
 
-                List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
-                foreach (NhapKhoDungCuModel item in donhang_)
-                {
-                    if (!DonHangs.Contains(item))
+                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_LenhDC, _TuKho, _DenKho);
+
+                if (MySettings.LenhDiChuyen != "")
+                { 
+                    if (Historys.Count == 0)
                     {
-                        if (item.SoLuongDaNhap >= item.Quantity)
-                            item.ColorSLDaNhap = "#ff0000";
-                        else
-                            item.ColorSLDaNhap = "#000000";
-                        //
-                        item.Color = "#000000";
-                        //
-                        DonHangs.Add(item);
+                        MySettings.LenhDiChuyen = _TuKho + "CKDC"
+                            + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd");
                     }
                 }
+                else
+                {
+                    MySettings.LenhDiChuyen = _TuKho + "CKDC"
+                        + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd");
+                }
+                _LenhDC = MySettings.LenhDiChuyen;
 
-                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
                 foreach (TransactionHistoryModel item in historys)
                 {
                     if (!Historys.Contains(item))
                     {
                         Historys.Add(item);
                     }
+
+                    if(OrderNo_.Contains(item.OrderNo))
+                    {
+                        for(int i =0;i< TongQuats.Count;++i)
+                        {
+                            if(TongQuats[i].OrderNo == item.OrderNo)
+                            {
+                                TongQuats[i].SoLuongQuet = TongQuats[i].SoLuongQuet + item.Quantity;
+                                TongQuats[i].SoNhan = 1 + TongQuats[i].SoNhan;
+                            }    
+                        }    
+                    }    
+                    else
+                    {
+                        OrderNo_.Add(item.OrderNo);
+                        TongQuats.Add(new CKDCModel
+                        {
+                            TransactionType = item.TransactionType,
+                            OrderNo = item.OrderNo,
+                            WarehouseCode_From = item.WarehouseCode_From,
+                            WarehouseName_From = item.WarehouseName_From,
+                            WarehouseType_From = item.WarehouseType_From,
+                            WarehouseCode_To = item.WarehouseCode_To,
+                            WarehouseName_To = item.WarehouseName_To,
+                            WarehouseType_To = item.WarehouseType_To,
+                            ItemCode = item.ItemCode,
+                            ItemName = item.ItemName,
+                            ItemType = item.ItemType,
+                            SoLuongQuet = item.Quantity,
+                            SoNhan = 1,
+                            Unit = item.Unit,
+                            Color = "#000000",
+                            ColorSLDaNhap = "#000000",
+                        }) ;
+                    }    
                 }
             }
             catch (Exception ex)
@@ -91,61 +122,46 @@ namespace QRMS.ViewModels
 
         }
 
-        public void LoadModels(string id)
+        public async void LuuLais()
         {
             try
             {
-                LoadDbLocal();
-
-                if (DonHangs.Count == 0)
+                await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<NhapKhoDungCuModel>>>
-                                                 (Constaint.ServiceAddress, Constaint.APIurl.getitem,
-                                                 new
-                                                 {
-                                                     ID = _ID
-                                                 });
-                    if (result != null && result.Result != null && result.Result.data != null)
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                Historys);
+                    if (result != null && result.Result != null)
                     {
-                        Device.BeginInvokeOnMainThread(() =>
+                        Device.BeginInvokeOnMainThread(async () =>
                         {
-                            DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
-
-                            for (int i = 0; i < result.Result.data.Count; ++i)
+                            if (result.Result.data == 1)
                             {
-                                if (result.Result.data[i].SoLuongDaNhap >= result.Result.data[i].Quantity)
-                                    result.Result.data[i].ColorSLDaNhap = "#ff0000";
-                                else
-                                    result.Result.data[i].ColorSLDaNhap = "#000000";
-                                //
-                                result.Result.data[i].Color = "#000000";
-                                //
-                                if (result.Result.data[i].ItemCode == id)
-                                {
-                                    DonHangs.Insert(0, result.Result.data[i]);
-                                }
-                                else
-                                {
-                                    DonHangs.Add(result.Result.data[i]);
-                                }
+                                App.Dblocal.DeleteHistory_CKDC(_LenhDC, _TuKho, _DenKho);
 
-                                App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
+                                await Controls.LoadingUtility.HideAsync();
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                            }
+                            else
+                            {
+                                await Controls.LoadingUtility.HideAsync();
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
                             }
                         });
                     }
-                }
-                else
-                {
-                    MySettings.InsertLogs(0, DateTime.Now, "LoadModels", "DonHangs.Count == 0", "DC_SCANPageModel", MySettings.UserName);
-                }
+                });
             }
             catch (Exception ex)
             {
-                MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "DC_SCANPageModel", MySettings.UserName);
-            }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Controls.LoadingUtility.HideAsync();
 
+                    UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
+                    MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
+                });
+            }
         }
-         
         private int _trangthai_quet;
         private void ShowThongBao(bool isshow)
         {
@@ -214,51 +230,28 @@ namespace QRMS.ViewModels
                     }
                     else
                     {
-                        for (int i = 0; i < DonHangs.Count; ++i)
+                        for (int i = 0; i < TongQuats.Count; ++i)
                         {
-                            if (DonHangs[i].ItemCode == qr.Code)
+                            if (TongQuats[i].ItemCode == qr.Code)
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                                NhapKhoDungCuModel model_ = DonHangs[i];
-                                if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
-                                {
-                                    var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
-                                    if (answer)
-                                    {
-                                        model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
-                                        model_.SoLuongBox = model_.SoLuongBox + 1;
-                                        DonHangs.RemoveAt(i);
-                                        if (model_.SoLuongDaNhap >= model_.Quantity)
-                                            model_.ColorSLDaNhap = "#ff0000";
-                                        else
-                                            model_.ColorSLDaNhap = "#0008ff";
+                                CKDCModel model_ = TongQuats[i];
+                                
+                                model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
+                                model_.SoNhan = model_.SoNhan + 1;
+                                TongQuats.RemoveAt(i);
 
-                                        model_.Color = "#0008ff";
-                                        DonHangs.Insert(0, model_);
-                                    }
-                                }
-                                else
-                                {
-                                    model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
-                                    model_.SoLuongBox = model_.SoLuongBox + 1;
-                                    DonHangs.RemoveAt(i);
-                                    if (model_.SoLuongDaNhap >= model_.Quantity)
-                                        model_.ColorSLDaNhap = "#ff0000";
-                                    else
-                                        model_.ColorSLDaNhap = "#0008ff";
+                                model_.ColorSLDaNhap = "#0008ff";
 
-                                    model_.Color = "#0008ff";
-                                    DonHangs.Insert(0, model_);
-                                }
-
-                                App.Dblocal.UpdatePurchaseOrderAsync(model_);
-
+                                model_.Color = "#0008ff";
+                                TongQuats.Insert(0, model_);
+                                  
                                 TransactionHistoryModel history = new TransactionHistoryModel
                                 {
                                     ID = 0,
                                     TransactionType = "C",
-                                    OrderNo = _No,
-                                    OrderDate = _Date,
+                                    OrderNo = TongQuats[i].OrderNo,
+                                    OrderDate = DateTime.Now,
                                     ItemCode = qr.Code,
                                     ItemName = qr.Name,
                                     ItemType = qr.DC,

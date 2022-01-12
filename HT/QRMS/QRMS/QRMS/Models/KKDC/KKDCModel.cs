@@ -15,5 +15,8 @@ namespace QRMS.Models.KKDC
         public string EXT_Serial { get; set; }
         public string EXT_PartNo { get; set; }
         public string EXT_LotNo { get; set; }
+
+        public string Color { get; set; }
+        public string ColorSLDaNhap { get; set; }
     }
 }

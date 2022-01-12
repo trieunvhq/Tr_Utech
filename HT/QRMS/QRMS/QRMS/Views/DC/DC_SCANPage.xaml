@@ -33,16 +33,35 @@
                    Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="2"/>
+             
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Margin="10,0,10,0" VerticalTextAlignment="Center"
+                       Grid.Column="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Lệnh kiểm kê: " TextColor="#B5BCCD" FontSize="15"/> 
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <control:CustomEntry x:Name="txtMaKK" FontSize="15" TextColor="Black"
+                       Text="{Binding _LenhKiemKe}"  Grid.Column="1"/>
+                
+                <Label Margin="10,0,10,0" VerticalTextAlignment="Center"
+                       Grid.Column="2">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Kho: " TextColor="#B5BCCD" FontSize="15"/>
+                            <Span Text="{Binding _WarehouesCode}" TextColor="#B5BCCD" FontSize="15"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
 
-            <Label Margin="10,0,0,0" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Chỉ thị: " TextColor="#B5BCCD" FontSize="15"/>
-                        <Span  x:Name="lbDonMuaHang" TextColor="Red" Text="" FontSize="16" FontAttributes="Bold"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
 
             <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
@@ -134,7 +153,12 @@
 
                 <helper:ButtonCustoms Text="Camera" Grid.Column="4" CornerRadius="0"
                 Clicked="BtnCamera_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/> 
+                StartColor="#00a79d" EndColor="#05aff2"/>
+
+                <helper:ButtonCustoms Text="Lưu lại" Grid.Column="6" CornerRadius="0"
+                Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
+                StartColor="#00a79d" EndColor="#05aff2"/>
+                  
             </Grid>
 
 

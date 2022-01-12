@@ -17,5 +17,8 @@ namespace QRMS.Models
         public Decimal SoLuongQuet { get; set; }
         public Decimal SoNhan { get; set; }
         public string Unit { get; set; }
+
+        public string Color { get; set; }
+        public string ColorSLDaNhap { get; set; }
     }
 }

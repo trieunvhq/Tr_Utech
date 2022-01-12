@@ -204,6 +204,32 @@ namespace QRMS.Constants
             }
         }//
 
+        private const string LenhKiemKe_QRMS_KHKey = "last_LenhKiemKe_QRMS_KHKey";
+        public static string LenhKiemKe
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(LenhKiemKe_QRMS_KHKey, "");
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(LenhKiemKe_QRMS_KHKey, value);
+            }
+        }
+        //
+        private const string LenhDiChuyen_QRMS_KHKey = "last_LenhDiChuyen_QRMS_KHKey";
+        public static string LenhDiChuyen
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(LenhDiChuyen_QRMS_KHKey, "");
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(LenhDiChuyen_QRMS_KHKey, value);
+            }
+        }
+        //
         public static double Haft_H
         {
             get

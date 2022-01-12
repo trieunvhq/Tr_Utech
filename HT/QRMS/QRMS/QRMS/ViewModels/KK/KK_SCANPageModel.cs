@@ -20,7 +20,8 @@ namespace QRMS.ViewModels
     public class KK_SCANPageModel : BaseViewModel
     {
         public KK_SCANPage _KK_SCANPage; 
-        public ObservableCollection<KKDCModel> Historys { get; set; } = new ObservableCollection<KKDCModel>();
+        public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
+        public ObservableCollection<KKDCModel> TongQuats { get; set; } = new ObservableCollection<KKDCModel>();
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR;
@@ -33,7 +34,8 @@ namespace QRMS.ViewModels
         public string ThoiGian { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
 
-        public string WarehouesCode { get; set; } = "";
+        public string _WarehouesCode { get; set; } = "";
+        public string _LenhKiemKe { get; set; } = "";
 
         public KK_SCANPageModel()
         {
@@ -51,17 +53,29 @@ namespace QRMS.ViewModels
         {
             try
             { 
-                Historys.Clear();
-
-                List<KKDCModel> donhang_ = App.Dblocal.GetTransactionHistory_KKDC(WarehouesCode, WarehouesCode);
-                foreach (KKDCModel item in donhang_)
+                Historys = new ObservableCollection<TransactionHistoryModel>();
+                if(MySettings.LenhKiemKe!="")
                 {
-                    if (!Historys.Contains(item))
+                    List<TransactionHistoryModel> donhang_ = App.Dblocal.GetAllHistory_KKDC(MySettings.LenhKiemKe, _WarehouesCode);
+                    foreach (TransactionHistoryModel item in donhang_)
                     {
-                       
-                        Historys.Add(item);
+                        if (!Historys.Contains(item))
+                        {
+                            Historys.Add(item);
+                        }
                     }
-                } 
+                    if (Historys.Count == 0)
+                    {
+                        MySettings.LenhKiemKe = _WarehouesCode+ "KKDC"
+                            + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd"); 
+                    } 
+                }
+                else
+                {
+                    MySettings.LenhKiemKe = _WarehouesCode + "KKDC"
+                        + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd"); 
+                }
+                _LenhKiemKe = MySettings.LenhKiemKe;
             }
             catch (Exception ex)
             {
@@ -85,7 +99,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeleteHistoryAsyncWithKey(_No);
+                                App.Dblocal.DeleteHistory_KKDC(MySettings.LenhKiemKe, _WarehouesCode);
                                 Historys.Clear();
 
                                 await Controls.LoadingUtility.HideAsync();
@@ -180,51 +194,28 @@ namespace QRMS.ViewModels
                     }
                     else
                     {
-                        for (int i = 0; i < DonHangs.Count; ++i)
+                        for (int i = 0; i < TongQuats.Count; ++i)
                         {
-                            if (DonHangs[i].ItemCode == qr.Code)
+                            if (TongQuats[i].ItemCode == qr.Code)
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                                NhapKhoDungCuModel model_ = DonHangs[i];
-                                if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
-                                {
-                                    var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
-                                    if (answer)
-                                    {
-                                        model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
-                                        model_.SoLuongBox = model_.SoLuongBox + 1;
-                                        DonHangs.RemoveAt(i);
-                                        if (model_.SoLuongDaNhap >= model_.Quantity)
-                                            model_.ColorSLDaNhap = "#ff0000";
-                                        else
-                                            model_.ColorSLDaNhap = "#0008ff";
+                                KKDCModel model_ = TongQuats[i];
 
-                                        model_.Color = "#0008ff";
-                                        DonHangs.Insert(0, model_);
-                                    }
-                                }
-                                else
-                                {
-                                    model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
-                                    model_.SoLuongBox = model_.SoLuongBox + 1;
-                                    DonHangs.RemoveAt(i);
-                                    if (model_.SoLuongDaNhap >= model_.Quantity)
-                                        model_.ColorSLDaNhap = "#ff0000";
-                                    else
-                                        model_.ColorSLDaNhap = "#0008ff";
+                                model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
+                                model_.SoNhan = model_.SoNhan + 1;
+                                TongQuats.RemoveAt(i);
+                                
+                                model_.ColorSLDaNhap = "#0008ff";
 
-                                    model_.Color = "#0008ff";
-                                    DonHangs.Insert(0, model_);
-                                }
-
-                                App.Dblocal.UpdatePurchaseOrderAsync(model_);
-
+                                model_.Color = "#0008ff";
+                                TongQuats.Insert(0, model_);
+                                  
                                 TransactionHistoryModel history = new TransactionHistoryModel
                                 {
                                     ID = 0,
                                     TransactionType = "K",
-                                    OrderNo = _No,
-                                    OrderDate = _Date,
+                                    OrderNo = _LenhKiemKe,
+                                    OrderDate = DateTime.Now,
                                     ItemCode = qr.Code,
                                     ItemName = qr.Name,
                                     ItemType = qr.DC,
