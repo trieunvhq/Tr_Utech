@@ -75,15 +75,14 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    //var answer = await UserDialogs.Instance.ConfirmAsync("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Thông báo", "Có lưu", "Không lưu");
-                    //if (answer)
-                    //{
-                    //}
-                    //else
-                    //{
-                    //    App.Dblocal.DeleteHistoryAll();
-                    //    App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PuschaseNo);
-                    //}
+                    var answer = await UserDialogs.Instance.ConfirmAsync("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Thông báo", "Có lưu", "Không lưu");
+                    if (answer)
+                    {
+                    }
+                    else
+                    {
+                        App.Dblocal.DeleteHistory_CKDC(ViewModel._LenhDC,ViewModel._TuKho,ViewModel._DenKho); 
+                    }
 
                     await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                     await Controls.LoadingUtility.HideAsync();

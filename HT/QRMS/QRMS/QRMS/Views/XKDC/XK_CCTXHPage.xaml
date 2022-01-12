@@ -24,7 +24,7 @@
                 <RowDefinition Height="16"/>
                 <RowDefinition Height="auto"/> 
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/> 
+                <RowDefinition Height="60"/> 
             </Grid.RowDefinitions>
 
             <Label Text="Chọn chỉ thị xuất hàng" Margin="10,0,0,0" VerticalTextAlignment="Center"
@@ -65,11 +65,11 @@
  
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="12" CornerRadius="0"
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                StartColor="#00a79d" EndColor="#05aff2" Margin="0,0,0,10"/>
             
             <helper:ButtonCustoms Text="Tiếp tục" Grid.Column="3" Grid.Row="12" CornerRadius="0"
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                StartColor="#00a79d" EndColor="#05aff2" Margin="0,0,0,10"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

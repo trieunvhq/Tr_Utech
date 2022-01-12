@@ -20,7 +20,7 @@
                 <RowDefinition Height="16"/>
                 <RowDefinition Height="auto"/> 
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/> 
+                <RowDefinition Height="60"/> 
             </Grid.RowDefinitions>
 
             <Label Text="Chọn kho" Margin="10,0,0,0" VerticalTextAlignment="Center"
@@ -52,7 +52,7 @@
                 </control:ComboboxView.GestureRecognizers>
             </control:ComboboxView>
 
-            <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="8">
+            <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="8" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>

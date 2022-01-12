@@ -21,7 +21,7 @@
                 <RowDefinition Height="16"/>
                 <RowDefinition Height="40"/> 
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/> 
+                <RowDefinition Height="60"/> 
             </Grid.RowDefinitions>
 
             <Label Text="Nhập kho" Margin="10,0,0,0" VerticalTextAlignment="Center"
@@ -43,7 +43,7 @@
 
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="10" CornerRadius="0"
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                StartColor="#00a79d" EndColor="#05aff2" Margin="0,0,0,10"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

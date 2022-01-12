@@ -26,7 +26,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
             <Label x:Name="lbTieuDe" Text="Xuất kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
@@ -114,7 +114,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9">
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
