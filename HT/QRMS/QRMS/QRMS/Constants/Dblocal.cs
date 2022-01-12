@@ -332,7 +332,7 @@ namespace QRMS
 
 
         //Chuyển kho dụng cụ:
-        public List<CKDCModel> GetTransactionHistory_CKDC(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
+        public List<CKDCModel> GetTransactionHistory_CKDC_ShowTable(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
         {
             List<CKDCModel> rs = new List<CKDCModel>();
 
