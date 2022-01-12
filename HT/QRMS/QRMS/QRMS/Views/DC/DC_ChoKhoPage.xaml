@@ -6,10 +6,10 @@
     <ContentPage.Content>
         <Grid RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="85"/>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="85"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="row_trencung"/>
@@ -33,7 +33,7 @@
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"/>
       
              <control:ComboboxView Margin="0,0,10,0" ClassId="1"
-                x:Name="inputModel1" Text="{Binding WarehouesName}"
+                x:Name="inputModel1" Text="{Binding WarehouesName1}"
                  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4">
                 <control:ComboboxView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SoLoai_Tapped" />
@@ -45,7 +45,7 @@
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"/>
       
              <control:ComboboxView Margin="0,0,10,0" ClassId="2"
-                x:Name="inputModel2" Text="{Binding WarehouesName}"
+                x:Name="inputModel2" Text="{Binding WarehouesName2}"
                  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6">
                 <control:ComboboxView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SoLoai_Tapped" />

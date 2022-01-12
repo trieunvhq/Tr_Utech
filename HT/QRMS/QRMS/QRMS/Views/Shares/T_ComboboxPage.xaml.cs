@@ -132,7 +132,12 @@ namespace PIAMA.Views.Shared
                 {
                     _KK_ChonKhoPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
                 }
-                await Application.Current.MainPage.Navigation.PopAsync();
+                else if (_DC_ChoKhoPageModel != null)
+                {
+                    _DC_ChoKhoPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
+                }
+                
+               await Application.Current.MainPage.Navigation.PopAsync();
             } 
         }
 

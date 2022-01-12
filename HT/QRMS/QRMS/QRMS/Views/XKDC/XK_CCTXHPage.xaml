@@ -6,10 +6,10 @@
     <ContentPage.Content>
         <Grid RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="85"/>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="85"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="row_trencung"/>
@@ -36,14 +36,16 @@
                    Margin="10,0,0,0" Text="Từ ngày" FontSize="16"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"/>
             <DatePicker x:Name="dateTuNgay" BackgroundColor="Transparent" TextColor="Black" FontSize="16"
-                   Date="{Binding TuNgay}"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4"/>
+                   Date="{Binding TuNgay}"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4"
+                        Format="dd/MM/yyyy"/>
 
           
             <Label TextColor="Black" VerticalTextAlignment="Center"
                    Margin="10,0,0,0" Text="Đến ngày" FontSize="16"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"/>
             <DatePicker x:Name="dateDenNgay" BackgroundColor="Transparent" TextColor="Black" FontSize="16"
-                  Date="{Binding DenNgay}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6"/>
+                  Date="{Binding DenNgay}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6"
+                        Format="dd/MM/yyyy"/>
 
              <helper:ButtonCustoms Text="Lấy chỉ thị" Grid.Column="2"
                                    Grid.ColumnSpan="2" Grid.Row="8" CornerRadius="0"

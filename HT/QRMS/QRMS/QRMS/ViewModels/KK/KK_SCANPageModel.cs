@@ -46,6 +46,7 @@ namespace QRMS.ViewModels
         {
             _daQuetQR = new List<string>();
             base.OnAppearing();
+            LoadDbLocal();
         }
 
 

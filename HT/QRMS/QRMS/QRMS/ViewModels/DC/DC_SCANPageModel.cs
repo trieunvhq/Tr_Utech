@@ -28,9 +28,9 @@ namespace QRMS.ViewModels
         public string ThongBao { get; set; } = "";
         public string ThoiGian { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
-        public string _TuKho = "";
-        public string _DenKho = "";
-        public string _LenhDC = "";
+        public string _TuKho { get; set; } = "";
+        public string _DenKho { get; set; } = "";
+        public string _LenhDC { get; set; } = "";
 
 
         public DC_SCANPageModel(string TuKho_, string DenKho_)
@@ -43,6 +43,7 @@ namespace QRMS.ViewModels
         {
             _daQuetQR = new List<string>();
             base.OnAppearing();
+            LoadDbLocal();
         }
 
 
