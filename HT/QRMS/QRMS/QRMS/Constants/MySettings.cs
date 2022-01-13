@@ -6,6 +6,7 @@ using QRMS.Models;
 using System;
 using QRMS.API;
 using QRMS.AppLIB.Common;
+using System.Data;
 
 namespace QRMS.Constants
 {
@@ -577,57 +578,206 @@ namespace QRMS.Constants
                 DateTime? mfdate_;
                 DateTime? Recdate_;
                 DateTime? Expdate_;
-                string[] ngaythang_ = new string[3];
 
-                if (temp_[7].Length == 8)
+                if (temp_[7].Contains("-") || temp_[7].Contains("/") || temp_[7].Contains("\\") || temp_[7].Contains("."))
                 {
-                    try { mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(4, 4)), Convert.ToInt32(temp_[7].Substring(2, 2)), Convert.ToInt32(temp_[7].Substring(0, 2))); }
-                    catch { mfdate_ = null; }
-                }
-                else if (temp_[7].Length > 8)
-                {
-                    temp_[7] = temp_[7].Replace("-", "/").Replace("\\", "/");
-                    ngaythang_ = temp_[7].Split('/');
-                    try { mfdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                    catch { mfdate_ = null; }
+                    try
+                    {
+                        temp_[7] = temp_[7].Replace("-", "/").Replace("\\", "/").Replace(".", "/");
+                        string[] ngaythang_ = temp_[7].Split('/');
+
+                        if (ngaythang_.Length >= 3)
+                        {
+                            try
+                            {
+                                mfdate_ = new DateTime(Convert.ToInt32(ngaythang_[2].Trim()),
+                                    Convert.ToInt32(ngaythang_[1].Trim()),
+                                    Convert.ToInt32(ngaythang_[0].Trim()));
+                            }
+                            catch
+                            {
+                                mfdate_ = null;
+                            }
+                        }
+                        else
+                        {
+                            mfdate_ = null;
+                        }
+                    }
+                    catch
+                    {
+                        mfdate_ = null;
+                    }
                 }
                 else
                 {
-                    mfdate_ = null;
+                    if (temp_[7].Length == 8)
+                    {
+                        try
+                        {
+                            mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(4, 4)),
+                                Convert.ToInt32(temp_[7].Substring(2, 2)),
+                                Convert.ToInt32(temp_[7].Substring(0, 2)));
+                        }
+                        catch
+                        {
+                            mfdate_ = null;
+                        }
+                    }
+                    else
+                    {
+                        mfdate_ = null;
+                    }
                 }
+
+                if (temp_[8].Contains("-") || temp_[8].Contains("/") || temp_[8].Contains("\\") || temp_[8].Contains("."))
+                {
+                    try
+                    {
+                        temp_[8] = temp_[8].Replace("-", "/").Replace("\\", "/").Replace(".", "/");
+                        string[] ngaythang_ = temp_[8].Split('/');
+
+                        if (ngaythang_.Length >= 3)
+                        {
+                            try
+                            {
+                                Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[2].Trim()),
+                                    Convert.ToInt32(ngaythang_[1].Trim()),
+                                    Convert.ToInt32(ngaythang_[0].Trim()));
+                            }
+                            catch
+                            {
+                                Recdate_ = null;
+                            }
+                        }
+                        else
+                        {
+                            Recdate_ = null;
+                        }
+                    }
+                    catch
+                    {
+                        Recdate_ = null;
+                    }
+                }
+                else
+                {
+                    if (temp_[8].Length == 8)
+                    {
+                        try
+                        {
+                            Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(4, 4)),
+                                Convert.ToInt32(temp_[8].Substring(2, 2)),
+                                Convert.ToInt32(temp_[8].Substring(0, 2)));
+                        }
+                        catch
+                        {
+                            Recdate_ = null;
+                        }
+                    }
+                    else
+                    {
+                        Recdate_ = null;
+                    }
+                }
+
+                //if (temp_[7].Length == 8)
+                //{
+                //    try { mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(4, 4)), Convert.ToInt32(temp_[7].Substring(2, 2)), Convert.ToInt32(temp_[7].Substring(0, 2))); }
+                //    catch { mfdate_ = null; }
+                //}
+                //else if (temp_[7].Length > 8)
+                //{
+
+                //}
+                //else
+                //{
+                //    mfdate_ = null;
+                //}
 
                 //
-                if (temp_[8].Length == 8)
-                {
-                    try { Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(4, 4)), Convert.ToInt32(temp_[8].Substring(2, 2)), Convert.ToInt32(temp_[8].Substring(0, 2))); }
-                    catch { Recdate_ = null; }
-                }
-                else if (temp_[8].Length > 8)
-                {
-                    temp_[8] = temp_[8].Replace("-", "/").Replace("\\", "/");
-                    ngaythang_ = temp_[8].Split('/');
-                    try { Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                    catch { Recdate_ = null; }
-                }
-                else
-                { Recdate_ = null; }
+                //if (temp_[8].Length == 8)
+                //{
+                //    try { Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(4, 4)), Convert.ToInt32(temp_[8].Substring(2, 2)), Convert.ToInt32(temp_[8].Substring(0, 2))); }
+                //    catch { Recdate_ = null; }
+                //}
+                //else if (temp_[8].Length > 8)
+                //{
+                //    temp_[8] = temp_[8].Replace("-", "/").Replace("\\", "/");
+                //    ngaythang_ = temp_[8].Split('/');
+                //    try { Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
+                //    catch { Recdate_ = null; }
+                //}
+                //else
+                //{ Recdate_ = null; }
                 //
-                if (temp_[9].Length == 8)
+
+                if (temp_[9].Contains("-") || temp_[9].Contains("/") || temp_[9].Contains("\\") || temp_[9].Contains("."))
                 {
-                    try { Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(4, 4)), Convert.ToInt32(temp_[9].Substring(2, 2)), Convert.ToInt32(temp_[9].Substring(0, 2))); }
-                    catch { Expdate_ = null; }
-                }
-                else if (temp_[9].Length > 8)
-                {
-                    temp_[9] = temp_[9].Replace("-", "/").Replace("\\", "/");
-                    ngaythang_ = temp_[9].Split('/');
-                    try { Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                    catch { Expdate_ = null; }
+                    try
+                    {
+                        temp_[9] = temp_[9].Replace("-", "/").Replace("\\", "/").Replace(".", "/");
+                        string[] ngaythang_ = temp_[9].Split('/');
+
+                        if (ngaythang_.Length >= 3)
+                        {
+                            try
+                            {
+                                Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[2].Trim()),
+                                    Convert.ToInt32(ngaythang_[1].Trim()),
+                                    Convert.ToInt32(ngaythang_[0].Trim()));
+                            }
+                            catch
+                            {
+                                Expdate_ = null;
+                            }
+                        }
+                        else
+                        {
+                            Expdate_ = null;
+                        }
+                    }
+                    catch
+                    {
+                        Expdate_ = null;
+                    }
                 }
                 else
                 {
-                    Expdate_ = null;
+                    if (temp_[9].Length == 8)
+                    {
+                        try
+                        {
+                            Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(4, 4)),
+                                Convert.ToInt32(temp_[9].Substring(2, 2)),
+                                Convert.ToInt32(temp_[9].Substring(0, 2)));
+                        }
+                        catch
+                        {
+                            Expdate_ = null;
+                        }
+                    }
+                    else
+                    {
+                        Expdate_ = null;
+                    }
                 }
+                //if (temp_[9].Length == 8)
+                //{
+                //    try { Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(4, 4)), Convert.ToInt32(temp_[9].Substring(2, 2)), Convert.ToInt32(temp_[9].Substring(0, 2))); }
+                //    catch { Expdate_ = null; }
+                //}
+                //else if (temp_[9].Length > 8)
+                //{
+                //    temp_[9] = temp_[9].Replace("-", "/").Replace("\\", "/");
+                //    ngaythang_ = temp_[9].Split('/');
+                //    try { Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
+                //    catch { Expdate_ = null; }
+                //}
+                //else
+                //{
+                //    Expdate_ = null;
+                //}
 
                 qr.DC = temp_[0];
                 qr.Code = temp_[1];
@@ -640,7 +790,7 @@ namespace QRMS.Constants
                 qr.MfDate = mfdate_;
                 qr.RecDate = Recdate_;
                 qr.ExpDate = Expdate_;
-                qr.Quantity = Convert.ToDecimal(temp_[10]);
+                qr.Quantity = ConvertToDecimal(temp_[10]);
                 qr.Unit = temp_[11];
 
                 return qr;
@@ -651,6 +801,42 @@ namespace QRMS.Constants
             }
         }
 
+        public static Decimal ConvertToDecimal(object str)
+        {
+            if (str == null)
+                return 0;
+
+            string str_2_ = str.ToString();
+
+            if (str_2_ == "")
+                return 0;
+
+            Decimal temp_ = 0;
+            try
+            {
+                temp_ = Convert.ToDecimal(new DataTable().Compute(str.ToString(), null));
+                //Convert.ToDecimal(str);
+            }
+            catch
+            {
+                try
+                {
+                    try { temp_ = Convert.ToDecimal(str); }
+                    catch
+                    {
+                        str_2_ = str_2_.Replace(",", "*");
+                        str_2_ = str_2_.Replace(".", ",");
+                        str_2_ = str_2_.Replace("*", ".");
+                        temp_ = Convert.ToDecimal(str_2_);
+                    }
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+            return temp_;
+        }
 
         public static void InsertLogs(int id, DateTime date, string funtion, string exception, string my_view, string username)
         {
