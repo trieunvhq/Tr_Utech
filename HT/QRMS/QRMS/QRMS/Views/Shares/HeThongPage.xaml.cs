@@ -1,6 +1,7 @@
 ﻿ 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using QRMS.Constants;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -73,7 +74,7 @@ namespace QRMS.Views
         {
         }
 
-        void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
             MySettings.TenMay = txtTenMay.Text;
             MySettings.Service = txtService.Text;
@@ -82,6 +83,8 @@ namespace QRMS.Views
             lbThietlapLai.Text = "Lưu lại thành công!";
             lbThietlapLai.TextColor = Color.Green;
 
+            await Task.Delay(1000);
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
     }
 }
