@@ -169,6 +169,7 @@ namespace QRMS.ViewModels
                     IsQuet = false;
                     ShowThongBao(true);
                     //StartDemThoiGian_HienThiCam();
+                    _KK_SCANPage.CloseCam();
                 }
 
                 _trangthai_quet = 0;
@@ -209,6 +210,7 @@ namespace QRMS.ViewModels
                                 model_.ColorSLDaNhap = "#0008ff";
 
                                 model_.Color = "#0008ff";
+                                model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
                                 TongQuats.Insert(0, model_);
                                   
                                 TransactionHistoryModel history = new TransactionHistoryModel
@@ -252,6 +254,7 @@ namespace QRMS.ViewModels
                         if (_trangthai_quet != 2)
                             _trangthai_quet = 3;
                     }
+                    _KK_SCANPage.CloseCam();
                     IsQuet = false;
                     ShowThongBao(true);
                     //StartDemThoiGian_HienThiCam();

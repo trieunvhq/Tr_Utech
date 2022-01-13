@@ -15,6 +15,7 @@ namespace QRMS.Models
         public string ItemName { get; set; }
         public string ItemType { get; set; }
         public Decimal SoLuongQuet { get; set; }
+        public string sSoLuongQuet { get; set; }
         public Decimal SoNhan { get; set; }
         public string Unit { get; set; }
 

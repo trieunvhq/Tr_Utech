@@ -98,7 +98,7 @@
 
                                 <Label Text="{Binding ItemName}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,0,3,0"/> 
-                                <Label Text="{Binding SoLuongQuet}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                                <Label Text="{Binding sSoLuongQuet}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                    Grid.Column="2" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}" Margin="3,0,3,0"/>
                                 <Label Text="{Binding SoNhan}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,0,3,0"/>

@@ -21,10 +21,12 @@ namespace QRMS.Models.XKDC
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
         public decimal Quantity { get; set; }
+        public string sQuantity { get; set; }
         public string Unit { get; set; }
         public string OutputStatus { get; set; }
         public string RecordStatus { get; set; }
         public decimal SoLuongDaNhap { get; set; }
+        public string sSoLuongDaNhap { get; set; }
         public int SoLuongBox { get; set; }
 
         public string Color { get; set; }

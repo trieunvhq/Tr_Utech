@@ -108,6 +108,7 @@ namespace QRMS.ViewModels
                             ItemName = item.ItemName,
                             ItemType = item.ItemType,
                             SoLuongQuet = item.Quantity,
+                            sSoLuongQuet = item.Quantity.ToString("N0"),
                             SoNhan = 1,
                             Unit = item.Unit,
                             Color = "#000000",
@@ -205,6 +206,7 @@ namespace QRMS.ViewModels
                     IsQuet = false;
                     ShowThongBao(true);
                     //StartDemThoiGian_HienThiCam();
+                    _DC_SCANPage.CloseCam();
                 }
 
                 _trangthai_quet = 0;
@@ -245,6 +247,7 @@ namespace QRMS.ViewModels
                                 model_.ColorSLDaNhap = "#0008ff";
 
                                 model_.Color = "#0008ff";
+                                model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
                                 TongQuats.Insert(0, model_);
                                   
                                 TransactionHistoryModel history = new TransactionHistoryModel
@@ -288,6 +291,7 @@ namespace QRMS.ViewModels
                         if (_trangthai_quet != 2)
                             _trangthai_quet = 3;
                     }
+                    _DC_SCANPage.CloseCam();
                     IsQuet = false;
                     ShowThongBao(true);
                     //StartDemThoiGian_HienThiCam();

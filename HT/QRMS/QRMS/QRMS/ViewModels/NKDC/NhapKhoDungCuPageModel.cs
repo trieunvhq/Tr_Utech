@@ -67,6 +67,8 @@ namespace QRMS.ViewModels
                         //
                         item.Color = "#000000";
                         //
+                        item.sQuantity = item.Quantity.ToString("N0");
+                        item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
                         DonHangs.Add(item);
                     }
                 }
@@ -116,6 +118,9 @@ namespace QRMS.ViewModels
                                 //
                                 result.Result.data[i].Color = "#000000";
                                 //
+
+                                result.Result.data[i].sQuantity = result.Result.data[i].Quantity.ToString("N0");
+                                result.Result.data[i].sSoLuongDaNhap = result.Result.data[i].SoLuongDaNhap.ToString("N0");
                                 if (result.Result.data[i].ItemCode == id)
                                 {
                                     DonHangs.Insert(0, result.Result.data[i]);
@@ -250,6 +255,7 @@ namespace QRMS.ViewModels
                     IsQuet = false;
                     ShowThongBao(true);
                     //StartDemThoiGian_HienThiCam();
+                    _NhapKhoDungCuPage.CloseCam();
                 }
 
                 _trangthai_quet = 0;
@@ -296,6 +302,8 @@ namespace QRMS.ViewModels
                                             model_.ColorSLDaNhap = "#0008ff";
 
                                         model_.Color = "#0008ff";
+                                        model_.sQuantity = model_.Quantity.ToString("N0");
+                                        model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
                                         DonHangs.Insert(0, model_);
                                     }
                                 }
@@ -309,7 +317,9 @@ namespace QRMS.ViewModels
                                     else
                                         model_.ColorSLDaNhap = "#0008ff";
 
-                                    model_.Color = "#0008ff"; 
+                                    model_.Color = "#0008ff";
+                                    model_.sQuantity = model_.Quantity.ToString("N0");
+                                    model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
                                     DonHangs.Insert(0, model_);
                                 }
 
@@ -356,6 +366,7 @@ namespace QRMS.ViewModels
                         if (_trangthai_quet != 2)
                             _trangthai_quet = 3;
                     }
+                    _NhapKhoDungCuPage.CloseCam();
                     IsQuet = false;
                     ShowThongBao(true);
                     //StartDemThoiGian_HienThiCam();

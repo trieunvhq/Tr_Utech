@@ -29,6 +29,8 @@ namespace QRMS.Views
             ViewModel._KK_SCANPage = this;
             //_MyScan = new MyScan(1, ViewModel);
             //
+            _MyScan = new MyScan();
+            _MyScan._KK_SCANPageModel = ViewModel;
             row_trencung.Height = 20;
 
             if (Device.Idiom == TargetIdiom.Phone)
@@ -111,14 +113,25 @@ namespace QRMS.Views
             ViewModel.OnAppearing();
         }
 
-        void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
+        public void CloseCam()
         {
             try
             {
                 if (_MyScan != null)
                     _MyScan.CloseBarcodeReader();
-                _MyScan = new MyScan();
-                _MyScan._KK_SCANPageModel = ViewModel;
+            }
+            catch { }
+        }
+        void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
+        {
+            try
+            {
+                try
+                {
+                    if (_MyScan != null)
+                        _MyScan.CloseBarcodeReader();
+                }
+                catch { } 
                 _MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
