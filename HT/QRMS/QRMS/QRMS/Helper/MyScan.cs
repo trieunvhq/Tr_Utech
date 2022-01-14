@@ -16,7 +16,8 @@ namespace QRMS.Helper
 		public DC_SCANPageModel _DC_SCANPageModel;
 		public KK_SCANPageModel _KK_SCANPageModel;
 		public MyScan()
-		{ 
+		{
+			OpenBarcodeReader();
 		} 
 		public async void OpenBarcodeReader()
 		{
