@@ -3,16 +3,20 @@ using Acr.UserDialogs;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
+using QRMS.interfaces;
 using QRMS.Models; 
 using QRMS.Views;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;  
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Forms; 
 
 namespace QRMS.ViewModels
 {
-    public class NhapKhoDungCuPageModel : BaseViewModel
+    public class NhapKhoDungCuPageModel : BaseViewModel, INotifyPropertyChanged
     {
         public NhapKhoDungCuPage _NhapKhoDungCuPage;
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
@@ -32,9 +36,17 @@ namespace QRMS.ViewModels
         private string _No = "";
         private DateTime _Date;
 
+        private IBarcodeReader _barcodeReader;
+        private string _barcodeDataText;
+        private string _barcodeSymbology;
+        private DateTime _scanTime;
+        private string _statusMessage;
+        public int ScanCount { get; set; }
+
 
         public NhapKhoDungCuPageModel(string id, string no, DateTime d)
         {
+            BarcodeDataText = "Initializing...";
             _ID = id;
             _No = no;
             _Date = d;
@@ -43,6 +55,7 @@ namespace QRMS.ViewModels
 
         public override void OnAppearing()
         {
+            //Initialize();
             _daQuetQR = new List<string>();
             base.OnAppearing();
         }
@@ -375,9 +388,12 @@ namespace QRMS.ViewModels
                  {
                     MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "NhapKhoDungCuPageModel", MySettings.UserName);
                 }
+
+                //Initialize();
             }
             catch (Exception ex)
             {
+                //Initialize();
                 MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
             } 
         }
@@ -450,5 +466,120 @@ namespace QRMS.ViewModels
         //    tt_HienThiCam = 0;
         //    Interlocked.Exchange(ref this.cancellation_HienThiCam, new CancellationTokenSource()).Cancel();
         //}
+
+        public IBarcodeReader BarcodeReader
+        {
+            get => _barcodeReader;
+            set
+            {
+                _barcodeReader = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string BarcodeDataText
+        {
+            get => _barcodeDataText;
+            set
+            {
+                _barcodeDataText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string BarcodeSymbology
+        {
+            get => _barcodeSymbology;
+            set
+            {
+                _barcodeSymbology = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime ScanTime
+        {
+            get => _scanTime;
+            set
+            {
+                _scanTime = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set
+            {
+                _statusMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        internal void Initialize()
+        {
+            StatusMessage = "Initializing...";
+            BarcodeDataText = "No barcode scanned yet";
+            ScanTime = DateTime.Now;
+
+            BarcodeReader = DependencyService.Get<IBarcodeReader>();
+            if (null != BarcodeReader)
+            {
+                BarcodeReader.BarcodeDataReady += BarcodeReader_BarcodeDataReady;
+                BarcodeReader.StatusMessage += BarcodeReader_StatusMessage;
+
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        await BarcodeReader.Initialize();
+                        await BarcodeReader.StartBarcodeReader();
+
+                        StatusMessage = "Initialize" + "Scan a barcode";
+                    }
+                    catch (Exception e)
+                    {
+                        StatusMessage = "Initialize" + e.Message;
+                    }
+                });
+            }
+        }
+
+        internal void Stop()
+        {
+            if (null != BarcodeReader)
+                Task.Run(async () => await BarcodeReader.StopBarcodeReader());
+        }
+
+        private void BarcodeReader_BarcodeDataReady(object sender, BarcodeDataArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                //BarcodeDataText = e.Data;
+                //BarcodeSymbology = e.SymbologyName;
+                //ScanTime = e.TimeStamp;
+                StatusMessage = $"Barcode #{++ScanCount} received";
+
+                ScanComplate(e.Data);
+            });
+        }
+
+        private void BarcodeReader_StatusMessage(object sender, string statusMessage)
+        {
+            Device.BeginInvokeOnMainThread(() => StatusMessage = statusMessage);
+        }
+
+        #region INotifyPropertyChanged implementation
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion      
     }
 }

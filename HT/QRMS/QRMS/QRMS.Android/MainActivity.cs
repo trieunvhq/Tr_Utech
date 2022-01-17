@@ -13,6 +13,9 @@ using FFImageLoading.Forms.Droid;
 using Android.Util;
 using Android;
 using Plugin.Fingerprint;
+using Xamarin.Forms;
+using QRMS.interfaces;
+using QRMS.Droid.Renderer;
 
 namespace QRMS.Droid
 {
@@ -42,6 +45,10 @@ namespace QRMS.Droid
             base.OnCreate(savedInstanceState);
             FirebaseApp.InitializeApp(this);
             global::Xamarin.Forms.Forms.SetFlags(new string[] { "RadioButton_Experimental", "CollectionView_Experimental", "IndicatorView_Experimental" });
+
+
+            DependencyService.Register<IBarcodeReader, BarcodeReaderWrapper_Droid>();
+
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             UserDialogs.Init(this);

@@ -172,6 +172,7 @@
     <Compile Include="Renderer\OpenImplementation.cs" />
     <Compile Include="Renderer\IQrScanningService.cs" />
     <Compile Include="AndroidApp.cs" />
+    <Compile Include="Renderer\BarcodeReaderWrapper_Droid.cs" />
   </ItemGroup>
   <ItemGroup>
     <GoogleServicesJson Include="google-services.json" />
