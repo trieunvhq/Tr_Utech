@@ -131,7 +131,9 @@ namespace QRMS.Views
         void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
         {
             try
-            {
+            { 
+                ViewModel.IsThongBao = false;
+                ViewModel.IsMatDoc_Camera = true;
                 if(_MyScan!=null)
                 {
                     try
@@ -165,6 +167,7 @@ namespace QRMS.Views
         }
         void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
         {
+            ViewModel.IsMatDoc_Camera = false;
             ResetCamera();
             //row.Height = 150;
             ViewModel.isDangQuet = false;

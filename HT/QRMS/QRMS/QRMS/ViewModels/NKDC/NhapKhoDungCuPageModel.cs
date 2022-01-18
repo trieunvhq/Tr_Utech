@@ -41,7 +41,10 @@ namespace QRMS.ViewModels
         private string _barcodeSymbology;
         private DateTime _scanTime;
         private string _statusMessage;
-        public int ScanCount { get; set; }
+        public int ScanCount { get; set; } = 0;
+
+
+        public bool IsMatDoc_Camera;
 
 
         public NhapKhoDungCuPageModel(string id, string no, DateTime d)
@@ -55,7 +58,7 @@ namespace QRMS.ViewModels
 
         public override void OnAppearing()
         {
-            //Initialize();
+            Initialize();
             _daQuetQR = new List<string>();
             base.OnAppearing();
         }
@@ -226,39 +229,26 @@ namespace QRMS.ViewModels
             }
         }
 
-        private int _trangthai_quet;
-        private void ShowThongBao(bool isshow)
-        { 
-            // 
-            if (isshow)
-            {
-                if (_trangthai_quet==1)
-                {
-                    Color = Color.Blue;
-                    ThongBao = "Mã QR đã được quét"; 
-                }
-                else if (_trangthai_quet == 2)
-                {
-                    Color = Color.Green;
-                    ThongBao = "Thành công";
-                }
-                else if (_trangthai_quet == 3)
-                {
-                    Color = Color.Red;
-                    ThongBao = "Mã không tồn tại";
-                }
-                IsThongBao = true;
-            }
-            else
-            {
-                IsThongBao = false;
-            }
-        }
+        private int _so_luong_da_quet = 0;
+        private int _so_luong_quet_thanh_cong = 0;
+
         public bool isDangQuet = false;
         public async void ScanComplate(string str)
         {
             try
             {
+                //
+                if (IsMatDoc_Camera)
+                {
+                    Stop(); 
+                }
+                else
+                {
+                }
+                //
+                IsThongBao = false;
+                ThongBao = "";
+                //
                 if (isDangQuet)
                     return;
                 if (!_daQuetQR.Contains(str))
@@ -266,12 +256,16 @@ namespace QRMS.ViewModels
                 else
                 {
                     IsQuet = false;
-                    ShowThongBao(true);
+                    
                     //StartDemThoiGian_HienThiCam();
-                    _NhapKhoDungCuPage.CloseCam();
+                    if (IsMatDoc_Camera)
+                    { }
+                    else
+                    {
+                        _NhapKhoDungCuPage.CloseCam();
+                    }    
                 }
-
-                _trangthai_quet = 0;
+                 
                 if (Historys != null)
                 {
                     isDangQuet = true;
@@ -291,7 +285,10 @@ namespace QRMS.ViewModels
 
                     if (IsTonTai_)
                     {
-                        _trangthai_quet = 1; 
+                        ++_so_luong_da_quet;
+                        Color = Color.Blue;
+                        IsThongBao = true;
+                        ThongBao = "Mã QR đã được quét: " + _so_luong_da_quet;
                     }
                     else
                     {
@@ -371,102 +368,51 @@ namespace QRMS.ViewModels
                                 Historys.Add(history);
                                 App.Dblocal.SaveHistoryAsync(history);
 
-                                _trangthai_quet = 2;
+                                ++_so_luong_quet_thanh_cong;
+                                Color = Color.Blue;
+                                IsThongBao = true;
+                                ThongBao = "Thành công: " + _so_luong_quet_thanh_cong;
                                 //
                                 break;
                             }
-                        }
-                        if (_trangthai_quet != 2)
-                            _trangthai_quet = 3;
+                        } 
                     }
-                    _NhapKhoDungCuPage.CloseCam();
-                    IsQuet = false;
-                    ShowThongBao(true);
-                    //StartDemThoiGian_HienThiCam();
+                    if (IsMatDoc_Camera)
+                    { }
+                    else
+                    {
+                        _NhapKhoDungCuPage.CloseCam();
+                    } 
+                    IsQuet = false;  
                 }
                 else
-                 {
+                {
                     MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "NhapKhoDungCuPageModel", MySettings.UserName);
                 }
-
-                //Initialize();
+                //
+                if (IsMatDoc_Camera)
+                {
+                    Stop();
+                    Initialize();
+                }
+                else
+                { 
+                }
             }
             catch (Exception ex)
             {
-                //Initialize();
+                if (IsMatDoc_Camera)
+                {
+                    Stop();
+                    Initialize();
+                }
+                else
+                {
+                }
                 MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
             } 
         }
-
-        //private int tt = 10;
-        //private CancellationTokenSource cancellation = new CancellationTokenSource();
-        //private void StartDemThoiGianGGS()
-        //{
-        //    StopDemThoiGianGGS();
-        //    CancellationTokenSource cts = this.cancellation;
-
-        //    Device.StartTimer(TimeSpan.FromSeconds(1),
-        //          () =>
-        //          {
-        //              if (cts.IsCancellationRequested) return false;
-        //              if (IsThongBao)
-        //              {
-        //                  if (tt <= 0)
-        //                  {
-        //                      IsThongBao = false;
-        //                      ThongBao = "";
-        //                      ThoiGian = "";
-        //                      StopDemThoiGianGGS();
-        //                  }
-        //                  else
-        //                  {
-        //                      ThoiGian = "  (" + tt + ")";
-        //                  }    
-        //                  --tt;
-        //              }     
-        //              return true; // or true for periodic behavior
-        //          });
-        //}
-        //public void StopDemThoiGianGGS()
-        //{
-        //    tt = 10;
-        //    Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
-        //}
-        //// 
-        //private CancellationTokenSource cancellation_HienThiCam = new CancellationTokenSource();
-        //private int tt_HienThiCam = 0;
-        //private void StartDemThoiGian_HienThiCam()
-        //{
-        //    StopDemThoiGian_HienThiCam();
-        //    CancellationTokenSource cts = this.cancellation_HienThiCam;
-
-        //    IsQuet = false;
-        //    ShowThongBao(true);
-
-        //    Device.StartTimer(TimeSpan.FromSeconds(2),
-        //          () =>
-        //          {
-        //              if (IsTat)
-        //                  StopDemThoiGian_HienThiCam();
-        //              if (cts.IsCancellationRequested) return false;
-        //              Device.BeginInvokeOnMainThread(async () =>
-        //              {
-        //                  isDangQuet = false;
-        //                  IsQuet = true;
-        //                  _NhapKhoDungCuPage.ResetCamera();
-        //                  ShowThongBao(false);
-        //                  StopDemThoiGian_HienThiCam();
-        //                  ++tt_HienThiCam;
-        //              });
-        //              return true; // or true for periodic behavior
-        //          });
-        //}
-        //public void StopDemThoiGian_HienThiCam()
-        //{
-        //    tt_HienThiCam = 0;
-        //    Interlocked.Exchange(ref this.cancellation_HienThiCam, new CancellationTokenSource()).Cancel();
-        //}
-
+         
         public IBarcodeReader BarcodeReader
         {
             get => _barcodeReader;
@@ -550,6 +496,8 @@ namespace QRMS.ViewModels
         {
             if (null != BarcodeReader)
                 Task.Run(async () => await BarcodeReader.StopBarcodeReader());
+
+            isDangQuet = false;
         }
 
         private void BarcodeReader_BarcodeDataReady(object sender, BarcodeDataArgs e)
@@ -559,7 +507,7 @@ namespace QRMS.ViewModels
                 //BarcodeDataText = e.Data;
                 //BarcodeSymbology = e.SymbologyName;
                 //ScanTime = e.TimeStamp;
-                StatusMessage = $"Barcode #{++ScanCount} received";
+                StatusMessage = $"Barcode #{++ScanCount} received: "+ e.Data;
 
                 ScanComplate(e.Data);
             });
