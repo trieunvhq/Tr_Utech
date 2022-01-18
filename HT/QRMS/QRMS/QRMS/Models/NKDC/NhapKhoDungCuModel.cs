@@ -11,6 +11,7 @@ namespace QRMS.Models
         public int PurchaseOrderID { get; set; }
         public string PurchaseOrderNo { get; set; }
         public Nullable<System.DateTime> PurchaseOrderDate { get; set; }
+        public string WarehouseCode { get; set; }
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
         public string ItemType { get; set; }
