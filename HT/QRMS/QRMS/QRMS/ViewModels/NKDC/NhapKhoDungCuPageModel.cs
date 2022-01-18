@@ -45,8 +45,9 @@ namespace QRMS.ViewModels
         public bool IsMatDoc_Camera;
 
 
-        public NhapKhoDungCuPageModel()
+        public NhapKhoDungCuPageModel(NhapKhoDungCuPage fd)
         {
+            _NhapKhoDungCuPage = fd;
             BarcodeDataText = "Initializing...";
    
             LoadModels("");

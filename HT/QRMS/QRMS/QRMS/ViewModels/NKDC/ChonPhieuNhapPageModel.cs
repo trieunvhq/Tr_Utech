@@ -58,7 +58,7 @@ namespace QRMS.ViewModels
             try
             {
                 var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PurchaseOrder>>>
-                                                 (Constaint.ServiceAddress, Constaint.APIurl.getsaleorderscan,
+                                                 (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorderscan,
                                                  new
                                                  {
                                                      BarcodeScan = BarcodeScan

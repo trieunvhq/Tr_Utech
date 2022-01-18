@@ -32,11 +32,10 @@ namespace QRMS.Views
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
-            Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new NhapKhoDungCuPageModel(); 
+            Shell.SetTabBarIsVisible(this, false); 
+            ViewModel = new NhapKhoDungCuPageModel(this); 
             ViewModel.Initialize();
             BindingContext = ViewModel;
-            ViewModel._NhapKhoDungCuPage = this;
             _MyScan = new MyScan();
             _MyScan._NhapKhoDungCuPageModel = ViewModel;
 
