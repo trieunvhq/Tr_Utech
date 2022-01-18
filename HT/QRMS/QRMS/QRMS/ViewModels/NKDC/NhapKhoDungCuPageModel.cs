@@ -298,6 +298,7 @@ namespace QRMS.ViewModels
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
                                 NhapKhoDungCuModel model_ = DonHangs[i];
+                                bool iscoluu = true;
                                 if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
                                 {
                                     var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
@@ -316,6 +317,8 @@ namespace QRMS.ViewModels
                                         model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
                                         DonHangs.Insert(0, model_);
                                     }
+                                    else
+                                    { iscoluu = false; }    
                                 }
                                 else
                                 {
@@ -334,40 +337,41 @@ namespace QRMS.ViewModels
                                 }
 
                                 App.Dblocal.UpdatePurchaseOrderAsync(model_);
-
-                                TransactionHistoryModel history = new TransactionHistoryModel
+                                if(iscoluu)
                                 {
-                                    ID = 0,
-                                    TransactionType = "I",
-                                    OrderNo = _No,
-                                    OrderDate = _Date,
-                                    ItemCode = qr.Code,
-                                    ItemName = qr.Name,
-                                    ItemType = qr.DC,
-                                    Quantity = soluong_,
-                                    Unit = qr.Unit,
-                                    EXT_OtherCode = qr.OtherCode,
-                                    EXT_Serial = qr.Serial,
-                                    EXT_PartNo = qr.PartNo,
-                                    EXT_LotNo = qr.LotNo,
-                                    EXT_MfDate = qr.MfDate,
-                                    EXT_RecDate = qr.RecDate,
-                                    EXT_ExpDate = qr.ExpDate,
-                                    EXT_QRCode = str,
-                                    CustomerCode = qr.CustomerCode,
-                                    ExportStatus = "N",
-                                    RecordStatus = "N",
-                                    WarehouseCode_From = MySettings.CodeKho,
-                                    WarehouseName_From = MySettings.MaKho,
-                                    CreateDate = DateTime.Now,
-                                    UserCreate = MySettings.UserName,
-                                    page = 0,
-                                    token = MySettings.Token
-                                };
+                                    TransactionHistoryModel history = new TransactionHistoryModel
+                                    {
+                                        ID = 0,
+                                        TransactionType = "I",
+                                        OrderNo = _No,
+                                        OrderDate = _Date,
+                                        ItemCode = qr.Code,
+                                        ItemName = qr.Name,
+                                        ItemType = qr.DC,
+                                        Quantity = soluong_,
+                                        Unit = qr.Unit,
+                                        EXT_OtherCode = qr.OtherCode,
+                                        EXT_Serial = qr.Serial,
+                                        EXT_PartNo = qr.PartNo,
+                                        EXT_LotNo = qr.LotNo,
+                                        EXT_MfDate = qr.MfDate,
+                                        EXT_RecDate = qr.RecDate,
+                                        EXT_ExpDate = qr.ExpDate,
+                                        EXT_QRCode = str,
+                                        CustomerCode = qr.CustomerCode,
+                                        ExportStatus = "N",
+                                        RecordStatus = "N",
+                                        WarehouseCode_From = MySettings.CodeKho,
+                                        WarehouseName_From = MySettings.MaKho,
+                                        CreateDate = DateTime.Now,
+                                        UserCreate = MySettings.UserName,
+                                        page = 0,
+                                        token = MySettings.Token
+                                    };
 
-                                Historys.Add(history);
-                                App.Dblocal.SaveHistoryAsync(history);
-
+                                    Historys.Add(history);
+                                    App.Dblocal.SaveHistoryAsync(history);
+                                }
                                 ++_so_luong_quet_thanh_cong;
                                 Color = Color.Blue;
                                 IsThongBao = true;
