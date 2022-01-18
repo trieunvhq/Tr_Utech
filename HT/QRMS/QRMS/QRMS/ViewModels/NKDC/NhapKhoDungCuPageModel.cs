@@ -32,9 +32,7 @@ namespace QRMS.ViewModels
         public string ThongBao { get; set; } = "";
         public string ThoiGian { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
-        private string _ID = "";
-        private string _No = "";
-        private DateTime _Date;
+ 
 
         private IBarcodeReader _barcodeReader;
         private string _barcodeDataText;
@@ -47,12 +45,10 @@ namespace QRMS.ViewModels
         public bool IsMatDoc_Camera;
 
 
-        public NhapKhoDungCuPageModel(string id, string no, DateTime d)
+        public NhapKhoDungCuPageModel()
         {
             BarcodeDataText = "Initializing...";
-            _ID = id;
-            _No = no;
-            _Date = d;
+   
             LoadModels("");
         }
 
@@ -71,7 +67,7 @@ namespace QRMS.ViewModels
                 DonHangs.Clear();
                 Historys.Clear();
 
-                List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_No);
+                List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
                 foreach (NhapKhoDungCuModel item in donhang_)
                 {
                     if (!DonHangs.Contains(item))
@@ -89,7 +85,7 @@ namespace QRMS.ViewModels
                     }
                 }
 
-                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
+                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
                 foreach (TransactionHistoryModel item in historys)
                 {
                     if (!Historys.Contains(item))
@@ -113,11 +109,52 @@ namespace QRMS.ViewModels
 
                 if (DonHangs.Count == 0)
                 {
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<NhapKhoDungCuModel>>>
-                                                 (Constaint.ServiceAddress, Constaint.APIurl.getitem,
+                    var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<List<NhapKhoDungCuModel>>>
+                                                 (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorderitem,
                                                  new
                                                  {
-                                                     ID = _ID
+                                                     PurchaseOrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
+                                                     WarehouseCode = _NhapKhoDungCuPage._WarehouseCode
+                                                 });
+                    if (result2 != null && result2.Result != null && result2.Result.data != null)
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
+
+                            for (int i = 0; i < result2.Result.data.Count; ++i)
+                            {
+                                if (result2.Result.data[i].SoLuongDaNhap >= result2.Result.data[i].Quantity)
+                                    result2.Result.data[i].ColorSLDaNhap = "#ff0000";
+                                else
+                                    result2.Result.data[i].ColorSLDaNhap = "#000000";
+                                //
+                                result2.Result.data[i].Color = "#000000";
+                                //
+
+                                result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ToString("N0");
+                                result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ToString("N0");
+                                if (result2.Result.data[i].ItemCode == id)
+                                {
+                                    DonHangs.Insert(0, result2.Result.data[i]);
+                                }
+                                else
+                                {
+                                    DonHangs.Add(result2.Result.data[i]);
+                                }
+
+                                App.Dblocal.SavePurchaseOrderAsync(result2.Result.data[i]);
+                            }
+                        });
+                    }
+                    //
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<NhapKhoDungCuModel>>>
+                                                 (Constaint.ServiceAddress, Constaint.APIurl.getinserthistory,
+                                                 new
+                                                 {
+                                                     OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
+                                                     TransactionType = "I",
+                                                     WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode
                                                  });
                     if (result != null && result.Result != null && result.Result.data != null)
                     {
@@ -179,7 +216,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeleteHistoryAsyncWithKey(_No);
+                                App.Dblocal.DeleteHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
                                 Historys.Clear();
 
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
@@ -189,7 +226,7 @@ namespace QRMS.ViewModels
                                 {
                                     if (result2.Result.data == 1)
                                     {
-                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_No);
+                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
                                         DonHangs.Clear();
 
                                         await Controls.LoadingUtility.HideAsync();
@@ -343,8 +380,8 @@ namespace QRMS.ViewModels
                                     {
                                         ID = 0,
                                         TransactionType = "I",
-                                        OrderNo = _No,
-                                        OrderDate = _Date,
+                                        OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
+                                        OrderDate = _NhapKhoDungCuPage._PurchaseOrderDate,
                                         ItemCode = qr.Code,
                                         ItemName = qr.Name,
                                         ItemType = qr.DC,

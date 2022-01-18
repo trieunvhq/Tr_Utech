@@ -18,18 +18,22 @@ namespace QRMS.Views
     public partial class NhapKhoDungCuPage : ContentPage
     {
         MyScan _MyScan;
-        private string _PuschaseNo = "";
+        public string _PurchaseOrderNo = "";
+        public string _WarehouseCode = "";
+        public DateTime? _PurchaseOrderDate;
 
         public NhapKhoDungCuPageModel ViewModel { get; set; }
-        public NhapKhoDungCuPage(string id, string no, DateTime d)
-        {
-            _PuschaseNo = no;
+        public NhapKhoDungCuPage(string PurchaseOrderNo, string WarehouseCode, DateTime? PurchaseOrderDate)
+        { 
             InitializeComponent();
-             
+            _PurchaseOrderNo = PurchaseOrderNo;
+            _WarehouseCode = WarehouseCode;
+            _PurchaseOrderDate = PurchaseOrderDate;
+
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new NhapKhoDungCuPageModel(id, no, d); 
+            ViewModel = new NhapKhoDungCuPageModel(); 
             ViewModel.Initialize();
             BindingContext = ViewModel;
             ViewModel._NhapKhoDungCuPage = this;
@@ -85,7 +89,7 @@ namespace QRMS.Views
                     else
                     {
                          App.Dblocal.DeleteHistoryAll();
-                         App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PuschaseNo);
+                         App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PurchaseOrderNo);
                     }
 
                     await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
