@@ -1,5 +1,6 @@
 ﻿ 
-using Acr.UserDialogs; 
+using Acr.UserDialogs;
+using Honeywell.AIDC.CrossPlatform;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms; 
 
@@ -32,7 +34,7 @@ namespace QRMS.ViewModels
         public string _WarehouseName { get; set; }
         public string _PurchaseOrderNo { get; set; }
 
-        private IBarcodeReader _barcodeReader;
+        //private IBarcodeReader _barcodeReader;
         private string _barcodeDataText;
         private string _barcodeSymbology;
         private DateTime _scanTime;
@@ -49,7 +51,7 @@ namespace QRMS.ViewModels
 
         public override void OnAppearing()
         {
-            Initialize(); 
+            OpenBarcodeReader(); 
             base.OnAppearing();
         }
 
@@ -91,8 +93,7 @@ namespace QRMS.ViewModels
 
                         if (IsMatDoc_Camera)
                         {
-                            Stop();
-                            Initialize();
+                            CloseBarcodeReader(); 
                         }
                         else
                         {
@@ -148,8 +149,8 @@ namespace QRMS.ViewModels
             {
                 if (IsMatDoc_Camera)
                 {
-                    Stop();
-                    Initialize();
+
+                    CloseBarcodeReader(); 
                 }
                 else
                 {
@@ -158,15 +159,15 @@ namespace QRMS.ViewModels
             }
         }
 
-        public IBarcodeReader BarcodeReader
-        {
-            get => _barcodeReader;
-            set
-            {
-                _barcodeReader = value;
-                OnPropertyChanged();
-            }
-        }
+        //public IBarcodeReader BarcodeReader
+        //{
+        //    get => _barcodeReader;
+        //    set
+        //    {
+        //        _barcodeReader = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public string BarcodeDataText
         {
@@ -208,71 +209,141 @@ namespace QRMS.ViewModels
             }
         }
 
-        internal void Initialize()
+        //internal void Initialize()
+        //{
+        //    StatusMessage = "Initializing...";
+        //    BarcodeDataText = "No barcode scanned yet";
+        //    ScanTime = DateTime.Now;
+
+        //    BarcodeReader = DependencyService.Get<IBarcodeReader>();
+        //    if (null != BarcodeReader)
+        //    {
+        //        BarcodeReader.BarcodeDataReady += BarcodeReader_BarcodeDataReady;
+        //        BarcodeReader.StatusMessage += BarcodeReader_StatusMessage;
+
+        //        Task.Run(async () =>
+        //        {
+        //            try
+        //            {
+        //                await BarcodeReader.Initialize();
+        //                await BarcodeReader.StartBarcodeReader();
+
+        //                StatusMessage = "Initialize" + "Scan a barcode";
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                StatusMessage = "Initialize" + e.Message;
+        //            }
+        //        });
+        //    }
+        //}
+
+        //internal void Stop()
+        //{
+        //    if (null != BarcodeReader)
+        //        Task.Run(async () => await BarcodeReader.StopBarcodeReader());
+
+        //    isDangQuet = false;
+        //}
+
+        //private void BarcodeReader_BarcodeDataReady(object sender, BarcodeDataArgs e)
+        //{
+        //    Device.BeginInvokeOnMainThread(() =>
+        //    {
+        //        //BarcodeDataText = e.Data;
+        //        //BarcodeSymbology = e.SymbologyName;
+        //        //ScanTime = e.TimeStamp;
+        //        StatusMessage = $"Barcode #{++ScanCount} received: " + e.Data;
+
+        //        ScanComplate(e.Data);
+        //    });
+        //}
+
+        //private void BarcodeReader_StatusMessage(object sender, string statusMessage)
+        //{
+        //    Device.BeginInvokeOnMainThread(() => StatusMessage = statusMessage);
+        //}
+
+        //#region INotifyPropertyChanged implementation
+
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+        //[NotifyPropertyChangedInvocator]
+        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
+
+        //#endregion
+
+
+        #region BarcodeReader Action
+        private BarcodeReader mSelectedReader = null;
+        private SynchronizationContext mUIContext = SynchronizationContext.Current;
+
+        public async void OpenBarcodeReader()
         {
-            StatusMessage = "Initializing...";
-            BarcodeDataText = "No barcode scanned yet";
-            ScanTime = DateTime.Now;
-
-            BarcodeReader = DependencyService.Get<IBarcodeReader>();
-            if (null != BarcodeReader)
+            mSelectedReader = GetBarcodeReader();
+            if (!mSelectedReader.IsReaderOpened)
             {
-                BarcodeReader.BarcodeDataReady += BarcodeReader_BarcodeDataReady;
-                BarcodeReader.StatusMessage += BarcodeReader_StatusMessage;
+                BarcodeReader.Result result = await mSelectedReader.OpenAsync();
 
-                Task.Run(async () =>
+                if (result.Code == BarcodeReader.Result.Codes.SUCCESS ||
+                    result.Code == BarcodeReader.Result.Codes.READER_ALREADY_OPENED)
                 {
-                    try
-                    {
-                        await BarcodeReader.Initialize();
-                        await BarcodeReader.StartBarcodeReader();
-
-                        StatusMessage = "Initialize" + "Scan a barcode";
-                    }
-                    catch (Exception e)
-                    {
-                        StatusMessage = "Initialize" + e.Message;
-                    }
-                });
+                    //SetScannerAndSymbologySettings();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
+                        " Message:" + result.Message, "OK");
+                }
             }
         }
 
-        internal void Stop()
+        public BarcodeReader GetBarcodeReader()
         {
-            if (null != BarcodeReader)
-                Task.Run(async () => await BarcodeReader.StopBarcodeReader());
+            BarcodeReader reader = new BarcodeReader();
 
-            isDangQuet = false;
+            reader.BarcodeDataReady += MBarcodeReader_BarcodeDataReady;
+
+            return reader;
         }
 
-        private void BarcodeReader_BarcodeDataReady(object sender, BarcodeDataArgs e)
+        private void MBarcodeReader_BarcodeDataReady(object sender, Honeywell.AIDC.CrossPlatform.BarcodeDataArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            try
             {
-                //BarcodeDataText = e.Data;
-                //BarcodeSymbology = e.SymbologyName;
-                //ScanTime = e.TimeStamp;
-                StatusMessage = $"Barcode #{++ScanCount} received: " + e.Data;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    mUIContext.Post(_ =>
+                    {
+                        StatusMessage = $"Barcode #{++ScanCount} received: " + e.Data;
 
-                ScanComplate(e.Data);
-            });
+                        ScanComplate(e.Data);
+                    }
+                        , null);
+                });
+            }
+            catch (Exception ex)
+            {
+                Application.Current.MainPage.DisplayAlert("Thông báo", "MBarcodeReader_BarcodeDataReady Error", "OK");
+            }
         }
 
-        private void BarcodeReader_StatusMessage(object sender, string statusMessage)
+        public async void CloseBarcodeReader()
         {
-            Device.BeginInvokeOnMainThread(() => StatusMessage = statusMessage);
+            isDangQuet = false;
+            if (mSelectedReader != null && mSelectedReader.IsReaderOpened)
+            {
+                BarcodeReader.Result result = await mSelectedReader.CloseAsync();
+                if (result.Code != BarcodeReader.Result.Codes.SUCCESS)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "CloseAsync failed, Code:" + result.Code +
+                        " Message:" + result.Message, "OK");
+                }
+            }
         }
-
-        #region INotifyPropertyChanged implementation
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion      
+        #endregion
     }
 }
