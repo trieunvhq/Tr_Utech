@@ -81,9 +81,9 @@ namespace QRMS.ViewModels
                             item.ColorSLDaNhap = "#ff0000";
                         else
                             item.ColorSLDaNhap = "#000000";
-                        //
-                        item.Color = "#000000";
-                        //
+                        ////
+                        //item.Color = "#000000";
+                        ////
                         item.sQuantity = item.Quantity.ToString("N0");
                         item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
                         DonHangs.Add(item);
