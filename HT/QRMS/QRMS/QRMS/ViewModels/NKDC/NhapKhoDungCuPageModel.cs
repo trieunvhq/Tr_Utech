@@ -213,8 +213,8 @@ namespace QRMS.ViewModels
                                 Historys.Clear();
                                 DonHangs.Clear();
 
-                                await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                                await Controls.LoadingUtility.HideAsync(); 
+                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
                                 LoadModels("");
 
                                 //var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
@@ -246,7 +246,7 @@ namespace QRMS.ViewModels
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         });
                     } 
@@ -257,8 +257,7 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Controls.LoadingUtility.HideAsync();
-
-                    UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
+                     
                     MySettings.InsertLogs(0,DateTime.Now, "LuuLais", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
                 });
             }

@@ -150,8 +150,7 @@ namespace QRMS.Views
                 _MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
-            {
-                UserDialogs.Instance.AlertAsync(ee.Message, "Exception", "OK").ConfigureAwait(false);
+            { 
                 MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "NhapKhoDungCuPage", MySettings.UserName);
 
             }
@@ -209,7 +208,15 @@ namespace QRMS.Views
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         { 
             await Controls.LoadingUtility.HideAsync();
-            btnDongY_absPopup.Text = nutdongy;
+            if(huybo=="")
+            {
+                btnDongY_absPopup.IsVisible = false;
+            }
+            else
+            {
+                btnDongY_absPopup.IsVisible = true;
+                btnDongY_absPopup.Text = nutdongy;
+            }    
             btnHuyBo_absPopup.Text = huybo;
             lbTieuDe_absPopup.Text = tieude; 
             if (!grid.Children.Contains(absPopup_DangXuat))
@@ -231,6 +238,12 @@ namespace QRMS.Views
             else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
             {
                 ViewModel.XuLyTiepLuu(true, model_, soluong_, i, qr, str);
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
+            {
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
+            {
             } 
 
         }
@@ -251,6 +264,12 @@ namespace QRMS.Views
             else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
             {
                 ViewModel.XuLyTiepLuu(false, model_, soluong_, i, qr, str);
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
+            {
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
+            {
             }
         }
     }
