@@ -198,7 +198,8 @@ namespace QRMS.Views
         public QRModel qr;
         public string str;
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
-        {
+        { 
+            await Controls.LoadingUtility.HideAsync();
             btnDongY_absPopup.Text = nutdongy;
             btnHuyBo_absPopup.Text = huybo;
             lbTieuDe_absPopup.Text = tieude; 
