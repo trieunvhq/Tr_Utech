@@ -67,7 +67,7 @@ namespace QRMS.Views
         {
             if (ViewModel.SelectedDonHang != null)
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage(ViewModel.SelectedDonHang.ID,
-                    ViewModel.SelectedDonHang.Name, Convert.ToDateTime(ViewModel.SelectedDonHang.PurchaseOrderDate)));
+                    ViewModel.SelectedDonHang.Name, Convert.ToDateTime(ViewModel.SelectedDonHang.PurchaseOrderDate),""));
 
         }
 
