@@ -93,7 +93,7 @@ namespace QRMS.ViewModels
 
                         if (IsMatDoc_Camera)
                         {
-                            CloseBarcodeReader(); 
+                            //CloseBarcodeReader(); 
                         }
                         else
                         {
@@ -125,7 +125,7 @@ namespace QRMS.ViewModels
                 //
                 if (IsMatDoc_Camera)
                 {
-                    Stop();
+                    //CloseBarcodeReader();
                 }
                 else
                 {
@@ -134,8 +134,8 @@ namespace QRMS.ViewModels
                 IsThongBao = false;
                 ThongBao = "";
                 //
-                if (isDangQuet)
-                    return;
+                //if (isDangQuet)
+                //    return;
 
 
                 isDangQuet = true;
@@ -150,7 +150,7 @@ namespace QRMS.ViewModels
                 if (IsMatDoc_Camera)
                 {
 
-                    CloseBarcodeReader(); 
+                    //CloseBarcodeReader(); 
                 }
                 else
                 {

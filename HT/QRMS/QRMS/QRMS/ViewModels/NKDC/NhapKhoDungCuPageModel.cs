@@ -275,8 +275,8 @@ namespace QRMS.ViewModels
             {
                 //
                 if (IsMatDoc_Camera)
-                {
-                    CloseBarcodeReader(); 
+                { 
+                    //CloseBarcodeReader(); 
                 }
                 else
                 {
@@ -285,8 +285,11 @@ namespace QRMS.ViewModels
                 IsThongBao = false;
                 ThongBao = "";
                 //
-                if (isDangQuet)
-                    return;
+
+                //if (isDangQuet)
+                //    return;
+
+
                 if (!_daQuetQR.Contains(str))
                     _daQuetQR.Add(str);
                 else
@@ -378,7 +381,7 @@ namespace QRMS.ViewModels
                     //
                     if (IsMatDoc_Camera)
                     {
-                        CloseBarcodeReader(); 
+                        //CloseBarcodeReader(); 
                     }
                     else
                     {
@@ -391,7 +394,7 @@ namespace QRMS.ViewModels
             {
                 if (IsMatDoc_Camera)
                 {
-                    CloseBarcodeReader(); 
+                    //CloseBarcodeReader(); 
                 }
                 else
                 {
@@ -470,7 +473,8 @@ namespace QRMS.ViewModels
             //
             if (IsMatDoc_Camera)
             {
-                CloseBarcodeReader(); 
+                //CloseBarcodeReader();
+                //OpenBarcodeReader();
             }
             else
             {

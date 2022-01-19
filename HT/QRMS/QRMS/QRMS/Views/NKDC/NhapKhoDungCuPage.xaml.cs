@@ -210,13 +210,14 @@ namespace QRMS.Views
             await Controls.LoadingUtility.HideAsync();
             if(huybo=="")
             {
-                btnDongY_absPopup.IsVisible = false;
+                btnHuyBo_absPopup.IsVisible = false;
             }
             else
             {
-                btnDongY_absPopup.IsVisible = true;
-                btnDongY_absPopup.Text = nutdongy;
-            }    
+                btnHuyBo_absPopup.IsVisible = true; 
+            }
+            //
+            btnDongY_absPopup.Text = nutdongy;
             btnHuyBo_absPopup.Text = huybo;
             lbTieuDe_absPopup.Text = tieude; 
             if (!grid.Children.Contains(absPopup_DangXuat))
