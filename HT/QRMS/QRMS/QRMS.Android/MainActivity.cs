@@ -31,7 +31,8 @@ namespace QRMS.Droid
             Android.Manifest.Permission.WriteExternalStorage,
             Android.Manifest.Permission.MediaContentControl,
             Android.Manifest.Permission.AccessCoarseLocation,
-            Android.Manifest.Permission.AccessFineLocation,
+            Android.Manifest.Permission.AccessFineLocation, 
+            Android.Manifest.Permission.Camera
         };
         const int RequestID = 0;
 
@@ -81,6 +82,8 @@ namespace QRMS.Droid
             //RequestPermissions(permissions, RequestID);
 
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
+
+            RequestPermissions(permissions, RequestID);
             LoadApplication(new App());
         }
 
