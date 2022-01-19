@@ -35,28 +35,28 @@ namespace QRMS.API
                 else if (_result.RespondCode == 600)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerConnectionLost, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode == 700)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode < 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode >= 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerAPIError, "OK");
                     return default(T);
                 }
@@ -83,28 +83,28 @@ namespace QRMS.API
                 else if (_result.RespondCode == 600)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
+                    //await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
                     //await Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerConnectionLost, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode == 700)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //await Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode < 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //await Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode >= 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
+                    //await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
                     //await Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerAPIError, "OK");
                     return default(T);
                 }
@@ -130,28 +130,28 @@ namespace QRMS.API
                 else if (_result.RespondCode == 600)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerConnectionLost, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode == 700)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode < 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode >= 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerAPIError, "OK");
                     return default(T);
                 }
@@ -179,7 +179,7 @@ namespace QRMS.API
                 else if (_result.RespondCode == 600)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
+                    //await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
                     //await Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerConnectionLost, "OK");
                     return default(T);
                 }
@@ -187,21 +187,21 @@ namespace QRMS.API
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
                     string mess = QRMS.Resources.AppResources.ClientAPIError + Environment.NewLine + _result.Message;
-                    await UserDialogs.Instance.AlertAsync(mess, "Warning", "OK");
+                    //await UserDialogs.Instance.AlertAsync(mess, "Warning", "OK");
                     //await Application.Current.MainPage.DisplayAlert("Warning", mess, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode < 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //await Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode >= 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
+                    //await UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
                     //await Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerAPIError, "OK");
                     return default(T);
                 }
@@ -228,28 +228,28 @@ namespace QRMS.API
                 else if (_result.RespondCode == 600)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerConnectionLost, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerConnectionLost, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode == 700)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode < 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ClientAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ClientAPIError, "OK");
                     return default(T);
                 }
                 else if (_result.RespondCode >= 500)
                 {
                     //DependencyService.Get<ILogger>().Log(_result.Message);
-                    UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
+                    //UserDialogs.Instance.AlertAsync(QRMS.Resources.AppResources.ServerAPIError, "Warning", "OK");
                     //Application.Current.MainPage.DisplayAlert("Warning", QRMS.Resources.AppResources.ServerAPIError, "OK");
                     return default(T);
                 }
