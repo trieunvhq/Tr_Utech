@@ -148,46 +148,36 @@ namespace QRMS.ViewModels
                             }
                         });
                     }
+
                     //
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<NhapKhoDungCuModel>>>
-                                                 (Constaint.ServiceAddress, Constaint.APIurl.getinserthistory,
+                    if (Historys.Count == 0)
+                    {
+                        var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransactionHistoryModel>>>
+                                                 (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
                                                  new
                                                  {
                                                      OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
                                                      TransactionType = "I",
                                                      WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode
                                                  });
-                    if (result != null && result.Result != null && result.Result.data != null)
-                    {
-                        Device.BeginInvokeOnMainThread(() =>
+                        if (result != null && result.Result != null && result.Result.data != null)
                         {
-                            DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
-
-                            for (int i = 0; i < result.Result.data.Count; ++i)
+                            Device.BeginInvokeOnMainThread(() =>
                             {
-                                if (result.Result.data[i].SoLuongDaNhap >= result.Result.data[i].Quantity)
-                                    result.Result.data[i].ColorSLDaNhap = "#ff0000";
-                                else
-                                    result.Result.data[i].ColorSLDaNhap = "#000000";
-                                //
-                                result.Result.data[i].Color = "#000000";
-                                //
+                                Historys = new ObservableCollection<TransactionHistoryModel>();
 
-                                result.Result.data[i].sQuantity = result.Result.data[i].Quantity.ToString("N0");
-                                result.Result.data[i].sSoLuongDaNhap = result.Result.data[i].SoLuongDaNhap.ToString("N0");
-                                if (result.Result.data[i].ItemCode == id)
+                                for (int i = 0; i < result.Result.data.Count; ++i)
                                 {
-                                    DonHangs.Insert(0, result.Result.data[i]);
+                                    List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                                    if (!Historys.Contains(result.Result.data[i]))
+                                    {
+                                        Historys.Add(result.Result.data[i]);
+                                        App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
+                                    }
                                 }
-                                else
-                                {
-                                    DonHangs.Add(result.Result.data[i]);
-                                }
-
-                                App.Dblocal.SavePurchaseOrderAsync(result.Result.data[i]);
-                            }
-                        });
-                    }
+                            });
+                        }
+                    }     
                 }
                 else
                 {
@@ -219,32 +209,37 @@ namespace QRMS.ViewModels
                             {
                                 App.Dblocal.DeleteHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
                                 Historys.Clear();
+                                DonHangs.Clear();
 
-                                var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
-                                                DonHangs);
-                                if (result2 != null && result2.Result != null)
-                                {
-                                    if (result2.Result.data == 1)
-                                    {
-                                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
-                                        DonHangs.Clear();
+                                await Controls.LoadingUtility.HideAsync();
+                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                                LoadModels("");
 
-                                        await Controls.LoadingUtility.HideAsync();
-                                        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
-                                        LoadModels("");
-                                    }
-                                    else
-                                    {
-                                        await Controls.LoadingUtility.HideAsync();
-                                        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
-                                    }
-                                }
-                                else
-                                {
-                                    await Controls.LoadingUtility.HideAsync();
-                                    await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
-                                }     
+                                //var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                //                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
+                                //                DonHangs);
+                                //if (result2 != null && result2.Result != null)
+                                //{
+                                //    if (result2.Result.data == 1)
+                                //    {
+                                //        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                                //        DonHangs.Clear();
+
+                                //        await Controls.LoadingUtility.HideAsync();
+                                //        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                                //        LoadModels("");
+                                //    }
+                                //    else
+                                //    {
+                                //        await Controls.LoadingUtility.HideAsync();
+                                //        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    await Controls.LoadingUtility.HideAsync();
+                                //    await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                //}     
                             }
                             else
                             {
@@ -339,13 +334,15 @@ namespace QRMS.ViewModels
                                 bool iscoluu = true;
                                 if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
                                 {
-                                    var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
-                                    if (answer)
+
+                                    //var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
+                                    bool answer = await App.Current.MainPage.DisplayAlert("Question?", "Would you like to play a game", "Yes", "No");
+
+                                    if (true)
                                     {
                                         model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
                                         model_.SoLuongBox = model_.SoLuongBox + 1;
-                                        DonHangs.RemoveAt(i);
-                                        if(model_.SoLuongDaNhap>=model_.Quantity)
+                                        if (model_.SoLuongDaNhap >= model_.Quantity)
                                             model_.ColorSLDaNhap = "#ff0000";
                                         else
                                             model_.ColorSLDaNhap = "#0008ff";
@@ -353,7 +350,9 @@ namespace QRMS.ViewModels
                                         model_.Color = "#0008ff";
                                         model_.sQuantity = model_.Quantity.ToString("N0");
                                         model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
+
                                         DonHangs.Insert(0, model_);
+                                        DonHangs.RemoveAt(i+1);
                                     }
                                     else
                                     { iscoluu = false; }    

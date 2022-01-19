@@ -81,6 +81,8 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
+                    //bool answer = await DisplayAlert("Question?", "Would you like to play a game", "Yes", "No");
+
                     var answer = await UserDialogs.Instance.ConfirmAsync("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Thông báo", "Có lưu", "Không lưu");
                     if (answer)
                     { 
