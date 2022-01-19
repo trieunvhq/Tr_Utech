@@ -17,7 +17,7 @@ namespace QRMS.Views
 {
     public partial class XK_XKDCPage : ContentPage
     {
-        MyScan _MyScan;
+        //MyScan _MyScan;
         private string _PuschaseNo = "";
 
         public XK_XKDCPageModel ViewModel { get; set; }
@@ -36,8 +36,8 @@ namespace QRMS.Views
             //_MyScan = new MyScan(1, ViewModel);
             //
 
-            _MyScan = new MyScan();
-            _MyScan._XK_XKDCPageModel = ViewModel;
+            //_MyScan = new MyScan();
+            //_MyScan._XK_XKDCPageModel = ViewModel;
 
             row_trencung.Height = 20;
 
@@ -124,24 +124,24 @@ namespace QRMS.Views
 
         public void CloseCam()
         {
-            try
-            {
-                if (_MyScan != null)
-                    _MyScan.CloseBarcodeReader();
-            }
-            catch { }
+            //try
+            //{
+            //    if (_MyScan != null)
+            //        _MyScan.CloseBarcodeReader();
+            //}
+            //catch { }
         }
         void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
         {
             try
             {
-                try
-                {
-                    if (_MyScan != null)
-                        _MyScan.CloseBarcodeReader();
-                }
-                catch { }
-                _MyScan.OpenBarcodeReader();
+                //try
+                //{
+                //    if (_MyScan != null)
+                //        _MyScan.CloseBarcodeReader();
+                //}
+                //catch { }
+                //_MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
             {

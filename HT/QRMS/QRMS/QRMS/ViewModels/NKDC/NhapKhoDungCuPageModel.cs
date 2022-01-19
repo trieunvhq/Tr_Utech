@@ -31,8 +31,7 @@ namespace QRMS.ViewModels
         public bool IsQuet { get; set; } = false;
 
         public bool IsThongBao { get; set; } = true;
-        public string ThongBao { get; set; } = "";
-        public string ThoiGian { get; set; } = "";
+        public string ThongBao { get; set; } = ""; 
         public Color Color { get; set; } = Color.Red;
  
 
@@ -267,10 +266,7 @@ namespace QRMS.ViewModels
                 });
             }
         }
-
-        private int _so_luong_da_quet = 0;
-        private int _so_luong_quet_thanh_cong = 0;
-
+         
         public bool isDangQuet = false;
         public async void ScanComplate(string str)
         {
@@ -313,8 +309,16 @@ namespace QRMS.ViewModels
                     isDangQuet = true;
                     bool IsTonTai_ = false;
                     int index_ = 0;
+                  
                     var qr = MySettings.QRRead(str);
+                    if(qr==null)
+                    {
+                        Color = Color.Red;
+                        IsThongBao = true;
+                        ThongBao = "Nhãn không đúng định dạng";
 
+                        return;
+                    }    
                     for (int i = 0; i < Historys.Count; ++i)
                     {
                         if (Historys[i].EXT_QRCode == str)
@@ -326,11 +330,10 @@ namespace QRMS.ViewModels
                     }
 
                     if (IsTonTai_)
-                    {
-                        ++_so_luong_da_quet;
-                        Color = Color.Blue;
+                    { 
+                        Color = Color.Red;
                         IsThongBao = true;
-                        ThongBao = "Mã QR đã được quét: " + _so_luong_da_quet;
+                        ThongBao = "Nhãn đã được quét";
 
 
                         if (IsMatDoc_Camera)
@@ -358,7 +361,7 @@ namespace QRMS.ViewModels
                                     _NhapKhoDungCuPage.qr = qr;
                                     _NhapKhoDungCuPage.str = str;
                                     //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                    await _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã nhập kho vượt quá số lượng đơn mua", "Đồng ý", "Huỷ bỏ");
+                                    await _NhapKhoDungCuPage.Load_popup_DangXuat("Đã đủ số lượng cần nhập", "Đồng ý", "Huỷ bỏ");
                                       
                                 }
                                 else
@@ -373,7 +376,7 @@ namespace QRMS.ViewModels
                             {
                                 Color = Color.Red;
                                 IsThongBao = true;
-                                ThongBao = "Mã QR đã không tồn tại!"; 
+                                ThongBao = "Nhãn không tồn tại!"; 
                             }
                         } 
                     }
@@ -460,11 +463,10 @@ namespace QRMS.ViewModels
                 Historys.Add(history);
                 App.Dblocal.SaveHistoryAsync(history);
             }
-            //
-            ++_so_luong_quet_thanh_cong;
+            // 
             Color = Color.Blue;
             IsThongBao = true;
-            ThongBao = "Thành công: " + _so_luong_quet_thanh_cong;
+            ThongBao = "Thành công";
             //
             if (IsMatDoc_Camera)
             { }

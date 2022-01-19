@@ -12,7 +12,7 @@ namespace QRMS.Views
 {
     public partial class ChonPhieuNhapPage : ContentPage
     {
-        MyScan _MyScan; 
+        //MyScan _MyScan; 
 
         public ChonPhieuNhapPageModel ViewModel { get; set; }
         public ChonPhieuNhapPage()
@@ -26,8 +26,8 @@ namespace QRMS.Views
             ViewModel.Initialize();
             BindingContext = ViewModel;
             ViewModel._ChonPhieuNhapPage = this;
-            _MyScan = new MyScan();
-            _MyScan._ChonPhieuNhapPageModel = ViewModel;
+            //_MyScan = new MyScan();
+            //_MyScan._ChonPhieuNhapPageModel = ViewModel;
 
             row_trencung.Height = 20;
 
@@ -106,8 +106,8 @@ namespace QRMS.Views
         {
             try
             {
-                if (_MyScan != null)
-                    _MyScan.CloseBarcodeReader();
+                //if (_MyScan != null)
+                //    _MyScan.CloseBarcodeReader();
             }
             catch { }
         }
@@ -117,15 +117,15 @@ namespace QRMS.Views
             {
                 ViewModel.IsThongBao = false;
                 ViewModel.IsMatDoc_Camera = true;
-                if (_MyScan != null)
-                {
-                    try
-                    {
-                        _MyScan.CloseBarcodeReader();
-                    }
-                    catch { }
-                }
-                _MyScan.OpenBarcodeReader();
+                //if (_MyScan != null)
+                //{
+                //    try
+                //    {
+                //        _MyScan.CloseBarcodeReader();
+                //    }
+                //    catch { }
+                //}
+                //_MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
             { 

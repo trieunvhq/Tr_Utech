@@ -18,7 +18,7 @@ namespace QRMS.Views
 {
     public partial class NhapKhoDungCuPage : ContentPage
     {
-        MyScan _MyScan;
+        //MyScan _MyScan;
         public string _PurchaseOrderNo = "";
         public string _WarehouseCode = "";
         public string _WarehouseName= "";
@@ -39,8 +39,8 @@ namespace QRMS.Views
             ViewModel = new NhapKhoDungCuPageModel(this); 
             ViewModel.Initialize();
             BindingContext = ViewModel;
-            _MyScan = new MyScan();
-            _MyScan._NhapKhoDungCuPageModel = ViewModel;
+            //_MyScan = new MyScan();
+            //_MyScan._NhapKhoDungCuPageModel = ViewModel;
 
             row_trencung.Height = 20;
 
@@ -128,8 +128,8 @@ namespace QRMS.Views
         {
             try
             {
-                if (_MyScan != null)
-                    _MyScan.CloseBarcodeReader();
+                //if (_MyScan != null)
+                //    _MyScan.CloseBarcodeReader();
             }
             catch { }
         }
@@ -137,17 +137,17 @@ namespace QRMS.Views
         {
             try
             { 
-                ViewModel.IsThongBao = false;
-                ViewModel.IsMatDoc_Camera = true;
-                if(_MyScan!=null)
-                {
-                    try
-                    {
-                        _MyScan.CloseBarcodeReader();
-                    }
-                    catch { }
-                }    
-                _MyScan.OpenBarcodeReader();
+                //ViewModel.IsThongBao = false;
+                //ViewModel.IsMatDoc_Camera = true;
+                //if(_MyScan!=null)
+                //{
+                //    try
+                //    {
+                //        _MyScan.CloseBarcodeReader();
+                //    }
+                //    catch { }
+                //}    
+                //_MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
             { 

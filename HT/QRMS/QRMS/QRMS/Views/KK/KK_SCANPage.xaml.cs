@@ -12,7 +12,7 @@ namespace QRMS.Views
 {
     public partial class KK_SCANPage : ContentPage
     {
-        MyScan _MyScan; 
+        //MyScan _MyScan; 
 
         public KK_SCANPageModel ViewModel { get; set; }
         public KK_SCANPage(string kho_)
@@ -29,8 +29,8 @@ namespace QRMS.Views
             ViewModel._KK_SCANPage = this;
             //_MyScan = new MyScan(1, ViewModel);
             //
-            _MyScan = new MyScan();
-            _MyScan._KK_SCANPageModel = ViewModel;
+            //_MyScan = new MyScan();
+            //_MyScan._KK_SCANPageModel = ViewModel;
             row_trencung.Height = 20;
 
             if (Device.Idiom == TargetIdiom.Phone)
@@ -117,8 +117,8 @@ namespace QRMS.Views
         {
             try
             {
-                if (_MyScan != null)
-                    _MyScan.CloseBarcodeReader();
+                //if (_MyScan != null)
+                //    _MyScan.CloseBarcodeReader();
             }
             catch { }
         }
@@ -126,13 +126,13 @@ namespace QRMS.Views
         {
             try
             {
-                try
-                {
-                    if (_MyScan != null)
-                        _MyScan.CloseBarcodeReader();
-                }
-                catch { } 
-                _MyScan.OpenBarcodeReader();
+                //try
+                //{
+                //    if (_MyScan != null)
+                //        _MyScan.CloseBarcodeReader();
+                //}
+                //catch { } 
+                //_MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
             {
