@@ -91,6 +91,7 @@ namespace QRMS.ViewModels
                 {
                     if (!Historys.Contains(item))
                     {
+                        item.token = MySettings.Token;
                         Historys.Add(item);
                     }
                 }
@@ -171,6 +172,7 @@ namespace QRMS.ViewModels
                                     List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
                                     if (!Historys.Contains(result.Result.data[i]))
                                     {
+                                        result.Result.data[i].token = MySettings.Token;
                                         Historys.Add(result.Result.data[i]);
                                         App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
                                     }
