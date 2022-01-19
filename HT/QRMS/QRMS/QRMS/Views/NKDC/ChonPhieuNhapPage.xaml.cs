@@ -128,8 +128,7 @@ namespace QRMS.Views
                 _MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
-            {
-                UserDialogs.Instance.AlertAsync(ee.Message, "Exception", "OK").ConfigureAwait(false);
+            { 
                 MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "ChonPhieuNhapPage", MySettings.UserName);
 
             }
