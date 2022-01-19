@@ -322,6 +322,15 @@ namespace QRMS.ViewModels
                         Color = Color.Blue;
                         IsThongBao = true;
                         ThongBao = "Mã QR đã được quét: " + _so_luong_da_quet;
+
+
+                        if (IsMatDoc_Camera)
+                        { }
+                        else
+                        {
+                            _NhapKhoDungCuPage.CloseCam();
+                        }
+                        IsQuet = false;
                     }
                     else
                     {
@@ -334,111 +343,47 @@ namespace QRMS.ViewModels
                                 bool iscoluu = true;
                                 if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
                                 {
-
-                                    //var answer = await UserDialogs.Instance.ConfirmAsync("Bạn đã nhập kho vượt quá số lượng đơn mua", "Vượt quá số lượng", "Đồng ý", "Huỷ bỏ");
-                                    bool answer = await App.Current.MainPage.DisplayAlert("Question?", "Would you like to play a game", "Yes", "No");
-
+                                    _NhapKhoDungCuPage.iscoluu = iscoluu;
+                                    _NhapKhoDungCuPage.model_ = model_;
+                                    _NhapKhoDungCuPage.soluong_ = soluong_;
+                                    _NhapKhoDungCuPage.i = i;
+                                    _NhapKhoDungCuPage.qr = qr;
+                                    _NhapKhoDungCuPage.str = str;
+                                    //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
+                                    await _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã nhập kho vượt quá số lượng đơn mua", "Đồng ý", "Huỷ bỏ");
+                                    
                                     if (true)
-                                    {
-                                        model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
-                                        model_.SoLuongBox = model_.SoLuongBox + 1;
-                                        if (model_.SoLuongDaNhap >= model_.Quantity)
-                                            model_.ColorSLDaNhap = "#ff0000";
-                                        else
-                                            model_.ColorSLDaNhap = "#0008ff";
-
-                                        model_.Color = "#0008ff";
-                                        model_.sQuantity = model_.Quantity.ToString("N0");
-                                        model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
-
-                                        DonHangs.Insert(0, model_);
-                                        DonHangs.RemoveAt(i+1);
+                                    { 
                                     }
                                     else
                                     { iscoluu = false; }    
                                 }
                                 else
                                 {
-                                    model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
-                                    model_.SoLuongBox = model_.SoLuongBox + 1;
-                                    DonHangs.RemoveAt(i);
-                                    if (model_.SoLuongDaNhap >= model_.Quantity)
-                                        model_.ColorSLDaNhap = "#ff0000";
-                                    else
-                                        model_.ColorSLDaNhap = "#0008ff";
-
-                                    model_.Color = "#0008ff";
-                                    model_.sQuantity = model_.Quantity.ToString("N0");
-                                    model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
-                                    DonHangs.Insert(0, model_);
+                                    XuLyTiepLuu(true, model_, soluong_, i, qr, str);
                                 }
 
-                                App.Dblocal.UpdatePurchaseOrderAsync(model_);
-                                if(iscoluu)
-                                {
-                                    TransactionHistoryModel history = new TransactionHistoryModel
-                                    {
-                                        ID = 0,
-                                        TransactionType = "I",
-                                        OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
-                                        OrderDate = _NhapKhoDungCuPage._PurchaseOrderDate,
-                                        ItemCode = qr.Code,
-                                        ItemName = qr.Name,
-                                        ItemType = qr.DC,
-                                        Quantity = soluong_,
-                                        Unit = qr.Unit,
-                                        EXT_OtherCode = qr.OtherCode,
-                                        EXT_Serial = qr.Serial,
-                                        EXT_PartNo = qr.PartNo,
-                                        EXT_LotNo = qr.LotNo,
-                                        EXT_MfDate = qr.MfDate,
-                                        EXT_RecDate = qr.RecDate,
-                                        EXT_ExpDate = qr.ExpDate,
-                                        EXT_QRCode = str,
-                                        CustomerCode = qr.CustomerCode,
-                                        ExportStatus = "N",
-                                        RecordStatus = "N",
-                                        WarehouseCode_From = MySettings.CodeKho,
-                                        WarehouseName_From = MySettings.MaKho,
-                                        CreateDate = DateTime.Now,
-                                        UserCreate = MySettings.UserName,
-                                        page = 0,
-                                        token = MySettings.Token
-                                    };
-
-                                    Historys.Add(history);
-                                    App.Dblocal.SaveHistoryAsync(history);
-                                }
-                                ++_so_luong_quet_thanh_cong;
-                                Color = Color.Blue;
-                                IsThongBao = true;
-                                ThongBao = "Thành công: " + _so_luong_quet_thanh_cong;
                                 //
                                 break;
                             }
                         } 
                     }
+                }
+                else
+                {
+
+                    //
                     if (IsMatDoc_Camera)
-                    { }
+                    {
+                        Stop();
+                        Initialize();
+                    }
                     else
                     {
-                        _NhapKhoDungCuPage.CloseCam();
-                    } 
-                    IsQuet = false;  
-                }
-                else
-                {
+                    }
                     MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "NhapKhoDungCuPageModel", MySettings.UserName);
                 }
-                //
-                if (IsMatDoc_Camera)
-                {
-                    Stop();
-                    Initialize();
-                }
-                else
-                { 
-                }
+                
             }
             catch (Exception ex)
             {
@@ -453,7 +398,84 @@ namespace QRMS.ViewModels
                 MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
             } 
         }
-         
+
+        public void XuLyTiepLuu(bool iscoluu, NhapKhoDungCuModel model_, decimal soluong_,int i,QRModel qr, string str)
+        {
+            if (iscoluu)
+            {
+
+                model_.SoLuongDaNhap = model_.SoLuongDaNhap + soluong_;
+                model_.SoLuongBox = model_.SoLuongBox + 1;
+                DonHangs.RemoveAt(i);
+                if (model_.SoLuongDaNhap >= model_.Quantity)
+                    model_.ColorSLDaNhap = "#ff0000";
+                else
+                    model_.ColorSLDaNhap = "#0008ff";
+
+                model_.Color = "#0008ff";
+                model_.sQuantity = model_.Quantity.ToString("N0");
+                model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
+                DonHangs.Insert(0, model_);
+
+                App.Dblocal.UpdatePurchaseOrderAsync(model_);
+
+
+                TransactionHistoryModel history = new TransactionHistoryModel
+                {
+                    ID = 0,
+                    TransactionType = "I",
+                    OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
+                    OrderDate = _NhapKhoDungCuPage._PurchaseOrderDate,
+                    ItemCode = qr.Code,
+                    ItemName = qr.Name,
+                    ItemType = qr.DC,
+                    Quantity = soluong_,
+                    Unit = qr.Unit,
+                    EXT_OtherCode = qr.OtherCode,
+                    EXT_Serial = qr.Serial,
+                    EXT_PartNo = qr.PartNo,
+                    EXT_LotNo = qr.LotNo,
+                    EXT_MfDate = qr.MfDate,
+                    EXT_RecDate = qr.RecDate,
+                    EXT_ExpDate = qr.ExpDate,
+                    EXT_QRCode = str,
+                    CustomerCode = qr.CustomerCode,
+                    ExportStatus = "N",
+                    RecordStatus = "N",
+                    WarehouseCode_From = MySettings.CodeKho,
+                    WarehouseName_From = MySettings.MaKho,
+                    CreateDate = DateTime.Now,
+                    UserCreate = MySettings.UserName,
+                    page = 0,
+                    token = MySettings.Token
+                };
+
+                Historys.Add(history);
+                App.Dblocal.SaveHistoryAsync(history);
+            }
+            //
+            ++_so_luong_quet_thanh_cong;
+            Color = Color.Blue;
+            IsThongBao = true;
+            ThongBao = "Thành công: " + _so_luong_quet_thanh_cong;
+            //
+            if (IsMatDoc_Camera)
+            { }
+            else
+            {
+                _NhapKhoDungCuPage.CloseCam();
+            }
+            IsQuet = false;
+            //
+            if (IsMatDoc_Camera)
+            {
+                Stop();
+                Initialize();
+            }
+            else
+            {
+            }
+        }
         public IBarcodeReader BarcodeReader
         {
             get => _barcodeReader;

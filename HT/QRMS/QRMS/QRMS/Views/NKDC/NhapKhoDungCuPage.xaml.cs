@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using QRMS.Constants;
 using QRMS.Helper;
+using QRMS.Models;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -190,8 +191,13 @@ namespace QRMS.Views
             //ViewModel.StopDemThoiGianGGS();
         }
 
-
-        private async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
+        public bool iscoluu;
+        public NhapKhoDungCuModel model_;
+        public decimal soluong_;
+        public int i;
+        public QRModel qr;
+        public string str;
+        public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         {
             btnDongY_absPopup.Text = nutdongy;
             btnHuyBo_absPopup.Text = huybo;
@@ -212,8 +218,9 @@ namespace QRMS.Views
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
             }
-            else if (lbTieuDe_absPopup.Text == "Chắc chắn muốn xóa Bill này?")
-            { 
+            else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
+            {
+                ViewModel.XuLyTiepLuu(true, model_, soluong_, i, qr, str);
             } 
 
         }
@@ -231,8 +238,9 @@ namespace QRMS.Views
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
             }
-            else if (lbTieuDe_absPopup.Text == "Chắc chắn muốn xóa Bill này?")
+            else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
             {
+                ViewModel.XuLyTiepLuu(false, model_, soluong_, i, qr, str);
             }
         }
     }
