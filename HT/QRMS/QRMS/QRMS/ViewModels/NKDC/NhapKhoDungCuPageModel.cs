@@ -379,7 +379,7 @@ namespace QRMS.ViewModels
                             {
                                 Color = Color.Red;
                                 IsThongBao = true;
-                                ThongBao = "Nhãn không tồn tại!"; 
+                                ThongBao = "Dụng cụ không có trong phiếu nhập!"; 
                             }
                         } 
                     }
