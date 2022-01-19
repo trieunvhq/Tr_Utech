@@ -445,7 +445,7 @@ namespace QRMS.ViewModels
                     ExportStatus = "N",
                     RecordStatus = "N",
                     WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode,
-                    WarehouseName_From = _NhapKhoDungCuPage._WarehouseCode,
+                    WarehouseName_From = _NhapKhoDungCuPage._WarehouseName,
                     CreateDate = DateTime.Now,
                     UserCreate = MySettings.UserName,
                     page = 0,

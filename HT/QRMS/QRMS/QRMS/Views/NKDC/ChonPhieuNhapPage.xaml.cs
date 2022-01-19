@@ -86,7 +86,7 @@ namespace QRMS.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 { 
                     await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage(
-                        ViewModel._PurchaseOrderNo, ViewModel._WarehouseCode, ViewModel._PurchaseOrderDate ));
+                        ViewModel._PurchaseOrderNo, ViewModel._WarehouseCode, ViewModel._PurchaseOrderDate ,ViewModel._WarehouseName));
                     await Controls.LoadingUtility.HideAsync();
                 });
             });

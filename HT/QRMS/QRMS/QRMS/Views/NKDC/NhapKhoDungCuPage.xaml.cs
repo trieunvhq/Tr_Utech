@@ -21,15 +21,17 @@ namespace QRMS.Views
         MyScan _MyScan;
         public string _PurchaseOrderNo = "";
         public string _WarehouseCode = "";
+        public string _WarehouseName= "";
         public DateTime? _PurchaseOrderDate;
 
         public NhapKhoDungCuPageModel ViewModel { get; set; }
-        public NhapKhoDungCuPage(string PurchaseOrderNo, string WarehouseCode, DateTime? PurchaseOrderDate)
+        public NhapKhoDungCuPage(string PurchaseOrderNo, string WarehouseCode, DateTime? PurchaseOrderDate, string WarehouseName)
         { 
             InitializeComponent();
             _PurchaseOrderNo = PurchaseOrderNo;
             _WarehouseCode = WarehouseCode;
             _PurchaseOrderDate = PurchaseOrderDate;
+            _WarehouseName = WarehouseName;
             grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
