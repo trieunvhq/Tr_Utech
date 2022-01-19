@@ -29,9 +29,7 @@ namespace QRMS.Droid
             Android.Manifest.Permission.Internet,
             Android.Manifest.Permission.ReadExternalStorage,
             Android.Manifest.Permission.WriteExternalStorage,
-            Android.Manifest.Permission.MediaContentControl,
-            Android.Manifest.Permission.AccessCoarseLocation,
-            Android.Manifest.Permission.AccessFineLocation, 
+            Android.Manifest.Permission.MediaContentControl, 
             Android.Manifest.Permission.Camera
         };
         const int RequestID = 0;
