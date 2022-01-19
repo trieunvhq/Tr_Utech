@@ -366,6 +366,12 @@ namespace QRMS.ViewModels
                                 //
                                 break;
                             }
+                            else if(i == DonHangs.Count - 1)
+                            {
+                                Color = Color.Red;
+                                IsThongBao = true;
+                                ThongBao = "Mã QR đã không tồn tại!"; 
+                            }
                         } 
                     }
                 }
@@ -442,8 +448,8 @@ namespace QRMS.ViewModels
                     CustomerCode = qr.CustomerCode,
                     ExportStatus = "N",
                     RecordStatus = "N",
-                    WarehouseCode_From = MySettings.CodeKho,
-                    WarehouseName_From = MySettings.MaKho,
+                    WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode,
+                    WarehouseName_From = _NhapKhoDungCuPage._WarehouseCode,
                     CreateDate = DateTime.Now,
                     UserCreate = MySettings.UserName,
                     page = 0,

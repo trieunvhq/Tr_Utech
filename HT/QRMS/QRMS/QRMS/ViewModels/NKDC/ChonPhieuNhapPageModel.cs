@@ -97,6 +97,12 @@ namespace QRMS.ViewModels
                         }
                     });
                 }
+                else
+                {
+                    Color = Color.Red;
+                    IsThongBao = true;
+                    ThongBao = "Mã QR đã không tồn tại!";
+                }    
             }
             catch (Exception ex)
             {
