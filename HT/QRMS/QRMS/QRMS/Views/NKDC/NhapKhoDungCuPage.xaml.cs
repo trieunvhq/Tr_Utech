@@ -1,18 +1,12 @@
 ﻿ 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Acr.UserDialogs;
-using QRMS.Constants;
-using QRMS.Helper;
+using System; 
+using System.Threading.Tasks; 
+using QRMS.Constants; 
 using QRMS.Models;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using ZXing;
-using ZXing.Mobile;
-using ZXing.Net.Mobile.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific; 
 
 namespace QRMS.Views
 {

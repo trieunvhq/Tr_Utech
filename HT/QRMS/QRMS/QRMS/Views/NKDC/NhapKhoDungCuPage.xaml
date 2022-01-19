@@ -39,7 +39,7 @@
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="Đơn mua hàng: " TextColor="#B5BCCD" FontSize="12"/>
-                        <Span  x:Name="lbDonMuaHang" TextColor="Red" Text="" FontSize="12" FontAttributes="Bold"/>
+                        <Span  Text="{Binding PurchaseOrderNo}" TextColor="Red" FontSize="12" FontAttributes="Bold"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

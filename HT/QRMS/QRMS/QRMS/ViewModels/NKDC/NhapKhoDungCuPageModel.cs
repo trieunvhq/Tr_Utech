@@ -43,11 +43,14 @@ namespace QRMS.ViewModels
         public int ScanCount { get; set; } = 0;
 
 
+        public string PurchaseOrderNo { get; set; }
+
         public bool IsMatDoc_Camera;
 
 
         public NhapKhoDungCuPageModel(NhapKhoDungCuPage fd)
         {
+            PurchaseOrderNo = fd._PurchaseOrderNo;
             _NhapKhoDungCuPage = fd;
             BarcodeDataText = "Initializing...";
    
