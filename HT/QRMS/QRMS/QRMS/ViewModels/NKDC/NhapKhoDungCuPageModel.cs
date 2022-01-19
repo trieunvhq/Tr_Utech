@@ -342,10 +342,9 @@ namespace QRMS.ViewModels
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
                                 NhapKhoDungCuModel model_ = DonHangs[i];
-                                bool iscoluu = true;
+                   
                                 if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
-                                {
-                                    _NhapKhoDungCuPage.iscoluu = iscoluu;
+                                { 
                                     _NhapKhoDungCuPage.model_ = model_;
                                     _NhapKhoDungCuPage.soluong_ = soluong_;
                                     _NhapKhoDungCuPage.i = i;
@@ -353,12 +352,7 @@ namespace QRMS.ViewModels
                                     _NhapKhoDungCuPage.str = str;
                                     //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
                                     await _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã nhập kho vượt quá số lượng đơn mua", "Đồng ý", "Huỷ bỏ");
-                                    
-                                    if (true)
-                                    { 
-                                    }
-                                    else
-                                    { iscoluu = false; }    
+                                      
                                 }
                                 else
                                 {

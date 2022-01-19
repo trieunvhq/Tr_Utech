@@ -82,9 +82,17 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    //bool answer = await DisplayAlert("Question?", "Would you like to play a game", "Yes", "No");
-                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu"); 
-                   
+                    if((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                    || (ViewModel.DonHangs != null && ViewModel.DonHangs.Count > 0))
+                    {
+                        await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+
+                    }
+                    else
+                    {
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                        await Controls.LoadingUtility.HideAsync();
+                    }    
                 });
             });
             
@@ -190,8 +198,7 @@ namespace QRMS.Views
             ViewModel.IsQuet = false;
             //ViewModel.StopDemThoiGianGGS();
         }
-
-        public bool iscoluu;
+         
         public NhapKhoDungCuModel model_;
         public decimal soluong_;
         public int i;
