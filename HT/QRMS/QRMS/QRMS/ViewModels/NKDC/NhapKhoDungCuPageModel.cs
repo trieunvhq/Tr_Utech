@@ -425,6 +425,7 @@ namespace QRMS.ViewModels
                 model_.Color = "#0008ff";
                 model_.sQuantity = model_.Quantity.ToString("N0");
                 model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
+                model_.sSoLuongBox = model_.SoLuongBox.ToString("N0");
                 DonHangs.Insert(0, model_);
 
                 App.Dblocal.UpdatePurchaseOrderAsync(model_);

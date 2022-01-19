@@ -23,6 +23,7 @@ namespace QRMS.Models
         public decimal SoLuongDaNhap { get; set; }
         public string sSoLuongDaNhap { get; set; }
         public int SoLuongBox { get; set; }
+        public string sSoLuongBox { get; set; }
         public string Color { get; set; }
         public string ColorSLDaNhap { get; set; }
     }

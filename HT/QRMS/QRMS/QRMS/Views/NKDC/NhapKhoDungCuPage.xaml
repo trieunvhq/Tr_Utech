@@ -93,13 +93,13 @@
                                     <RowDefinition Height="1"/>
                                 </Grid.RowDefinitions>
 
-                                <Label Text="{Binding ItemName}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                <Label Text="{Binding ItemCode}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
                                 <Label Text="{Binding sQuantity}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                    Grid.Column="2" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
                                 <Label Text="{Binding sSoLuongDaNhap}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}" Margin="3,5,3,5"/>
-                                <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                                <Label Text="{Binding sSoLuongBox}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                    Grid.Column="6" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
 
 
