@@ -248,7 +248,10 @@ namespace QRMS.ViewModels
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thất bại" +
+                                    ". ErrorCode: " + result.Result.ErrorCode
+                                    + ". RespondCode: "+result.Result.RespondCode
+                                    + ". data: " + result.Result.data.ToString(), "Đồng ý", "");
                             }
                         });
                     } 
