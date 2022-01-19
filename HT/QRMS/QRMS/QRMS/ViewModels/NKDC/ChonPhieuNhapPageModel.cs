@@ -29,6 +29,7 @@ namespace QRMS.ViewModels
         public Color Color { get; set; } = Color.Red;
         public DateTime? _PurchaseOrderDate { get; set; }
         public string _WarehouseCode { get; set; }
+        public string _WarehouseName { get; set; }
         public string _PurchaseOrderNo { get; set; }
 
         private IBarcodeReader _barcodeReader;
@@ -71,6 +72,7 @@ namespace QRMS.ViewModels
                         _PurchaseOrderNo = result.Result.data[0].PurchaseOrderNo;
                         _PurchaseOrderDate = result.Result.data[0].PurchaseOrderDate;
                         _WarehouseCode = result.Result.data[0].WarehouseCode;
+                        _WarehouseName = result.Result.data[0].WarehouseName;
 
                         //
                         ++_so_luong_quet_thanh_cong;
