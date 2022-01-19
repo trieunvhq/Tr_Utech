@@ -29,7 +29,7 @@ namespace QRMS.Views
             _PurchaseOrderNo = PurchaseOrderNo;
             _WarehouseCode = WarehouseCode;
             _PurchaseOrderDate = PurchaseOrderDate;
-
+            grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false); 
@@ -82,19 +82,8 @@ namespace QRMS.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     //bool answer = await DisplayAlert("Question?", "Would you like to play a game", "Yes", "No");
-
-                    var answer = await UserDialogs.Instance.ConfirmAsync("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Thông báo", "Có lưu", "Không lưu");
-                    if (answer)
-                    { 
-                    }
-                    else
-                    {
-                         App.Dblocal.DeleteHistoryAll();
-                         App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PurchaseOrderNo);
-                    }
-
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
+                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu"); 
+                   
                 });
             });
             
@@ -200,7 +189,51 @@ namespace QRMS.Views
             ViewModel.IsQuet = false;
             //ViewModel.StopDemThoiGianGGS();
         }
-         
 
+
+        private async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
+        {
+            btnDongY_absPopup.Text = nutdongy;
+            btnHuyBo_absPopup.Text = huybo;
+            lbTieuDe_absPopup.Text = tieude; 
+            if (!grid.Children.Contains(absPopup_DangXuat))
+                grid.Children.Add(absPopup_DangXuat); 
+            grid.RaiseChild(absPopup_DangXuat);
+            await absPopup_DangXuat.FadeTo(1, 200); 
+            grid.RaiseChild(absPopup_DangXuat); 
+        }
+        private async void BtnDongY_popup_DangXuat_Clicked(object sender, EventArgs e)
+        { 
+            await absPopup_DangXuat.FadeTo(0, 200);
+            if (grid.Children.Contains(absPopup_DangXuat))
+                _ = grid.Children.Remove(absPopup_DangXuat);
+            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
+            { 
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                await Controls.LoadingUtility.HideAsync();
+            }
+            else if (lbTieuDe_absPopup.Text == "Chắc chắn muốn xóa Bill này?")
+            { 
+            } 
+
+        }
+        private async void BtnHuyBo_popup_DangXuat_Clicked(object sender, EventArgs e)
+        {
+            await absPopup_DangXuat.FadeTo(0, 200);
+            if (grid.Children.Contains(absPopup_DangXuat))
+                _ = grid.Children.Remove(absPopup_DangXuat);
+
+            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
+            {
+                App.Dblocal.DeleteHistoryAll();
+                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PurchaseOrderNo);
+
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                await Controls.LoadingUtility.HideAsync();
+            }
+            else if (lbTieuDe_absPopup.Text == "Chắc chắn muốn xóa Bill này?")
+            {
+            }
+        }
     }
 }
