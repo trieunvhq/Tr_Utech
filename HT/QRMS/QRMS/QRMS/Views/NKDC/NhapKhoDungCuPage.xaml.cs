@@ -21,15 +21,17 @@ namespace QRMS.Views
         MyScan _MyScan;
         public string _PurchaseOrderNo = "";
         public string _WarehouseCode = "";
+        public string _WarehouseName= "";
         public DateTime? _PurchaseOrderDate;
 
         public NhapKhoDungCuPageModel ViewModel { get; set; }
-        public NhapKhoDungCuPage(string PurchaseOrderNo, string WarehouseCode, DateTime? PurchaseOrderDate)
+        public NhapKhoDungCuPage(string PurchaseOrderNo, string WarehouseCode, DateTime? PurchaseOrderDate, string WarehouseName)
         { 
             InitializeComponent();
             _PurchaseOrderNo = PurchaseOrderNo;
             _WarehouseCode = WarehouseCode;
             _PurchaseOrderDate = PurchaseOrderDate;
+            _WarehouseName = WarehouseName;
             grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
@@ -82,9 +84,17 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    //bool answer = await DisplayAlert("Question?", "Would you like to play a game", "Yes", "No");
-                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu"); 
-                   
+                    if((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                    || (ViewModel.DonHangs != null && ViewModel.DonHangs.Count > 0))
+                    {
+                        await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+
+                    }
+                    else
+                    {
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                        await Controls.LoadingUtility.HideAsync();
+                    }    
                 });
             });
             
@@ -140,8 +150,7 @@ namespace QRMS.Views
                 _MyScan.OpenBarcodeReader();
             }
             catch (Exception ee)
-            {
-                UserDialogs.Instance.AlertAsync(ee.Message, "Exception", "OK").ConfigureAwait(false);
+            { 
                 MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "NhapKhoDungCuPage", MySettings.UserName);
 
             }
@@ -190,8 +199,7 @@ namespace QRMS.Views
             ViewModel.IsQuet = false;
             //ViewModel.StopDemThoiGianGGS();
         }
-
-        public bool iscoluu;
+         
         public NhapKhoDungCuModel model_;
         public decimal soluong_;
         public int i;
@@ -200,7 +208,15 @@ namespace QRMS.Views
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         { 
             await Controls.LoadingUtility.HideAsync();
-            btnDongY_absPopup.Text = nutdongy;
+            if(huybo=="")
+            {
+                btnDongY_absPopup.IsVisible = false;
+            }
+            else
+            {
+                btnDongY_absPopup.IsVisible = true;
+                btnDongY_absPopup.Text = nutdongy;
+            }    
             btnHuyBo_absPopup.Text = huybo;
             lbTieuDe_absPopup.Text = tieude; 
             if (!grid.Children.Contains(absPopup_DangXuat))
@@ -222,6 +238,12 @@ namespace QRMS.Views
             else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
             {
                 ViewModel.XuLyTiepLuu(true, model_, soluong_, i, qr, str);
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
+            {
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
+            {
             } 
 
         }
@@ -242,6 +264,12 @@ namespace QRMS.Views
             else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
             {
                 ViewModel.XuLyTiepLuu(false, model_, soluong_, i, qr, str);
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
+            {
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
+            {
             }
         }
     }

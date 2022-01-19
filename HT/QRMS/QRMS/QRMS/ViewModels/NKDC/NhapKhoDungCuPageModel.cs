@@ -213,8 +213,8 @@ namespace QRMS.ViewModels
                                 Historys.Clear();
                                 DonHangs.Clear();
 
-                                await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                                await Controls.LoadingUtility.HideAsync(); 
+                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
                                 LoadModels("");
 
                                 //var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
@@ -246,7 +246,7 @@ namespace QRMS.ViewModels
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         });
                     } 
@@ -257,8 +257,7 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Controls.LoadingUtility.HideAsync();
-
-                    UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
+                     
                     MySettings.InsertLogs(0,DateTime.Now, "LuuLais", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
                 });
             }
@@ -342,10 +341,9 @@ namespace QRMS.ViewModels
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
                                 NhapKhoDungCuModel model_ = DonHangs[i];
-                                bool iscoluu = true;
+                   
                                 if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
-                                {
-                                    _NhapKhoDungCuPage.iscoluu = iscoluu;
+                                { 
                                     _NhapKhoDungCuPage.model_ = model_;
                                     _NhapKhoDungCuPage.soluong_ = soluong_;
                                     _NhapKhoDungCuPage.i = i;
@@ -353,12 +351,7 @@ namespace QRMS.ViewModels
                                     _NhapKhoDungCuPage.str = str;
                                     //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
                                     await _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã nhập kho vượt quá số lượng đơn mua", "Đồng ý", "Huỷ bỏ");
-                                    
-                                    if (true)
-                                    { 
-                                    }
-                                    else
-                                    { iscoluu = false; }    
+                                      
                                 }
                                 else
                                 {
@@ -451,7 +444,7 @@ namespace QRMS.ViewModels
                     ExportStatus = "N",
                     RecordStatus = "N",
                     WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode,
-                    WarehouseName_From = _NhapKhoDungCuPage._WarehouseCode,
+                    WarehouseName_From = _NhapKhoDungCuPage._WarehouseName,
                     CreateDate = DateTime.Now,
                     UserCreate = MySettings.UserName,
                     page = 0,
