@@ -167,7 +167,7 @@
                 Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="3"/>
                 <Label BackgroundColor="Transparent" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2" Margin="20,20,20,20" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text=""
-                   x:Name="lbTieuDe_absPopup"  FontAttributes="Bold" TextColor="White" FontSize="13"/>
+                   x:Name="lbTieuDe_absPopup"  FontAttributes="Bold" TextColor="White" FontSize="6"/>
                 <Button Padding="0,0,0,0" x:Name="btnDongY_absPopup" Text="" TextColor="White" Clicked="BtnDongY_popup_DangXuat_Clicked" Grid.Column="4" Grid.Row="4"
                     BackgroundColor="#e76c36" Margin="10,10,20,20" FontSize="15"/>
                 <Button x:Name="btnHuyBo_absPopup" Padding="0,0,0,0" Text="Hủy bỏ" TextColor="White" Clicked="BtnHuyBo_popup_DangXuat_Clicked" Grid.Column="2" Grid.Row="4"

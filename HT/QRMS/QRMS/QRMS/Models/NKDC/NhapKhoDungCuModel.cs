@@ -26,5 +26,7 @@ namespace QRMS.Models
         public string sSoLuongBox { get; set; }
         public string Color { get; set; }
         public string ColorSLDaNhap { get; set; }
+
+        public string Serial { get; set; }
     }
 }

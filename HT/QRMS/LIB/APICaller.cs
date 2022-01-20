@@ -118,7 +118,7 @@ namespace LIB
         //    }
         //    return _return;
         //}
-
+        public static string myjson = "";
         public static async Task<BaseAPIModel<T>> PostObjectToAPImodelAsync<T>(string url, string method, object data)
         {
             var _return = new BaseAPIModel<T>();
@@ -128,7 +128,8 @@ namespace LIB
                 if (data != null && data.ToString() != "")
                 {
                     var jobInJson = JsonConvert.SerializeObject(data);
-                    json = new StringContent(jobInJson, Encoding.UTF8);
+                    myjson = jobInJson; 
+                     json = new StringContent(jobInJson, Encoding.UTF8);
                     json.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; odata=verbose");
                 }
 

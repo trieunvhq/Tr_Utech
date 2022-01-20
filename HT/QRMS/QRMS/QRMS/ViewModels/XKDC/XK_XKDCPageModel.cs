@@ -232,6 +232,7 @@ namespace QRMS.ViewModels
                     IsThongBao = true;
                     Color = Color.Red;
                     ThongBao = "Nhãn đã được quét";
+                    return;
                 }
 
                 _trangthai_quet = 0;

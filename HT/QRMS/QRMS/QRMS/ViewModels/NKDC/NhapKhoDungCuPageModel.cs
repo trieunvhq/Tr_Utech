@@ -1,6 +1,7 @@
 ﻿
 using Acr.UserDialogs;
 using Honeywell.AIDC.CrossPlatform;
+using LIB;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
@@ -18,7 +19,7 @@ using Xamarin.Forms;
 
 namespace QRMS.ViewModels
 {
-    public class NhapKhoDungCuPageModel : BaseViewModel, INotifyPropertyChanged
+    public class NhapKhoDungCuPageModel : BaseViewModel
     {
         public NhapKhoDungCuPage _NhapKhoDungCuPage;
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
@@ -44,7 +45,8 @@ namespace QRMS.ViewModels
 
         public override void OnAppearing()
         {
-            OpenBarcodeReader();
+            if(mSelectedReader==null)
+                OpenBarcodeReader();
             _daQuetQR = new List<string>();
             base.OnAppearing();
         }
@@ -235,10 +237,14 @@ namespace QRMS.ViewModels
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thất bại" +
+                                string strrr_ = "Bạn đã lưu thất bại" +
                                     ". ErrorCode: " + result.Result.ErrorCode
-                                    + ". RespondCode: "+result.Result.RespondCode
-                                    + ". data: " + result.Result.data.ToString(), "Đồng ý", "");
+                                    + ". RespondCode: " + result.Result.RespondCode
+                                    + ". data: " + result.Result.data.ToString()
+                                    + ". JSON" + APICaller.myjson;
+
+
+                                _NhapKhoDungCuPage.Load_popup_DangXuat(strrr_, "Đồng ý", "");
                             }
                         });
                     } 
@@ -270,6 +276,9 @@ namespace QRMS.ViewModels
                     IsThongBao = true;
                     Color = Color.Red;
                     ThongBao = "Nhãn đã được quét";
+                    //CloseBarcodeReader();
+                    //OpenBarcodeReader();
+                    return;
                 }
                  
                 if (Historys != null)
@@ -285,6 +294,8 @@ namespace QRMS.ViewModels
                         IsThongBao = true;
                         ThongBao = "Nhãn không đúng định dạng";
 
+                        //CloseBarcodeReader();
+                        //OpenBarcodeReader();
                         return;
                     }    
                     for (int i = 0; i < Historys.Count; ++i)
@@ -307,7 +318,11 @@ namespace QRMS.ViewModels
                     {
                         for (int i = 0; i < DonHangs.Count; ++i)
                         {
-                            if (DonHangs[i].ItemCode == qr.Code)
+                            if (DonHangs[i].ItemCode == qr.Code
+                                && (DonHangs[i].Serial == null
+                                    || DonHangs[i].Serial == ""
+                                    || DonHangs[i].Serial == "None"
+                                    || (DonHangs[i].Serial == qr.Serial)))
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
                                 NhapKhoDungCuModel model_ = DonHangs[i];
@@ -341,13 +356,17 @@ namespace QRMS.ViewModels
                     }
                 }
                 else
-                {
+                { 
                     MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "NhapKhoDungCuPageModel", MySettings.UserName);
                 }
-                
+
+                //CloseBarcodeReader();
+                //OpenBarcodeReader();
             }
             catch (Exception ex)
             {
+                //CloseBarcodeReader();
+                //OpenBarcodeReader();
                 MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
             } 
         }
@@ -369,6 +388,7 @@ namespace QRMS.ViewModels
                 model_.sQuantity = model_.Quantity.ToString("N0");
                 model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
                 model_.sSoLuongBox = model_.SoLuongBox.ToString("N0");
+      
                 DonHangs.Insert(0, model_);
 
                 App.Dblocal.UpdatePurchaseOrderAsync(model_);
@@ -428,13 +448,25 @@ namespace QRMS.ViewModels
                 if (result.Code == BarcodeReader.Result.Codes.SUCCESS ||
                     result.Code == BarcodeReader.Result.Codes.READER_ALREADY_OPENED)
                 {
+                    Color = Color.Blue;
+                    IsThongBao = true;
+                    ThongBao = "1";
                     //SetScannerAndSymbologySettings();
                 }
                 else
                 {
+                    Color = Color.Red;
+                    IsThongBao = true;
+                    ThongBao = "2";
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");
                 }
+            }
+            else
+            {
+                Color = Color.Red;
+                IsThongBao = true;
+                ThongBao = "3";
             }
         }
 

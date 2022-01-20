@@ -135,6 +135,7 @@ namespace QRMS.ViewModels
                     IsThongBao = true;
                     Color = Color.Red;
                     ThongBao = "Nhãn đã được quét";
+                    return;
                 }
                  
                 if (Historys != null)

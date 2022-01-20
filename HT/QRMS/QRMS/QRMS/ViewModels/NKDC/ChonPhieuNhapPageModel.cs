@@ -18,7 +18,7 @@ using Xamarin.Forms;
 
 namespace QRMS.ViewModels
 {
-    public class ChonPhieuNhapPageModel : BaseViewModel, INotifyPropertyChanged
+    public class ChonPhieuNhapPageModel : BaseViewModel
     {
         public ChonPhieuNhapPage _ChonPhieuNhapPage;
           
@@ -45,12 +45,22 @@ namespace QRMS.ViewModels
             Color = Color.Red;
             IsThongBao = true;
             ThongBao = "Bạn hãy scan phiếu nhập kho";
-            OpenBarcodeReader(); 
+            //
+            try {
+                CloseBarcodeReader();
+            }
+            catch
+            {
+
+            }
+            OpenBarcodeReader();
             base.OnAppearing();
         }
 
-         
-        public void LoadModels(string BarcodeScan)
+          
+          
+        public bool isDangQuet = false;
+        public async void ScanComplate(string BarcodeScan)
         {
             try
             {
@@ -61,7 +71,7 @@ namespace QRMS.ViewModels
                                                      BarcodeScan = BarcodeScan
                                                  });
                 if (result != null && result.Result != null && result.Result.data != null
-                    && result.Result.data.Count>0)
+                    && result.Result.data.Count > 0)
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
@@ -73,41 +83,30 @@ namespace QRMS.ViewModels
                         // 
                         Color = Color.Blue;
                         IsThongBao = true;
-                        ThongBao = "Thành công"; 
+                        ThongBao = "Thành công";
+                        //CloseBarcodeReader();
+                        //OpenBarcodeReader();
                     });
                 }
                 else
                 {
+                    //CloseBarcodeReader();
+                    //OpenBarcodeReader();
                     Color = Color.Red;
                     IsThongBao = true;
                     ThongBao = "Mã phiếu không tồn tại!. ErrorCode: " + result.Result.ErrorCode
                         + ". Message:" + result.Result.Message;
-                }    
+                }
             }
             catch (Exception ex)
             {
+                //CloseBarcodeReader();
+                //OpenBarcodeReader();
                 Color = Color.Red;
                 IsThongBao = true;
-                ThongBao = "Mã phiếu không tồn tại. ex: "+ ex.Message;
+                ThongBao = "Mã phiếu không tồn tại. ex: " + ex.Message;
 
                 MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "ChonPhieuNhapPageModel", MySettings.UserName);
-            }
-
-        }
-          
-        public bool isDangQuet = false;
-        public async void ScanComplate(string str)
-        {
-            try
-            { 
-                ThongBao = ""; 
-                  
-                LoadModels(str);
-
-            }
-            catch (Exception ex)
-            { 
-                MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "ChonPhieuNhapPageModel", MySettings.UserName);
             }
         }
         //
@@ -124,14 +123,26 @@ namespace QRMS.ViewModels
 
                 if (result.Code == BarcodeReader.Result.Codes.SUCCESS ||
                     result.Code == BarcodeReader.Result.Codes.READER_ALREADY_OPENED)
-                { 
+                {
+                    Color = Color.Blue;
+                    IsThongBao = true;
+                    ThongBao = "1";
                 }
                 else
                 {
+                    Color = Color.Red;
+                    IsThongBao = true;
+                    ThongBao = "2";
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");
                 }
             }
+            else
+            {
+                Color = Color.Red;
+                IsThongBao = true;
+                ThongBao = "2";
+            }    
         }
 
         public BarcodeReader GetBarcodeReader()
@@ -150,7 +161,10 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     mUIContext.Post(_ =>
-                    { 
+                    {
+                        Color = Color.Blue;
+                        IsThongBao = true;
+                        ThongBao = "Data: "+ e.Data;  
                         ScanComplate(e.Data);
                     }
                         , null);
