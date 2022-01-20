@@ -200,12 +200,14 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
+                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo); 
                                 App.Dblocal.DeleteHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
                                 Historys.Clear();
                                 DonHangs.Clear();
 
-                                await Controls.LoadingUtility.HideAsync(); 
-                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                await Controls.LoadingUtility.HideAsync();
+  
+                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thành công. JSON: "+ APICaller.myjson, "Đồng ý", "");
                                 LoadModels("");
 
                                 //var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
