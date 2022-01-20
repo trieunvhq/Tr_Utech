@@ -34,13 +34,12 @@
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>
              
 
-            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3"
+            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="10"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                    Margin="10,5,10,5" IsVisible="{Binding IsThongBao}">
                 <Label.FormattedText>
                     <FormattedString>
                         <Span FontSize="15" Text="{Binding ThongBao}" FontAttributes="Bold" TextColor="{Binding Color}"/>
-                        <Span FontSize="15" Text="{Binding ThoiGian}" FontAttributes="Bold" TextColor="Black"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

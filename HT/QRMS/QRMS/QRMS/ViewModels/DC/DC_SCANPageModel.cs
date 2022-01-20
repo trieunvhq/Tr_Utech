@@ -1,5 +1,6 @@
 ﻿
 using Acr.UserDialogs;
+using Honeywell.AIDC.CrossPlatform;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
@@ -7,7 +8,8 @@ using QRMS.Models;
 using QRMS.Views;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;  
+using System.Collections.ObjectModel;
+using System.Threading;
 using Xamarin.Forms; 
 
 namespace QRMS.ViewModels
@@ -20,13 +22,10 @@ namespace QRMS.ViewModels
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR;
-
-        public bool IsTat { get; set; } = false;
-        public bool IsQuet { get; set; } = false;
+         
 
         public bool IsThongBao { get; set; } = true;
-        public string ThongBao { get; set; } = "";
-        public string ThoiGian { get; set; } = "";
+        public string ThongBao { get; set; } = ""; 
         public Color Color { get; set; } = Color.Red;
         public string _TuKho { get; set; } = "";
         public string _DenKho { get; set; } = "";
@@ -41,7 +40,8 @@ namespace QRMS.ViewModels
 
         public override void OnAppearing()
         {
-            _daQuetQR = new List<string>();
+            OpenBarcodeReader();
+               _daQuetQR = new List<string>();
             base.OnAppearing();
             LoadDbLocal();
         }
@@ -142,12 +142,12 @@ namespace QRMS.ViewModels
                                 App.Dblocal.DeleteHistory_CKDC(_LenhDC, _TuKho, _DenKho);
 
                                 await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                                _DC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công" , "Đồng ý", ""); 
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                _DC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", ""); 
                             }
                         });
                     }
@@ -158,61 +158,26 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Controls.LoadingUtility.HideAsync();
-
-                    UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
+                     
                     MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
                 });
             }
-        }
-        private int _trangthai_quet;
-        private void ShowThongBao(bool isshow)
-        {
-            // 
-            if (isshow)
-            {
-                if (_trangthai_quet == 1)
-                {
-                    Color = Color.Blue;
-                    ThongBao = "Mã QR đã được quét";
-                }
-                else if (_trangthai_quet == 2)
-                {
-                    Color = Color.Green;
-                    ThongBao = "Thành công";
-                }
-                else if (_trangthai_quet == 3)
-                {
-                    Color = Color.Red;
-                    ThongBao = "Mã không tồn tại";
-                }
-                IsThongBao = true;
-            }
-            else
-            {
-                IsThongBao = false;
-            }
-        }
-        public bool isDangQuet = false;
+        } 
         public async void ScanComplate(string str)
         {
             try
-            {
-                if (isDangQuet)
-                    return;
+            { 
                 if (!_daQuetQR.Contains(str))
                     _daQuetQR.Add(str);
                 else
                 {
-                    IsQuet = false;
-                    ShowThongBao(true);
-                    //StartDemThoiGian_HienThiCam();
-                    _DC_SCANPage.CloseCam();
+                    IsThongBao = true;
+                    Color = Color.Red;
+                    ThongBao = "Nhãn đã được quét"; 
                 }
-
-                _trangthai_quet = 0;
+                 
                 if (Historys != null)
-                {
-                    isDangQuet = true;
+                { 
                     bool IsTonTai_ = false;
                     int index_ = 0;
                     var qr = MySettings.QRRead(str);
@@ -229,7 +194,9 @@ namespace QRMS.ViewModels
 
                     if (IsTonTai_)
                     {
-                        _trangthai_quet = 1;
+                        IsThongBao = true;
+                        Color = Color.Red;
+                        ThongBao = "Nhãn đã được quét";
                     }
                     else
                     {
@@ -282,19 +249,21 @@ namespace QRMS.ViewModels
 
                                 Historys.Add(history);
                                 App.Dblocal.SaveHistoryAsync(history);
-
-                                _trangthai_quet = 2;
+                                 
                                 //
                                 break;
                             }
+                            else if (i == TongQuats.Count - 1)
+                            {
+                                Color = Color.Red;
+                                IsThongBao = true;
+                                ThongBao = "Dụng cụ không có trong lệnh nhập!";
+                            }
                         }
-                        if (_trangthai_quet != 2)
-                            _trangthai_quet = 3;
+                        IsThongBao = true;
+                        Color = Color.Blue;
+                        ThongBao = "Thành công";
                     }
-                    _DC_SCANPage.CloseCam();
-                    IsQuet = false;
-                    ShowThongBao(true);
-                    //StartDemThoiGian_HienThiCam();
                 }
                 else
                 {
@@ -307,73 +276,70 @@ namespace QRMS.ViewModels
             }
         }
 
-        //private int tt = 10;
-        //private CancellationTokenSource cancellation = new CancellationTokenSource();
-        //private void StartDemThoiGianGGS()
-        //{
-        //    StopDemThoiGianGGS();
-        //    CancellationTokenSource cts = this.cancellation;
+        #region BarcodeReader Action
+        private BarcodeReader mSelectedReader = null;
+        private SynchronizationContext mUIContext = SynchronizationContext.Current;
 
-        //    Device.StartTimer(TimeSpan.FromSeconds(1),
-        //          () =>
-        //          {
-        //              if (cts.IsCancellationRequested) return false;
-        //              if (IsThongBao)
-        //              {
-        //                  if (tt <= 0)
-        //                  {
-        //                      IsThongBao = false;
-        //                      ThongBao = "";
-        //                      ThoiGian = "";
-        //                      StopDemThoiGianGGS();
-        //                  }
-        //                  else
-        //                  {
-        //                      ThoiGian = "  (" + tt + ")";
-        //                  }    
-        //                  --tt;
-        //              }     
-        //              return true; // or true for periodic behavior
-        //          });
-        //}
-        //public void StopDemThoiGianGGS()
-        //{
-        //    tt = 10;
-        //    Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
-        //}
-        //// 
-        //private CancellationTokenSource cancellation_HienThiCam = new CancellationTokenSource();
-        //private int tt_HienThiCam = 0;
-        //private void StartDemThoiGian_HienThiCam()
-        //{
-        //    StopDemThoiGian_HienThiCam();
-        //    CancellationTokenSource cts = this.cancellation_HienThiCam;
+        public async void OpenBarcodeReader()
+        {
+            mSelectedReader = GetBarcodeReader();
+            if (!mSelectedReader.IsReaderOpened)
+            {
+                BarcodeReader.Result result = await mSelectedReader.OpenAsync();
 
-        //    IsQuet = false;
-        //    ShowThongBao(true);
+                if (result.Code == BarcodeReader.Result.Codes.SUCCESS ||
+                    result.Code == BarcodeReader.Result.Codes.READER_ALREADY_OPENED)
+                {
+                    //SetScannerAndSymbologySettings();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
+                        " Message:" + result.Message, "OK");
+                }
+            }
+        }
 
-        //    Device.StartTimer(TimeSpan.FromSeconds(2),
-        //          () =>
-        //          {
-        //              if (IsTat)
-        //                  StopDemThoiGian_HienThiCam();
-        //              if (cts.IsCancellationRequested) return false;
-        //              Device.BeginInvokeOnMainThread(async () =>
-        //              {
-        //                  isDangQuet = false;
-        //                  IsQuet = true;
-        //                  _DC_SCANPage.ResetCamera();
-        //                  ShowThongBao(false);
-        //                  StopDemThoiGian_HienThiCam();
-        //                  ++tt_HienThiCam;
-        //              });
-        //              return true; // or true for periodic behavior
-        //          });
-        //}
-        //public void StopDemThoiGian_HienThiCam()
-        //{
-        //    tt_HienThiCam = 0;
-        //    Interlocked.Exchange(ref this.cancellation_HienThiCam, new CancellationTokenSource()).Cancel();
-        //}
+        public BarcodeReader GetBarcodeReader()
+        {
+            BarcodeReader reader = new BarcodeReader();
+
+            reader.BarcodeDataReady += MBarcodeReader_BarcodeDataReady;
+
+            return reader;
+        }
+
+        private void MBarcodeReader_BarcodeDataReady(object sender, Honeywell.AIDC.CrossPlatform.BarcodeDataArgs e)
+        {
+            try
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    mUIContext.Post(_ =>
+                    {  
+                        ScanComplate(e.Data);
+                    }
+                        , null);
+                });
+            }
+            catch (Exception ex)
+            {
+                Application.Current.MainPage.DisplayAlert("Thông báo", "MBarcodeReader_BarcodeDataReady Error", "OK");
+            }
+        }
+
+        public async void CloseBarcodeReader()
+        { 
+            if (mSelectedReader != null && mSelectedReader.IsReaderOpened)
+            {
+                BarcodeReader.Result result = await mSelectedReader.CloseAsync();
+                if (result.Code != BarcodeReader.Result.Codes.SUCCESS)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "CloseAsync failed, Code:" + result.Code +
+                        " Message:" + result.Message, "OK");
+                }
+            }
+        }
+        #endregion
     }
 }

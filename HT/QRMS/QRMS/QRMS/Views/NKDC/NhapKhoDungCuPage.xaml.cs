@@ -149,51 +149,7 @@ namespace QRMS.Views
 
             }
         }
-
-        public void ResetCamera()
-        {
-
-            //ZXingScannerView scannerView = new ZXingScannerView();
-            //scannerView.OnScanResult += (result) => { scanView_OnScanResult(result); };
-            ////scannerView.OnScanResult += scanView_OnScanResult();
-            //grid.Children.Add(scannerView, 0, 8, 0, 10);
-            //camera.IsScanning = true;
-
-
-            camera.IsScanning = true;
-            camera.IsAnalyzing = true;
-        }
-        void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
-        {
-            ViewModel.IsMatDoc_Camera = false;
-            ResetCamera();
-            //row.Height = 150;
-            ViewModel.isDangQuet = false;
-            ViewModel.IsTat = false;
-            ViewModel.IsThongBao = false;
-            ViewModel.IsQuet = true; 
-        }
-         
-
-        void scanView_OnScanResult(ZXing.Result result)
-        {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                camera.IsAnalyzing = false;
-                ViewModel.ScanComplate(result.Text);
-                camera.IsAnalyzing = true;
-            });
-        }
-
-        void btnDongQuet_Clicked(System.Object sender, System.EventArgs e)
-        {
-            //row.Height = 50;
-            ViewModel.IsTat = true;
-            ViewModel.IsThongBao = false;
-            ViewModel.IsQuet = false;
-            //ViewModel.StopDemThoiGianGGS();
-        }
-         
+           
         public NhapKhoDungCuModel model_;
         public decimal soluong_;
         public int i;

@@ -51,6 +51,9 @@ namespace QRMS.ViewModels
 
         public override void OnAppearing()
         {
+            Color = Color.Red;
+            IsThongBao = true;
+            ThongBao = "Bạn hãy scan phiếu nhập kho";
             OpenBarcodeReader(); 
             base.OnAppearing();
         }
@@ -76,11 +79,10 @@ namespace QRMS.ViewModels
                         _WarehouseCode = result.Result.data[0].WarehouseCode;
                         _WarehouseName = result.Result.data[0].WarehouseName;
 
-                        //
-                        ++_so_luong_quet_thanh_cong;
+                        // 
                         Color = Color.Blue;
                         IsThongBao = true;
-                        ThongBao = "Thành công: " + _so_luong_quet_thanh_cong;
+                        ThongBao = "Thành công";
 
                         if (IsMatDoc_Camera)
                         { }
@@ -104,19 +106,20 @@ namespace QRMS.ViewModels
                 {
                     Color = Color.Red;
                     IsThongBao = true;
-                    ThongBao = "Mã QR đã không tồn tại!";
+                    ThongBao = "Mã phiếu không tồn tại!";
                 }    
             }
             catch (Exception ex)
             {
+                Color = Color.Red;
+                IsThongBao = true;
+                ThongBao = "Mã phiếu không tồn tại!";
+
                 MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "ChonPhieuNhapPageModel", MySettings.UserName);
             }
 
         }
-         
-        private int _so_luong_da_quet = 0;
-        private int _so_luong_quet_thanh_cong = 0;
-
+          
         public bool isDangQuet = false;
         public async void ScanComplate(string str)
         {
@@ -131,7 +134,7 @@ namespace QRMS.ViewModels
                 {
                 }
                 //
-                IsThongBao = false;
+                //IsThongBao = false;
                 ThongBao = "";
                 //
                 //if (isDangQuet)

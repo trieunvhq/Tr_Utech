@@ -1,5 +1,6 @@
 ﻿
 using Acr.UserDialogs;
+using Honeywell.AIDC.CrossPlatform;
 using PIAMA.Views.Shared;
 using QRMS.API;
 using QRMS.AppLIB.Common;
@@ -25,13 +26,9 @@ namespace QRMS.ViewModels
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR;
-
-        public bool IsTat { get; set; } = false;
-        public bool IsQuet { get; set; } = false;
-
+         
         public bool IsThongBao { get; set; } = true;
-        public string ThongBao { get; set; } = "";
-        public string ThoiGian { get; set; } = "";
+        public string ThongBao { get; set; } = ""; 
         public Color Color { get; set; } = Color.Red;
 
         public string _WarehouesCode { get; set; } = "";
@@ -44,6 +41,7 @@ namespace QRMS.ViewModels
 
         public override void OnAppearing()
         {
+            OpenBarcodeReader();
             _daQuetQR = new List<string>();
             base.OnAppearing();
             LoadDbLocal();
@@ -104,12 +102,12 @@ namespace QRMS.ViewModels
                                 Historys.Clear();
 
                                 await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", ""); 
+                                _KK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", ""); 
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                                _KK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", ""); 
                             }
                         });
                     }
@@ -120,62 +118,27 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Controls.LoadingUtility.HideAsync();
-
-                    UserDialogs.Instance.AlertAsync(ex.Message, "Exception", "OK");
+                     
                     MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "KK_SCANPageModel", MySettings.UserName);
                 });
             }
         }
-
-        private int _trangthai_quet;
-        private void ShowThongBao(bool isshow)
-        {
-            // 
-            if (isshow)
-            {
-                if (_trangthai_quet == 1)
-                {
-                    Color = Color.Blue;
-                    ThongBao = "Mã QR đã được quét";
-                }
-                else if (_trangthai_quet == 2)
-                {
-                    Color = Color.Green;
-                    ThongBao = "Thành công";
-                }
-                else if (_trangthai_quet == 3)
-                {
-                    Color = Color.Red;
-                    ThongBao = "Mã không tồn tại";
-                }
-                IsThongBao = true;
-            }
-            else
-            {
-                IsThongBao = false;
-            }
-        }
-        public bool isDangQuet = false;
+         
         public async void ScanComplate(string str)
         {
             try
-            {
-                if (isDangQuet)
-                    return;
+            { 
                 if (!_daQuetQR.Contains(str))
                     _daQuetQR.Add(str);
                 else
                 {
-                    IsQuet = false;
-                    ShowThongBao(true);
-                    //StartDemThoiGian_HienThiCam();
-                    _KK_SCANPage.CloseCam();
+                    IsThongBao = true;
+                    Color = Color.Red;
+                    ThongBao = "Nhãn đã được quét";
                 }
-
-                _trangthai_quet = 0;
+                 
                 if (Historys != null)
-                {
-                    isDangQuet = true;
+                { 
                     bool IsTonTai_ = false;
                     int index_ = 0;
                     var qr = MySettings.QRRead(str);
@@ -192,7 +155,9 @@ namespace QRMS.ViewModels
 
                     if (IsTonTai_)
                     {
-                        _trangthai_quet = 1;
+                        IsThongBao = true;
+                        Color = Color.Red;
+                        ThongBao = "Nhãn đã được quét";
                     }
                     else
                     {
@@ -245,19 +210,20 @@ namespace QRMS.ViewModels
 
                                 Historys.Add(history);
                                 App.Dblocal.SaveHistoryAsync(history);
-
-                                _trangthai_quet = 2;
-                                //
+                                 
                                 break;
                             }
+                            else if (i == TongQuats.Count - 1)
+                            {
+                                Color = Color.Red;
+                                IsThongBao = true;
+                                ThongBao = "Dụng cụ không có trong lệnh kiểm kê!";
+                            }
                         }
-                        if (_trangthai_quet != 2)
-                            _trangthai_quet = 3;
-                    }
-                    _KK_SCANPage.CloseCam();
-                    IsQuet = false;
-                    ShowThongBao(true);
-                    //StartDemThoiGian_HienThiCam();
+                        IsThongBao = true;
+                        Color = Color.Blue;
+                        ThongBao = "Thành công";
+                    }  
                 }
                 else
                 {
@@ -268,6 +234,73 @@ namespace QRMS.ViewModels
             {
                 MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "KK_SCANPageModel", MySettings.UserName);
             }
-        } 
+        }
+
+
+        #region BarcodeReader Action
+        private BarcodeReader mSelectedReader = null;
+        private SynchronizationContext mUIContext = SynchronizationContext.Current;
+
+        public async void OpenBarcodeReader()
+        {
+            mSelectedReader = GetBarcodeReader();
+            if (!mSelectedReader.IsReaderOpened)
+            {
+                BarcodeReader.Result result = await mSelectedReader.OpenAsync();
+
+                if (result.Code == BarcodeReader.Result.Codes.SUCCESS ||
+                    result.Code == BarcodeReader.Result.Codes.READER_ALREADY_OPENED)
+                {
+                    //SetScannerAndSymbologySettings();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
+                        " Message:" + result.Message, "OK");
+                }
+            }
+        }
+
+        public BarcodeReader GetBarcodeReader()
+        {
+            BarcodeReader reader = new BarcodeReader();
+
+            reader.BarcodeDataReady += MBarcodeReader_BarcodeDataReady;
+
+            return reader;
+        }
+
+        private void MBarcodeReader_BarcodeDataReady(object sender, Honeywell.AIDC.CrossPlatform.BarcodeDataArgs e)
+        {
+            try
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    mUIContext.Post(_ =>
+                    {
+                        ScanComplate(e.Data);
+                    }
+                        , null);
+                });
+            }
+            catch (Exception ex)
+            {
+                Application.Current.MainPage.DisplayAlert("Thông báo", "MBarcodeReader_BarcodeDataReady Error", "OK");
+            }
+        }
+
+        public async void CloseBarcodeReader()
+        {
+            if (mSelectedReader != null && mSelectedReader.IsReaderOpened)
+            {
+                BarcodeReader.Result result = await mSelectedReader.CloseAsync();
+                if (result.Code != BarcodeReader.Result.Codes.SUCCESS)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "CloseAsync failed, Code:" + result.Code +
+                        " Message:" + result.Message, "OK");
+                }
+            }
+        }
+        #endregion
     }
 }

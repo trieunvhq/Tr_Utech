@@ -169,20 +169,47 @@
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             </Grid>
-
-
-            <Label BackgroundColor="Black" Opacity=".6" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="0" Grid.RowSpan="10"
-                 IsVisible="{Binding IsQuet}"/>
-
-
-            <forms1:ZXingScannerView Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="0" Grid.RowSpan="9"
-                      x:Name="camera" IsVisible="{Binding IsQuet}" IsAnalyzing="{Binding IsQuet}"
-                      OnScanResult="scanView_OnScanResult"
-                      IsScanning="{Binding IsQuet}"/>
-
-            <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="9" TextColor="White"
-                Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
-                StartColor="Red" EndColor="DarkRed"  IsVisible="{Binding IsQuet}"/>
+            
+            <Grid x:Name="absPopup_DangXuat" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="10"
+              ColumnSpacing="0" RowSpacing="0" Opacity="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition>
+                        <ColumnDefinition.Width>
+                            <OnIdiom x:TypeArguments="GridLength" Phone="30" Tablet="100"/>
+                        </ColumnDefinition.Width>
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition>
+                        <ColumnDefinition.Width>
+                            <OnIdiom x:TypeArguments="GridLength" Phone="30" Tablet="100"/>
+                        </ColumnDefinition.Width>
+                    </ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Label BackgroundColor="Black" Opacity=".5" Grid.Column="0" Grid.ColumnSpan="7"
+                   Grid.Row="0" Grid.RowSpan="7"/>
+                <Frame Padding="0,0,0,0" CornerRadius ="4" BackgroundColor="#3b5859" BorderColor="White"
+                Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="3"/>
+                <Label BackgroundColor="Transparent" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2" Margin="20,20,20,20" 
+                HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text=""
+                   x:Name="lbTieuDe_absPopup"  FontAttributes="Bold" TextColor="White" FontSize="13"/>
+                <Button Padding="0,0,0,0" x:Name="btnDongY_absPopup" Text="" TextColor="White" Clicked="BtnDongY_popup_DangXuat_Clicked" Grid.Column="4" Grid.Row="4"
+                    BackgroundColor="#e76c36" Margin="10,10,20,20" FontSize="15"/>
+                <Button x:Name="btnHuyBo_absPopup" Padding="0,0,0,0" Text="Hủy bỏ" TextColor="White" Clicked="BtnHuyBo_popup_DangXuat_Clicked" Grid.Column="2" Grid.Row="4"
+                   BackgroundColor="Transparent" Margin="20,10,10,20" FontSize="15"/>
+            </Grid> 
         </Grid>
     </ContentPage.Content>
 </ContentPage>

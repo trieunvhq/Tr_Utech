@@ -1,5 +1,6 @@
 ﻿ 
-using System; 
+using System;
+using System.Threading.Tasks;
 using Acr.UserDialogs;
 using QRMS.Constants;
 using QRMS.Helper;
@@ -19,6 +20,7 @@ namespace QRMS.Views
         { 
             InitializeComponent();
 
+            grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
@@ -73,17 +75,8 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    var answer = await UserDialogs.Instance.ConfirmAsync("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Thông báo", "Có lưu", "Không lưu");
-                    if (answer)
-                    {
-                    }
-                    else
-                    { 
-                        App.Dblocal.DeleteHistory_KKDC(ViewModel._LenhKiemKe, ViewModel._WarehouesCode);
-                    }
-
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
+                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+ 
                 });
             });
 
@@ -102,87 +95,59 @@ namespace QRMS.Views
                 });
             });
         }
-
-        void lst_combobox_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
-        {
-        }
-
+         
         protected override void OnAppearing()
         {
             base.OnAppearing();
             ViewModel.OnAppearing();
         }
 
-        public void CloseCam()
+
+        public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         {
-            try
+            await Controls.LoadingUtility.HideAsync();
+            if (huybo == "")
             {
-                //if (_MyScan != null)
-                //    _MyScan.CloseBarcodeReader();
+                btnHuyBo_absPopup.IsVisible = false;
             }
-            catch { }
-        }
-        void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
-        {
-            try
+            else
             {
-                //try
-                //{
-                //    if (_MyScan != null)
-                //        _MyScan.CloseBarcodeReader();
-                //}
-                //catch { } 
-                //_MyScan.OpenBarcodeReader();
+                btnHuyBo_absPopup.IsVisible = true;
             }
-            catch (Exception ee)
+            //
+            btnDongY_absPopup.Text = nutdongy;
+            btnHuyBo_absPopup.Text = huybo;
+            lbTieuDe_absPopup.Text = tieude;
+            if (!grid.Children.Contains(absPopup_DangXuat))
+                grid.Children.Add(absPopup_DangXuat);
+            grid.RaiseChild(absPopup_DangXuat);
+            await absPopup_DangXuat.FadeTo(1, 200);
+            grid.RaiseChild(absPopup_DangXuat);
+        }
+        private async void BtnDongY_popup_DangXuat_Clicked(object sender, EventArgs e)
+        {
+            await absPopup_DangXuat.FadeTo(0, 200);
+            if (grid.Children.Contains(absPopup_DangXuat))
+                _ = grid.Children.Remove(absPopup_DangXuat);
+            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
-                UserDialogs.Instance.AlertAsync(ee.Message, "Exception", "OK").ConfigureAwait(false);
-                MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "KK_SCANPage", MySettings.UserName);
-
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                await Controls.LoadingUtility.HideAsync();
             }
         }
-
-        public void ResetCamera()
+        private async void BtnHuyBo_popup_DangXuat_Clicked(object sender, EventArgs e)
         {
+            await absPopup_DangXuat.FadeTo(0, 200);
+            if (grid.Children.Contains(absPopup_DangXuat))
+                _ = grid.Children.Remove(absPopup_DangXuat);
 
-            //ZXingScannerView scannerView = new ZXingScannerView();
-            //scannerView.OnScanResult += (result) => { scanView_OnScanResult(result); };
-            ////scannerView.OnScanResult += scanView_OnScanResult();
-            //grid.Children.Add(scannerView, 0, 8, 0, 10);
-            //camera.IsScanning = true;
-
-
-            camera.IsScanning = true;
-            camera.IsAnalyzing = true;
-        }
-        void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
-        {
-            ResetCamera();
-            //row.Height = 150;
-            ViewModel.isDangQuet = false;
-            ViewModel.IsTat = false;
-            ViewModel.IsThongBao = false;
-            ViewModel.IsQuet = true;
-        }
-
-
-        void scanView_OnScanResult(ZXing.Result result)
-        {
-            Device.BeginInvokeOnMainThread(async () =>
+            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
-                camera.IsAnalyzing = false;
-                ViewModel.ScanComplate(result.Text);
-                camera.IsAnalyzing = true;
-            });
-        }
+                App.Dblocal.DeleteHistory_KKDC(ViewModel._LenhKiemKe, ViewModel._WarehouesCode);
 
-        void btnDongQuet_Clicked(System.Object sender, System.EventArgs e)
-        {
-            //row.Height = 50;
-            ViewModel.IsTat = true;
-            ViewModel.IsThongBao = false;
-            ViewModel.IsQuet = false;
-            //ViewModel.StopDemThoiGianGGS();
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                await Controls.LoadingUtility.HideAsync();
+            }
         }
 
 

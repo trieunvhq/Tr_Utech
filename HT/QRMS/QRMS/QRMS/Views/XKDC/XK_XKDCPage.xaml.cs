@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using QRMS.Constants;
 using QRMS.Helper;
+using QRMS.Models;
+using QRMS.Models.XKDC;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -26,6 +28,7 @@ namespace QRMS.Views
             _PuschaseNo = no;
             InitializeComponent();
 
+            grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
@@ -81,18 +84,17 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    var answer = await UserDialogs.Instance.ConfirmAsync("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Thông báo", "Có lưu", "Không lưu");
-                    if (answer)
+                    if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                       || (ViewModel.DonHangs != null && ViewModel.DonHangs.Count > 0))
                     {
+                        await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+
                     }
                     else
                     {
-                        App.Dblocal.DeleteHistoryAll();
-                        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PuschaseNo);
-                    }
-
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                        await Controls.LoadingUtility.HideAsync();
+                    } 
                 });
             });
 
@@ -121,79 +123,81 @@ namespace QRMS.Views
             base.OnAppearing();
             ViewModel.OnAppearing();
         }
+           
 
-        public void CloseCam()
+        public SaleOrderItemScanBPL model_;
+        public decimal soluong_;
+        public int i;
+        public QRModel qr;
+        public string str;
+        public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         {
-            //try
-            //{
-            //    if (_MyScan != null)
-            //        _MyScan.CloseBarcodeReader();
-            //}
-            //catch { }
-        }
-        void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
-        {
-            try
+            await Controls.LoadingUtility.HideAsync();
+            if (huybo == "")
             {
-                //try
-                //{
-                //    if (_MyScan != null)
-                //        _MyScan.CloseBarcodeReader();
-                //}
-                //catch { }
-                //_MyScan.OpenBarcodeReader();
+                btnHuyBo_absPopup.IsVisible = false;
             }
-            catch (Exception ee)
+            else
             {
-                UserDialogs.Instance.AlertAsync(ee.Message, "Exception", "OK").ConfigureAwait(false);
-                MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "XK_XKDCPage", MySettings.UserName);
+                btnHuyBo_absPopup.IsVisible = true;
+            }
+            //
+            btnDongY_absPopup.Text = nutdongy;
+            btnHuyBo_absPopup.Text = huybo;
+            lbTieuDe_absPopup.Text = tieude;
+            if (!grid.Children.Contains(absPopup_DangXuat))
+                grid.Children.Add(absPopup_DangXuat);
+            grid.RaiseChild(absPopup_DangXuat);
+            await absPopup_DangXuat.FadeTo(1, 200);
+            grid.RaiseChild(absPopup_DangXuat);
+        }
+        private async void BtnDongY_popup_DangXuat_Clicked(object sender, EventArgs e)
+        {
+            await absPopup_DangXuat.FadeTo(0, 200);
+            if (grid.Children.Contains(absPopup_DangXuat))
+                _ = grid.Children.Remove(absPopup_DangXuat);
+            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
+            {
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                await Controls.LoadingUtility.HideAsync();
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
+            {
+                ViewModel.XuLyTiepLuu(true, model_, soluong_, i, qr, str);
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
+            {
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
+            {
+            }
 
+        }
+        private async void BtnHuyBo_popup_DangXuat_Clicked(object sender, EventArgs e)
+        {
+            await absPopup_DangXuat.FadeTo(0, 200);
+            if (grid.Children.Contains(absPopup_DangXuat))
+                _ = grid.Children.Remove(absPopup_DangXuat);
+
+            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
+            {
+                App.Dblocal.DeleteHistoryAll();
+                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PuschaseNo);
+
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                await Controls.LoadingUtility.HideAsync();
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
+            {
+                ViewModel.XuLyTiepLuu(false, model_, soluong_, i, qr, str);
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
+            {
+            }
+            else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
+            {
             }
         }
-
-        public void ResetCamera()
-        {
-
-            //ZXingScannerView scannerView = new ZXingScannerView();
-            //scannerView.OnScanResult += (result) => { scanView_OnScanResult(result); };
-            ////scannerView.OnScanResult += scanView_OnScanResult();
-            //grid.Children.Add(scannerView, 0, 8, 0, 10);
-            //camera.IsScanning = true;
-
-
-            camera.IsScanning = true;
-            camera.IsAnalyzing = true;
-        }
-        void BtnCamera_CLicked(System.Object sender, System.EventArgs e)
-        {
-            ResetCamera();
-            //row.Height = 150;
-            ViewModel.isDangQuet = false;
-            ViewModel.IsTat = false;
-            ViewModel.IsThongBao = false;
-            ViewModel.IsQuet = true;
-        }
-
-
-        void scanView_OnScanResult(ZXing.Result result)
-        {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                camera.IsAnalyzing = false;
-                ViewModel.ScanComplate(result.Text);
-                camera.IsAnalyzing = true;
-            });
-        }
-
-        void btnDongQuet_Clicked(System.Object sender, System.EventArgs e)
-        {
-            //row.Height = 50;
-            ViewModel.IsTat = true;
-            ViewModel.IsThongBao = false;
-            ViewModel.IsQuet = false;
-            //ViewModel.StopDemThoiGianGGS();
-        }
-
 
     }
 }
