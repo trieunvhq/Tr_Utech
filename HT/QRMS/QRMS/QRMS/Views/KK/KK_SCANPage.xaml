@@ -98,7 +98,7 @@
 
             <ListView Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="8" BackgroundColor="White"
                ItemsSource="{Binding DonHangs}" x:Name="lst_combobox" SeparatorVisibility="None"
-                  RowHeight="51" ItemTapped="lst_combobox_ItemTapped">
+                  RowHeight="51" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell >
@@ -145,26 +145,18 @@
 
             <Grid Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="9" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="85"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="1"/>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="85"/>
+                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 <helper:ButtonCustoms Text="Quay lại" Grid.Column="0"
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
                 StartColor="#00a79d" EndColor="#05aff2"/>
-
-                <helper:ButtonCustoms Text="Quét" Grid.Column="2" CornerRadius="0"
-                Clicked="BtnQuet_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
-
-                <helper:ButtonCustoms Text="Camera" Grid.Column="4" CornerRadius="0"
-                Clicked="BtnCamera_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
-
+                 
                 <helper:ButtonCustoms Text="Lưu lại" Grid.Column="6" CornerRadius="0"
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
