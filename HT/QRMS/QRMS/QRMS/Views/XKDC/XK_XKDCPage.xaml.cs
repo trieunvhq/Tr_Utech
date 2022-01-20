@@ -19,20 +19,27 @@ namespace QRMS.Views
 {
     public partial class XK_XKDCPage : ContentPage
     {
-        //MyScan _MyScan;
-        private string _PuschaseNo = "";
+        //MyScan _MyScan; 
 
+        public string _SaleOrderNo = "";
+        public string _WarehouseCode = "";
+        public string _WarehouseName = "";
+        public DateTime? _SaleOrderDate;
         public XK_XKDCPageModel ViewModel { get; set; }
-        public XK_XKDCPage(string id, string no, DateTime d)
-        {
-            _PuschaseNo = no;
+        public XK_XKDCPage(string SaleOrderNo, string WarehouseCode, DateTime? SaleOrderDate, string WarehouseName)
+        { 
             InitializeComponent();
+
+            _SaleOrderNo = SaleOrderNo;
+            _WarehouseCode = WarehouseCode;
+            _SaleOrderDate = SaleOrderDate;
+            _WarehouseName = WarehouseName;
 
             grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new XK_XKDCPageModel(id, no, d);
+            ViewModel = new XK_XKDCPageModel(this);
             ViewModel.Initialize();
             BindingContext = ViewModel;
             ViewModel._XK_XKDCPage = this;
@@ -182,7 +189,7 @@ namespace QRMS.Views
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
                 App.Dblocal.DeleteHistoryAll();
-                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PuschaseNo);
+                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_SaleOrderNo);
 
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();

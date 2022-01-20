@@ -1,27 +1,22 @@
-﻿ 
-using Acr.UserDialogs;
+﻿  
 using Honeywell.AIDC.CrossPlatform;
 using QRMS.API;
 using QRMS.AppLIB.Common;
-using QRMS.Constants;
-using QRMS.interfaces;
+using QRMS.Constants; 
 using QRMS.Models; 
 using QRMS.Views;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.Generic; 
+using System.ComponentModel; 
+using System.Threading; 
 using Xamarin.Forms; 
 
 namespace QRMS.ViewModels
 {
-    public class ChonPhieuNhapPageModel : BaseViewModel, INotifyPropertyChanged
+    public class XK_CKPageModel : BaseViewModel, INotifyPropertyChanged
     {
-        public ChonPhieuNhapPage _ChonPhieuNhapPage;
-          
+        public XK_CKPage _XK_CKPage;
+
         public bool IsTat { get; set; } = false;
         public bool IsQuet { get; set; } = false;
 
@@ -34,22 +29,31 @@ namespace QRMS.ViewModels
         public string _WarehouseName { get; set; }
         public string _PurchaseOrderNo { get; set; }
 
-  
+        //private IBarcodeReader _barcodeReader;
+        private string _barcodeDataText;
+        private string _barcodeSymbology;
+        private DateTime _scanTime;
+        private string _statusMessage;
+        public int ScanCount { get; set; } = 0;
 
-        public ChonPhieuNhapPageModel()
-        {  
+
+        public bool IsMatDoc_Camera;
+
+
+        public XK_CKPageModel()
+        {
         }
 
         public override void OnAppearing()
         {
             Color = Color.Red;
             IsThongBao = true;
-            ThongBao = "Bạn hãy scan phiếu nhập kho";
-            OpenBarcodeReader(); 
+            ThongBao = "Bạn hãy scan phiếu xuất kho";
+            OpenBarcodeReader();
             base.OnAppearing();
         }
 
-         
+
         public void LoadModels(string BarcodeScan)
         {
             try
@@ -61,7 +65,7 @@ namespace QRMS.ViewModels
                                                      BarcodeScan = BarcodeScan
                                                  });
                 if (result != null && result.Result != null && result.Result.data != null
-                    && result.Result.data.Count>0)
+                    && result.Result.ErrorCode == "0" && result.Result.data.Count > 0)
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
@@ -73,44 +77,136 @@ namespace QRMS.ViewModels
                         // 
                         Color = Color.Blue;
                         IsThongBao = true;
-                        ThongBao = "Thành công"; 
+                        ThongBao = "Thành công";
+
+                        if (IsMatDoc_Camera)
+                        { }
+                        else
+                        {
+                            _XK_CKPage.CloseCam();
+                        }
+                        IsQuet = false;
+
+
+                        if (IsMatDoc_Camera)
+                        {
+                            //CloseBarcodeReader(); 
+                        }
+                        else
+                        {
+                        }
                     });
                 }
                 else
                 {
                     Color = Color.Red;
                     IsThongBao = true;
-                    ThongBao = "Mã phiếu không tồn tại!. ErrorCode: " + result.Result.ErrorCode
-                        + ". Message:" + result.Result.Message;
-                }    
+                    ThongBao = "Mã phiếu không tồn tại!";
+                }
             }
             catch (Exception ex)
             {
                 Color = Color.Red;
                 IsThongBao = true;
-                ThongBao = "Mã phiếu không tồn tại. ex: "+ ex.Message;
+                ThongBao = "Mã phiếu không tồn tại!";
 
-                MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "ChonPhieuNhapPageModel", MySettings.UserName);
+                MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "XK_CKPageModel", MySettings.UserName);
             }
 
         }
-          
+
         public bool isDangQuet = false;
         public async void ScanComplate(string str)
         {
             try
-            { 
-                ThongBao = ""; 
-                  
+            {
+                //
+                if (IsMatDoc_Camera)
+                {
+                    //CloseBarcodeReader();
+                }
+                else
+                {
+                }
+                //
+                //IsThongBao = false;
+                ThongBao = "";
+                //
+                //if (isDangQuet)
+                //    return;
+
+
+                isDangQuet = true;
+                bool IsTonTai_ = false;
+                int index_ = 0;
+
                 LoadModels(str);
 
             }
             catch (Exception ex)
-            { 
-                MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "ChonPhieuNhapPageModel", MySettings.UserName);
+            {
+                if (IsMatDoc_Camera)
+                {
+
+                    //CloseBarcodeReader(); 
+                }
+                else
+                {
+                }
+                MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "XK_CKPageModel", MySettings.UserName);
             }
         }
-        //
+
+        //public IBarcodeReader BarcodeReader
+        //{
+        //    get => _barcodeReader;
+        //    set
+        //    {
+        //        _barcodeReader = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+
+        public string BarcodeDataText
+        {
+            get => _barcodeDataText;
+            set
+            {
+                _barcodeDataText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string BarcodeSymbology
+        {
+            get => _barcodeSymbology;
+            set
+            {
+                _barcodeSymbology = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime ScanTime
+        {
+            get => _scanTime;
+            set
+            {
+                _scanTime = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set
+            {
+                _statusMessage = value;
+                OnPropertyChanged();
+            }
+        }
+         
         #region BarcodeReader Action
         private BarcodeReader mSelectedReader = null;
         private SynchronizationContext mUIContext = SynchronizationContext.Current;
@@ -124,7 +220,8 @@ namespace QRMS.ViewModels
 
                 if (result.Code == BarcodeReader.Result.Codes.SUCCESS ||
                     result.Code == BarcodeReader.Result.Codes.READER_ALREADY_OPENED)
-                { 
+                {
+                    //SetScannerAndSymbologySettings();
                 }
                 else
                 {
@@ -150,7 +247,9 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     mUIContext.Post(_ =>
-                    { 
+                    {
+                        StatusMessage = $"Barcode #{++ScanCount} received: " + e.Data;
+
                         ScanComplate(e.Data);
                     }
                         , null);

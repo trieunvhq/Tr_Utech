@@ -64,9 +64,9 @@ namespace QRMS.Views
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            if (ViewModel.SelectedDonHang != null)
-                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XK_XKDCPage(ViewModel.SelectedDonHang.ID,
-                    ViewModel.SelectedDonHang.Name, Convert.ToDateTime(ViewModel.SelectedDonHang.PurchaseOrderDate)));
+            //if (ViewModel.SelectedDonHang != null)
+            //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XK_XKDCPage(ViewModel.SelectedDonHang.ID,
+            //        ViewModel.SelectedDonHang.Name, Convert.ToDateTime(ViewModel.SelectedDonHang.PurchaseOrderDate)));
 
         }
 

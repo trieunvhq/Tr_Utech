@@ -37,6 +37,7 @@ namespace QRMS.AppLIB.Common
             public const string getpurchaseorderscan = "api-ht/purchaseorder/getpurchaseorderscan";
             public const string getsaleorderscan = "api-ht/saleorders/getsaleorderscan";
             public const string gethistory = "api-ht/transactionHistori/gethistory";
+            public const string getsaleorderitemscanbarcode = "api-ht/saleorderitem/getsaleorderitemscanbarcode";
         }
 
         #region AccountLogin

@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:helper="clr-namespace:QRMS.Helper"
     xmlns:control="clr-namespace:QRMS.Controls" xmlns:forms1="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
-    x:Class="QRMS.Views.ChonPhieuNhapPage">
+    x:Class="QRMS.Views.XK_CKPage">
     <ContentPage.Content>
         <Grid x:Name="grid" RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
@@ -28,7 +28,7 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="lbTieuDe" Text="Chọn phiếu nhập" Margin="10,0,0,0" VerticalTextAlignment="Center"
+            <Label x:Name="lbTieuDe" Text="Chọn phiếu xuất" Margin="10,0,0,0" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>
@@ -89,7 +89,23 @@
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             </Grid>
-              
+            
+          
+
+            <Label BackgroundColor="Black" Opacity=".6" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Grid.RowSpan="12"
+                 IsVisible="{Binding IsQuet}"/>
+             
+            <forms1:ZXingScannerView Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Grid.RowSpan="11"
+                      x:Name="camera" IsVisible="{Binding IsQuet}" IsAnalyzing="{Binding IsQuet}"
+                      OnScanResult="scanView_OnScanResult"
+                      IsScanning="{Binding IsQuet}"/>
+
+            <helper:ButtonCustoms Text="Đóng lại" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="11" TextColor="White"
+                Clicked="btnDongQuet_Clicked" GradientOrientation="Horizontal"
+                StartColor="Red" EndColor="DarkRed"  IsVisible="{Binding IsQuet}"/>
+             
+            <Label Text="{Binding StatusMessage}" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="10" TextColor="Red"
+                 FontSize="11" HorizontalTextAlignment="Center" VerticalTextAlignment="End" HeightRequest="60"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

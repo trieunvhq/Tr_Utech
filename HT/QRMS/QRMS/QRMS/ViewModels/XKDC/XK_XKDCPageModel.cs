@@ -25,23 +25,19 @@ namespace QRMS.ViewModels
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR;
-
-        public bool IsTat { get; set; } = false;
-        public bool IsQuet { get; set; } = false;
+         
 
         public bool IsThongBao { get; set; } = true;
         public string ThongBao { get; set; } = ""; 
         public Color Color { get; set; } = Color.Red;
-        private string _ID = "";
-        private string _No { get; set; } = "";
-        private DateTime _Date;
 
 
-        public XK_XKDCPageModel(string id, string no, DateTime d)
+        public string SaleOrderNo { get; set; }
+
+        public XK_XKDCPageModel(XK_XKDCPage fd)
         {
-            _ID = id;
-            _No = no;
-            _Date = d;
+            SaleOrderNo = fd._SaleOrderNo;
+            _XK_XKDCPage = fd;
             LoadModels("");
         }
 
@@ -61,7 +57,7 @@ namespace QRMS.ViewModels
                 Historys.Clear();
 
                 //List<SaleOrderItemScanBPL> donhang_ = new List<SaleOrderItemScanBPL>();
-                List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_No);
+                List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(SaleOrderNo);
                 foreach (SaleOrderItemScanBPL item in donhang_)
                 {
                     if (!DonHangs.Contains(item))
@@ -81,7 +77,7 @@ namespace QRMS.ViewModels
                 }
 
                 //List<TransactionHistoryModel> historys = new List<TransactionHistoryModel>();
-                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_No);
+                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(SaleOrderNo);
                 foreach (TransactionHistoryModel item in historys)
                 {
                     if (!Historys.Contains(item))
@@ -106,10 +102,11 @@ namespace QRMS.ViewModels
                 if (DonHangs.Count == 0)
                 {
                     var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<SaleOrderItemScanBPL>>>
-                                                 (Constaint.ServiceAddress, Constaint.APIurl.getsaleorderitem,
+                                                 (Constaint.ServiceAddress, Constaint.APIurl.getsaleorderitemscanbarcode,
                                                  new
                                                  {
-                                                     ID = _ID
+                                                     SaleOrderNo = _XK_XKDCPage._SaleOrderNo,
+                                                     WarehouseCode = _XK_XKDCPage._WarehouseCode
                                                  });
                     if (result != null && result.Result != null && result.Result.data != null)
                     {
@@ -170,7 +167,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeleteHistoryAsyncWithKey(_No);
+                                App.Dblocal.DeleteHistoryAsyncWithKey(SaleOrderNo);
                                 Historys.Clear();
 
                                 var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
@@ -180,7 +177,7 @@ namespace QRMS.ViewModels
                                 {
                                     if (result2.Result.data == 1)
                                     {
-                                        App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_No);
+                                        App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(SaleOrderNo);
                                         DonHangs.Clear();
 
                                         await Controls.LoadingUtility.HideAsync();
@@ -231,8 +228,7 @@ namespace QRMS.ViewModels
                 if (!_daQuetQR.Contains(str))
                     _daQuetQR.Add(str);
                 else
-                {
-                    IsQuet = false;
+                { 
                     IsThongBao = true;
                     Color = Color.Red;
                     ThongBao = "Nhãn đã được quét";
@@ -334,8 +330,8 @@ namespace QRMS.ViewModels
                 {
                     ID = 0,
                     TransactionType = "I",
-                    OrderNo = _No,
-                    OrderDate = _Date,
+                    OrderNo = SaleOrderNo,
+                    OrderDate = _XK_XKDCPage._SaleOrderDate,
                     ItemCode = qr.Code,
                     ItemName = qr.Name,
                     ItemType = qr.DC,
@@ -352,8 +348,8 @@ namespace QRMS.ViewModels
                     CustomerCode = qr.CustomerCode,
                     ExportStatus = "N",
                     RecordStatus = "N",
-                    WarehouseCode_From = MySettings.CodeKho,
-                    WarehouseName_From = MySettings.MaKho,
+                    WarehouseCode_From = _XK_XKDCPage._WarehouseCode,
+                    WarehouseName_From = _XK_XKDCPage._WarehouseName,
                     CreateDate = DateTime.Now,
                     UserCreate = MySettings.UserName,
                     page = 0,
