@@ -98,7 +98,7 @@ namespace QRMS.ViewModels
         {
             try
             {
-                LoadDbLocal();
+                //LoadDbLocal();
 
                 if (DonHangs.Count == 0)
                 {
@@ -112,7 +112,10 @@ namespace QRMS.ViewModels
                     if (result2 != null && result2.Result != null && result2.Result.data != null)
                     {
                         Device.BeginInvokeOnMainThread(() =>
-                        {
+                        {  
+                            MySettings.InsertLogs(0, DateTime.Now, "getpurchaseorderitem", APICaller.myjson, "getpurchaseorderitem", MySettings.UserName);
+                            //
+
                             DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
 
                             for (int i = 0; i < result2.Result.data.Count; ++i)
@@ -141,41 +144,40 @@ namespace QRMS.ViewModels
                         });
                     }
 
-                    //
-                    if (Historys.Count == 0)
-                    {
-                        var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransactionHistoryModel>>>
-                                                 (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
-                                                 new
-                                                 {
-                                                     OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
-                                                     TransactionType = "I",
-                                                     WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode
-                                                 });
-                        if (result != null && result.Result != null && result.Result.data != null)
-                        {
-                            Device.BeginInvokeOnMainThread(() =>
-                            {
-                                Historys = new ObservableCollection<TransactionHistoryModel>();
-
-                                for (int i = 0; i < result.Result.data.Count; ++i)
-                                {
-                                    List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
-                                    if (!Historys.Contains(result.Result.data[i]))
-                                    {
-                                        result.Result.data[i].token = MySettings.Token;
-                                        Historys.Add(result.Result.data[i]);
-                                        App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
-                                    }
-                                }
-                            });
-                        }
-                    }     
+                      
                 }
-                else
+                //
+                if (Historys.Count == 0)
                 {
-                    MySettings.InsertLogs(0, DateTime.Now, "LoadModels", "DonHangs.Count == 0", "NhapKhoDungCuPageModel", MySettings.UserName);
-                }
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransactionHistoryModel>>>
+                                             (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
+                                             new
+                                             {
+                                                 OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
+                                                 TransactionType = "I",
+                                                 WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode
+                                             });
+                    if (result != null && result.Result != null && result.Result.data != null)
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            MySettings.InsertLogs(0, DateTime.Now, "gethistory", APICaller.myjson, "gethistory", MySettings.UserName);
+                            //
+                            Historys = new ObservableCollection<TransactionHistoryModel>();
+
+                            for (int i = 0; i < result.Result.data.Count; ++i)
+                            {
+                                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                                if (!Historys.Contains(result.Result.data[i]))
+                                {
+                                    result.Result.data[i].token = MySettings.Token;
+                                    Historys.Add(result.Result.data[i]);
+                                    App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
+                                }
+                            }
+                        });
+                    }
+                } 
             }
             catch (Exception ex)
             {
@@ -200,16 +202,29 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo); 
+                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
                                 App.Dblocal.DeleteHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+
+
+                                //App.Dblocal.DeleteHistoryAll();
+                                //App.Dblocal.DeletePurchaseOrderAll();
+
                                 Historys.Clear();
                                 DonHangs.Clear();
 
                                 await Controls.LoadingUtility.HideAsync();
-  
-                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thành công. JSON: "+ APICaller.myjson, "Đồng ý", "");
+
+                                string strdsdf_ = "";
+                                for(int i=0;i<Historys.Count;++i)
+                                {
+                                    strdsdf_ = Historys[i].Unit;
+                                }
+                                MySettings.InsertLogs(0, DateTime.Now, "QR", strdsdf_, "QR", MySettings.UserName);
+                                //
+                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thành công. JSON: ", "Đồng ý", "");
                                 LoadModels("");
 
+                                MySettings.InsertLogs(0, DateTime.Now, "Bạn đã lưu thành công", APICaller.myjson, "Bạn đã lưu thành công", MySettings.UserName);
                                 //var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                 //                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
                                 //                DonHangs);
@@ -239,15 +254,16 @@ namespace QRMS.ViewModels
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                string strrr_ = "Bạn đã lưu thất bại" +
-                                    ". ErrorCode: " + result.Result.ErrorCode
+                                string strrr_ = "ErrorCode: " + result.Result.ErrorCode
                                     + ". RespondCode: " + result.Result.RespondCode
                                     + ". data: " + result.Result.data.ToString()
                                     + ". JSON" + APICaller.myjson;
 
+                                MySettings.InsertLogs(0, DateTime.Now, "Bạn đã lưu thất bại", strrr_, "Bạn đã lưu thành công", MySettings.UserName);
 
-                                _NhapKhoDungCuPage.Load_popup_DangXuat(strrr_, "Đồng ý", "");
+                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
+
                         });
                     } 
                 });
