@@ -113,7 +113,13 @@ namespace QRMS
         }
 
 
+
         //For table NhapKhoDungCuModel:
+        public void DeletePurchaseOrderAll()
+        {
+            _database.DeleteAll<NhapKhoDungCuModel>();
+        }
+
         public List<NhapKhoDungCuModel> GetPurchaseOrderAsyncWithKey(string purchaseno)
         {
             try
