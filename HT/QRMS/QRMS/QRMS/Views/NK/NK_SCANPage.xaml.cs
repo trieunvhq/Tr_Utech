@@ -72,6 +72,21 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
+            if (MySettings.Index_Page == 1)
+            {
+                grid.Children.Remove(lst_Xuat);
+                grid.Children.Remove(lst_Chuyen);
+            }
+            else if (MySettings.Index_Page == 2)
+            {
+                grid.Children.Remove(lst_Nhap);
+                grid.Children.Remove(lst_Chuyen);
+            }
+            else if (MySettings.Index_Page == 3)
+            {
+                grid.Children.Remove(lst_Xuat);
+                grid.Children.Remove(lst_Nhap);
+            }
         }
 
         protected override bool OnBackButtonPressed()
@@ -81,69 +96,54 @@ namespace QRMS.Views
         }
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            if (MySettings.Index_Page == 1)
             {
-                Device.BeginInvokeOnMainThread(async () =>
+                if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                || (ViewModel.NhapKhos != null && ViewModel.NhapKhos.Count > 0))
                 {
-                    if (MySettings.Index_Page == 1)
-                    {
-                        if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
-                        || (ViewModel.NhapKhos != null && ViewModel.NhapKhos.Count > 0))
-                        {
-                            await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
 
-                        }
-                        else
-                        {
-                            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                            await Controls.LoadingUtility.HideAsync();
-                        } 
-                    }
-                    else if (MySettings.Index_Page == 2)
-                    {
-                        if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
-                          || (ViewModel.XuatKhos != null && ViewModel.XuatKhos.Count > 0))
-                        {
-                            await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+                }
+                else
+                {
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                    await Controls.LoadingUtility.HideAsync();
+                }
+            }
+            else if (MySettings.Index_Page == 2)
+            {
+                if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                  || (ViewModel.XuatKhos != null && ViewModel.XuatKhos.Count > 0))
+                {
+                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
 
-                        }
-                        else
-                        {
-                            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                            await Controls.LoadingUtility.HideAsync();
-                        }
-                    }
-                    else if (MySettings.Index_Page == 3)
-                    {
-                        if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
-                          || (ViewModel.ChuyenKhos != null && ViewModel.ChuyenKhos.Count > 0))
-                        {
-                            await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+                }
+                else
+                {
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                    await Controls.LoadingUtility.HideAsync();
+                }
+            }
+            else if (MySettings.Index_Page == 3)
+            {
+                if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                  || (ViewModel.ChuyenKhos != null && ViewModel.ChuyenKhos.Count > 0))
+                {
+                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
 
-                        }
-                        else
-                        {
-                            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                            await Controls.LoadingUtility.HideAsync();
-                        }
-                    }
-                });
-            });
-
+                }
+                else
+                {
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                    await Controls.LoadingUtility.HideAsync();
+                }
+            }
         }
 
 
-        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-
-                    ViewModel.LuuLais();
-                    await Controls.LoadingUtility.HideAsync();
-                });
-            });
+            ViewModel.LuuLais();
         }
 
 

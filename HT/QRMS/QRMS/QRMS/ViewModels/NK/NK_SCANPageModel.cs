@@ -36,7 +36,7 @@ namespace QRMS.ViewModels
 
         public ComboModel SelectedDonHang { get; set; }
 
-        private List<string> _daQuetQR;
+        private List<string> _daQuetQR = new List<string>();
 
 
         public bool IsThongBao { get; set; } = true;
@@ -103,10 +103,10 @@ namespace QRMS.ViewModels
                 }
                 else if (MySettings.Index_Page == 2)
                 {
-                    List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
-                    foreach (ChuyenKhoDungCuModelBPL item in donhang_)
+                    List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                    foreach (SaleOrderItemScanBPL item in donhang_)
                     {
-                        if (!ChuyenKhos.Contains(item))
+                        if (!XuatKhos.Contains(item))
                         {
                             //if (item.SoLuongDaNhap >= item.Quantity)
                             //    item.ColorSLDaNhap = "#ff0000";
@@ -116,8 +116,8 @@ namespace QRMS.ViewModels
                             //item.Color = "#000000";
                             ////
                             item.sQuantity = item.Quantity.ToString("N0");
-                            item.sSoLuongDaChuyen = item.SoLuongDaChuyen.ToString("N0");
-                            ChuyenKhos.Add(item);
+                            item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
+                            XuatKhos.Add(item);
                         }
                     }
 
@@ -133,10 +133,10 @@ namespace QRMS.ViewModels
                 }
                 else if (MySettings.Index_Page == 3)
                 {
-                    List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                    foreach (NhapKhoDungCuModel item in donhang_)
+                    List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+                    foreach (ChuyenKhoDungCuModelBPL item in donhang_)
                     {
-                        if (!NhapKhos.Contains(item))
+                        if (!ChuyenKhos.Contains(item))
                         {
                             //if (item.SoLuongDaNhap >= item.Quantity)
                             //    item.ColorSLDaNhap = "#ff0000";
@@ -146,8 +146,8 @@ namespace QRMS.ViewModels
                             //item.Color = "#000000";
                             ////
                             item.sQuantity = item.Quantity.ToString("N0");
-                            item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
-                            NhapKhos.Add(item);
+                            item.sSoLuongDaChuyen = item.SoLuongDaChuyen.ToString("N0");
+                            ChuyenKhos.Add(item);
                         }
                     }
 
@@ -421,11 +421,13 @@ namespace QRMS.ViewModels
                                                     Historys);
                         if (result != null && result.Result != null)
                         {
+                            MySettings.InsertLogs(0, DateTime.Now, "1inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
                             if (result.Result.data == 1)
                             { 
                                 App.Dblocal.DeleteAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                                 App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                                 
+                                MySettings.InsertLogs(0, DateTime.Now, "2inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
+
                                 Historys.Clear();
                                 NhapKhos.Clear();
 
@@ -510,20 +512,20 @@ namespace QRMS.ViewModels
                 Controls.LoadingUtility.HideAsync();
 
             }
-        }
-        public bool isDangQuet = false;
+        } 
         public async void ScanComplate(string str)
         {
+            string temp_ = "";
             try
             {
-                IsThongBao = false;
-                ThongBao = "";
+                IsThongBao = false; temp_ = "1";
+                ThongBao = ""; temp_ = "2";
 
                 if (!_daQuetQR.Contains(str))
                     _daQuetQR.Add(str);
                 else
                 {
-                    IsThongBao = true;
+                    IsThongBao = true; 
                     Color = Color.Red;
                     ThongBao = "Nhãn đã được quét";
                     //CloseBarcodeReader();
@@ -532,22 +534,20 @@ namespace QRMS.ViewModels
                 }
 
                 if (Historys != null)
-                {
-                    isDangQuet = true;
+                { 
                     bool IsTonTai_ = false;
                     int index_ = 0;
-
-                    var qr = MySettings.QRRead(str);
+                    temp_ = "3";
+                    var qr = MySettings.QRRead(str); temp_ = "4";
                     if (qr == null)
                     {
                         Color = Color.Red;
                         IsThongBao = true;
                         ThongBao = "Nhãn không đúng định dạng";
-
-                        //CloseBarcodeReader();
-                        //OpenBarcodeReader();
+                         
                         return;
                     }
+                    temp_ = "14";
                     for (int i = 0; i < Historys.Count; ++i)
                     {
                         if (Historys[i].EXT_QRCode == str)
@@ -557,12 +557,12 @@ namespace QRMS.ViewModels
                             break;
                         }
                     }
-
+                    temp_ = "5";
                     if (IsTonTai_)
                     {
                         Color = Color.Red;
                         IsThongBao = true;
-                        ThongBao = "Nhãn đã được quét";
+                        ThongBao = "Nhãn đã được quét"; temp_ = "6";
                     }
                     else
                     {
@@ -576,23 +576,25 @@ namespace QRMS.ViewModels
                                         || NhapKhos[i].Serial == "None"
                                         || (NhapKhos[i].Serial == qr.Serial)))
                                 {
-                                    decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                                    NhapKhoDungCuModel model_ = NhapKhos[i];
+                                    temp_ = "7";
+                                    decimal soluong_ = Convert.ToDecimal(qr.Quantity); temp_ = "8";
+                                    _NhapKhoDungCuModel = NhapKhos[i]; temp_ = "9";
 
-                                    if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
+                                    if (_NhapKhoDungCuModel.Quantity < _NhapKhoDungCuModel.SoLuongDaNhap + soluong_)
                                     {
-                                        _NK_SCANPage.model_ = model_;
+                                        temp_ = "10";
                                         _NK_SCANPage.soluong_ = soluong_;
                                         _NK_SCANPage.i = i;
                                         _NK_SCANPage.qr = qr;
                                         _NK_SCANPage.str = str;
-                                        _NhapKhoDungCuModel = model_;
+                                        temp_ = "11";
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "Huỷ bỏ");
+                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "Huỷ bỏ"); temp_ = "12";
 
                                     }
                                     else
                                     {
+                                        temp_ = "13";
                                         XuLyTiepLuu(true, soluong_, i, qr, str);
                                     }
 
@@ -618,15 +620,14 @@ namespace QRMS.ViewModels
                                         || (XuatKhos[i].Serial == qr.Serial)))
                                 {
                                     decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                                    SaleOrderItemScanBPL model_ = XuatKhos[i];
+                                    _SaleOrderItemScanBPL = XuatKhos[i];
 
-                                    if (model_.Quantity < model_.SoLuongDaNhap + soluong_)
+                                    if (_SaleOrderItemScanBPL.Quantity < _SaleOrderItemScanBPL.SoLuongDaNhap + soluong_)
                                     { 
                                         _NK_SCANPage.soluong_ = soluong_;
                                         _NK_SCANPage.i = i;
                                         _NK_SCANPage.qr = qr;
-                                        _NK_SCANPage.str = str;
-                                        _SaleOrderItemScanBPL = model_;
+                                        _NK_SCANPage.str = str; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
                                         await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "Huỷ bỏ");
 
@@ -658,15 +659,14 @@ namespace QRMS.ViewModels
                                         || (ChuyenKhos[i].Serial == qr.Serial)))
                                 {
                                     decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                                    ChuyenKhoDungCuModelBPL model_ = ChuyenKhos[i];
+                                    _ChuyenKhoDungCuModelBPL = ChuyenKhos[i];
 
-                                    if (model_.Quantity < model_.SoLuongDaChuyen + soluong_)
+                                    if (_ChuyenKhoDungCuModelBPL.Quantity < _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen + soluong_)
                                     { 
                                         _NK_SCANPage.soluong_ = soluong_;
                                         _NK_SCANPage.i = i;
                                         _NK_SCANPage.qr = qr;
-                                        _NK_SCANPage.str = str;
-                                        _ChuyenKhoDungCuModelBPL = model_;
+                                        _NK_SCANPage.str = str; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
                                         await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "Huỷ bỏ");
 
@@ -691,6 +691,9 @@ namespace QRMS.ViewModels
                 }
                 else
                 {
+                    Color = Color.Red;
+                    IsThongBao = true;
+                    ThongBao = "Mã không hợp lệ!";
                     MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "NK_SCANPageModel", MySettings.UserName);
                 }
 
@@ -699,11 +702,15 @@ namespace QRMS.ViewModels
             }
             catch (Exception ex)
             {
+                Color = Color.Red;
+                IsThongBao = true;
+                ThongBao = "ex: "+ex.Message;
                 //CloseBarcodeReader();
                 //OpenBarcodeReader();
-                MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "NK_SCANPageModel", MySettings.UserName);
+                MySettings.InsertLogs(0, DateTime.Now, temp_+". ScanComplate", ex.Message, "NK_SCANPageModel", MySettings.UserName);
             }
         }
+        private string indet = "";
         public void XuLyTiepLuu(bool iscoluu, decimal soluong_, int i, QRModel qr, string str)
         {
             if (iscoluu)
@@ -800,7 +807,7 @@ namespace QRMS.ViewModels
                     EXT_MfDate = qr.MfDate,
                     EXT_RecDate = qr.RecDate,
                     EXT_ExpDate = qr.ExpDate,
-                    EXT_QRCode = str,
+                    EXT_QRCode = MySettings.DecodeFromUtf8(str),
                     CustomerCode = qr.CustomerCode,
                     ExportStatus = ExportStatus_,
                     RecordStatus = RecordStatus_,
@@ -893,8 +900,7 @@ namespace QRMS.ViewModels
         }
 
         public async void CloseBarcodeReader()
-        {
-            isDangQuet = false;
+        { 
             if (mSelectedReader != null && mSelectedReader.IsReaderOpened)
             {
                 BarcodeReader.Result result = await mSelectedReader.CloseAsync();

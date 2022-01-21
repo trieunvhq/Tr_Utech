@@ -591,7 +591,7 @@ namespace QRMS.Constants
             try
             {
                 QRModel qr = new QRModel();
-                string[] temp_ = str.Split(';');
+                string[] temp_ = DecodeFromUtf8(str).Split(';');
                 DateTime? mfdate_;
                 DateTime? Recdate_;
                 DateTime? Expdate_;
@@ -808,7 +808,16 @@ namespace QRMS.Constants
                 qr.RecDate = Recdate_;
                 qr.ExpDate = Expdate_;
                 qr.Quantity = ConvertToDecimal(temp_[10]);
-                qr.Unit = DecodeFromUtf8(temp_[11]);
+                qr.Unit = temp_[11];
+
+                if (qr.DC.Length > 2)
+                {
+                    return null;
+                }
+                else if (qr.Name.Length > 200)
+                {
+                    return null;
+                }
 
                 return qr;
             }
