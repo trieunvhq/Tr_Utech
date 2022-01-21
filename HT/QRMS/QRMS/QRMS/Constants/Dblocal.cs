@@ -175,9 +175,9 @@ namespace QRMS
         }
 
 
-        public List<SaleOrderItemScanBPL> GetSaleOrderItemScanAsyncWithKey(string no)
+        public List<SaleOrderItemScanBPL> GetSaleOrderItemScanAsyncWithKey(string no, string WarehouseCode)
         {
-            string Sql = $"Select * From SaleOrderItemScanBPL Where SaleOrderNo = '{no}'";
+            string Sql = $"Select * From SaleOrderItemScanBPL Where SaleOrderNo = '{no}' and WarehouseCode = '{WarehouseCode}' ";
 
             return _database.Query<SaleOrderItemScanBPL>(Sql);
         }
