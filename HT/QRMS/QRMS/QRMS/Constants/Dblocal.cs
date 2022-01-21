@@ -140,9 +140,9 @@ namespace QRMS
         }
 
 
-        public void DeletePurchaseOrderAsyncWithKey(string purchaseno)
+        public void DeletePurchaseOrderAsyncWithKey(string purchaseno, string WarehouseCode)
         {
-            string Sql = $"Delete From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchaseno}'";
+            string Sql = $"Delete From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchaseno}' and WarehouseCode = '{WarehouseCode}' ";
 
             _ = _database.Execute(Sql);
         }
