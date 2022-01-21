@@ -1,8 +1,10 @@
 ﻿
-using System; 
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks; 
 using QRMS.Constants; 
 using QRMS.Models;
+using QRMS.Models.XKDC;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -96,48 +98,15 @@ namespace QRMS.Views
         }
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            if (MySettings.Index_Page == 1)
+            if (Checklocal())
             {
-                if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
-                || (ViewModel.NhapKhos != null && ViewModel.NhapKhos.Count > 0))
-                {
-                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
-
-                }
-                else
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
-                }
+                await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
             }
-            else if (MySettings.Index_Page == 2)
+            else
             {
-                if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
-                  || (ViewModel.XuatKhos != null && ViewModel.XuatKhos.Count > 0))
-                {
-                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
-
-                }
-                else
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
-                }
-            }
-            else if (MySettings.Index_Page == 3)
-            {
-                if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
-                  || (ViewModel.ChuyenKhos != null && ViewModel.ChuyenKhos.Count > 0))
-                {
-                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
-
-                }
-                else
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                    await Controls.LoadingUtility.HideAsync();
-                }
-            }
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                await Controls.LoadingUtility.HideAsync();
+            } 
         }
 
 
@@ -161,24 +130,27 @@ namespace QRMS.Views
         public string str;
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         {
-            await Controls.LoadingUtility.HideAsync();
-            if (huybo == "")
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                btnHuyBo_absPopup.IsVisible = false;
-            }
-            else
-            {
-                btnHuyBo_absPopup.IsVisible = true;
-            }
-            //
-            btnDongY_absPopup.Text = nutdongy;
-            btnHuyBo_absPopup.Text = huybo;
-            lbTieuDe_absPopup.Text = tieude;
-            if (!grid.Children.Contains(absPopup_DangXuat))
-                grid.Children.Add(absPopup_DangXuat);
-            grid.RaiseChild(absPopup_DangXuat);
-            await absPopup_DangXuat.FadeTo(1, 200);
-            grid.RaiseChild(absPopup_DangXuat);
+                await Controls.LoadingUtility.HideAsync();
+                if (huybo == "")
+                {
+                    btnHuyBo_absPopup.IsVisible = false;
+                }
+                else
+                {
+                    btnHuyBo_absPopup.IsVisible = true;
+                }
+                //
+                btnDongY_absPopup.Text = nutdongy;
+                btnHuyBo_absPopup.Text = huybo;
+                lbTieuDe_absPopup.Text = tieude;
+                if (!grid.Children.Contains(absPopup_DangXuat))
+                    grid.Children.Add(absPopup_DangXuat);
+                grid.RaiseChild(absPopup_DangXuat);
+                await absPopup_DangXuat.FadeTo(1, 200);
+                grid.RaiseChild(absPopup_DangXuat);
+            });
         }
         private async void BtnDongY_popup_DangXuat_Clicked(object sender, EventArgs e)
         {
@@ -211,7 +183,7 @@ namespace QRMS.Views
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
                 if (MySettings.Index_Page == 1)
-                {
+                {  
                     App.Dblocal.DeletePurchaseOrderAsyncWithKey(No,WarehouseCode);
                     App.Dblocal.DeleteAllHistory_NKDC(No, WarehouseCode);
                 }
@@ -244,6 +216,49 @@ namespace QRMS.Views
         void txtTest_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
             ViewModel.ScanComplate(txtTest.Text);
+        }
+
+        private bool Checklocal()
+        {
+            try
+            {
+                
+                if (MySettings.Index_Page == 1)
+                {
+                    List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(No, WarehouseCode);
+                   
+                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_NKDC(No, WarehouseCode);
+                    if (donhang_ != null && donhang_.Count > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                else if (MySettings.Index_Page == 2)
+                {
+                    List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(No, WarehouseCode);
+                    
+
+                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(No, WarehouseCode);
+                    if (donhang_ != null && donhang_.Count > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                else if (MySettings.Index_Page == 3)
+                {
+                    List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(No, WarehouseCode, WarehouseCode_To);
+                    if (donhang_ != null && donhang_.Count > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return true; 
+            }
+
         }
     }
 }

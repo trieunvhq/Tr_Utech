@@ -45,7 +45,7 @@
             </Label>
             
             <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="10"
-                   Text="" Unfocused="CustomEntry_Unfocused"/>
+                   Text="" Unfocused="CustomEntry_Unfocused" IsVisible="False"/>
             
             <Label TextColor="Black" VerticalTextAlignment="Center"
                    Margin="10,0,0,0" Text="Số phiếu" FontSize="16"

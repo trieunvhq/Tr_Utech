@@ -55,7 +55,7 @@
             </Label>
             
             <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"
-                   Text="" Unfocused="txtTest_Unfocused"/>
+                   Text="" Unfocused="txtTest_Unfocused" IsVisible="False"/>
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/>
@@ -103,7 +103,7 @@
                    Grid.Column="2" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
                                 <Label Text="{Binding sSoLuongDaNhap}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}" Margin="3,5,3,5"/>
-                                <Label Text="{Binding sSoLuongBox}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                                <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                    Grid.Column="6" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
 
 
@@ -223,7 +223,7 @@
             
            
             <Grid x:Name="absPopup_DangXuat" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="10"
-              ColumnSpacing="0" RowSpacing="0" Opacity="0">
+              ColumnSpacing="0" RowSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition>
                         <ColumnDefinition.Width>

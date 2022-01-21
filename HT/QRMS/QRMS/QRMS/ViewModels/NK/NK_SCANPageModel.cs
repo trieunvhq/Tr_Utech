@@ -207,7 +207,7 @@ namespace QRMS.ViewModels
                                 //
 
                                 result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ToString("N0");
-                                result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ToString("N0");
+                                result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ToString("N0");  
                                 if (result2.Result.data[i].ItemCode == id)
                                 {
                                     NhapKhos.Insert(0, result2.Result.data[i]);
@@ -551,7 +551,8 @@ namespace QRMS.ViewModels
                     temp_ = "14";
                     for (int i = 0; i < Historys.Count; ++i)
                     {
-                        if (Historys[i].EXT_QRCode == str)
+                        if (Historys[i].EXT_Serial == qr.Serial &&
+                            Historys[i].ItemCode == qr.Code)
                         {
                             IsTonTai_ = true;
                             index_ = i;
