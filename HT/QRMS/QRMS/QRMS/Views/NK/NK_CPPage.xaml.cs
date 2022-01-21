@@ -109,5 +109,10 @@ namespace QRMS.Views
             base.OnAppearing();
             ViewModel.OnAppearing();
         }
+
+        void CustomEntry_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
+        {
+            ViewModel.ScanComplate(txtTest.Text);
+        }
     }
 }

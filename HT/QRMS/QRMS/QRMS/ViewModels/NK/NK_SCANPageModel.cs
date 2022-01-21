@@ -421,7 +421,7 @@ namespace QRMS.ViewModels
                                                     Historys);
                         if (result != null && result.Result != null)
                         {
-                            MySettings.InsertLogs(0, DateTime.Now, "1inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
+                            //MySettings.InsertLogs(0, DateTime.Now, "1inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
                             if (result.Result.data == 1)
                             {
                                 Historys.Clear();

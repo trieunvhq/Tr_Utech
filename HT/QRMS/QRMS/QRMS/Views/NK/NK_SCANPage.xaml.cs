@@ -240,5 +240,10 @@ namespace QRMS.Views
             {
             }
         }
+
+        void txtTest_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
+        {
+            ViewModel.ScanComplate(txtTest.Text);
+        }
     }
 }
