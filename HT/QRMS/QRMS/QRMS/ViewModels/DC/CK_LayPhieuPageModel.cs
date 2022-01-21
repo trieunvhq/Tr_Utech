@@ -19,10 +19,10 @@ using Xamarin.Forms;
 
 namespace QRMS.ViewModels
 {
-    public class ChonPhieuNhapPageModel : BaseViewModel
+    public class CK_LayPhieuPageModel : BaseViewModel
     {
-        public ChonPhieuNhapPage _ChonPhieuNhapPage;
-          
+        public CK_LayPhieuPage _CK_LayPhieuPage;
+
         public bool IsTat { get; set; } = false;
         public bool IsQuet { get; set; } = false;
 
@@ -30,15 +30,17 @@ namespace QRMS.ViewModels
         public string ThongBao { get; set; } = "";
         public string ThoiGian { get; set; } = "";
         public Color Color { get; set; } = Color.Red;
-        public DateTime? _PurchaseOrderDate { get; set; }
-        public string _WarehouseCode { get; set; }
-        public string _WarehouseName { get; set; }
-        public string _PurchaseOrderNo { get; set; }
+        public DateTime? InstructionDate { get; set; }
+        public string WarehouseCode_From { get; set; }
+        public string WarehouseName_From { get; set; }
+        public string WarehouseCode_To { get; set; }
+        public string WarehouseName_To { get; set; }
+        public string TransferOrderNo { get; set; }
 
-  
 
-        public ChonPhieuNhapPageModel()
-        {  
+
+        public CK_LayPhieuPageModel()
+        {
         }
 
         public override void OnAppearing()
@@ -47,7 +49,8 @@ namespace QRMS.ViewModels
             IsThongBao = true;
             ThongBao = "Bạn hãy scan phiếu nhập kho";
             //
-            try {
+            try
+            {
                 CloseBarcodeReader();
             }
             catch
@@ -58,16 +61,16 @@ namespace QRMS.ViewModels
             base.OnAppearing();
         }
 
-          
-          
+
+
         public bool isDangQuet = false;
         public void ScanComplate(string BarcodeScan)
         {
             string str_ = "0";
             try
             {
-                var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PurchaseOrder>>>
-                                                 (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorderscan,
+                var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransferInstructionBPLModel>>>
+                                                 (Constaint.ServiceAddress, Constaint.APIurl.gettransferinstruction,
                                                  new
                                                  {
                                                      BarcodeScan = BarcodeScan
@@ -77,15 +80,19 @@ namespace QRMS.ViewModels
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        _PurchaseOrderNo = result.Result.data[0].PurchaseOrderNo;//1str_ = "0";
+                        TransferOrderNo = result.Result.data[0].TransferOrderNo;//1str_ = "0";
                         str_ = "1";
-                        _PurchaseOrderDate = result.Result.data[0].PurchaseOrderDate;//2
+                        InstructionDate = result.Result.data[0].InstructionDate;//2
                         str_ = "2";
-                        _WarehouseCode = result.Result.data[0].WarehouseCode;//3
+                        WarehouseCode_From = result.Result.data[0].WarehouseCode_From;//3
                         str_ = "3";
-                        _WarehouseName = result.Result.data[0].WarehouseName;//4
+                        WarehouseName_From = result.Result.data[0].WarehouseName_From;//4
                         str_ = "4";
 
+                        WarehouseCode_To = result.Result.data[0].WarehouseCode_To;//3
+                        str_ = "3";
+                        WarehouseName_To = result.Result.data[0].WarehouseName_To;//4
+                        str_ = "4";
                         // 
                         Color = Color.Blue;
                         str_ = "5";
@@ -104,7 +111,7 @@ namespace QRMS.ViewModels
                         Color = Color.Red;
                         IsThongBao = true;
                         ThongBao += "Mã phiếu không tồn tại!. ErrorCode: " + result.Result.ErrorCode
-                            + ". Message:" + result.Result.Message; 
+                            + ". Message:" + result.Result.Message;
                     });
                     //CloseBarcodeReader();
                     //OpenBarcodeReader();
@@ -120,7 +127,7 @@ namespace QRMS.ViewModels
                     IsThongBao = true;
                     ThongBao += str_ + ".Mã phiếu không tồn tại. ex: " + ex.Message;
 
-                    MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "ChonPhieuNhapPageModel", MySettings.UserName);
+                    MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "CK_LayPhieuPageModel", MySettings.UserName);
                 });
             }
         }
@@ -157,7 +164,7 @@ namespace QRMS.ViewModels
                 Color = Color.Red;
                 IsThongBao = true;
                 ThongBao = "2";
-            }    
+            }
         }
 
         public BarcodeReader GetBarcodeReader()
@@ -179,7 +186,7 @@ namespace QRMS.ViewModels
                     {
                         Color = Color.Blue;
                         IsThongBao = true;
-                        ThongBao = "Data: "+ e.Data;  
+                        ThongBao = "Data: " + e.Data;
                         ScanComplate(e.Data);
                     }
                         , null);

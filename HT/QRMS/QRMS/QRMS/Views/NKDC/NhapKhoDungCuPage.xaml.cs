@@ -107,10 +107,7 @@ namespace QRMS.Views
                 });
             }); 
         } 
-
-        void lst_combobox_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
-        {
-        }
+ 
 
         protected override void OnAppearing()
         {
@@ -118,38 +115,7 @@ namespace QRMS.Views
             ViewModel.OnAppearing();
         }
 
-        public void CloseCam()
-        {
-            try
-            {
-                //if (_MyScan != null)
-                //    _MyScan.CloseBarcodeReader();
-            }
-            catch { }
-        }
-        void BtnQuet_CLicked(System.Object sender, System.EventArgs e)
-        {
-            try
-            { 
-                //ViewModel.IsThongBao = false;
-                //ViewModel.IsMatDoc_Camera = true;
-                //if(_MyScan!=null)
-                //{
-                //    try
-                //    {
-                //        _MyScan.CloseBarcodeReader();
-                //    }
-                //    catch { }
-                //}    
-                //_MyScan.OpenBarcodeReader();
-            }
-            catch (Exception ee)
-            { 
-                MySettings.InsertLogs(0, DateTime.Now, "BtnQuet_CLicked", ee.Message, "NhapKhoDungCuPage", MySettings.UserName);
-
-            }
-        }
-           
+       
         public NhapKhoDungCuModel model_;
         public decimal soluong_;
         public int i;

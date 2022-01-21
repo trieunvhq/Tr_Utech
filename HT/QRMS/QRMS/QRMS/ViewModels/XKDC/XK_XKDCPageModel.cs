@@ -92,7 +92,7 @@ namespace QRMS.ViewModels
             }
 
         }
-
+         
         public void LoadModels(string id)
         {
             try
@@ -139,9 +139,33 @@ namespace QRMS.ViewModels
                         });
                     }
                 }
-                else
+                //
+                if (Historys.Count == 0)
                 {
-                    MySettings.InsertLogs(0, DateTime.Now, "LoadModels", "DonHangs.Count == 0", "XK_XKDCPageModel", MySettings.UserName);
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransactionHistoryModel>>>
+                                             (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
+                                             new
+                                             {
+                                                 OrderNo = _XK_XKDCPage._SaleOrderNo,
+                                                 TransactionType = "O",
+                                                 WarehouseCode_From = _XK_XKDCPage._WarehouseCode
+                                             });
+                    if (result != null && result.Result != null && result.Result.data != null)
+                    {
+                        //
+                        Historys = new ObservableCollection<TransactionHistoryModel>();
+
+                        for (int i = 0; i < result.Result.data.Count; ++i)
+                        {
+                            List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_XK_XKDCPage._SaleOrderNo);
+                            if (!Historys.Contains(result.Result.data[i]))
+                            {
+                                result.Result.data[i].token = MySettings.Token;
+                                Historys.Add(result.Result.data[i]);
+                                App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -166,35 +190,16 @@ namespace QRMS.ViewModels
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             if (result.Result.data == 1)
-                            {
+                            { 
                                 App.Dblocal.DeleteHistoryAsyncWithKey(SaleOrderNo);
                                 Historys.Clear();
 
-                                var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.updatesaleorderitem,
-                                                DonHangs);
-                                if (result2 != null && result2.Result != null)
-                                {
-                                    if (result2.Result.data == 1)
-                                    {
-                                        App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(SaleOrderNo);
-                                        DonHangs.Clear();
+                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(SaleOrderNo);
+                                DonHangs.Clear();
 
-                                        await Controls.LoadingUtility.HideAsync();
-                                        _XK_XKDCPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", ""); 
-                                        LoadModels("");
-                                    }
-                                    else
-                                    {
-                                        await Controls.LoadingUtility.HideAsync();
-                                        _XK_XKDCPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", ""); 
-                                    }
-                                }
-                                else
-                                {
-                                    await Controls.LoadingUtility.HideAsync();
-                                    _XK_XKDCPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", ""); 
-                                }
+                                await Controls.LoadingUtility.HideAsync();
+                                _XK_XKDCPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                LoadModels(""); 
                             }
                             else
                             {
@@ -216,10 +221,7 @@ namespace QRMS.ViewModels
             }
         }
 
-        private int _trangthai_quet;
-        
-        public bool isDangQuet = false;
-        public async void ScanComplate(string str)
+        public async System.Threading.Tasks.Task ScanComplateAsync(string str)
         {
             try
             {
@@ -235,14 +237,21 @@ namespace QRMS.ViewModels
                     return;
                 }
 
-                _trangthai_quet = 0;
                 if (Historys != null)
                 {
-                    isDangQuet = true;
                     bool IsTonTai_ = false;
                     int index_ = 0;
                     var qr = MySettings.QRRead(str);
+                    if (qr == null)
+                    {
+                        Color = Color.Red;
+                        IsThongBao = true;
+                        ThongBao = "Nhãn không đúng định dạng";
 
+                        //CloseBarcodeReader();
+                        //OpenBarcodeReader();
+                        return;
+                    }
                     for (int i = 0; i < Historys.Count; ++i)
                     {
                         if (Historys[i].EXT_QRCode == str)
@@ -255,7 +264,10 @@ namespace QRMS.ViewModels
 
                     if (IsTonTai_)
                     {
-                        _trangthai_quet = 1;
+                        Color = Color.Red;
+                        IsThongBao = true;
+                        ThongBao = "Nhãn đã được quét";
+                        return;
                     }
                     else
                     {
@@ -278,10 +290,7 @@ namespace QRMS.ViewModels
                                 {
                                     XuLyTiepLuu(true, model_, soluong_, i, qr, str);
                                 }
-
-
-                                _trangthai_quet = 2;
-                                //
+                                 
                                 break;
                             }
                             else if (i == DonHangs.Count - 1)
@@ -407,7 +416,7 @@ namespace QRMS.ViewModels
                 {
                     mUIContext.Post(_ =>
                     { 
-                        ScanComplate(e.Data);
+                        ScanComplateAsync(e.Data);
                     }
                         , null);
                 });
@@ -419,8 +428,7 @@ namespace QRMS.ViewModels
         }
 
         public async void CloseBarcodeReader()
-        {
-            isDangQuet = false;
+        { 
             if (mSelectedReader != null && mSelectedReader.IsReaderOpened)
             {
                 BarcodeReader.Result result = await mSelectedReader.CloseAsync();

@@ -46,7 +46,7 @@
                     </Label.FormattedText>
                 </Label>
                 <control:CustomEntry FontSize="12" TextColor="Black"
-                       Text="{Binding _LenhDC}"  Grid.Column="1"/>
+                       Text="{Binding TransferOrderNo}"  Grid.Column="1"/>
                 
             </Grid>
 

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms; 
@@ -86,6 +87,10 @@ namespace QRMS.ViewModels
                         Historys.Add(item);
                     }
                 }
+                //
+                IsThongBao = true;
+                Color = Color.Red;
+                ThongBao = "DonHangsLocal: " + DonHangs.Count + " .HistorysLocal: " + Historys.Count;
             }
             catch (Exception ex)
             {
@@ -111,71 +116,68 @@ namespace QRMS.ViewModels
                                                  });
                     if (result2 != null && result2.Result != null && result2.Result.data != null)
                     {
-                        Device.BeginInvokeOnMainThread(() =>
+                         //
+
+                        DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
+
+                        for (int i = 0; i < result2.Result.data.Count; ++i)
                         {
-                            DonHangs = new ObservableCollection<NhapKhoDungCuModel>();
+                            if (result2.Result.data[i].SoLuongDaNhap >= result2.Result.data[i].Quantity)
+                                result2.Result.data[i].ColorSLDaNhap = "#ff0000";
+                            else
+                                result2.Result.data[i].ColorSLDaNhap = "#000000";
+                            //
+                            result2.Result.data[i].Color = "#000000";
+                            //
 
-                            for (int i = 0; i < result2.Result.data.Count; ++i)
+                            result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ToString("N0");
+                            result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ToString("N0");
+                            if (result2.Result.data[i].ItemCode == id)
                             {
-                                if (result2.Result.data[i].SoLuongDaNhap >= result2.Result.data[i].Quantity)
-                                    result2.Result.data[i].ColorSLDaNhap = "#ff0000";
-                                else
-                                    result2.Result.data[i].ColorSLDaNhap = "#000000";
-                                //
-                                result2.Result.data[i].Color = "#000000";
-                                //
-
-                                result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ToString("N0");
-                                result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ToString("N0");
-                                if (result2.Result.data[i].ItemCode == id)
-                                {
-                                    DonHangs.Insert(0, result2.Result.data[i]);
-                                }
-                                else
-                                {
-                                    DonHangs.Add(result2.Result.data[i]);
-                                }
-
-                                App.Dblocal.SavePurchaseOrderAsync(result2.Result.data[i]);
+                                DonHangs.Insert(0, result2.Result.data[i]);
                             }
-                        });
+                            else
+                            {
+                                DonHangs.Add(result2.Result.data[i]);
+                            }
+
+                            App.Dblocal.SavePurchaseOrderAsync(result2.Result.data[i]);
+                        }
                     }
 
-                    //
-                    if (Historys.Count == 0)
-                    {
-                        var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransactionHistoryModel>>>
-                                                 (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
-                                                 new
-                                                 {
-                                                     OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
-                                                     TransactionType = "I",
-                                                     WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode
-                                                 });
-                        if (result != null && result.Result != null && result.Result.data != null)
-                        {
-                            Device.BeginInvokeOnMainThread(() =>
-                            {
-                                Historys = new ObservableCollection<TransactionHistoryModel>();
-
-                                for (int i = 0; i < result.Result.data.Count; ++i)
-                                {
-                                    List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
-                                    if (!Historys.Contains(result.Result.data[i]))
-                                    {
-                                        result.Result.data[i].token = MySettings.Token;
-                                        Historys.Add(result.Result.data[i]);
-                                        App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
-                                    }
-                                }
-                            });
-                        }
-                    }     
+                      
                 }
-                else
+                //
+                if (Historys.Count == 0)
                 {
-                    MySettings.InsertLogs(0, DateTime.Now, "LoadModels", "DonHangs.Count == 0", "NhapKhoDungCuPageModel", MySettings.UserName);
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransactionHistoryModel>>>
+                                             (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
+                                             new
+                                             {
+                                                 OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
+                                                 TransactionType = "I",
+                                                 WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode
+                                             });
+                    if (result != null && result.Result != null && result.Result.data != null)
+                    {
+                         //
+                        Historys = new ObservableCollection<TransactionHistoryModel>();
+
+                        for (int i = 0; i < result.Result.data.Count; ++i)
+                        {
+                            List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                            if (!Historys.Contains(result.Result.data[i]))
+                            {
+                                result.Result.data[i].token = MySettings.Token;
+                                Historys.Add(result.Result.data[i]);
+                                App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
+                            }
+                        }
+                    }
                 }
+                IsThongBao = true;
+                Color = Color.Red;
+                ThongBao = "DonHangsDB: " + DonHangs.Count + " .HistorysDB: " + Historys.Count;
             }
             catch (Exception ex)
             {
@@ -196,73 +198,64 @@ namespace QRMS.ViewModels
                                                 Historys);
                     if (result != null && result.Result != null)
                     {
-                        Device.BeginInvokeOnMainThread(async () =>
+                        if (result.Result.data == 1)
                         {
-                            if (result.Result.data == 1)
-                            {
-                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo); 
-                                App.Dblocal.DeleteHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
-                                Historys.Clear();
-                                DonHangs.Clear();
-
-                                await Controls.LoadingUtility.HideAsync();
-  
-                                _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thành công. JSON: "+ APICaller.myjson, "Đồng ý", "");
-                                LoadModels("");
-
-                                //var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                //                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
-                                //                DonHangs);
-                                //if (result2 != null && result2.Result != null)
-                                //{
-                                //    if (result2.Result.data == 1)
-                                //    {
-                                //        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
-                                //        DonHangs.Clear();
-
-                                //        await Controls.LoadingUtility.HideAsync();
-                                //        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
-                                //        LoadModels("");
-                                //    }
-                                //    else
-                                //    {
-                                //        await Controls.LoadingUtility.HideAsync();
-                                //        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    await Controls.LoadingUtility.HideAsync();
-                                //    await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
-                                //}     
-                            }
-                            else
-                            {
-                                await Controls.LoadingUtility.HideAsync();
-                                string strrr_ = "Bạn đã lưu thất bại" +
-                                    ". ErrorCode: " + result.Result.ErrorCode
-                                    + ". RespondCode: " + result.Result.RespondCode
-                                    + ". data: " + result.Result.data.ToString()
-                                    + ". JSON" + APICaller.myjson;
+                            App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                            App.Dblocal.DeleteHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
 
 
-                                _NhapKhoDungCuPage.Load_popup_DangXuat(strrr_, "Đồng ý", "");
-                            }
-                        });
+                            //App.Dblocal.DeleteHistoryAll();
+                            //App.Dblocal.DeletePurchaseOrderAll();
+
+                            Historys.Clear();
+                            DonHangs.Clear();
+
+                            await Controls.LoadingUtility.HideAsync();
+                             
+                            //
+                            _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thành công. JSON: ", "Đồng ý", "");
+                            LoadModels("");
+
+                             //var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                            //                (Constaint.ServiceAddress, Constaint.APIurl.updateitem,
+                            //                DonHangs);
+                            //if (result2 != null && result2.Result != null)
+                            //{
+                            //    if (result2.Result.data == 1)
+                            //    {
+                            //        App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                            //        DonHangs.Clear();
+
+                            //        await Controls.LoadingUtility.HideAsync();
+                            //        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thành công", "Thành công", "Đồng ý", "");
+                            //        LoadModels("");
+                            //    }
+                            //    else
+                            //    {
+                            //        await Controls.LoadingUtility.HideAsync();
+                            //        await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    await Controls.LoadingUtility.HideAsync();
+                            //    await UserDialogs.Instance.ConfirmAsync("Bạn đã lưu thất bại", "Thất bại", "Đồng ý", "");
+                            //}     
+                        }
+                        else
+                        {
+                            await Controls.LoadingUtility.HideAsync(); 
+                            _NhapKhoDungCuPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                        }
                     } 
                 });
             }
             catch (Exception ex)
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Controls.LoadingUtility.HideAsync();
-                     
-                    MySettings.InsertLogs(0,DateTime.Now, "LuuLais", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
-                });
+                Controls.LoadingUtility.HideAsync();
+                 
             }
         }
-         
         public bool isDangQuet = false;
         public async void ScanComplate(string str)
         {
@@ -480,19 +473,26 @@ namespace QRMS.ViewModels
 
             return reader;
         }
-
+    
         private void MBarcodeReader_BarcodeDataReady(object sender, Honeywell.AIDC.CrossPlatform.BarcodeDataArgs e)
         {
             try
             {
-                Device.BeginInvokeOnMainThread(() =>
-                { 
-                    mUIContext.Post(_ =>
-                    { 
-                        ScanComplate(e.Data); 
-                    }
-                        , null);
-                });
+                mUIContext.Post(_ =>
+                {
+                    //byte[] utf8Bytes = new byte[e.Data.Length];
+                    //for (int i = 0; i < e.Data.Length; ++i)
+                    //{
+                    //    //Debug.Assert( 0 <= utf8String[i] && utf8String[i] <= 255, "the char must be in byte's range");
+                    //    utf8Bytes[i] = (byte)e.Data[i];
+                    //}
+
+
+                    //ScanComplate(Encoding.UTF8.GetString(utf8Bytes, 0, utf8Bytes.Length));
+
+                    ScanComplate(e.Data);
+                }
+                         , null);
             }
             catch (Exception ex)
             {
