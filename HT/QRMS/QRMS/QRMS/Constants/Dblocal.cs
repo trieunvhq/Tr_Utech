@@ -99,11 +99,11 @@ namespace QRMS
         }
 
 
-        public List<NhapKhoDungCuModel> GetPurchaseOrderAsyncWithKey(string purchaseno)
+        public List<NhapKhoDungCuModel> GetPurchaseOrderAsyncWithKey(string purchaseno, string WarehouseCode)
         {
             try
             {
-                string Sql = $"Select * From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchaseno}'";
+                string Sql = $"Select * From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchaseno}' and WarehouseCode = '{WarehouseCode}'";
                 var result = _database.Query<NhapKhoDungCuModel>(Sql);
                 return result;
             }
