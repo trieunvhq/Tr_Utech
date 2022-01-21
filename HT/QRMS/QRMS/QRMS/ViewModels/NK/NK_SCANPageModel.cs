@@ -423,13 +423,12 @@ namespace QRMS.ViewModels
                         {
                             MySettings.InsertLogs(0, DateTime.Now, "1inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
                             if (result.Result.data == 1)
-                            { 
-                                App.Dblocal.DeleteAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                                MySettings.InsertLogs(0, DateTime.Now, "2inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
-
+                            {
                                 Historys.Clear();
                                 NhapKhos.Clear();
+                                App.Dblocal.DeleteAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                                //MySettings.InsertLogs(0, DateTime.Now, "2inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
 
                                 await Controls.LoadingUtility.HideAsync();
 
@@ -456,10 +455,11 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeleteAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                                 Historys.Clear();
                                 XuatKhos.Clear();
+
+                                App.Dblocal.DeleteAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
 
                                 await Controls.LoadingUtility.HideAsync();
 
@@ -486,10 +486,11 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeleteHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
-                                App.Dblocal.DeleteTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
                                 Historys.Clear();
                                 ChuyenKhos.Clear();
+
+                                App.Dblocal.DeleteHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+                                App.Dblocal.DeleteTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
 
                                 await Controls.LoadingUtility.HideAsync();
 
