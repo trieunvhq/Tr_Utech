@@ -87,7 +87,9 @@ namespace QRMS.Views
                 {
                     if (!string.IsNullOrWhiteSpace(ViewModel.TransferOrderNo))
                         await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new DC_SCANPage(
-                         ViewModel._PurchaseOrderNo, ViewModel._WarehouseCode, ViewModel._PurchaseOrderDate, ViewModel._WarehouseName));
+                         ViewModel.TransferOrderNo, ViewModel.InstructionDate
+                         , ViewModel.WarehouseCode_From, ViewModel.WarehouseName_From
+                         , ViewModel.WarehouseCode_To, ViewModel.WarehouseName_To));
                     await Controls.LoadingUtility.HideAsync();
                 });
             });

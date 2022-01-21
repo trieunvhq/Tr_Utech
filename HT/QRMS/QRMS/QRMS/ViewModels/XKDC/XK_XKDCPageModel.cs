@@ -273,7 +273,11 @@ namespace QRMS.ViewModels
                     {
                         for (int i = 0; i < DonHangs.Count; ++i)
                         {
-                            if (DonHangs[i].ItemCode == qr.Code)
+                            if (DonHangs[i].ItemCode == qr.Code
+                                && (DonHangs[i].Serial == null
+                                    || DonHangs[i].Serial == ""
+                                    || DonHangs[i].Serial == "None"
+                                    || (DonHangs[i].Serial == qr.Serial)))
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
                                 SaleOrderItemScanBPL model_ = DonHangs[i];

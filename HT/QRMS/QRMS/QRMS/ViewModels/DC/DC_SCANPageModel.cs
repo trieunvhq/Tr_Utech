@@ -103,7 +103,7 @@ namespace QRMS.ViewModels
                                              {
                                                  OrderNo = _DC_SCANPage.TransferOrderNo,
                                                  TransactionType = "C",
-                                                 WarehouseCode_From = _DC_SCANPage._WarehouseCode
+                                                 WarehouseCode_From = _DC_SCANPage.WarehouseCode_From
                                              });
                     if (result != null && result.Result != null && result.Result.data != null)
                     {
@@ -112,7 +112,7 @@ namespace QRMS.ViewModels
 
                         for (int i = 0; i < result.Result.data.Count; ++i)
                         {
-                            List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                            List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_DC_SCANPage.TransferOrderNo);
                             if (!Historys.Contains(result.Result.data[i]))
                             {
                                 result.Result.data[i].token = MySettings.Token;
@@ -124,7 +124,7 @@ namespace QRMS.ViewModels
                 }
                 IsThongBao = true;
                 Color = Color.Red;
-                ThongBao = "DonHangsDB: " + DonHangs.Count + " .HistorysDB: " + Historys.Count;
+                ThongBao = "DonHangsDB: " + TongQuats.Count + " .HistorysDB: " + Historys.Count;
             }
             catch (Exception ex)
             {
@@ -140,67 +140,34 @@ namespace QRMS.ViewModels
                 TongQuats.Clear();
                 Historys.Clear();
                  
-                List<string> OrderNo_ = new List<string>();
 
-                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_DC_SCANPage.TransferOrderNo, _DC_SCANPage.WarehouseCode_From, _DC_SCANPage.WarehouseCode_To);
-
-                if (MySettings.LenhDiChuyen != "")
-                { 
-                    if (Historys.Count == 0)
+                List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey
+                    (_DC_SCANPage.TransferOrderNo,_DC_SCANPage.WarehouseCode_From,_DC_SCANPage.WarehouseCode_To);
+                foreach (ChuyenKhoDungCuModelBPL item in donhang_)
+                {
+                    if (!TongQuats.Contains(item))
                     {
-                        MySettings.LenhDiChuyen = _DC_SCANPage.WarehouseCode_From + "CKDC"
-                            + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd");
+                        //if (item.SoLuongDaNhap >= item.Quantity)
+                        //    item.ColorSLDaNhap = "#ff0000";
+                        //else
+                        //    item.ColorSLDaNhap = "#000000";
+                        ////
+                        //item.Color = "#000000";
+                        ////
+                        item.sQuantity = item.Quantity.ToString("N0");
+                        item.sSoLuongDaChuyen = item.SoLuongDaChuyen.ToString("N0");
+                        TongQuats.Add(item);
                     }
                 }
-                else
-                {
-                    MySettings.LenhDiChuyen = _DC_SCANPage.WarehouseCode_From + "CKDC"
-                        + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd");
-                }
-                _DC_SCANPage.TransferOrderNo = MySettings.LenhDiChuyen;
 
+                List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_DC_SCANPage.TransferOrderNo);
                 foreach (TransactionHistoryModel item in historys)
                 {
                     if (!Historys.Contains(item))
                     {
+                        item.token = MySettings.Token;
                         Historys.Add(item);
                     }
-
-                    if(OrderNo_.Contains(item.OrderNo))
-                    {
-                        for(int i =0;i< TongQuats.Count;++i)
-                        {
-                            if(TongQuats[i].OrderNo == item.OrderNo)
-                            {
-                                TongQuats[i].SoLuongQuet = TongQuats[i].SoLuongQuet + item.Quantity;
-                                TongQuats[i].SoNhan = 1 + TongQuats[i].SoNhan;
-                            }    
-                        }    
-                    }    
-                    else
-                    {
-                        OrderNo_.Add(item.OrderNo);
-                        TongQuats.Add(new CKDCModel
-                        {
-                            TransactionType = item.TransactionType,
-                            OrderNo = item.OrderNo,
-                            WarehouseCode_From = item.WarehouseCode_From,
-                            WarehouseName_From = item.WarehouseName_From,
-                            WarehouseType_From = item.WarehouseType_From,
-                            WarehouseCode_To = item.WarehouseCode_To,
-                            WarehouseName_To = item.WarehouseName_To,
-                            WarehouseType_To = item.WarehouseType_To,
-                            ItemCode = item.ItemCode,
-                            ItemName = item.ItemName,
-                            ItemType = item.ItemType,
-                            SoLuongQuet = item.Quantity,
-                            sSoLuongQuet = item.Quantity.ToString("N0"),
-                            SoNhan = 1,
-                            Unit = item.Unit,
-                            Color = "#000000",
-                            ColorSLDaNhap = "#000000",
-                        }) ;
-                    }    
                 }
             }
             catch (Exception ex)
@@ -226,7 +193,7 @@ namespace QRMS.ViewModels
                             if (result.Result.data == 1)
                             {
                                 App.Dblocal.DeleteHistory_CKDC(_DC_SCANPage.TransferOrderNo, _DC_SCANPage.WarehouseCode_From, _DC_SCANPage.WarehouseCode_To);
-
+                                App.Dblocal.DeleteTransferInstructionAsyncWithKey(_DC_SCANPage.TransferOrderNo, _DC_SCANPage.WarehouseCode_From, _DC_SCANPage.WarehouseCode_To);
                                 await Controls.LoadingUtility.HideAsync();
                                 _DC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công" , "Đồng ý", ""); 
                             }
@@ -292,23 +259,23 @@ namespace QRMS.ViewModels
                             if (TongQuats[i].ItemCode == qr.Code)
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                                CKDCModel model_ = TongQuats[i];
+                                ChuyenKhoDungCuModelBPL model_ = TongQuats[i];
                                 
-                                model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
-                                model_.SoNhan = model_.SoNhan + 1;
+                                model_.SoLuongDaChuyen = model_.SoLuongDaChuyen + soluong_;
+                                model_.SoLuongBox = model_.SoLuongBox + 1;
                                 TongQuats.RemoveAt(i);
 
                                 model_.ColorSLDaNhap = "#0008ff";
 
                                 model_.Color = "#0008ff";
-                                model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
+                                model_.sSoLuongDaChuyen = model_.SoLuongDaChuyen.ToString("N0");
                                 TongQuats.Insert(0, model_);
                                   
                                 TransactionHistoryModel history = new TransactionHistoryModel
                                 {
                                     ID = 0,
                                     TransactionType = "C",
-                                    OrderNo = TongQuats[i].OrderNo,
+                                    OrderNo = TongQuats[i].TransferOrderNo,
                                     OrderDate = DateTime.Now,
                                     ItemCode = qr.Code,
                                     ItemName = qr.Name,

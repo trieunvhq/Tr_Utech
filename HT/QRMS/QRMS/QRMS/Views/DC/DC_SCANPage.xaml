@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?> 
+﻿<?xml version="1.0" encoding="UTF-8" ?>  
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -12,13 +12,15 @@
                 <ColumnDefinition Width="1"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="1"/>
-                <ColumnDefinition Width="*"/> 
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="row_trencung"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="1"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="50"/>
@@ -27,31 +29,22 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="lbTieuDe" Text="Điều chuyển kho" Margin="10,0,0,0" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
+            <Label x:Name="lbTieuDe" Text="Chuyển kho dụng cụ" Margin="10,0,0,0" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
 
-            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="2"/>
-             
-            <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="3" Margin="0,10,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/> 
-                </Grid.ColumnDefinitions>
-                <Label Margin="10,0,10,0" VerticalTextAlignment="Center"
-                       Grid.Column="0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Số chỉ thị: " TextColor="#B5BCCD" FontSize="12"/> 
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <control:CustomEntry FontSize="12" TextColor="Black"
-                       Text="{Binding TransferOrderNo}"  Grid.Column="1"/>
-                
-            </Grid>
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="2"/>
 
+            <Label Margin="10,0,0,0" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Số phiếu chuyển: " TextColor="#B5BCCD" FontSize="12"/>
+                        <Span TextColor="Red" Text="{Binding _No}" FontSize="12" FontAttributes="Bold"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
 
-            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4"
+            <Label BackgroundColor="Transparent" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                    Margin="10,5,10,5" IsVisible="{Binding IsThongBao}">
                 <Label.FormattedText>
@@ -61,23 +54,26 @@
                 </Label.FormattedText>
             </Label>
 
-            <Label Text="Mã hàng" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/> 
-            <Label Text="Số lượng &#x0a;đã chuyển" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/>
+            <Label Text="Số lượng &#x0a;phiếu" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="2" Grid.Row="6" TextColor="Black" FontSize="14"/>
-            <Label Text="Số box" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            <Label Text="Số lượng &#x0a;đã chuyển" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="6" TextColor="Black" FontSize="14"/>
+            <Label Text="Số box" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Grid.Column="6" Grid.Row="6" TextColor="Black" FontSize="14"/>
 
 
-            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="5"/>
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="5"/>
             <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="6"/>
-            <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="6"/> 
-            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="7"/>
+            <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="6"/>
+            <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="6"/>
+            <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"/>
 
 
-            <ListView Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="8" BackgroundColor="White"
-               ItemsSource="{Binding DonHangs}" x:Name="lst_combobox" SeparatorVisibility="None"
-                  RowHeight="51"  >
+            <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
+               ItemsSource="{Binding TongQuats}" x:Name="lst_combobox" SeparatorVisibility="None"
+                  RowHeight="51" ItemTapped="lst_combobox_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell >
@@ -88,7 +84,9 @@
                                     <ColumnDefinition Width="1"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="1"/>
-                                    <ColumnDefinition Width="*"/> 
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="50"/>
@@ -96,25 +94,29 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Text="{Binding ItemName}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                   Grid.Column="0" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,0,3,0"/> 
-                                <Label Text="{Binding sSoLuongQuet}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
-                   Grid.Column="2" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}" Margin="3,0,3,0"/>
-                                <Label Text="{Binding SoNhan}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                   Grid.Column="4" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,0,3,0"/>
-                                 
+                   Grid.Column="0" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,0,3,0"/>
+                                <Label Text="{Binding sQuantity}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                   Grid.Column="2" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,0,3,0"/>
+                                <Label Text="{Binding sSoLuongDaNhap}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                   Grid.Column="4" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}" Margin="3,0,3,0"/>
+                                <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                   Grid.Column="6" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,0,3,0"/>
+
+
                                 <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="0"/>
-                                <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="0"/> 
-                                <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="1"/>
+                                <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="0"/>
+                                <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="0"/>
+                                <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="9" ColumnSpacing="0" Margin="0,0,0,10">
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/> 
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="1"/>
                     <ColumnDefinition Width="50"/>
@@ -128,9 +130,9 @@
                 <helper:ButtonCustoms Text="Lưu lại" Grid.Column="6" CornerRadius="0"
                 Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
-                  
             </Grid>
-            
+
+             
             <Grid x:Name="absPopup_DangXuat" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="10"
               ColumnSpacing="0" RowSpacing="0" Opacity="0">
                 <Grid.ColumnDefinitions>
@@ -171,7 +173,6 @@
                 <Button x:Name="btnHuyBo_absPopup" Padding="0,0,0,0" Text="Hủy bỏ" TextColor="White" Clicked="BtnHuyBo_popup_DangXuat_Clicked" Grid.Column="2" Grid.Row="4"
                    BackgroundColor="Transparent" Margin="20,10,10,20" FontSize="15"/>
             </Grid>
-  
         </Grid>
     </ContentPage.Content>
 </ContentPage>
