@@ -18,7 +18,7 @@ namespace QRMS.ViewModels
     {
         public DC_SCANPage _DC_SCANPage;
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
-        public ObservableCollection<CKDCModel> TongQuats { get; set; } = new ObservableCollection<CKDCModel>();
+        public ObservableCollection<ChuyenKhoDungCuModelBPL> TongQuats { get; set; } = new ObservableCollection<ChuyenKhoDungCuModelBPL>();
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR;
@@ -27,15 +27,13 @@ namespace QRMS.ViewModels
         public bool IsThongBao { get; set; } = true;
         public string ThongBao { get; set; } = ""; 
         public Color Color { get; set; } = Color.Red;
-        public string _TuKho { get; set; } = "";
-        public string _DenKho { get; set; } = "";
-        public string _LenhDC { get; set; } = "";
 
+        public string TransferOrderNo { get; set; }
 
-        public DC_SCANPageModel(string TuKho_, string DenKho_)
+        public DC_SCANPageModel(DC_SCANPage fd)
         {
-            _TuKho = TuKho_;
-            _DenKho = DenKho_; 
+            _DC_SCANPage = fd;
+            TransferOrderNo = fd.TransferOrderNo;
         }
 
         public override void OnAppearing()
@@ -43,9 +41,97 @@ namespace QRMS.ViewModels
             OpenBarcodeReader();
                _daQuetQR = new List<string>();
             base.OnAppearing();
-            LoadDbLocal();
+            LoadModels("");
         }
 
+
+        public void LoadModels(string id)
+        {
+            try
+            {
+                LoadDbLocal();
+
+                if (TongQuats.Count == 0)
+                {
+                    var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<List<ChuyenKhoDungCuModelBPL>>>
+                                                 (Constaint.ServiceAddress, Constaint.APIurl.gettransferinstructionitem,
+                                                 new
+                                                 {
+                                                     TransferOrderNo = _DC_SCANPage.TransferOrderNo,
+                                                     WarehouseCode_From = _DC_SCANPage.WarehouseCode_From,
+                                                     WarehouseCode_To = _DC_SCANPage.WarehouseCode_To
+                                                 });
+                    if (result2 != null && result2.Result != null && result2.Result.data != null)
+                    {
+                        //
+
+                        TongQuats = new ObservableCollection<ChuyenKhoDungCuModelBPL>();
+
+                        for (int i = 0; i < result2.Result.data.Count; ++i)
+                        {
+                            if (result2.Result.data[i].SoLuongDaChuyen >= result2.Result.data[i].Quantity)
+                                result2.Result.data[i].ColorSLDaNhap = "#ff0000";
+                            else
+                                result2.Result.data[i].ColorSLDaNhap = "#000000";
+                            //
+                            result2.Result.data[i].Color = "#000000";
+                            //
+
+                            result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ToString("N0");
+                            result2.Result.data[i].sSoLuongDaChuyen = result2.Result.data[i].SoLuongDaChuyen.ToString("N0");
+                            if (result2.Result.data[i].ItemCode == id)
+                            {
+                                DonHangs.Insert(0, result2.Result.data[i]);
+                            }
+                            else
+                            {
+                                DonHangs.Add(result2.Result.data[i]);
+                            }
+
+                            App.Dblocal.SavePurchaseOrderAsync(result2.Result.data[i]);
+                        }
+                    }
+
+
+                }
+                //
+                if (Historys.Count == 0)
+                {
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransactionHistoryModel>>>
+                                             (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
+                                             new
+                                             {
+                                                 OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
+                                                 TransactionType = "I",
+                                                 WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode
+                                             });
+                    if (result != null && result.Result != null && result.Result.data != null)
+                    {
+                        //
+                        Historys = new ObservableCollection<TransactionHistoryModel>();
+
+                        for (int i = 0; i < result.Result.data.Count; ++i)
+                        {
+                            List<TransactionHistoryModel> historys = App.Dblocal.GetHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                            if (!Historys.Contains(result.Result.data[i]))
+                            {
+                                result.Result.data[i].token = MySettings.Token;
+                                Historys.Add(result.Result.data[i]);
+                                App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
+                            }
+                        }
+                    }
+                }
+                IsThongBao = true;
+                Color = Color.Red;
+                ThongBao = "DonHangsDB: " + DonHangs.Count + " .HistorysDB: " + Historys.Count;
+            }
+            catch (Exception ex)
+            {
+                MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "NhapKhoDungCuPageModel", MySettings.UserName);
+            }
+
+        }
 
         protected void LoadDbLocal()
         {
@@ -56,22 +142,22 @@ namespace QRMS.ViewModels
                  
                 List<string> OrderNo_ = new List<string>();
 
-                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_LenhDC, _TuKho, _DenKho);
+                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_DC_SCANPage.TransferOrderNo, _DC_SCANPage.WarehouseCode_From, _DC_SCANPage.WarehouseCode_To);
 
                 if (MySettings.LenhDiChuyen != "")
                 { 
                     if (Historys.Count == 0)
                     {
-                        MySettings.LenhDiChuyen = _TuKho + "CKDC"
+                        MySettings.LenhDiChuyen = _DC_SCANPage.WarehouseCode_From + "CKDC"
                             + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd");
                     }
                 }
                 else
                 {
-                    MySettings.LenhDiChuyen = _TuKho + "CKDC"
+                    MySettings.LenhDiChuyen = _DC_SCANPage.WarehouseCode_From + "CKDC"
                         + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd");
                 }
-                _LenhDC = MySettings.LenhDiChuyen;
+                _DC_SCANPage.TransferOrderNo = MySettings.LenhDiChuyen;
 
                 foreach (TransactionHistoryModel item in historys)
                 {
@@ -139,7 +225,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeleteHistory_CKDC(_LenhDC, _TuKho, _DenKho);
+                                App.Dblocal.DeleteHistory_CKDC(_DC_SCANPage.TransferOrderNo, _DC_SCANPage.WarehouseCode_From, _DC_SCANPage.WarehouseCode_To);
 
                                 await Controls.LoadingUtility.HideAsync();
                                 _DC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công" , "Đồng ý", ""); 
@@ -163,7 +249,7 @@ namespace QRMS.ViewModels
                 });
             }
         } 
-        public async void ScanComplate(string str)
+        public void ScanComplate(string str)
         {
             try
             { 

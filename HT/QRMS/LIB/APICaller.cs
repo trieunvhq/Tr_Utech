@@ -118,6 +118,51 @@ namespace LIB
         //    }
         //    return _return;
         //}
+        public static async Task<BaseAPIModel<T>> PostObjectToAPImodelAsync2222222<T>(string url, string method, object data)
+        {
+            var _return = new BaseAPIModel<T>();
+            try
+            {
+                var json = new StringContent("", Encoding.UTF8);
+                if (data != null && data.ToString() != "")
+                {
+                    var jobInJson = JsonConvert.SerializeObject(data);
+                   
+                    json = new StringContent(jobInJson, Encoding.UTF8);
+                    json.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; odata=verbose");
+                }
+
+                var _APIClient = await url.WithTimeout(20)
+                    .AllowAnyHttpStatus()
+                    .AppendPathSegment(method)
+                    .WithOAuthBearerToken(AccessToken)
+                    .PostAsync(json)
+                    .ReceiveJson<T>().ConfigureAwait(false);
+
+                _return.data = _APIClient;
+                _return.RespondCode = (int)HttpStatusCode.OK;
+            }
+            catch (FlurlHttpTimeoutException ex)
+            {
+                _return.RespondCode = 600;
+                _return.Message = $"{ex.Message} - body: {ex.Call.RequestBody}";
+                _return.data = default(T);
+            }
+            catch (FlurlHttpException ex)
+            {
+                _return.RespondCode = ((int?)ex.Call?.Response?.StatusCode) ?? 600;
+                _return.Message = $"{ex.Message} - body: {ex.Call.RequestBody}";
+                _return.data = default(T);
+            }
+            catch (Exception ex)
+            {
+                _return.RespondCode = 700;
+                _return.Message = ex.Message;
+                _return.data = default(T);
+            }
+            return _return;
+        }
+       
         public static string myjson = "";
         public static async Task<BaseAPIModel<T>> PostObjectToAPImodelAsync<T>(string url, string method, object data)
         {
@@ -128,9 +173,11 @@ namespace LIB
                 if (data != null && data.ToString() != "")
                 {
                     var jobInJson = JsonConvert.SerializeObject(data);
-                    myjson = jobInJson; 
-                     json = new StringContent(jobInJson, Encoding.UTF8);
+                    myjson = jobInJson;
+                  
+                    json = new StringContent(jobInJson, Encoding.UTF8);
                     json.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; odata=verbose");
+
                 }
 
                 var _APIClient = await url.WithTimeout(20)

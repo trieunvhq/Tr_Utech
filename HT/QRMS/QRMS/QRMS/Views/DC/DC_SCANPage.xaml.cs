@@ -20,16 +20,33 @@ namespace QRMS.Views
     {
         //MyScan _MyScan; 
 
+
+        public DateTime? InstructionDate { get; set; }
+        public string WarehouseCode_From { get; set; }
+        public string WarehouseName_From { get; set; }
+        public string WarehouseCode_To { get; set; }
+        public string WarehouseName_To { get; set; }
+        public string TransferOrderNo { get; set; }
+
+
         public DC_SCANPageModel ViewModel { get; set; }
-        public DC_SCANPage(string tukho_, string denkho_)
+        public DC_SCANPage(string TransferOrderNo_, DateTime? InstructionDate_
+            ,string WarehouseCode_From_, string WarehouseName_From_,
+            string WarehouseCode_To_, string WarehouseName_To_)
         { 
             InitializeComponent();
+            TransferOrderNo = TransferOrderNo_;
+            WarehouseCode_From = WarehouseCode_From_;
+            WarehouseName_From = WarehouseName_From_;
+            WarehouseCode_To = WarehouseCode_To_;
+            WarehouseName_To = WarehouseName_To_;
+            InstructionDate = InstructionDate_;
 
             grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new DC_SCANPageModel(tukho_, denkho_);
+            ViewModel = new DC_SCANPageModel(this);
             ViewModel.Initialize();
             BindingContext = ViewModel;
             ViewModel._DC_SCANPage = this;

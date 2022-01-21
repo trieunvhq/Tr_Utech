@@ -216,10 +216,7 @@ namespace QRMS.ViewModels
             }
         }
 
-        private int _trangthai_quet;
-        
-        public bool isDangQuet = false;
-        public async void ScanComplate(string str)
+        public async System.Threading.Tasks.Task ScanComplateAsync(string str)
         {
             try
             {
@@ -235,14 +232,21 @@ namespace QRMS.ViewModels
                     return;
                 }
 
-                _trangthai_quet = 0;
                 if (Historys != null)
                 {
-                    isDangQuet = true;
                     bool IsTonTai_ = false;
                     int index_ = 0;
                     var qr = MySettings.QRRead(str);
+                    if (qr == null)
+                    {
+                        Color = Color.Red;
+                        IsThongBao = true;
+                        ThongBao = "Nhãn không đúng định dạng";
 
+                        //CloseBarcodeReader();
+                        //OpenBarcodeReader();
+                        return;
+                    }
                     for (int i = 0; i < Historys.Count; ++i)
                     {
                         if (Historys[i].EXT_QRCode == str)
@@ -255,7 +259,10 @@ namespace QRMS.ViewModels
 
                     if (IsTonTai_)
                     {
-                        _trangthai_quet = 1;
+                        Color = Color.Red;
+                        IsThongBao = true;
+                        ThongBao = "Nhãn đã được quét";
+                        return;
                     }
                     else
                     {
@@ -278,10 +285,7 @@ namespace QRMS.ViewModels
                                 {
                                     XuLyTiepLuu(true, model_, soluong_, i, qr, str);
                                 }
-
-
-                                _trangthai_quet = 2;
-                                //
+                                 
                                 break;
                             }
                             else if (i == DonHangs.Count - 1)
@@ -407,7 +411,7 @@ namespace QRMS.ViewModels
                 {
                     mUIContext.Post(_ =>
                     { 
-                        ScanComplate(e.Data);
+                        ScanComplateAsync(e.Data);
                     }
                         , null);
                 });
@@ -419,8 +423,7 @@ namespace QRMS.ViewModels
         }
 
         public async void CloseBarcodeReader()
-        {
-            isDangQuet = false;
+        { 
             if (mSelectedReader != null && mSelectedReader.IsReaderOpened)
             {
                 BarcodeReader.Result result = await mSelectedReader.CloseAsync();

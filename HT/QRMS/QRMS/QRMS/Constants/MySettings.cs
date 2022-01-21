@@ -7,6 +7,7 @@ using System;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using System.Data;
+using System.Text;
 
 namespace QRMS.Constants
 {
@@ -570,6 +571,18 @@ namespace QRMS.Constants
         }
 
 
+        public static string DecodeFromUtf8(string utf8String)
+        {
+            // copy the string as UTF-8 bytes.
+            byte[] utf8Bytes = new byte[utf8String.Length];
+            for (int i = 0; i < utf8String.Length; ++i)
+            {
+                //Debug.Assert( 0 <= utf8String[i] && utf8String[i] <= 255, "the char must be in byte's range");
+                utf8Bytes[i] = (byte)utf8String[i];
+            }
+
+            return Encoding.UTF8.GetString(utf8Bytes, 0, utf8Bytes.Length);
+        }
         public static QRModel QRRead(string str)
         {
             try
@@ -579,7 +592,7 @@ namespace QRMS.Constants
                 DateTime? mfdate_;
                 DateTime? Recdate_;
                 DateTime? Expdate_;
-
+                 
                 if (temp_[7].Contains("-") || temp_[7].Contains("/") || temp_[7].Contains("\\") || temp_[7].Contains("."))
                 {
                     try
@@ -792,7 +805,7 @@ namespace QRMS.Constants
                 qr.RecDate = Recdate_;
                 qr.ExpDate = Expdate_;
                 qr.Quantity = ConvertToDecimal(temp_[10]);
-                qr.Unit = temp_[11];
+                qr.Unit = DecodeFromUtf8(temp_[11]);
 
                 return qr;
             }
