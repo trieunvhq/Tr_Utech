@@ -210,9 +210,9 @@ namespace QRMS
         }
 
 
-        public void DeleteSaleOrderItemScanBPLAsyncWithKey(string no, string code)
+        public void DeleteSaleOrderItemScanBPLAsyncWithKey(string no, string WarehouseCode)
         {
-            string Sql = $"Delete From SaleOrderItemScanBPL Where SaleOrderNo = '{no}'";
+            string Sql = $"Delete From SaleOrderItemScanBPL Where SaleOrderNo = '{no}' and WarehouseCode = '{WarehouseCode}' ";
 
             _ = _database.Execute(Sql);
         }
