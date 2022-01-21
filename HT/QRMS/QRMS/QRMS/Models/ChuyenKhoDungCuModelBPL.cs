@@ -1,6 +1,9 @@
 ﻿using System;
+using SQLite;
+
 namespace QRMS.Models
 {
+    [Table("ChuyenKhoDungCuModelBPL")]
     public class ChuyenKhoDungCuModelBPL
     {
         public int ID { get; set; }
