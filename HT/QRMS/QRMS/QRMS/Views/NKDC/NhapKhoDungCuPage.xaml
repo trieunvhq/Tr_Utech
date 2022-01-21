@@ -73,7 +73,7 @@
 
             <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
                ItemsSource="{Binding DonHangs}" x:Name="lst_combobox" SeparatorVisibility="None"
-                  HasUnevenRows="True" ItemTapped="lst_combobox_ItemTapped">
+                  HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell >
