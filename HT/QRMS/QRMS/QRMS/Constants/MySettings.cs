@@ -531,6 +531,9 @@ namespace QRMS.Constants
                     return 40;
             }
         }
+
+        public static int Index_Page { get; set; }
+
         public static string JSON { get; set; }
         public static string Token { get; set; }
         public static string Title { get; set; }

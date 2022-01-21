@@ -60,6 +60,10 @@
     <None Remove="ViewModels\DC\" />
     <None Remove="Views\KK\" />
     <None Remove="ViewModels\KK\" />
+    <None Remove="Views\CK\" />
+    <None Remove="Views\NK\" />
+    <None Remove="ViewModels\NK\" />
+    <None Remove="Models\NK\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -271,6 +275,10 @@
     <Folder Include="ViewModels\DC\" />
     <Folder Include="Views\KK\" />
     <Folder Include="ViewModels\KK\" />
+    <Folder Include="Views\CK\" />
+    <Folder Include="Views\NK\" />
+    <Folder Include="ViewModels\NK\" />
+    <Folder Include="Models\NK\" />
   </ItemGroup>
 
   <ItemGroup>
