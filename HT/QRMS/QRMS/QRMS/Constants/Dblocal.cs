@@ -19,6 +19,7 @@ namespace QRMS
             _database.CreateTable<NhapKhoDungCuModel>();
             _database.CreateTable<SaleOrderItemScanBPL>(); //Xuất kho DC_new
             _database.CreateTable<XuatKhoDungCuModel>();
+            _database.CreateTable<ChuyenKhoDungCuModelBPL>(); //CKDC
             //_database.CreateTableAsync<XuatKhoDungCuModel>().Wait();
         }
 
@@ -212,17 +213,19 @@ namespace QRMS
 
 
 
-        //For table XuatKhoDungCuModel:
-        public List<XuatKhoDungCuModel> GetTransferInstructionAsyncWithKey(string no)
+        //For table ChuyenKhoDungCuModelBPL:
+        public List<ChuyenKhoDungCuModelBPL> GetTransferInstructionAsyncWithKey(string no, string From, string To)
         {
-            string Sql = $"Select * From XuatKhoDungCuModel Where TransferOrderNo = '{no}'";
+            string Sql = $"Select * From ChuyenKhoDungCuModelBPL Where TransferOrderNo = '{no}' ";
+            Sql += $" and TransferOrderNo = '{From}' ";
+            Sql += $" and TransferOrderNo = '{To}' ";
 
-            return _database.Query<XuatKhoDungCuModel>(Sql);
+            return _database.Query<ChuyenKhoDungCuModelBPL>(Sql);
         }
 
-        public int SaveTransferInstructionAsync(XuatKhoDungCuModel no)
+        public int SaveTransferInstructionAsync(ChuyenKhoDungCuModelBPL no)
         {
-            string Sql = $"Select * From XuatKhoDungCuModel Where TransferOrderNo = '{no.TransferOrderNo}' ";
+            string Sql = $"Select * From ChuyenKhoDungCuModelBPL Where TransferOrderNo = '{no.TransferOrderNo}' ";
             Sql += $"and ID = { no.ID} and TransferOrderID = '{no.TransferOrderID}' ";
             Sql += $"and ItemCode = '{no.ItemCode}' and ItemName = '{no.ItemName}' ";
             Sql += $"and ItemType = '{no.ItemType}' and Unit = '{no.Unit}' ";
@@ -235,9 +238,9 @@ namespace QRMS
             else return -1;
         }
 
-        public int UpdateTransferInstructionAsync(XuatKhoDungCuModel no)
+        public int UpdateTransferInstructionAsync(ChuyenKhoDungCuModelBPL no)
         {
-            string Sql = $"Update XuatKhoDungCuModel set ";
+            string Sql = $"Update ChuyenKhoDungCuModelBPL set ";
             Sql += $"SoLuongDaNhap = {no.SoLuongDaNhap}, ";
             Sql += $"SoLuongBox = {no.SoLuongBox} ";
             Sql += $"Where ID = {no.ID}";
@@ -246,9 +249,9 @@ namespace QRMS
         }
 
 
-        public void DeleteTransferInstructionAsyncWithKey(string no)
+        public void DeleteTransferInstructionAsyncWithKey(string no, string From, string To)
         {
-            string Sql = $"Delete From XuatKhoDungCuModel Where TransferOrderNo = '{no}'";
+            string Sql = $"Delete From ChuyenKhoDungCuModelBPL Where TransferOrderNo = '{no}'";
 
             _ = _database.Execute(Sql);
         }
@@ -338,6 +341,11 @@ namespace QRMS
 
 
         //Chuyển kho dụng cụ:
+
+
+
+
+
         public List<CKDCModel> GetTransactionHistory_CKDC_ShowTable(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
         {
             List<CKDCModel> rs = new List<CKDCModel>();
