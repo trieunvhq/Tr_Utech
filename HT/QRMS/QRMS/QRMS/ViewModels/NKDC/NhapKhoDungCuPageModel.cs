@@ -60,7 +60,7 @@ namespace QRMS.ViewModels
                 DonHangs.Clear();
                 Historys.Clear();
 
-                List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo,"");
                 foreach (NhapKhoDungCuModel item in donhang_)
                 {
                     if (!DonHangs.Contains(item))
@@ -200,7 +200,7 @@ namespace QRMS.ViewModels
                     {
                         if (result.Result.data == 1)
                         {
-                            App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
+                            App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo, "");
                             App.Dblocal.DeleteHistoryAsyncWithKey(_NhapKhoDungCuPage._PurchaseOrderNo);
 
 

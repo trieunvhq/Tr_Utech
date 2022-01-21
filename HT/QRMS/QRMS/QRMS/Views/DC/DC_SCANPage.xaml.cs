@@ -164,7 +164,7 @@ namespace QRMS.Views
 
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
-                App.Dblocal.DeleteHistory_CKDC(ViewModel._LenhDC, ViewModel._TuKho, ViewModel._DenKho);
+                //App.Dblocal.DeleteHistory_CKDC(ViewModel._LenhDC, ViewModel._TuKho, ViewModel._DenKho);
 
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();

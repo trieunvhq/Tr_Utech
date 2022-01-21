@@ -73,7 +73,7 @@
 
             <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
                ItemsSource="{Binding TongQuats}" x:Name="lst_combobox" SeparatorVisibility="None"
-                  RowHeight="51" ItemTapped="lst_combobox_ItemTapped">
+                  RowHeight="51">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell >

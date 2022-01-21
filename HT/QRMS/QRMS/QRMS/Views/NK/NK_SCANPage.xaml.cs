@@ -13,19 +13,26 @@ namespace QRMS.Views
     public partial class NK_SCANPage : ContentPage
     {
         //MyScan _MyScan;
-        public string _PurchaseOrderNo = "";
-        public string _WarehouseCode = "";
-        public string _WarehouseName = "";
-        public DateTime? _PurchaseOrderDate;
+        public string No;
+        public DateTime? Date;
+        public string WarehouseCode;
+        public string WarehouseName;
+        public string WarehouseCode_To;
+        public string WarehouseName_To;
 
         public NK_SCANPageModel ViewModel { get; set; }
-        public NK_SCANPage(string PurchaseOrderNo, string WarehouseCode, DateTime? PurchaseOrderDate, string WarehouseName)
+        public NK_SCANPage(string No_, DateTime? Date_
+            , string WarehouseCode_, string WarehouseName_
+            , string WarehouseCode_To_, string WarehouseName_To_)
         {
             InitializeComponent();
-            _PurchaseOrderNo = PurchaseOrderNo;
-            _WarehouseCode = WarehouseCode;
-            _PurchaseOrderDate = PurchaseOrderDate;
-            _WarehouseName = WarehouseName;
+            No = No_;
+            Date = Date_;
+            WarehouseCode = WarehouseCode_;
+            WarehouseName = WarehouseName_;
+            WarehouseCode_To = WarehouseCode_To_;
+            WarehouseName_To = WarehouseName_To_;
+
             grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
@@ -78,16 +85,47 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
-                    || (ViewModel.DonHangs != null && ViewModel.DonHangs.Count > 0))
+                    if (MySettings.Index_Page == 1)
                     {
-                        await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+                        if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                        || (ViewModel.NhapKhos != null && ViewModel.NhapKhos.Count > 0))
+                        {
+                            await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
 
+                        }
+                        else
+                        {
+                            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                            await Controls.LoadingUtility.HideAsync();
+                        } 
                     }
-                    else
+                    else if (MySettings.Index_Page == 2)
                     {
-                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                        await Controls.LoadingUtility.HideAsync();
+                        if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                          || (ViewModel.XuatKhos != null && ViewModel.XuatKhos.Count > 0))
+                        {
+                            await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+
+                        }
+                        else
+                        {
+                            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                            await Controls.LoadingUtility.HideAsync();
+                        }
+                    }
+                    else if (MySettings.Index_Page == 3)
+                    {
+                        if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
+                          || (ViewModel.ChuyenKhos != null && ViewModel.ChuyenKhos.Count > 0))
+                        {
+                            await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
+
+                        }
+                        else
+                        {
+                            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                            await Controls.LoadingUtility.HideAsync();
+                        }
                     }
                 });
             });
@@ -152,9 +190,9 @@ namespace QRMS.Views
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
             }
-            else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
+            else if (lbTieuDe_absPopup.Text == "Đã đủ số lượng")
             {
-                ViewModel.XuLyTiepLuu(true, model_, soluong_, i, qr, str);
+                ViewModel.XuLyTiepLuu(true, soluong_, i, qr, str);
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
             {
@@ -172,15 +210,28 @@ namespace QRMS.Views
 
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
-                App.Dblocal.DeleteHistoryAll();
-                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PurchaseOrderNo);
+                if (MySettings.Index_Page == 1)
+                {
+                    App.Dblocal.DeletePurchaseOrderAsyncWithKey(No,WarehouseCode);
+                    App.Dblocal.DeleteAllHistory_NKDC(No, WarehouseCode);
+                }
+                else if (MySettings.Index_Page == 2)
+                {
+                    App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(No,WarehouseCode);
+                    App.Dblocal.DeleteAllHistory_XKDC(No, WarehouseCode);
+                }
+                else if (MySettings.Index_Page == 3)
+                {
+                    App.Dblocal.DeleteTransferInstructionAsyncWithKey(No, WarehouseCode, WarehouseCode_To);
+                    App.Dblocal.DeleteHistory_CKDC(No, WarehouseCode,WarehouseCode_To);
+                } 
 
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
             }
-            else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
+            else if (lbTieuDe_absPopup.Text == "Đã đủ số lượng")
             {
-                ViewModel.XuLyTiepLuu(false, model_, soluong_, i, qr, str);
+                ViewModel.XuLyTiepLuu(false, soluong_, i, qr, str);
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
             {

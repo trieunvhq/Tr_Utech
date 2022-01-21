@@ -57,7 +57,7 @@ namespace QRMS.ViewModels
                 Historys.Clear();
 
                 //List<SaleOrderItemScanBPL> donhang_ = new List<SaleOrderItemScanBPL>();
-                List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(SaleOrderNo);
+                List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(SaleOrderNo,"");
                 foreach (SaleOrderItemScanBPL item in donhang_)
                 {
                     if (!DonHangs.Contains(item))
@@ -194,7 +194,7 @@ namespace QRMS.ViewModels
                                 App.Dblocal.DeleteHistoryAsyncWithKey(SaleOrderNo);
                                 Historys.Clear();
 
-                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(SaleOrderNo);
+                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(SaleOrderNo, "");
                                 DonHangs.Clear();
 
                                 await Controls.LoadingUtility.HideAsync();

@@ -173,7 +173,7 @@ namespace QRMS.Views
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
                 App.Dblocal.DeleteHistoryAll();
-                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PurchaseOrderNo);
+                //App.Dblocal.DeletePurchaseOrderAsyncWithKey(_PurchaseOrderNo);
 
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();

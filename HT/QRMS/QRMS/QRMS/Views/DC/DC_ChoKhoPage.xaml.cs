@@ -82,7 +82,7 @@ namespace QRMS.Views
 
         async void BtnTiepTuc_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new DC_SCANPage(ViewModel.WarehouesCode1,ViewModel.WarehouesCode2));
+            //await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new DC_SCANPage(ViewModel.WarehouesCode1,ViewModel.WarehouesCode2));
         }
     }
 }

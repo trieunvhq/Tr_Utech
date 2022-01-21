@@ -94,9 +94,11 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if (!string.IsNullOrWhiteSpace(ViewModel._PurchaseOrderNo))
-                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NhapKhoDungCuPage(
-                         ViewModel._PurchaseOrderNo, ViewModel._WarehouseCode, ViewModel._PurchaseOrderDate, ViewModel._WarehouseName));
+                    if (!string.IsNullOrWhiteSpace(ViewModel._No))
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_SCANPage(
+                         ViewModel._No, ViewModel._Date
+                         , ViewModel._WarehouseCode, ViewModel._WarehouseName
+                         , ViewModel._WarehouseCode_To, ViewModel._WarehouseName_To));
                     await Controls.LoadingUtility.HideAsync();
                 });
             });
