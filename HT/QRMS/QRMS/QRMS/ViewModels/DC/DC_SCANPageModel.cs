@@ -81,14 +81,14 @@ namespace QRMS.ViewModels
                             result2.Result.data[i].sSoLuongDaChuyen = result2.Result.data[i].SoLuongDaChuyen.ToString("N0");
                             if (result2.Result.data[i].ItemCode == id)
                             {
-                                DonHangs.Insert(0, result2.Result.data[i]);
+                                TongQuats.Insert(0, result2.Result.data[i]);
                             }
                             else
                             {
-                                DonHangs.Add(result2.Result.data[i]);
+                                TongQuats.Add(result2.Result.data[i]);
                             }
 
-                            App.Dblocal.SavePurchaseOrderAsync(result2.Result.data[i]);
+                            App.Dblocal.SaveTransferInstructionAsync(result2.Result.data[i]);
                         }
                     }
 
@@ -101,9 +101,9 @@ namespace QRMS.ViewModels
                                              (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
                                              new
                                              {
-                                                 OrderNo = _NhapKhoDungCuPage._PurchaseOrderNo,
-                                                 TransactionType = "I",
-                                                 WarehouseCode_From = _NhapKhoDungCuPage._WarehouseCode
+                                                 OrderNo = _DC_SCANPage.TransferOrderNo,
+                                                 TransactionType = "C",
+                                                 WarehouseCode_From = _DC_SCANPage._WarehouseCode
                                              });
                     if (result != null && result.Result != null && result.Result.data != null)
                     {
