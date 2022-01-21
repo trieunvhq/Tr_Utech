@@ -64,7 +64,7 @@ namespace QRMS
 
         public void DeleteHistoryAsyncWithKey(string purchaseno)
         {
-            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{purchaseno}'";
+            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{purchaseno}' ";
 
             _ = _database.Execute(Sql);
         }
@@ -72,38 +72,6 @@ namespace QRMS
         public void DeleteHistoryAsyncWithID(int id)
         {
             string Sql = $"Delete From TransactionHistoryModel Where ID = {id}";
-
-            _ = _database.Execute(Sql);
-        }
-
-        public List<TransactionHistoryModel> GetAllHistory_KKDC(string OrderNo, string WarehouseCode_From)
-        {
-            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
-            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
-
-            return _database.Query<TransactionHistoryModel>(Sql);
-        }
-
-        public void DeleteHistory_KKDC(string OrderNo, string WarehouseCode_From)
-        {
-            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
-            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
-
-            _ = _database.Execute(Sql);
-        }
-
-        public List<TransactionHistoryModel> GetAllHistory_CKDC(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
-        {
-            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{OrderNo}' and  WarehouseCode_To = '{WarehouseCode_To}' ";
-            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'C' ";
-
-            return _database.Query<TransactionHistoryModel>(Sql);
-        }
-
-        public void DeleteHistory_CKDC(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
-        {
-            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' and  WarehouseCode_To = '{WarehouseCode_To}' ";
-            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'C' ";
 
             _ = _database.Execute(Sql);
         }
@@ -116,10 +84,20 @@ namespace QRMS
 
 
         //For table NhapKhoDungCuModel:
+        public List<TransactionHistoryModel> GetAllHistory_NKDC(string OrderNo, string WarehouseCode_From)
+        {
+            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'I' ";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
+        }
+
+
         public void DeletePurchaseOrderAll()
         {
             _database.DeleteAll<NhapKhoDungCuModel>();
         }
+
 
         public List<NhapKhoDungCuModel> GetPurchaseOrderAsyncWithKey(string purchaseno)
         {
@@ -138,10 +116,10 @@ namespace QRMS
         public int SavePurchaseOrderAsync(NhapKhoDungCuModel purchase)
         {
             string Sql = $"Select * From NhapKhoDungCuModel Where PurchaseOrderNo = '{purchase.PurchaseOrderNo}' ";
-                   Sql += $"and ID = {purchase.ID} and PurchaseOrderID = {purchase.PurchaseOrderID} ";
-                   Sql += $"and ItemCode = '{purchase.ItemCode}' and ItemName = '{purchase.ItemName}' ";
-                   Sql += $"and ItemType = '{purchase.ItemType}' and Unit = '{purchase.Unit}' ";
-                   Sql += $"and InputStatus = '{purchase.InputStatus}' and RecordStatus = '{purchase.RecordStatus}' ";
+            Sql += $"and ID = {purchase.ID} and PurchaseOrderID = {purchase.PurchaseOrderID} ";
+            Sql += $"and ItemCode = '{purchase.ItemCode}' and ItemName = '{purchase.ItemName}' ";
+            Sql += $"and ItemType = '{purchase.ItemType}' and Unit = '{purchase.Unit}' ";
+            Sql += $"and InputStatus = '{purchase.InputStatus}' and RecordStatus = '{purchase.RecordStatus}' ";
 
             var res = _database.Query<NhapKhoDungCuModel>(Sql);
 
@@ -154,9 +132,9 @@ namespace QRMS
         public int UpdatePurchaseOrderAsync(NhapKhoDungCuModel purchase)
         {
             string Sql = $"Update NhapKhoDungCuModel set ";
-                   Sql += $"SoLuongDaNhap = {purchase.SoLuongDaNhap}, ";
-                   Sql += $"SoLuongBox = {purchase.SoLuongBox} ";
-                   Sql += $"Where ID = {purchase.ID}";
+            Sql += $"SoLuongDaNhap = {purchase.SoLuongDaNhap}, ";
+            Sql += $"SoLuongBox = {purchase.SoLuongBox} ";
+            Sql += $"Where ID = {purchase.ID}";
 
             return _database.Execute(Sql);
         }
@@ -169,14 +147,41 @@ namespace QRMS
             _ = _database.Execute(Sql);
         }
 
+        public void DeleteAllHistory_NKDC(string OrderNo, string WarehouseCode_From)
+        {
+            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'I' ";
+
+            _ = _database.Execute(Sql);
+        }
+
 
         //For table Xuất kho dụng cụ :
+        public List<TransactionHistoryModel> GetAllHistory_XKDC(string OrderNo, string WarehouseCode_From)
+        {
+            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'O' ";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
+        }
+
+
+        public void DeleteAllHistory_XKDC(string OrderNo, string WarehouseCode_From)
+        {
+            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'O' ";
+
+            _ = _database.Execute(Sql);
+        }
+
+
         public List<SaleOrderItemScanBPL> GetSaleOrderItemScanAsyncWithKey(string no)
         {
             string Sql = $"Select * From SaleOrderItemScanBPL Where SaleOrderNo = '{no}'";
 
             return _database.Query<SaleOrderItemScanBPL>(Sql);
         }
+
 
         public int SaveSaleOrderItemScanAsync(SaleOrderItemScanBPL no)
         {
@@ -192,6 +197,7 @@ namespace QRMS
                 return _database.Insert(no);
             else return -1;
         }
+
 
         public int UpdateSaleOrderItemScanAsync(SaleOrderItemScanBPL no)
         {
@@ -212,7 +218,6 @@ namespace QRMS
         }
 
 
-
         //For table ChuyenKhoDungCuModelBPL:
         public List<ChuyenKhoDungCuModelBPL> GetTransferInstructionAsyncWithKey(string no, string From, string To)
         {
@@ -222,6 +227,16 @@ namespace QRMS
 
             return _database.Query<ChuyenKhoDungCuModelBPL>(Sql);
         }
+
+
+        public List<TransactionHistoryModel> GetAllHistory_CKDC(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
+        {
+            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and WarehouseCode_To = '{WarehouseCode_To}' and TransactionType = 'C' ";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
+        }
+
 
         public int SaveTransferInstructionAsync(ChuyenKhoDungCuModelBPL no)
         {
@@ -237,6 +252,7 @@ namespace QRMS
                 return _database.Insert(no);
             else return -1;
         }
+
 
         public int UpdateTransferInstructionAsync(ChuyenKhoDungCuModelBPL no)
         {
@@ -257,7 +273,24 @@ namespace QRMS
         }
 
 
+        public void DeleteHistory_CKDC(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
+        {
+            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' and  WarehouseCode_To = '{WarehouseCode_To}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'C' ";
+
+            _ = _database.Execute(Sql);
+        }
+
+
         //Kiểm kê dụng cụ:
+        public List<TransactionHistoryModel> GetAllHistory_KKDC(string OrderNo, string WarehouseCode_From)
+        {
+            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
+        }
+
         public List<KKDCModel> GetTransactionHistory_KKDC_ShowTable(string OrderNo, string WarehouseCode_From)
         {
             List<KKDCModel> rs = new List<KKDCModel>();
@@ -273,10 +306,11 @@ namespace QRMS
 
             if (data != null)
             {
-                foreach(TransactionHistoryModel item in data)
+                foreach (TransactionHistoryModel item in data)
                 {
                     if (!lstCode.Contains(item.ItemCode))
-                        rs.Add(new KKDCModel{
+                        rs.Add(new KKDCModel
+                        {
                             TransactionType = item.TransactionType,
                             OrderNo = item.OrderNo,
                             WarehouseCode_From = item.WarehouseCode_From,
@@ -294,7 +328,7 @@ namespace QRMS
 
                 if (rs != null)
                 {
-                    foreach(KKDCModel kk in rs)
+                    foreach (KKDCModel kk in rs)
                     {
                         foreach (TransactionHistoryModel item in data)
                         {
@@ -302,11 +336,11 @@ namespace QRMS
                             {
                                 kk.SoLuongQuet += item.Quantity;
                                 kk.SoNhan += 1;
-                            }    
+                            }
                         }
-                    }    
-                }    
-            }    
+                    }
+                }
+            }
 
 
             return rs;
@@ -339,14 +373,17 @@ namespace QRMS
             //return data;
         }
 
+        public void DeleteHistory_KKDC(string OrderNo, string WarehouseCode_From)
+        {
+            string Sql = $"Delete From TransactionHistoryModel Where OrderNo = '{OrderNo}' ";
+            Sql += $"and WarehouseCode_From = '{WarehouseCode_From}' and TransactionType = 'K' ";
 
-        //Chuyển kho dụng cụ:
+            _ = _database.Execute(Sql);
+        }
 
 
 
-
-
-        public List<CKDCModel> GetTransactionHistory_CKDC_ShowTable(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
+        public List<CKDCModel> GetTransfer_CKDC_ShowTable(string OrderNo, string WarehouseCode_From, string WarehouseCode_To)
         {
             List<CKDCModel> rs = new List<CKDCModel>();
 
