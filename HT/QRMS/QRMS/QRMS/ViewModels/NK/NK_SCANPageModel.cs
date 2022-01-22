@@ -66,9 +66,6 @@ namespace QRMS.ViewModels
         {
             try
             {
-                NhapKhos.Clear();
-                ChuyenKhos.Clear();
-                XuatKhos.Clear();
                 Historys.Clear();
 
                 if (MySettings.Index_Page == 1)
