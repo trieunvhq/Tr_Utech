@@ -64,6 +64,7 @@
     <None Remove="Views\NK\" />
     <None Remove="ViewModels\NK\" />
     <None Remove="Models\NK\" />
+    <None Remove="ViewModels\CK\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -279,6 +280,7 @@
     <Folder Include="Views\NK\" />
     <Folder Include="ViewModels\NK\" />
     <Folder Include="Models\NK\" />
+    <Folder Include="ViewModels\CK\" />
   </ItemGroup>
 
   <ItemGroup>

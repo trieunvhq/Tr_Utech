@@ -160,6 +160,7 @@ namespace QRMS.Views
             await absPopup_DangXuat.FadeTo(0, 200);
             if (grid.Children.Contains(absPopup_DangXuat))
                 _ = grid.Children.Remove(absPopup_DangXuat);
+
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
@@ -176,6 +177,11 @@ namespace QRMS.Views
             {
             }
 
+            if (MySettings.To_Page == "homepage")
+            {
+                MySettings.To_Page = "";
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+            }
         }
         private async void BtnHuyBo_popup_DangXuat_Clicked(object sender, EventArgs e)
         {

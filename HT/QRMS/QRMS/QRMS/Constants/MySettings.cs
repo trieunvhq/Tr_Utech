@@ -533,6 +533,8 @@ namespace QRMS.Constants
         }
 
         public static int Index_Page { get; set; }
+        public static string To_Page { get; set; }
+
 
         public static string JSON { get; set; }
         public static string Token { get; set; }

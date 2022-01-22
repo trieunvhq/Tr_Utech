@@ -102,7 +102,7 @@ namespace QRMS.ViewModels
                             str_ = "5";
                             IsThongBao = true;
                             str_ = "6";
-                            ThongBao += "Thành công";
+                            ThongBao += "\nThành công";
                             str_ = "7";
                             //CloseBarcodeReader();
                             //OpenBarcodeReader();

@@ -614,16 +614,16 @@ namespace QRMS.ViewModels
                                 App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                                 //MySettings.InsertLogs(0, DateTime.Now, "2inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
 
+                                MySettings.To_Page = "homepage";
                                 await Controls.LoadingUtility.HideAsync();
                                 await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
-                                //await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HomePage());
 
-                                LoadModels("");
+                                //LoadModels("");
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         }
                     });
@@ -645,16 +645,18 @@ namespace QRMS.ViewModels
                                 App.Dblocal.DeleteAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                                 App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
 
+                                MySettings.To_Page = "homepage";
+
                                 await Controls.LoadingUtility.HideAsync();
 
                                 //
-                                _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
-                                LoadModels("");
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                //LoadModels("");
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         }
                     });
@@ -676,16 +678,18 @@ namespace QRMS.ViewModels
                                 App.Dblocal.DeleteHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
                                 App.Dblocal.DeleteTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
 
+                                MySettings.To_Page = "homepage";
+
                                 await Controls.LoadingUtility.HideAsync();
 
                                 //
-                                _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
-                                LoadModels("");
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                //LoadModels("");
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         }
                     });
@@ -694,10 +698,12 @@ namespace QRMS.ViewModels
             }
             catch (Exception ex)
             {
-                Controls.LoadingUtility.HideAsync();
-
+                await Controls.LoadingUtility.HideAsync();
             }
-        } 
+        }
+
+
+
         public async void ScanComplate(string str)
         {
             string temp_ = "";

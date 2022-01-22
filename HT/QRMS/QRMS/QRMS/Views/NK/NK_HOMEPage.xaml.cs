@@ -1,5 +1,6 @@
 ﻿  
 using QRMS.Constants;
+using QRMS.Views.CK;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -80,7 +81,15 @@ namespace QRMS.Views
 
         async void BtnDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_CPPage());
+            if (MySettings.Index_Page == 1 || MySettings.Index_Page == 2)
+            {
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_CPPage());
+
+            }
+            else if (MySettings.Index_Page == 3)
+            {
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new CKDC_CPPage());
+            }
 
         }
 
