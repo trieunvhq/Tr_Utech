@@ -62,13 +62,13 @@ namespace QRMS.Views
 
         async void BtnDieuChuyenKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            MySettings.Index_Page = 2;
+            MySettings.Index_Page = 3;
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_HOMEPage());
         }
 
         async void BtnXuatKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            MySettings.Index_Page = 3;
+            MySettings.Index_Page = 2;
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_HOMEPage());
         }
 
