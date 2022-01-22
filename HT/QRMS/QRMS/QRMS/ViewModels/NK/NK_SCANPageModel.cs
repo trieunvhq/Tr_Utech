@@ -84,37 +84,40 @@ namespace QRMS.ViewModels
                     //Lấy trạng thái màu từ lịch sử dblocal:
                     List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
 
-                    foreach (NhapKhoDungCuModel item in NhapKhos)
+                    for (int i = 0; i < NhapKhos.Count; i++)
                     {
                         foreach (NhapKhoDungCuModel dh in donhang_)
                         {
-                            if (item.ItemCode == dh.ItemCode && item.Serial == dh.Serial)
+                            if (NhapKhos[i].ItemCode == dh.ItemCode && NhapKhos[i].Serial == dh.Serial)
                             {
-                                item.Color = dh.Color;
+                                NhapKhos[i].Color = dh.Color;
+                                App.Dblocal.UpdatePurchaseOrderAsync(NhapKhos[i]);
                             }
                         }
                     }
-                    
+
                     //Lấy dữ liệu số lượng đã scan được từ dblocal:
-                    foreach (NhapKhoDungCuModel item in NhapKhos)
+                    for (int i = 0; i < NhapKhos.Count; i++)
                     {
                         foreach (TransactionHistoryModel hs in Historys)
                         {
-                            if(item.ItemCode == hs.ItemCode &&
-                                                (item.Serial == null
-                                                || item.Serial == ""
-                                                || item.Serial == "None"
-                                                || (item.Serial == hs.EXT_Serial)))
+                            if(NhapKhos[i].ItemCode == hs.ItemCode &&
+                                                (NhapKhos[i].Serial == null
+                                                || NhapKhos[i].Serial == ""
+                                                || NhapKhos[i].Serial == "None"
+                                                || (NhapKhos[i].Serial == hs.EXT_Serial)))
                             {
-                                item.sQuantity = item.Quantity.ToString("N0");
-                                item.SoLuongDaNhap += hs.Quantity;
-                                item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
-                                item.SoLuongBox += 1;
+                                NhapKhos[i].sQuantity = NhapKhos[i].Quantity.ToString("N0");
+                                NhapKhos[i].SoLuongDaNhap += hs.Quantity;
+                                NhapKhos[i].sSoLuongDaNhap = NhapKhos[i].SoLuongDaNhap.ToString("N0");
+                                NhapKhos[i].SoLuongBox += 1;
 
-                                if (item.SoLuongDaNhap >= item.Quantity)
-                                    item.ColorSLDaNhap = "#ff0000";
+                                if (NhapKhos[i].SoLuongDaNhap >= NhapKhos[i].Quantity)
+                                    NhapKhos[i].ColorSLDaNhap = "#ff0000";
                                 else
-                                    item.ColorSLDaNhap = "#000000";
+                                    NhapKhos[i].ColorSLDaNhap = "#000000";
+
+                                App.Dblocal.UpdatePurchaseOrderAsync(NhapKhos[i]);
                             }
                         }    
                     }
@@ -349,26 +352,28 @@ namespace QRMS.ViewModels
                             }
 
                             //Cộng số lượng đã get được từ server:
-                            foreach (NhapKhoDungCuModel item in NhapKhos)
+                            for (int i = 0; i < NhapKhos.Count; i++)
                             {
                                 foreach (TransactionHistoryModel hs in Historys)
                                 {
-                                    if (item.ItemCode == hs.ItemCode && (item.Serial == null
-                                                || item.Serial == ""
-                                                || item.Serial == "None"
-                                                || (item.Serial == hs.EXT_Serial)))
+                                    if (NhapKhos[i].ItemCode == hs.ItemCode && (NhapKhos[i].Serial == null
+                                                || NhapKhos[i].Serial == ""
+                                                || NhapKhos[i].Serial == "None"
+                                                || (NhapKhos[i].Serial == hs.EXT_Serial)))
                                     {
-                                        item.sQuantity = item.Quantity.ToString("N0");
-                                        item.SoLuongDaNhap += hs.Quantity;
-                                        item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
-                                        item.SoLuongBox += 1;
+                                        NhapKhos[i].sQuantity = NhapKhos[i].Quantity.ToString("N0");
+                                        NhapKhos[i].SoLuongDaNhap += hs.Quantity;
+                                        NhapKhos[i].sSoLuongDaNhap = NhapKhos[i].SoLuongDaNhap.ToString("N0");
+                                        NhapKhos[i].SoLuongBox += 1;
 
-                                        if (item.SoLuongDaNhap >= item.Quantity)
-                                            item.ColorSLDaNhap = "#ff0000";
+                                        if (NhapKhos[i].SoLuongDaNhap >= NhapKhos[i].Quantity)
+                                            NhapKhos[i].ColorSLDaNhap = "#ff0000";
                                         else
-                                            item.ColorSLDaNhap = "#000000";
+                                            NhapKhos[i].ColorSLDaNhap = "#000000";
 
-                                        item.Color = "#000000";
+                                        NhapKhos[i].Color = "#000000";
+
+                                        App.Dblocal.UpdatePurchaseOrderAsync(NhapKhos[i]);
                                     }
                                 }
                             }
@@ -609,11 +614,15 @@ namespace QRMS.ViewModels
                                 App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                                 //MySettings.InsertLogs(0, DateTime.Now, "2inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
 
+                                //await Controls.LoadingUtility.HideAsync();
+                                //await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+
+
+                                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HomePage());
                                 await Controls.LoadingUtility.HideAsync();
 
-                                //
-                                _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công. JSON: ", "Đồng ý", "");
-                                LoadModels("");
+
+                                //LoadModels("");
                             }
                             else
                             {
