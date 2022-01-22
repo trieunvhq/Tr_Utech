@@ -231,7 +231,7 @@ namespace QRMS.Views
                     List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(No, WarehouseCode);
                    
                     List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_NKDC(No, WarehouseCode);
-                    if (donhang_ != null && donhang_.Count > 0)
+                    if (historys != null && historys.Count > 0)
                         return true;
                     else
                         return false;
@@ -240,9 +240,8 @@ namespace QRMS.Views
                 {
                     List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(No, WarehouseCode);
                     
-
                     List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(No, WarehouseCode);
-                    if (donhang_ != null && donhang_.Count > 0)
+                    if (historys != null && historys.Count > 0)
                         return true;
                     else
                         return false;
@@ -250,7 +249,10 @@ namespace QRMS.Views
                 else if (MySettings.Index_Page == 3)
                 {
                     List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(No, WarehouseCode, WarehouseCode_To);
-                    if (donhang_ != null && donhang_.Count > 0)
+
+                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(No, WarehouseCode, WarehouseCode_To);
+
+                    if (historys != null && historys.Count > 0)
                         return true;
                     else
                         return false;
