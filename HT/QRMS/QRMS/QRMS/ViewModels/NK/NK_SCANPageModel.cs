@@ -100,7 +100,11 @@ namespace QRMS.ViewModels
                     {
                         foreach (TransactionHistoryModel hs in Historys)
                         {
-                            if(item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                            if(item.ItemCode == hs.ItemCode &&
+                                                (item.Serial == null
+                                                || item.Serial == ""
+                                                || item.Serial == "None"
+                                                || (item.Serial == hs.EXT_Serial)))
                             {
                                 item.sQuantity = item.Quantity.ToString("N0");
                                 item.SoLuongDaNhap += hs.Quantity;
@@ -165,7 +169,10 @@ namespace QRMS.ViewModels
                     {
                         foreach (TransactionHistoryModel hs in Historys)
                         {
-                            if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                            if (item.ItemCode == hs.ItemCode && (item.Serial == null
+                                                || item.Serial == ""
+                                                || item.Serial == "None"
+                                                || (item.Serial == hs.EXT_Serial)))
                             {
                                 item.sQuantity = item.Quantity.ToString("N0");
                                 item.SoLuongDaNhap += hs.Quantity;
@@ -230,7 +237,10 @@ namespace QRMS.ViewModels
                     {
                         foreach (TransactionHistoryModel hs in Historys)
                         {
-                            if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                            if (item.ItemCode == hs.ItemCode && (item.Serial == null
+                                                || item.Serial == ""
+                                                || item.Serial == "None"
+                                                || (item.Serial == hs.EXT_Serial)))
                             {
                                 item.sQuantity = item.Quantity.ToString("N0");
                                 item.SoLuongDaChuyen += hs.Quantity;
@@ -343,7 +353,10 @@ namespace QRMS.ViewModels
                             {
                                 foreach (TransactionHistoryModel hs in Historys)
                                 {
-                                    if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                                    if (item.ItemCode == hs.ItemCode && (item.Serial == null
+                                                || item.Serial == ""
+                                                || item.Serial == "None"
+                                                || (item.Serial == hs.EXT_Serial)))
                                     {
                                         item.sQuantity = item.Quantity.ToString("N0");
                                         item.SoLuongDaNhap += hs.Quantity;
@@ -439,7 +452,10 @@ namespace QRMS.ViewModels
                             {
                                 foreach (TransactionHistoryModel hs in Historys)
                                 {
-                                    if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                                    if (item.ItemCode == hs.ItemCode && (item.Serial == null
+                                                || item.Serial == ""
+                                                || item.Serial == "None"
+                                                || (item.Serial == hs.EXT_Serial)))
                                     {
                                         item.sQuantity = item.Quantity.ToString("N0");
                                         item.SoLuongDaNhap += hs.Quantity;
@@ -537,7 +553,10 @@ namespace QRMS.ViewModels
                             {
                                 foreach (TransactionHistoryModel hs in Historys)
                                 {
-                                    if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                                    if (item.ItemCode == hs.ItemCode && (item.Serial == null
+                                                || item.Serial == ""
+                                                || item.Serial == "None"
+                                                || (item.Serial == hs.EXT_Serial)))
                                     {
                                         item.sQuantity = item.Quantity.ToString("N0");
                                         item.SoLuongDaChuyen += hs.Quantity;
