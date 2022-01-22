@@ -73,53 +73,70 @@ namespace QRMS.ViewModels
 
                 if (MySettings.Index_Page == 1)
                 {
-                    List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                    foreach (NhapKhoDungCuModel item in donhang_)
-                    {
-                        if (!NhapKhos.Contains(item))
-                        {
-                            //if (item.SoLuongDaNhap >= item.Quantity)
-                            //    item.ColorSLDaNhap = "#ff0000";
-                            //else
-                            //    item.ColorSLDaNhap = "#000000";
-                            ////
-                            //item.Color = "#000000";
-                            ////
-                            item.sQuantity = item.Quantity.ToString("N0");
-                            item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
-                            NhapKhos.Add(item);
-                        }
-                    }
-
                     List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                     foreach (TransactionHistoryModel item in historys)
                     {
                         if (!Historys.Contains(item))
                         {
                             item.token = MySettings.Token;
+                            item.page = 0;
                             Historys.Add(item);
                         }
+                    }
+
+                    //Lấy trạng thái màu từ lịch sử dblocal:
+                    List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+
+                    foreach (NhapKhoDungCuModel item in NhapKhos)
+                    {
+                        foreach (NhapKhoDungCuModel dh in donhang_)
+                        {
+                            if (item.ItemCode == dh.ItemCode && item.Serial == dh.Serial)
+                            {
+                                item.Color = dh.Color;
+                            }
+                        }
+                    }
+                    
+                    //Lấy dữ liệu số lượng đã scan được từ dblocal:
+                    foreach (NhapKhoDungCuModel item in NhapKhos)
+                    {
+                        foreach (TransactionHistoryModel hs in Historys)
+                        {
+                            if(item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                            {
+                                item.sQuantity = item.Quantity.ToString("N0");
+                                item.SoLuongDaNhap += hs.Quantity;
+                                item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
+                                item.SoLuongBox += 1;
+
+                                if (item.SoLuongDaNhap >= item.Quantity)
+                                    item.ColorSLDaNhap = "#ff0000";
+                                else
+                                    item.ColorSLDaNhap = "#000000";
+                            }
+                        }    
                     }
                 }
                 else if (MySettings.Index_Page == 2)
                 {
-                    List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                    foreach (SaleOrderItemScanBPL item in donhang_)
-                    {
-                        if (!XuatKhos.Contains(item))
-                        {
-                            //if (item.SoLuongDaNhap >= item.Quantity)
-                            //    item.ColorSLDaNhap = "#ff0000";
-                            //else
-                            //    item.ColorSLDaNhap = "#000000";
-                            ////
-                            //item.Color = "#000000";
-                            ////
-                            item.sQuantity = item.Quantity.ToString("N0");
-                            item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
-                            XuatKhos.Add(item);
-                        }
-                    }
+                    //List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                    //foreach (SaleOrderItemScanBPL item in donhang_)
+                    //{
+                    //    if (!XuatKhos.Contains(item))
+                    //    {
+                    //        //if (item.SoLuongDaNhap >= item.Quantity)
+                    //        //    item.ColorSLDaNhap = "#ff0000";
+                    //        //else
+                    //        //    item.ColorSLDaNhap = "#000000";
+                    //        ////
+                    //        //item.Color = "#000000";
+                    //        ////
+                    //        item.sQuantity = item.Quantity.ToString("N0");
+                    //        item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
+                    //        XuatKhos.Add(item);
+                    //    }
+                    //}
 
                     List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                     foreach (TransactionHistoryModel item in historys)
@@ -127,29 +144,64 @@ namespace QRMS.ViewModels
                         if (!Historys.Contains(item))
                         {
                             item.token = MySettings.Token;
+                            item.page = 0;
                             Historys.Add(item);
+                        }
+                    }
+
+                    //Lấy trạng thái màu từ lịch sử dblocal:
+                    List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+
+                    foreach (SaleOrderItemScanBPL item in XuatKhos)
+                    {
+                        foreach (SaleOrderItemScanBPL dh in donhang_)
+                        {
+                            if (item.ItemCode == dh.ItemCode && item.Serial == dh.Serial)
+                            {
+                                item.Color = dh.Color;
+                            }
+                        }
+                    }
+
+                    //Lấy dữ liệu số lượng đã scan được từ dblocal:
+                    foreach (SaleOrderItemScanBPL item in XuatKhos)
+                    {
+                        foreach (TransactionHistoryModel hs in Historys)
+                        {
+                            if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                            {
+                                item.sQuantity = item.Quantity.ToString("N0");
+                                item.SoLuongDaNhap += hs.Quantity;
+                                item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
+                                item.SoLuongBox += 1;
+
+                                if (item.SoLuongDaNhap >= item.Quantity)
+                                    item.ColorSLDaNhap = "#ff0000";
+                                else
+                                    item.ColorSLDaNhap = "#000000";
+                            }
                         }
                     }
                 }
                 else if (MySettings.Index_Page == 3)
                 {
-                    List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
-                    foreach (ChuyenKhoDungCuModelBPL item in donhang_)
-                    {
-                        if (!ChuyenKhos.Contains(item))
-                        {
-                            //if (item.SoLuongDaNhap >= item.Quantity)
-                            //    item.ColorSLDaNhap = "#ff0000";
-                            //else
-                            //    item.ColorSLDaNhap = "#000000";
-                            ////
-                            //item.Color = "#000000";
-                            ////
-                            item.sQuantity = item.Quantity.ToString("N0");
-                            item.sSoLuongDaChuyen = item.SoLuongDaChuyen.ToString("N0");
-                            ChuyenKhos.Add(item);
-                        }
-                    }
+                    //List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+                    //foreach (ChuyenKhoDungCuModelBPL item in donhang_)
+                    //{
+                    //    if (!ChuyenKhos.Contains(item))
+                    //    {
+                    //        //if (item.SoLuongDaNhap >= item.Quantity)
+                    //        //    item.ColorSLDaNhap = "#ff0000";
+                    //        //else
+                    //        //    item.ColorSLDaNhap = "#000000";
+                    //        ////
+                    //        //item.Color = "#000000";
+                    //        ////
+                    //        item.sQuantity = item.Quantity.ToString("N0");
+                    //        item.sSoLuongDaChuyen = item.SoLuongDaChuyen.ToString("N0");
+                    //        ChuyenKhos.Add(item);
+                    //    }
+                    //}
 
                     List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
                     foreach (TransactionHistoryModel item in historys)
@@ -157,7 +209,42 @@ namespace QRMS.ViewModels
                         if (!Historys.Contains(item))
                         {
                             item.token = MySettings.Token;
+                            item.page = 0;
                             Historys.Add(item);
+                        }
+                    }
+
+                    //Lấy trạng thái màu từ lịch sử dblocal:
+                    List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+
+                    foreach (ChuyenKhoDungCuModelBPL item in ChuyenKhos)
+                    {
+                        foreach (ChuyenKhoDungCuModelBPL dh in donhang_)
+                        {
+                            if (item.ItemCode == dh.ItemCode && item.Serial == dh.Serial)
+                            {
+                                item.Color = dh.Color;
+                            }
+                        }
+                    }
+
+                    //Lấy dữ liệu số lượng đã scan được từ dblocal:
+                    foreach (ChuyenKhoDungCuModelBPL item in ChuyenKhos)
+                    {
+                        foreach (TransactionHistoryModel hs in Historys)
+                        {
+                            if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                            {
+                                item.sQuantity = item.Quantity.ToString("N0");
+                                item.SoLuongDaChuyen += hs.Quantity;
+                                item.sSoLuongDaChuyen = item.SoLuongDaChuyen.ToString("N0");
+                                item.SoLuongBox += 1;
+
+                                if (item.SoLuongDaChuyen >= item.Quantity)
+                                    item.ColorSLDaNhap = "#ff0000";
+                                else
+                                    item.ColorSLDaNhap = "#000000";
+                            }
                         }
                     }
                 }
@@ -178,7 +265,10 @@ namespace QRMS.ViewModels
         {
             try
             {
-                LoadDbLocal();
+                NhapKhos.Clear();
+                ChuyenKhos.Clear();
+                XuatKhos.Clear();
+                Historys.Clear();
 
 
                 if (MySettings.Index_Page == 1)
@@ -220,9 +310,11 @@ namespace QRMS.ViewModels
                                 App.Dblocal.SavePurchaseOrderAsync(result2.Result.data[i]);
                             }
                         }
-
-
                     }
+
+                    //
+                    LoadDbLocal();
+
                     //
                     if (Historys.Count == 0)
                     {
@@ -246,6 +338,28 @@ namespace QRMS.ViewModels
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
+                                }
+                            }
+
+                            //Cộng số lượng đã get được từ server:
+                            foreach (NhapKhoDungCuModel item in NhapKhos)
+                            {
+                                foreach (TransactionHistoryModel hs in Historys)
+                                {
+                                    if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                                    {
+                                        item.sQuantity = item.Quantity.ToString("N0");
+                                        item.SoLuongDaNhap += hs.Quantity;
+                                        item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
+                                        item.SoLuongBox += 1;
+
+                                        if (item.SoLuongDaNhap >= item.Quantity)
+                                            item.ColorSLDaNhap = "#ff0000";
+                                        else
+                                            item.ColorSLDaNhap = "#000000";
+
+                                        item.Color = "#000000";
+                                    }
                                 }
                             }
                         }
@@ -292,9 +406,11 @@ namespace QRMS.ViewModels
                                 App.Dblocal.SaveSaleOrderItemScanAsync(result2.Result.data[i]);
                             }
                         }
-
-
                     }
+
+                    //
+                    LoadDbLocal();
+
                     //
                     if (Historys.Count == 0)
                     {
@@ -318,6 +434,28 @@ namespace QRMS.ViewModels
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
+                                }
+                            }
+
+                            //Cộng số lượng đã get được từ server:
+                            foreach (SaleOrderItemScanBPL item in XuatKhos)
+                            {
+                                foreach (TransactionHistoryModel hs in Historys)
+                                {
+                                    if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                                    {
+                                        item.sQuantity = item.Quantity.ToString("N0");
+                                        item.SoLuongDaNhap += hs.Quantity;
+                                        item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
+                                        item.SoLuongBox += 1;
+
+                                        if (item.SoLuongDaNhap >= item.Quantity)
+                                            item.ColorSLDaNhap = "#ff0000";
+                                        else
+                                            item.ColorSLDaNhap = "#000000";
+
+                                        item.Color = "#000000";
+                                    }
                                 }
                             }
                         }
@@ -365,9 +503,12 @@ namespace QRMS.ViewModels
                                 App.Dblocal.SaveTransferInstructionAsync(result2.Result.data[i]);
                             }
                         }
-
-
                     }
+
+
+                    //
+                    LoadDbLocal();
+
                     //
                     if (Historys.Count == 0)
                     {
@@ -391,6 +532,28 @@ namespace QRMS.ViewModels
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
+                                }
+                            }
+
+                            //Cộng số lượng đã get được từ server:
+                            foreach (ChuyenKhoDungCuModelBPL item in ChuyenKhos)
+                            {
+                                foreach (TransactionHistoryModel hs in Historys)
+                                {
+                                    if (item.ItemCode == hs.ItemCode && item.Serial == hs.EXT_Serial)
+                                    {
+                                        item.sQuantity = item.Quantity.ToString("N0");
+                                        item.SoLuongDaChuyen += hs.Quantity;
+                                        item.sSoLuongDaChuyen = item.SoLuongDaChuyen.ToString("N0");
+                                        item.SoLuongBox += 1;
+
+                                        if (item.SoLuongDaChuyen >= item.Quantity)
+                                            item.ColorSLDaNhap = "#ff0000";
+                                        else
+                                            item.ColorSLDaNhap = "#000000";
+
+                                        item.Color = "#000000";
+                                    }
                                 }
                             }
                         }

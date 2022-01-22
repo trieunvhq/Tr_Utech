@@ -55,7 +55,7 @@
             </Label>
             
             <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="4"
-                   Text="" Unfocused="txtTest_Unfocused" IsVisible="False"/>
+                   Text="" Unfocused="txtTest_Unfocused"/>
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/>
