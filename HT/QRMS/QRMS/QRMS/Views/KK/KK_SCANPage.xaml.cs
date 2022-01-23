@@ -145,6 +145,12 @@ namespace QRMS.Views
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
             }
+
+            if (MySettings.To_Page == "homepage")
+            {
+                MySettings.To_Page = "";
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+            }
         }
 
 
@@ -163,6 +169,10 @@ namespace QRMS.Views
             }
         }
 
+        void txtTest_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
+        {
+            ViewModel.ScanComplate(txtTest.Text);
+        }
 
     }
 }

@@ -195,7 +195,6 @@ namespace QRMS.ViewModels
             string temp_ = "";
             try
             {
-                str = MySettings.DecodeFromUtf8(str);
                 IsThongBao = false; temp_ = "1";
                 ThongBao = ""; temp_ = "2";
 
@@ -223,7 +222,9 @@ namespace QRMS.ViewModels
 
                         return;
                     }
+
                     temp_ = "14";
+
                     for (int i = 0; i < Historys.Count; ++i)
                     {
                         if (Historys[i].EXT_Serial == qr.Serial &&
@@ -234,6 +235,7 @@ namespace QRMS.ViewModels
                             break;
                         }
                     }
+
                     temp_ = "5";
                     if (IsTonTai_)
                     {
@@ -244,6 +246,9 @@ namespace QRMS.ViewModels
                     else
                     {
                         decimal soluong_ = 0;
+                        bool isTonTaiItemCode = false;
+
+                        soluong_ = Convert.ToDecimal(qr.Quantity);
 
                         for (int i = 0; i < TongQuats.Count; ++i)
                         {
@@ -253,11 +258,10 @@ namespace QRMS.ViewModels
                                     || TongQuats[i].EXT_Serial == "None"
                                     || (TongQuats[i].EXT_Serial == qr.Serial)))
                             {
+                                isTonTaiItemCode = true;
                                 temp_ = "7";
 
                                 KKDCModel model_ = TongQuats[i];
-
-                                soluong_ = Convert.ToDecimal(qr.Quantity);
 
                                 model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
                                 model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
@@ -274,29 +278,36 @@ namespace QRMS.ViewModels
                             }
                             else if (i == TongQuats.Count - 1)
                             {
-                                TongQuats.Insert(0, new KKDCModel {
-                                    TransactionType = "K",
-                                    OrderNo = _LenhKiemKe,
-                                    WarehouseCode_From = _KK_SCANPage.WarehouseCode,
-                                    ItemCode = qr.Code,
-                                    ItemName = qr.Name,
-                                    ItemType = qr.DC,
-                                    SoLuongQuet = soluong_,
-                                    sSoLuongQuet = soluong_.ToString("N0"),
-                                    SoNhan = 1,
-                                    sSoNhan = "1",
-                                    Unit = qr.Unit,
-                                    EXT_Serial = qr.Serial,
-                                    EXT_PartNo = qr.PartNo,
-                                    EXT_LotNo = qr.LotNo,
-                                    Color = "#0008ff",
-                                    ColorSLDaNhap = "#0008ff"
-                            });
+                                
                             }
                         }
 
+                        if (!isTonTaiItemCode)
+                        {
+                            TongQuats.Insert(0, new KKDCModel
+                            {
+                                TransactionType = "K",
+                                OrderNo = _LenhKiemKe,
+                                WarehouseCode_From = _KK_SCANPage.WarehouseCode,
+                                ItemCode = qr.Code,
+                                ItemName = qr.Name,
+                                ItemType = qr.DC,
+                                SoLuongQuet = soluong_,
+                                sSoLuongQuet = soluong_.ToString("N0"),
+                                SoNhan = 1,
+                                sSoNhan = "1",
+                                Unit = qr.Unit,
+                                EXT_Serial = qr.Serial,
+                                EXT_PartNo = qr.PartNo,
+                                EXT_LotNo = qr.LotNo,
+                                Color = "#0008ff",
+                                ColorSLDaNhap = "#0008ff"
+                            });
+                        }    
 
-                        TransactionHistoryModel history = new TransactionHistoryModel
+
+
+                            TransactionHistoryModel history = new TransactionHistoryModel
                         {
                             ID = 0,
                             TransactionType = "K",
@@ -314,7 +325,7 @@ namespace QRMS.ViewModels
                             EXT_MfDate = qr.MfDate,
                             EXT_RecDate = qr.RecDate,
                             EXT_ExpDate = qr.ExpDate,
-                            EXT_QRCode = str,
+                            EXT_QRCode = MySettings.DecodeFromUtf8(str),
                             CustomerCode = qr.CustomerCode,
                             ExportStatus = "N",
                             RecordStatus = "N",

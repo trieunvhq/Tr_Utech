@@ -709,7 +709,6 @@ namespace QRMS.ViewModels
             string temp_ = "";
             try
             {
-                str = MySettings.DecodeFromUtf8(str);
                 IsThongBao = false; temp_ = "1";
                 ThongBao = ""; temp_ = "2";
 
@@ -1000,7 +999,7 @@ namespace QRMS.ViewModels
                     EXT_MfDate = qr.MfDate,
                     EXT_RecDate = qr.RecDate,
                     EXT_ExpDate = qr.ExpDate,
-                    EXT_QRCode = str,
+                    EXT_QRCode = MySettings.DecodeFromUtf8(str),
                     CustomerCode = qr.CustomerCode,
                     ExportStatus = ExportStatus_,
                     RecordStatus = RecordStatus_,
