@@ -102,7 +102,7 @@ namespace QRMS.ViewModels
                             str_ = "5";
                             IsThongBao = true;
                             str_ = "6";
-                            ThongBao += "\nThành công";
+                            ThongBao = "Thành công";
                             str_ = "7";
                             //CloseBarcodeReader();
                             //OpenBarcodeReader();
@@ -114,7 +114,7 @@ namespace QRMS.ViewModels
                         {
                             Color = Color.Red;
                             IsThongBao = true;
-                            ThongBao += "\nMã phiếu không tồn tại!";
+                            ThongBao = "Mã phiếu không tồn tại!";
                         });
                         //CloseBarcodeReader();
                         //OpenBarcodeReader();
@@ -147,7 +147,7 @@ namespace QRMS.ViewModels
                             str_ = "5";
                             IsThongBao = true;
                             str_ = "6";
-                            ThongBao += "\nThành công";
+                            ThongBao = "Thành công";
                             str_ = "7";
                             //CloseBarcodeReader();
                             //OpenBarcodeReader();
@@ -159,7 +159,7 @@ namespace QRMS.ViewModels
                         {
                             Color = Color.Red;
                             IsThongBao = true;
-                            ThongBao += "\nMã phiếu không tồn tại!";
+                            ThongBao = "Mã phiếu không tồn tại!";
                         });
                         //CloseBarcodeReader();
                         //OpenBarcodeReader();
@@ -196,7 +196,7 @@ namespace QRMS.ViewModels
                             str_ = "5";
                             IsThongBao = true;
                             str_ = "6";
-                            ThongBao += "\nThành công";
+                            ThongBao = "Thành công";
                             str_ = "7";
                             //CloseBarcodeReader();
                             //OpenBarcodeReader();
@@ -208,7 +208,7 @@ namespace QRMS.ViewModels
                         {
                             Color = Color.Red;
                             IsThongBao = true;
-                            ThongBao += "\nMã phiếu không tồn tại!";
+                            ThongBao = "Mã phiếu không tồn tại!";
                         });
                         //CloseBarcodeReader();
                         //OpenBarcodeReader();
@@ -223,7 +223,7 @@ namespace QRMS.ViewModels
                     //OpenBarcodeReader();
                     Color = Color.Red;
                     IsThongBao = true;
-                    ThongBao += str_ + ".Mã phiếu không tồn tại. ex: " + ex.Message;
+                    ThongBao = "Mã phiếu không tồn tại!";
 
                     MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "NK_CPPageModel", MySettings.UserName);
                 });
@@ -284,7 +284,7 @@ namespace QRMS.ViewModels
                     {
                         Color = Color.Blue;
                         IsThongBao = true;
-                        ThongBao = "Data: " + e.Data;
+                        ThongBao = "Mã phiếu không tồn tại!";
                         ScanComplate(e.Data);
                     }
                         , null);

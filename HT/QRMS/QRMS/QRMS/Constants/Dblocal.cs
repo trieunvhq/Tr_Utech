@@ -37,15 +37,18 @@ namespace QRMS
 
         public int SaveHistoryAsync(TransactionHistoryModel history)
         {
-            //if (history.ID != 0)
-            //{
-            //    return _database.UpdateAsync(history);
-            //}
-            //else
-            //{
-            //    return _database.InsertAsync(history);
-            //}
-            return _database.Insert(history);
+            string Sql = $"Select * From TransactionHistoryModel Where OrderNo = '{history.OrderNo}' ";
+            Sql += $"and ID = {history.ID} and TransactionType = '{history.TransactionType}' ";
+            Sql += $"and ItemCode = '{history.ItemCode}' ";
+            Sql += $"and ItemType = '{history.ItemType}' and Unit = '{history.Unit}' ";
+            Sql += $"and EXT_QRCode = '{history.EXT_QRCode}' and RecordStatus = '{history.RecordStatus}' ";
+
+            var res = _database.Query<TransactionHistoryModel>(Sql);
+
+            if (res.Count == 0)
+                return _database.Insert(history);
+            else
+                return -1;
         }
 
         public int DeleteHistoryAsync(TransactionHistoryModel history)
@@ -290,6 +293,24 @@ namespace QRMS
 
             return _database.Query<TransactionHistoryModel>(Sql);
         }
+
+        public List<TransactionHistoryModel> GetAllHistoryNoKey_KKDC()
+        {
+            string Sql = $"Select * From TransactionHistoryModel ";
+            Sql += $"Where ItemType = 'DC' and TransactionType = 'K' ";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
+        }
+
+
+        public void DeleteHistoryNoKey_KKDC()
+        {
+            string Sql = $"Delete From TransactionHistoryModel ";
+            Sql += $"Where ItemType = 'DC' and TransactionType = 'K' ";
+
+            _ = _database.Execute(Sql);
+        }
+
 
         public List<KKDCModel> GetTransactionHistory_KKDC_ShowTable(string OrderNo, string WarehouseCode_From)
         {

@@ -44,6 +44,7 @@ namespace QRMS.ViewModels
         public Color Color { get; set; } = Color.Red;
 
         public string No { get; set; }
+        public int _indexHistory = 0;
 
 
         public NK_SCANPageModel(NK_SCANPage fd)
@@ -592,6 +593,116 @@ namespace QRMS.ViewModels
         }
 
 
+        public async void SaveDBLocal()
+        {
+            try
+            {
+                if (MySettings.Index_Page == 1 && Historys.Count > 0)
+                {
+                    await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+                    {
+                        var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                    (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                    Historys);
+                        if (result != null && result.Result != null)
+                        {
+                            //MySettings.InsertLogs(0, DateTime.Now, "1inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
+                            if (result.Result.data == 1)
+                            {
+                                Historys.Clear();
+                                NhapKhos.Clear();
+                                App.Dblocal.DeleteAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                                //MySettings.InsertLogs(0, DateTime.Now, "2inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
+
+                                MySettings.To_Page = "homepage";
+                                await Controls.LoadingUtility.HideAsync();
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+
+                                //LoadModels("");
+                            }
+                            else
+                            {
+                                await Controls.LoadingUtility.HideAsync();
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                            }
+                        }
+                    });
+                }
+                else if (MySettings.Index_Page == 2 && Historys.Count > 0)
+                {
+                    await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+                    {
+                        var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                    (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                    Historys);
+                        if (result != null && result.Result != null)
+                        {
+                            if (result.Result.data == 1)
+                            {
+                                Historys.Clear();
+                                XuatKhos.Clear();
+
+                                App.Dblocal.DeleteAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+
+                                MySettings.To_Page = "homepage";
+
+                                await Controls.LoadingUtility.HideAsync();
+
+                                //
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                //LoadModels("");
+                            }
+                            else
+                            {
+                                await Controls.LoadingUtility.HideAsync();
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                            }
+                        }
+                    });
+                }
+                else if (MySettings.Index_Page == 3 && Historys.Count > 0)
+                {
+                    await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+                    {
+                        var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                    (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                    Historys);
+                        if (result != null && result.Result != null)
+                        {
+                            if (result.Result.data == 1)
+                            {
+                                Historys.Clear();
+                                ChuyenKhos.Clear();
+
+                                App.Dblocal.DeleteHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+                                App.Dblocal.DeleteTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+
+                                MySettings.To_Page = "homepage";
+
+                                await Controls.LoadingUtility.HideAsync();
+
+                                //
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                //LoadModels("");
+                            }
+                            else
+                            {
+                                await Controls.LoadingUtility.HideAsync();
+                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                            }
+                        }
+                    });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await Controls.LoadingUtility.HideAsync();
+            }
+        }
+
         public async void LuuLais()
         {
             try
@@ -712,18 +823,6 @@ namespace QRMS.ViewModels
                 IsThongBao = false; temp_ = "1";
                 ThongBao = ""; temp_ = "2";
 
-                if (!_daQuetQR.Contains(str))
-                    _daQuetQR.Add(str);
-                else
-                {
-                    IsThongBao = true; 
-                    Color = Color.Red;
-                    ThongBao = "Nhãn đã được quét";
-                    //CloseBarcodeReader();
-                    //OpenBarcodeReader();
-                    return;
-                }
-
                 if (Historys != null)
                 { 
                     bool IsTonTai_ = false;
@@ -738,6 +837,19 @@ namespace QRMS.ViewModels
                          
                         return;
                     }
+
+                    if (!_daQuetQR.Contains(str))
+                        _daQuetQR.Add(str);
+                    else
+                    {
+                        IsThongBao = true;
+                        Color = Color.Red;
+                        ThongBao = "Nhãn đã được quét";
+                        //CloseBarcodeReader();
+                        //OpenBarcodeReader();
+                        return;
+                    }
+
                     temp_ = "14";
                     for (int i = 0; i < Historys.Count; ++i)
                     {
@@ -754,7 +866,14 @@ namespace QRMS.ViewModels
                     {
                         Color = Color.Red;
                         IsThongBao = true;
-                        ThongBao = "Nhãn đã được nhập"; temp_ = "6";
+                        temp_ = "6";
+
+                        if (MySettings.Index_Page == 1)
+                            ThongBao = "Nhãn đã được nhập"; 
+                        else if (MySettings.Index_Page == 2)
+                            ThongBao = "Nhãn đã được chuyển";
+                        else
+                            ThongBao = "Nhãn đã được xuất";
                     }
                     else
                     {
@@ -1005,6 +1124,8 @@ namespace QRMS.ViewModels
                     RecordStatus = RecordStatus_,
                     WarehouseCode_From = _NK_SCANPage.WarehouseCode,
                     WarehouseName_From = _NK_SCANPage.WarehouseName,
+                    WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
+                    WarehouseName_To = _NK_SCANPage.WarehouseName_To,
                     CreateDate = DateTime.Now,
                     UserCreate = MySettings.UserName,
                     page = 0,

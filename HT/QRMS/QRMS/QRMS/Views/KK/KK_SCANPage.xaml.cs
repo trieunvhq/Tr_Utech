@@ -84,8 +84,13 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
- 
+                    if (!ViewModel._isDaLuu)
+                        await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn quay lại không?", "Có", "Huỷ bỏ");
+                    else
+                    {
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                        await Controls.LoadingUtility.HideAsync();
+                    }    
                 });
             });
 
@@ -99,7 +104,7 @@ namespace QRMS.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 {
 
-                    ViewModel.LuuLais();
+                    ViewModel.SaveDBlocal();
                     await Controls.LoadingUtility.HideAsync();
                 });
             });
@@ -140,7 +145,7 @@ namespace QRMS.Views
             await absPopup_DangXuat.FadeTo(0, 200);
             if (grid.Children.Contains(absPopup_DangXuat))
                 _ = grid.Children.Remove(absPopup_DangXuat);
-            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
+            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn quay lại không?")
             {
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
@@ -160,12 +165,8 @@ namespace QRMS.Views
             if (grid.Children.Contains(absPopup_DangXuat))
                 _ = grid.Children.Remove(absPopup_DangXuat);
 
-            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
+            if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn quay lại không?")
             {
-                App.Dblocal.DeleteHistory_KKDC(ViewModel._LenhKiemKe, WarehouseCode);
-
-                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                await Controls.LoadingUtility.HideAsync();
             }
         }
 
