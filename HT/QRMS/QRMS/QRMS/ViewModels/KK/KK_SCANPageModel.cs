@@ -23,6 +23,7 @@ namespace QRMS.ViewModels
         public KK_SCANPage _KK_SCANPage; 
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
         public ObservableCollection<KKDCModel> TongQuats { get; set; } = new ObservableCollection<KKDCModel>();
+        public List<string> Itemcode_Serials = new List<string>();
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR;
@@ -31,11 +32,13 @@ namespace QRMS.ViewModels
         public string ThongBao { get; set; } = ""; 
         public Color Color { get; set; } = Color.Red;
 
-        public string _WarehouesCode { get; set; } = "";
-        public string _LenhKiemKe { get; set; } = "";
+        public string _LenhKiemKe { get; set; } = ""; 
+        public string _WarehouesCode { get; set; } = ""; 
 
-        public KK_SCANPageModel()
+
+        public KK_SCANPageModel(KK_SCANPage fd)
         {
+            _KK_SCANPage = fd;
             LoadDbLocal();
         }
 
@@ -57,7 +60,7 @@ namespace QRMS.ViewModels
                 Historys = new ObservableCollection<TransactionHistoryModel>();
                 if(MySettings.LenhKiemKe!="")
                 {
-                    List<TransactionHistoryModel> donhang_ = App.Dblocal.GetAllHistory_KKDC(MySettings.LenhKiemKe, _WarehouesCode);
+                    List<TransactionHistoryModel> donhang_ = App.Dblocal.GetAllHistory_KKDC(MySettings.LenhKiemKe, _KK_SCANPage.WarehouseCode);
                     foreach (TransactionHistoryModel item in donhang_)
                     {
                         if (!Historys.Contains(item))
@@ -67,13 +70,13 @@ namespace QRMS.ViewModels
                     }
                     if (Historys.Count == 0)
                     {
-                        MySettings.LenhKiemKe = _WarehouesCode+ "KKDC"
+                        MySettings.LenhKiemKe = _KK_SCANPage.WarehouseCode + "DC"
                             + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd"); 
                     } 
                 }
                 else
                 {
-                    MySettings.LenhKiemKe = _WarehouesCode + "DC"
+                    MySettings.LenhKiemKe = _KK_SCANPage.WarehouseCode + "DC"
                         + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd"); 
                 }
                 _LenhKiemKe = MySettings.LenhKiemKe;
@@ -100,7 +103,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                App.Dblocal.DeleteHistory_KKDC(MySettings.LenhKiemKe, _WarehouesCode);
+                                App.Dblocal.DeleteHistory_KKDC(MySettings.LenhKiemKe, _KK_SCANPage.WarehouseCode);
                                 Historys.Clear();
 
                                 await Controls.LoadingUtility.HideAsync();

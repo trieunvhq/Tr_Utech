@@ -754,7 +754,7 @@ namespace QRMS.ViewModels
                     {
                         Color = Color.Red;
                         IsThongBao = true;
-                        ThongBao = "Nhãn đã được quét"; temp_ = "6";
+                        ThongBao = "Nhãn đã được nhập"; temp_ = "6";
                     }
                     else
                     {

@@ -16,16 +16,23 @@ namespace QRMS.Views
         //MyScan _MyScan; 
 
         public KK_SCANPageModel ViewModel { get; set; }
-        public KK_SCANPage(string kho_)
-        { 
+
+        public string WarehouseCode;
+        public string WarehouseName;
+
+        public KK_SCANPage(string WarehouseCode_, string WarehouseName_)
+        {
             InitializeComponent();
+
+            WarehouseCode = WarehouseCode_;
+            WarehouseName = WarehouseName_;
 
             grid.Children.Remove(absPopup_DangXuat);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new KK_SCANPageModel();
-            ViewModel._WarehouesCode = kho_;
+            ViewModel = new KK_SCANPageModel(this);
+            ViewModel._WarehouesCode = WarehouseCode_;
             ViewModel.Initialize();
             BindingContext = ViewModel;
             ViewModel._KK_SCANPage = this;
@@ -147,7 +154,7 @@ namespace QRMS.Views
 
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
-                App.Dblocal.DeleteHistory_KKDC(ViewModel._LenhKiemKe, ViewModel._WarehouesCode);
+                App.Dblocal.DeleteHistory_KKDC(ViewModel._LenhKiemKe, WarehouseCode);
 
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
