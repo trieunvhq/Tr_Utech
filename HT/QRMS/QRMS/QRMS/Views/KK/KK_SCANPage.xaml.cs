@@ -124,6 +124,8 @@ namespace QRMS.Views
             await absPopup_DangXuat.FadeTo(1, 200);
             grid.RaiseChild(absPopup_DangXuat);
         }
+
+
         private async void BtnDongY_popup_DangXuat_Clicked(object sender, EventArgs e)
         {
             await absPopup_DangXuat.FadeTo(0, 200);
@@ -135,6 +137,8 @@ namespace QRMS.Views
                 await Controls.LoadingUtility.HideAsync();
             }
         }
+
+
         private async void BtnHuyBo_popup_DangXuat_Clicked(object sender, EventArgs e)
         {
             await absPopup_DangXuat.FadeTo(0, 200);

@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:helper="clr-namespace:QRMS.Helper"
-    x:Class="QRMS.Views.KKPage">
+    x:Class="QRMS.Views.KKDC_CLPage">
     <ContentPage.Content>
         <Grid RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
@@ -33,12 +33,12 @@
                 Clicked="BtnKiemKeDungCu_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             
-            <helper:ButtonCustoms Text="2. KIỂM KÊ NGUYÊN LIỆU" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
-                Clicked="BtnKiemKeNguyenLieu_CLicked" GradientOrientation="Horizontal"
+            <helper:ButtonCustoms Text="2. LƯU DỮ LIỆU SERVER" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
+                Clicked="BtnLuuDataSever_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
-              <helper:ButtonCustoms Text="3. KIỂM KÊ THÀNH PHẨM" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" CornerRadius="0"
-                Clicked="BtnKiemKeThanhPham_CLicked" GradientOrientation="Horizontal"
+              <helper:ButtonCustoms Text="3. XOÁ DỮ LIỆU LƯU TRÊN MÁY" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" CornerRadius="0"
+                Clicked="BtnXoaDuLieuLocal_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
 
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="10" CornerRadius="0"

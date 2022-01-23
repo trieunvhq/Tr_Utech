@@ -41,7 +41,9 @@ namespace QRMS.ViewModels
 
         public override void OnAppearing()
         {
-            OpenBarcodeReader();
+            if (mSelectedReader == null)
+                OpenBarcodeReader();
+
             _daQuetQR = new List<string>();
             base.OnAppearing();
             LoadDbLocal();
@@ -71,7 +73,7 @@ namespace QRMS.ViewModels
                 }
                 else
                 {
-                    MySettings.LenhKiemKe = _WarehouesCode + "KKDC"
+                    MySettings.LenhKiemKe = _WarehouesCode + "DC"
                         + DateTime.Now.Date.ToString("yy") + DateTime.Now.Date.ToString("MM") + DateTime.Now.Date.ToString("dd"); 
                 }
                 _LenhKiemKe = MySettings.LenhKiemKe;
@@ -252,13 +254,25 @@ namespace QRMS.ViewModels
                 if (result.Code == BarcodeReader.Result.Codes.SUCCESS ||
                     result.Code == BarcodeReader.Result.Codes.READER_ALREADY_OPENED)
                 {
+                    Color = Color.Blue;
+                    IsThongBao = true;
+                    ThongBao = "1";
                     //SetScannerAndSymbologySettings();
                 }
                 else
                 {
+                    Color = Color.Red;
+                    IsThongBao = true;
+                    ThongBao = "2";
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");
                 }
+            }
+            else
+            {
+                Color = Color.Red;
+                IsThongBao = true;
+                ThongBao = "3";
             }
         }
 
@@ -275,14 +289,11 @@ namespace QRMS.ViewModels
         {
             try
             {
-                Device.BeginInvokeOnMainThread(() =>
+                mUIContext.Post(_ =>
                 {
-                    mUIContext.Post(_ =>
-                    {
-                        ScanComplate(e.Data);
-                    }
-                        , null);
-                });
+                    ScanComplate(e.Data);
+                }
+                         , null);
             }
             catch (Exception ex)
             {

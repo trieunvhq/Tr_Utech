@@ -33,7 +33,7 @@
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"/>
       
              <control:ComboboxView Margin="0,0,10,0"
-                x:Name="inputModel" Text="{Binding WarehouesName}"
+                x:Name="inputModel" Text="{Binding WarehouesCode}"
                  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4">
                 <control:ComboboxView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SoLoai_Tapped" />

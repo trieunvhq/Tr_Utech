@@ -6,9 +6,9 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
-    public partial class KKPage : ContentPage
+    public partial class KKDC_CLPage : ContentPage
     {
-        public KKPage()
+        public KKDC_CLPage()
         {
             InitializeComponent();
 
@@ -45,7 +45,6 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
-
         }
 
 
@@ -53,20 +52,19 @@ namespace QRMS.Views
         {
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
-
-
          
 
         async void BtnKiemKeDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KKDC_CLPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_ChonKhoPage());
         }
 
-        void BtnKiemKeNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
+
+        void BtnXoaDuLieuLocal_CLicked(System.Object sender, System.EventArgs e)
         {
         }
 
-        void BtnKiemKeThanhPham_CLicked(System.Object sender, System.EventArgs e)
+        void BtnLuuDataSever_CLicked(System.Object sender, System.EventArgs e)
         {
         }
     }
