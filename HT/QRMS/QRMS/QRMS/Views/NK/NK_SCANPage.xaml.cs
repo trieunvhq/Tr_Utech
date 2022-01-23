@@ -168,7 +168,7 @@ namespace QRMS.Views
             }
             else if (lbTieuDe_absPopup.Text == "Đã đủ số lượng")
             {
-                ViewModel.XuLyTiepLuu(true, soluong_, i, qr, str);
+                //ViewModel.XuLyTiepLuu(true, soluong_, i, qr, str);
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
             {
@@ -212,7 +212,7 @@ namespace QRMS.Views
             }
             else if (lbTieuDe_absPopup.Text == "Đã đủ số lượng")
             {
-                ViewModel.XuLyTiepLuu(false, soluong_, i, qr, str);
+                //ViewModel.XuLyTiepLuu(false, soluong_, i, qr, str);
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
             {

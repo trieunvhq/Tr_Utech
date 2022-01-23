@@ -12,6 +12,7 @@ namespace QRMS.Models.KKDC
         public Decimal SoLuongQuet { get; set; }
         public string sSoLuongQuet { get; set; }
         public Decimal SoNhan { get; set; }
+        public string sSoNhan { get; set; }
         public string Unit { get; set; }
         public string EXT_Serial { get; set; }
         public string EXT_PartNo { get; set; }

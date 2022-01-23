@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using QRMS.Constants;
 using QRMS.Helper;
+using QRMS.Models;
+using QRMS.Models.KKDC;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;

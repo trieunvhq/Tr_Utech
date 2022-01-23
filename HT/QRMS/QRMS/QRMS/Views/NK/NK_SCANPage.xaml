@@ -60,7 +60,7 @@
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/>
-            <Label Text="Số lượng &#x0a;đơn mua" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            <Label Text="Số lượng phiếu" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="2" Grid.Row="6" TextColor="Black" FontSize="14"/>
             <Label Text="Số lượng &#x0a;đã nhập" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="6" TextColor="Black" FontSize="14"/>

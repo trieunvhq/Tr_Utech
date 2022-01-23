@@ -257,7 +257,7 @@ namespace QRMS
         public int UpdateTransferInstructionAsync(ChuyenKhoDungCuModelBPL no)
         {
             string Sql = $"Update ChuyenKhoDungCuModelBPL set ";
-            Sql += $"SoLuongDaNhap = {no.SoLuongDaChuyen}, ";
+            Sql += $"SoLuongDaChuyen = {no.SoLuongDaChuyen}, ";
             Sql += $"SoLuongBox = {no.SoLuongBox} ";
             Sql += $"Where ID = {no.ID}";
 

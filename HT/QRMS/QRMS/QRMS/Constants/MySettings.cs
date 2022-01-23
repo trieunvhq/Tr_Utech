@@ -593,7 +593,7 @@ namespace QRMS.Constants
             try
             {
                 QRModel qr = new QRModel();
-                string[] temp_ = DecodeFromUtf8(str).Split(';');
+                string[] temp_ = str.Split(';');
                 DateTime? mfdate_;
                 DateTime? Recdate_;
                 DateTime? Expdate_;
