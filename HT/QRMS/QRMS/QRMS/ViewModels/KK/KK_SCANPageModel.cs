@@ -70,6 +70,7 @@ namespace QRMS.ViewModels
                         if (!Historys.Contains(item))
                         {
                             Historys.Add(item);
+
                             _indexHistory += 1;
 
                             //
@@ -170,6 +171,7 @@ namespace QRMS.ViewModels
                         for (int i = _indexHistory; i < Historys.Count; i++)
                         {
                             App.Dblocal.SaveHistoryAsync(Historys[i]);
+                            _indexHistory++;
                         }
 
                         _isDaLuu = true;
@@ -248,6 +250,7 @@ namespace QRMS.ViewModels
                     int index_ = 0;
                     temp_ = "3";
                     var qr = MySettings.QRRead(str); temp_ = "4";
+
                     if (qr == null)
                     {
                         Color = Color.Red;
@@ -257,9 +260,16 @@ namespace QRMS.ViewModels
                         return;
                     }
 
-                    if (!_daQuetQR.Contains(str))
-                        _daQuetQR.Add(str);
-                    else
+                    if (qr.Type != "DC")
+                    {
+                        Color = Color.Red;
+                        IsThongBao = true;
+                        ThongBao = "Nhãn không đúng chủng loại";
+
+                        return;
+                    }
+
+                    if (_daQuetQR.Contains(str))
                     {
                         IsThongBao = true;
                         Color = Color.Red;
@@ -335,7 +345,7 @@ namespace QRMS.ViewModels
                                 WarehouseCode_From = _KK_SCANPage.WarehouseCode,
                                 ItemCode = qr.Code,
                                 ItemName = qr.Name,
-                                ItemType = qr.DC,
+                                ItemType = qr.Type,
                                 SoLuongQuet = soluong_,
                                 sSoLuongQuet = soluong_.ToString("N0"),
                                 SoNhan = 1,
@@ -350,8 +360,7 @@ namespace QRMS.ViewModels
                         }    
 
 
-
-                            TransactionHistoryModel history = new TransactionHistoryModel
+                        TransactionHistoryModel history = new TransactionHistoryModel
                         {
                             ID = 0,
                             TransactionType = "K",
@@ -359,7 +368,7 @@ namespace QRMS.ViewModels
                             OrderDate = DateTime.Now,
                             ItemCode = qr.Code,
                             ItemName = qr.Name,
-                            ItemType = qr.DC,
+                            ItemType = qr.Type,
                             Quantity = soluong_,
                             Unit = qr.Unit,
                             EXT_OtherCode = qr.OtherCode,
@@ -382,8 +391,9 @@ namespace QRMS.ViewModels
                         };
 
                         Historys.Add(history);
+                        _daQuetQR.Add(str);
                         _isDaLuu = false;
-                        //App.Dblocal.SaveHistoryAsync(history);
+
 
                         //Hiển thị thông báo:
                         Color = Color.Blue;
@@ -397,137 +407,16 @@ namespace QRMS.ViewModels
                     IsThongBao = true;
                     ThongBao = "Mã không hợp lệ!";
                     MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "NK_SCANPageModel", MySettings.UserName);
-                }
-
-                //CloseBarcodeReader();
-                //OpenBarcodeReader();
+                } 
             }
             catch (Exception ex)
             {
                 Color = Color.Red;
                 IsThongBao = true;
-                ThongBao = "ex: " + ex.Message;
-                //CloseBarcodeReader();
-                //OpenBarcodeReader();
+                ThongBao = "ex: " + ex.Message; 
                 MySettings.InsertLogs(0, DateTime.Now, temp_ + ". ScanComplate", ex.Message, "NK_SCANPageModel", MySettings.UserName);
             }
-        }
-        
-
-        #region old:
-        //public async void ScanComplate(string str)
-        //{
-        //    try
-        //    { 
-        //        if (!_daQuetQR.Contains(str))
-        //            _daQuetQR.Add(str);
-        //        else
-        //        {
-        //            IsThongBao = true;
-        //            Color = Color.Red;
-        //            ThongBao = "Nhãn đã được quét";
-        //            return;
-        //        }
-
-        //        if (Historys != null)
-        //        { 
-        //            bool IsTonTai_ = false;
-        //            int index_ = 0;
-        //            var qr = MySettings.QRRead(str);
-
-        //            for (int i = 0; i < Historys.Count; ++i)
-        //            {
-        //                if (Historys[i].EXT_QRCode == str)
-        //                {
-        //                    IsTonTai_ = true;
-        //                    index_ = i;
-        //                    break;
-        //                }
-        //            }
-
-        //            if (IsTonTai_)
-        //            {
-        //                IsThongBao = true;
-        //                Color = Color.Red;
-        //                ThongBao = "Dụng cụ đã được kiểm kê";
-        //            }
-        //            else
-        //            {
-        //                for (int i = 0; i < TongQuats.Count; ++i)
-        //                {
-        //                    if (TongQuats[i].ItemCode == qr.Code)
-        //                    {
-        //                        decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-        //                        KKDCModel model_ = TongQuats[i];
-
-        //                        model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
-        //                        model_.SoNhan = model_.SoNhan + 1;
-        //                        TongQuats.RemoveAt(i);
-
-        //                        model_.ColorSLDaNhap = "#0008ff";
-
-        //                        model_.Color = "#0008ff";
-        //                        model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
-        //                        TongQuats.Insert(0, model_);
-
-        //                        TransactionHistoryModel history = new TransactionHistoryModel
-        //                        {
-        //                            ID = 0,
-        //                            TransactionType = "K",
-        //                            OrderNo = _LenhKiemKe,
-        //                            OrderDate = DateTime.Now,
-        //                            ItemCode = qr.Code,
-        //                            ItemName = qr.Name,
-        //                            ItemType = qr.DC,
-        //                            Quantity = soluong_,
-        //                            Unit = qr.Unit,
-        //                            EXT_OtherCode = qr.OtherCode,
-        //                            EXT_Serial = qr.Serial,
-        //                            EXT_PartNo = qr.PartNo,
-        //                            EXT_LotNo = qr.LotNo,
-        //                            EXT_MfDate = qr.MfDate,
-        //                            EXT_RecDate = qr.RecDate,
-        //                            EXT_ExpDate = qr.ExpDate,
-        //                            EXT_QRCode = str,
-        //                            CustomerCode = qr.CustomerCode,
-        //                            ExportStatus = "N",
-        //                            RecordStatus = "N",
-        //                            WarehouseCode_From = MySettings.CodeKho,
-        //                            WarehouseName_From = MySettings.MaKho,
-        //                            CreateDate = DateTime.Now,
-        //                            UserCreate = MySettings.UserName,
-        //                            page = 0,
-        //                            token = MySettings.Token
-        //                        };
-
-        //                        Historys.Add(history);
-        //                        App.Dblocal.SaveHistoryAsync(history);
-
-        //                        break;
-        //                    }
-        //                    else if (i == TongQuats.Count - 1)
-        //                    {
-        //                        Color = Color.Red;
-        //                        IsThongBao = true;
-        //                        ThongBao = "Dụng cụ không có trong lệnh kiểm kê!";
-        //                    }
-        //                }
-        //                IsThongBao = true;
-        //                Color = Color.Blue;
-        //                ThongBao = "Thành công";
-        //            }  
-        //        }
-        //        else
-        //        {
-        //            MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "KK_SCANPageModel", MySettings.UserName);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", ex.Message, "KK_SCANPageModel", MySettings.UserName);
-        //    }
-        //}
-        #endregion
+        } 
 
 
         #region BarcodeReader Action

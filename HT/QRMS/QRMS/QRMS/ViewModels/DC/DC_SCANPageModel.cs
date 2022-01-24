@@ -279,7 +279,7 @@ namespace QRMS.ViewModels
                                     OrderDate = DateTime.Now,
                                     ItemCode = qr.Code,
                                     ItemName = qr.Name,
-                                    ItemType = qr.DC,
+                                    ItemType = qr.Type,
                                     Quantity = soluong_,
                                     Unit = qr.Unit,
                                     EXT_OtherCode = qr.OtherCode,

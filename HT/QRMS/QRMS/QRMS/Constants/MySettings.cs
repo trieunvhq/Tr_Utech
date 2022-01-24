@@ -8,6 +8,7 @@ using QRMS.API;
 using QRMS.AppLIB.Common;
 using System.Data;
 using System.Text;
+using QRMS.Models.Shares;
 
 namespace QRMS.Constants
 {
@@ -588,6 +589,109 @@ namespace QRMS.Constants
 
             return Encoding.UTF8.GetString(utf8Bytes, 0, utf8Bytes.Length);
         }
+
+        //❖ ngoài
+        //✿ trong
+        public static string ToString(TransactionHistoryModel ht)
+        {
+            string result_ = "";
+
+            try
+            {
+                result_ = ht.ID + "✿"                   //0
+                + ht.OrderDate.ToString() + "✿"         //1
+                + ht.CreateDate.ToString() + "✿"        //2    
+                + ht.UserCreate + "✿"                   //3
+                + ht.EXT_QRCode;                        //4
+            }
+            catch
+            {
+
+            }
+
+            return result_;
+        }
+
+        public static List<TransactionHistoryModel> ToHistoryModel(TransactionHistoryShortModel ht)
+        {
+            try
+            {
+                List<TransactionHistoryModel> lst = new List<TransactionHistoryModel>();
+
+                if (ht.DATA.Contains("❖"))
+                {
+                    string[] historys_ = (ht.DATA).Split('❖');
+
+                    for (int i = 0; i < historys_.Length; i++)
+                    {
+                        if (historys_[i].Contains("✿"))
+                        {
+                            string[] items = (historys_[i]).Split('✿');
+
+                            QRModel qr = QRRead(items[4]);
+
+                            TransactionHistoryModel history = new TransactionHistoryModel
+                            {
+                                ID = long.Parse(items[0]),
+                                TransactionType = ht.TransactionType,
+                                OrderNo = ht.OrderNo,
+                                OrderDate = toMyDateTime(items[1]),
+                                ItemCode = qr.Code,
+                                ItemName = qr.Name,
+                                ItemType = qr.Type,
+                                Quantity = qr.Quantity is null ? 0 : Convert.ToDecimal(qr.Quantity),
+                                Unit = qr.Unit,
+                                EXT_OtherCode = qr.OtherCode,
+                                EXT_Serial = qr.Serial,
+                                EXT_PartNo = qr.PartNo,
+                                EXT_LotNo = qr.LotNo,
+                                EXT_MfDate = qr.MfDate,
+                                EXT_RecDate = qr.RecDate,
+                                EXT_ExpDate = qr.ExpDate,
+                                EXT_QRCode = items[4],
+                                CustomerCode = qr.CustomerCode,
+                                ExportStatus = ht.ExportStatus,
+                                RecordStatus = ht.RecordStatus,
+                                WarehouseCode_From = ht.WarehouseCode_From,
+                                WarehouseName_From = ht.WarehouseName_From,
+                                WarehouseCode_To = ht.WarehouseCode_To,
+                                WarehouseName_To = ht.WarehouseName_To,
+                                CreateDate = toMyDateTime(items[2]),
+                                UserCreate = items[3],
+                                page = 0,
+                                token = MySettings.Token
+                            };
+
+                            lst.Add(history);
+                        }    
+                       
+                    }    
+
+                }
+
+                if (lst.Count > 0)
+                    return lst;
+                else
+                    return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+            
+        private static DateTime? toMyDateTime(string str)
+        {
+            try
+            {
+                return Convert.ToDateTime(str);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static QRModel QRRead(string str)
         {
             try
@@ -700,36 +804,6 @@ namespace QRMS.Constants
                     }
                 }
 
-                //if (temp_[7].Length == 8)
-                //{
-                //    try { mfdate_ = new DateTime(Convert.ToInt32(temp_[7].Substring(4, 4)), Convert.ToInt32(temp_[7].Substring(2, 2)), Convert.ToInt32(temp_[7].Substring(0, 2))); }
-                //    catch { mfdate_ = null; }
-                //}
-                //else if (temp_[7].Length > 8)
-                //{
-
-                //}
-                //else
-                //{
-                //    mfdate_ = null;
-                //}
-
-                //
-                //if (temp_[8].Length == 8)
-                //{
-                //    try { Recdate_ = new DateTime(Convert.ToInt32(temp_[8].Substring(4, 4)), Convert.ToInt32(temp_[8].Substring(2, 2)), Convert.ToInt32(temp_[8].Substring(0, 2))); }
-                //    catch { Recdate_ = null; }
-                //}
-                //else if (temp_[8].Length > 8)
-                //{
-                //    temp_[8] = temp_[8].Replace("-", "/").Replace("\\", "/");
-                //    ngaythang_ = temp_[8].Split('/');
-                //    try { Recdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                //    catch { Recdate_ = null; }
-                //}
-                //else
-                //{ Recdate_ = null; }
-                //
 
                 if (temp_[9].Contains("-") || temp_[9].Contains("/") || temp_[9].Contains("\\") || temp_[9].Contains("."))
                 {
@@ -781,24 +855,8 @@ namespace QRMS.Constants
                         Expdate_ = null;
                     }
                 }
-                //if (temp_[9].Length == 8)
-                //{
-                //    try { Expdate_ = new DateTime(Convert.ToInt32(temp_[9].Substring(4, 4)), Convert.ToInt32(temp_[9].Substring(2, 2)), Convert.ToInt32(temp_[9].Substring(0, 2))); }
-                //    catch { Expdate_ = null; }
-                //}
-                //else if (temp_[9].Length > 8)
-                //{
-                //    temp_[9] = temp_[9].Replace("-", "/").Replace("\\", "/");
-                //    ngaythang_ = temp_[9].Split('/');
-                //    try { Expdate_ = new DateTime(Convert.ToInt32(ngaythang_[2]), Convert.ToInt32(ngaythang_[1]), Convert.ToInt32(ngaythang_[0])); }
-                //    catch { Expdate_ = null; }
-                //}
-                //else
-                //{
-                //    Expdate_ = null;
-                //}
 
-                qr.DC = temp_[0];
+                qr.Type = temp_[0];
                 qr.Code = temp_[1];
                 qr.Name = temp_[2];
                 qr.CustomerCode = temp_[3];
@@ -812,7 +870,7 @@ namespace QRMS.Constants
                 qr.Quantity = ConvertToDecimal(temp_[10]);
                 qr.Unit = temp_[11];
 
-                if (qr.DC.Length > 2)
+                if (qr.Type.Length > 2)
                 {
                     return null;
                 }
@@ -828,6 +886,7 @@ namespace QRMS.Constants
                 return null;
             }
         }
+
 
         public static Decimal ConvertToDecimal(object str)
         {

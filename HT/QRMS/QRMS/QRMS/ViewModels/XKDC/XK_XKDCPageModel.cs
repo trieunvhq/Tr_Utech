@@ -348,7 +348,7 @@ namespace QRMS.ViewModels
                     OrderDate = _XK_XKDCPage._SaleOrderDate,
                     ItemCode = qr.Code,
                     ItemName = qr.Name,
-                    ItemType = qr.DC,
+                    ItemType = qr.Type,
                     Quantity = soluong_,
                     Unit = qr.Unit,
                     EXT_OtherCode = qr.OtherCode,

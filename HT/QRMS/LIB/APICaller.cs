@@ -132,7 +132,7 @@ namespace LIB
                     json.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; odata=verbose");
                 }
 
-                var _APIClient = await url.WithTimeout(20)
+                var _APIClient = await url.WithTimeout(35)
                     .AllowAnyHttpStatus()
                     .AppendPathSegment(method)
                     .WithOAuthBearerToken(AccessToken)
@@ -180,7 +180,7 @@ namespace LIB
 
                 }
 
-                var _APIClient = await url.WithTimeout(20)
+                var _APIClient = await url.WithTimeout(35)
                     .AllowAnyHttpStatus()
                     .AppendPathSegment(method)
                     .WithOAuthBearerToken(AccessToken)
