@@ -592,17 +592,23 @@ namespace QRMS.Constants
 
         //❖ ngoài
         //✿ trong
-        public static string ToString(TransactionHistoryModel ht)
+        public static string MyToString(TransactionHistoryModel ht)
         {
             string result_ = "";
-
+            string orderno_ = "";
             try
             {
+                if (ht.TransactionType == "K")
+                {
+                    orderno_ = ht.OrderNo;
+                }    
+
                 result_ = ht.ID + "✿"                   //0
-                + ht.OrderDate.ToString() + "✿"         //1
-                + ht.CreateDate.ToString() + "✿"        //2    
-                + ht.UserCreate + "✿"                   //3
-                + ht.EXT_QRCode;                        //4
+                + orderno_ + "✿"                        //1
+                + ht.OrderDate.ToString() + "✿"         //2
+                + ht.CreateDate.ToString() + "✿"        //3    
+                + ht.UserCreate + "✿"                   //4
+                + ht.EXT_QRCode;                        //5
             }
             catch
             {
@@ -626,16 +632,23 @@ namespace QRMS.Constants
                     {
                         if (historys_[i].Contains("✿"))
                         {
+                            string orderno_ = "";
+
                             string[] items = (historys_[i]).Split('✿');
 
-                            QRModel qr = QRRead(items[4]);
+                            if (ht.TransactionType == "K")
+                                orderno_ = items[1];
+                            else
+                                orderno_ = ht.OrderNo;
+
+                            QRModel qr = QRRead(items[5]);
 
                             TransactionHistoryModel history = new TransactionHistoryModel
                             {
                                 ID = long.Parse(items[0]),
                                 TransactionType = ht.TransactionType,
-                                OrderNo = ht.OrderNo,
-                                OrderDate = toMyDateTime(items[1]),
+                                OrderNo = orderno_,
+                                OrderDate = toMyDateTime(items[2]),
                                 ItemCode = qr.Code,
                                 ItemName = qr.Name,
                                 ItemType = qr.Type,
@@ -648,7 +661,7 @@ namespace QRMS.Constants
                                 EXT_MfDate = qr.MfDate,
                                 EXT_RecDate = qr.RecDate,
                                 EXT_ExpDate = qr.ExpDate,
-                                EXT_QRCode = items[4],
+                                EXT_QRCode = items[5],
                                 CustomerCode = qr.CustomerCode,
                                 ExportStatus = ht.ExportStatus,
                                 RecordStatus = ht.RecordStatus,
@@ -656,18 +669,65 @@ namespace QRMS.Constants
                                 WarehouseName_From = ht.WarehouseName_From,
                                 WarehouseCode_To = ht.WarehouseCode_To,
                                 WarehouseName_To = ht.WarehouseName_To,
-                                CreateDate = toMyDateTime(items[2]),
-                                UserCreate = items[3],
+                                CreateDate = toMyDateTime(items[3]),
+                                UserCreate = items[4],
                                 page = 0,
                                 token = MySettings.Token
                             };
 
                             lst.Add(history);
-                        }    
-                       
-                    }    
-
+                        }
+                    }
                 }
+                else if (ht.DATA.Contains("✿"))
+                {
+                    string orderno_ = "";
+
+                    string[] items = ht.DATA.Split('✿');
+
+                    if (ht.TransactionType == "K")
+                        orderno_ = items[1];
+                    else
+                        orderno_ = ht.OrderNo;
+
+                    QRModel qr = QRRead(items[5]);
+
+                    TransactionHistoryModel history = new TransactionHistoryModel
+                    {
+                        ID = long.Parse(items[0]),
+                        TransactionType = ht.TransactionType,
+                        OrderNo = orderno_,
+                        OrderDate = toMyDateTime(items[2]),
+                        ItemCode = qr.Code,
+                        ItemName = qr.Name,
+                        ItemType = qr.Type,
+                        Quantity = qr.Quantity is null ? 0 : Convert.ToDecimal(qr.Quantity),
+                        Unit = qr.Unit,
+                        EXT_OtherCode = qr.OtherCode,
+                        EXT_Serial = qr.Serial,
+                        EXT_PartNo = qr.PartNo,
+                        EXT_LotNo = qr.LotNo,
+                        EXT_MfDate = qr.MfDate,
+                        EXT_RecDate = qr.RecDate,
+                        EXT_ExpDate = qr.ExpDate,
+                        EXT_QRCode = items[5],
+                        CustomerCode = qr.CustomerCode,
+                        ExportStatus = ht.ExportStatus,
+                        RecordStatus = ht.RecordStatus,
+                        WarehouseCode_From = ht.WarehouseCode_From,
+                        WarehouseName_From = ht.WarehouseName_From,
+                        WarehouseCode_To = ht.WarehouseCode_To,
+                        WarehouseName_To = ht.WarehouseName_To,
+                        CreateDate = toMyDateTime(items[3]),
+                        UserCreate = items[4],
+                        page = 0,
+                        token = MySettings.Token
+                    };
+
+                    lst.Add(history);
+                }
+                else
+                    return null;
 
                 if (lst.Count > 0)
                     return lst;

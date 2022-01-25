@@ -7,6 +7,7 @@ using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Models;
 using QRMS.Models.KKDC;
+using QRMS.Models.Shares;
 using QRMS.Resources;
 using QRMS.Views;
 using System;
@@ -89,11 +90,40 @@ namespace QRMS.ViewModels
                 if (Historys.Count == 0)
                     return;
 
+                string xml_ = "";
+                int count = 0;
+
+                foreach (TransactionHistoryModel item in Historys)
+                {
+                    string temp_ = MySettings.MyToString(item) + "❖";
+                    if (item.ID == 0 && temp_ != null)
+                    {
+                        xml_ += temp_;
+                        count++;
+                    }
+                }
+
+                if (count == 0)
+                    return;
+
+                xml_ = xml_.Trim('❖');
+
+                TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                {
+                    TransactionType = "K",
+                    OrderNo = Historys[0].OrderNo,
+                    ExportStatus = "N",
+                    RecordStatus = "N",
+                    WarehouseCode_From = Historys[0].WarehouseCode_From,
+                    WarehouseName_From = Historys[0].WarehouseName_From,
+                    DATA = xml_
+                };
+
                 await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
                     var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
-                                                Historys);
+                                                Histori_);
                     if (result != null && result.Result != null)
                     {
                         Device.BeginInvokeOnMainThread(async () =>

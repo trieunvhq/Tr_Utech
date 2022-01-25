@@ -55,7 +55,7 @@
                 </Label.FormattedText>
             </Label>
             
-            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9"
+            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" IsVisible="True"
                    Text="" Unfocused="txtTest_Unfocused"/>
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
@@ -77,7 +77,7 @@
 
             
             <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
-               ItemsSource="{Binding NhapKhos}" x:Name="lst_Nhap" SeparatorVisibility="None"
+               ItemsSource="{Binding ViewNhapKhos}" x:Name="lst_Nhap" SeparatorVisibility="None"
                   HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -120,7 +120,7 @@
 
             
             <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
-               ItemsSource="{Binding XuatKhos}" x:Name="lst_Xuat" SeparatorVisibility="None"
+               ItemsSource="{Binding ViewXuatKhos}" x:Name="lst_Xuat" SeparatorVisibility="None"
                   HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -162,7 +162,7 @@
             </ListView>
             
             <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
-               ItemsSource="{Binding ChuyenKhos}" x:Name="lst_Chuyen" SeparatorVisibility="None"
+               ItemsSource="{Binding ViewChuyenKhos}" x:Name="lst_Chuyen" SeparatorVisibility="None"
                   HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>

@@ -22,7 +22,8 @@ namespace QRMS.AppLIB.Common
 
             public const string getitem = "api-ht/purchaseorderitem/getitem";
             public const string transfergetitem = "api-ht/transferinstructionitem/getitem";
-            public const string inserthistory = "api-ht/transactionHistori/inserthistory";
+            //public const string inserthistory = "api-ht/transactionHistori/inserthistory";
+            public const string inserthistory = "api-ht/transactionHistori/inserthistorylag";
             public const string updateitem = "api-ht/purchaseorderitem/updateitem";
             public const string transferupdateitem = "api-ht/transferinstructionitem/updateitem";
 
@@ -39,6 +40,7 @@ namespace QRMS.AppLIB.Common
             public const string gethistory = "api-ht/transactionHistori/gethistory";
             public const string getsaleorderitemscanbarcode = "api-ht/saleorderitem/getsaleorderitemscanbarcode";
             public const string gettransferinstructionitem = "api-ht/transferinstructionitem/gettransferinstructionitem";
+            public const string gethistoryckdc = "api-ht/transactionHistori/gethistoryckdc";
         }
 
         #region AccountLogin

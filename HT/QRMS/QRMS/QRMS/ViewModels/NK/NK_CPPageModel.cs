@@ -246,13 +246,13 @@ namespace QRMS.ViewModels
                 {
                     Color = Color.Blue;
                     IsThongBao = true;
-                    ThongBao = "1";
+                    ThongBao = "Bạn hãy scan phiếu nhập kho";
                 }
                 else
                 {
                     Color = Color.Red;
                     IsThongBao = true;
-                    ThongBao = "2";
+                    ThongBao = "Bạn hãy scan phiếu nhập kho";
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");
                 }
@@ -261,7 +261,7 @@ namespace QRMS.ViewModels
             {
                 Color = Color.Red;
                 IsThongBao = true;
-                ThongBao = "2";
+                ThongBao = "Bạn hãy scan phiếu nhập kho";
             }
         }
 

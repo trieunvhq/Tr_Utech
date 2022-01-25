@@ -7,6 +7,7 @@ using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Models;
 using QRMS.Models.KKDC;
+using QRMS.Models.Shares;
 using QRMS.Resources;
 using QRMS.Views;
 using System;
@@ -81,11 +82,7 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < TongQuats.Count; ++i)
                             {
-                                if (TongQuats[i].ItemCode == item.ItemCode
-                                   && (TongQuats[i].EXT_Serial == null
-                                       || TongQuats[i].EXT_Serial == ""
-                                       || TongQuats[i].EXT_Serial == "None"
-                                       || (TongQuats[i].EXT_Serial == item.EXT_Serial)))
+                                if (TongQuats[i].ItemCode == item.ItemCode)
                                 {
                                     isTonTaiItemCode = true;
 
@@ -197,11 +194,40 @@ namespace QRMS.ViewModels
                 if (Historys.Count == 0)
                     return;
 
+                string xml_ = "";
+                int count = 0;
+
+                foreach (TransactionHistoryModel item in Historys)
+                {
+                    string temp_ = MySettings.MyToString(item) + "❖";
+                    if (item.ID == 0 && temp_ != null)
+                    {
+                        xml_ += temp_;
+                        count++;
+                    }
+                }
+
+                if (count == 0)
+                    return;
+
+                xml_ = xml_.Trim('❖');
+
+                TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                {
+                    TransactionType = "K",
+                    OrderNo = _LenhKiemKe,
+                    ExportStatus = "N",
+                    RecordStatus = "N",
+                    WarehouseCode_From = _KK_SCANPage.WarehouseCode,
+                    WarehouseName_From = _KK_SCANPage.WarehouseName,
+                    DATA = xml_
+                };
+
                 await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
                     var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
-                                                Historys);
+                                                Histori_);
                     if (result != null && result.Result != null)
                     {
                         Device.BeginInvokeOnMainThread(async () =>
@@ -306,11 +332,7 @@ namespace QRMS.ViewModels
 
                         for (int i = 0; i < TongQuats.Count; ++i)
                         {
-                            if (TongQuats[i].ItemCode == qr.Code
-                                && (TongQuats[i].EXT_Serial == null
-                                    || TongQuats[i].EXT_Serial == ""
-                                    || TongQuats[i].EXT_Serial == "None"
-                                    || (TongQuats[i].EXT_Serial == qr.Serial)))
+                            if (TongQuats[i].ItemCode == qr.Code)
                             {
                                 isTonTaiItemCode = true;
                                 temp_ = "7";
@@ -435,14 +457,28 @@ namespace QRMS.ViewModels
                 {
                     Color = Color.Blue;
                     IsThongBao = true;
-                    ThongBao = "1";
+
+                    if (MySettings.Index_Page == 1)
+                        ThongBao = "Bạn hãy scan nhãn nhập kho";
+                    else if (MySettings.Index_Page == 2)
+                        ThongBao = "Bạn hãy scan nhãn xuất kho";
+                    else
+                        ThongBao = "Bạn hãy scan nhãn chuyển kho";
+
                     //SetScannerAndSymbologySettings();
                 }
                 else
                 {
                     Color = Color.Red;
                     IsThongBao = true;
-                    ThongBao = "2";
+
+                    if (MySettings.Index_Page == 1)
+                        ThongBao = "Bạn hãy scan nhãn nhập kho";
+                    else if (MySettings.Index_Page == 2)
+                        ThongBao = "Bạn hãy scan nhãn xuất kho";
+                    else
+                        ThongBao = "Bạn hãy scan nhãn chuyển kho";
+
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");
                 }

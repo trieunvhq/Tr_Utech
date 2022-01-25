@@ -35,11 +35,11 @@
             
             <helper:ButtonCustoms Text="2. KIỂM KÊ NGUYÊN LIỆU" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
                 Clicked="BtnKiemKeNguyenLieu_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                StartColor="#A0A0A0" EndColor="#E0E0E0"/>
 
               <helper:ButtonCustoms Text="3. KIỂM KÊ THÀNH PHẨM" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" CornerRadius="0"
                 Clicked="BtnKiemKeThanhPham_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                StartColor="#A0A0A0" EndColor="#E0E0E0"/>
 
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="10" CornerRadius="0"
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal"
