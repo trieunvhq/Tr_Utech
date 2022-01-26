@@ -30,7 +30,7 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="lbTieuDe" Text="Chọn phiếu chuyển" Margin="10,0,0,0" VerticalTextAlignment="Center"
+            <Label x:Name="lbTieuDe" Text="CHỌN PHIẾU CHUYỂN" Margin="10,0,0,0" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>

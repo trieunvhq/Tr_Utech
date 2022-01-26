@@ -50,7 +50,7 @@ namespace QRMS.Views
 
             if (MySettings.Index_Page == 1)
             {
-                lbTieuDe.Text = "Nhập kho";
+                lbTieuDe.Text = "NHẬP KHO";
                 lbDungCu.Text = "1. NHẬP KHO DỤNG CỤ";
                 lbNguyenLieu.Text = "2. NHẬP KHO NGUYÊN LIỆU";
                 lbThanhPham.Text = "3. NHẬP KHO THÀNH PHẨM";
@@ -58,14 +58,14 @@ namespace QRMS.Views
             }
             else if (MySettings.Index_Page == 2)
             {
-                lbTieuDe.Text = "Xuất kho";
+                lbTieuDe.Text = "XUẤT KHO";
                 lbDungCu.Text = "1. XUẤT KHO DỤNG CỤ";
                 lbNguyenLieu.Text = "2. XUẤT KHO NGUYÊN LIỆU";
                 lbThanhPham.Text = "3. XUẤT KHO THÀNH PHẨM"; 
             }
             else if (MySettings.Index_Page == 3)
             {
-                lbTieuDe.Text = "Chuyển kho";
+                lbTieuDe.Text = "CHUYỂN KHO";
                 lbDungCu.Text = "1. CHUYỂN KHO DỤNG CỤ";
                 lbNguyenLieu.Text = "2. CHUYỂN KHO NGUYÊN LIỆU";
                 lbThanhPham.Text = "3. CHUYỂN KHO THÀNH PHẨM"; 

@@ -23,7 +23,7 @@
                 <RowDefinition Height="60"/> 
             </Grid.RowDefinitions>
 
-            <Label Text="Chọn kho kiểm kê" Margin="10,0,0,0" VerticalTextAlignment="Center"
+            <Label Text="CHỌN KHO KIỂM KÊ" Margin="10,0,0,0" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
             
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>

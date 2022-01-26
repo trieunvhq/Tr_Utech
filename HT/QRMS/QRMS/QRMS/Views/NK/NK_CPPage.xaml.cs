@@ -21,15 +21,15 @@ namespace QRMS.Views
 
             if (MySettings.Index_Page==1)
             {
-                lbTieuDe.Text = "Chọn phiếu nhập";
+                lbTieuDe.Text = "CHỌN PHIẾU NHẬP";
             }
             else if (MySettings.Index_Page == 2)
             {
-                lbTieuDe.Text = "Chọn phiếu xuất";
+                lbTieuDe.Text = "CHỌN PHIẾU XUẤT";
             }
             else if (MySettings.Index_Page == 3)
             {
-                lbTieuDe.Text = "Chọn phiếu chuyển";
+                lbTieuDe.Text = "CHỌN PHIẾU CHUYỂN";
             }
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
