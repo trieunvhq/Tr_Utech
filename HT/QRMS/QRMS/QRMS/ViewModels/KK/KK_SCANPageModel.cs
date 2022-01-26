@@ -82,7 +82,11 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < TongQuats.Count; ++i)
                             {
-                                if (TongQuats[i].ItemCode == item.ItemCode)
+                                if (TongQuats[i].ItemCode == item.ItemCode
+                                    && (TongQuats[i].EXT_Serial == null
+                                        || TongQuats[i].EXT_Serial == ""
+                                        || TongQuats[i].EXT_Serial == "None"
+                                        || (TongQuats[i].EXT_Serial == item.EXT_Serial)))
                                 {
                                     isTonTaiItemCode = true;
 
@@ -332,7 +336,11 @@ namespace QRMS.ViewModels
 
                         for (int i = 0; i < TongQuats.Count; ++i)
                         {
-                            if (TongQuats[i].ItemCode == qr.Code)
+                            if (TongQuats[i].ItemCode == qr.Code
+                                    && (TongQuats[i].EXT_Serial == null
+                                        || TongQuats[i].EXT_Serial == ""
+                                        || TongQuats[i].EXT_Serial == "None"
+                                        || (TongQuats[i].EXT_Serial == qr.Serial)))
                             {
                                 isTonTaiItemCode = true;
                                 temp_ = "7";

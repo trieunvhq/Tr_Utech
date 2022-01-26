@@ -898,6 +898,7 @@ namespace QRMS.ViewModels
                                     else
                                     {
                                         temp_ = "13";
+                                        UpdateTableNhapKhos(qr);
                                         XuLyTiepLuu(true, soluong_, i, qr, str);
                                     }
 
@@ -937,6 +938,7 @@ namespace QRMS.ViewModels
                                     }
                                     else
                                     {
+                                        UpdateTableXuatKhos(qr);
                                         XuLyTiepLuu(true, soluong_, i, qr, str);
                                     }
 
@@ -976,6 +978,7 @@ namespace QRMS.ViewModels
                                     }
                                     else
                                     {
+                                        UpdateTableChuyenKhos(qr);
                                         XuLyTiepLuu(true, soluong_, i, qr, str);
                                     }
 
@@ -1036,7 +1039,6 @@ namespace QRMS.ViewModels
                     _NhapKhoDungCuModel.sSoLuongDaNhap = _NhapKhoDungCuModel.SoLuongDaNhap.ToString("N0");
                     _NhapKhoDungCuModel.sSoLuongBox = _NhapKhoDungCuModel.SoLuongBox.ToString("N0");
 
-                    UpdateTableNhapKhos(_NhapKhoDungCuModel);
                     NhapKhos.Insert(0, _NhapKhoDungCuModel);
                      
                     App.Dblocal.UpdatePurchaseOrderAsync(_NhapKhoDungCuModel);
@@ -1060,7 +1062,6 @@ namespace QRMS.ViewModels
                     _SaleOrderItemScanBPL.sQuantity = _SaleOrderItemScanBPL.Quantity.ToString("N0");
                     _SaleOrderItemScanBPL.sSoLuongDaNhap = _SaleOrderItemScanBPL.SoLuongDaNhap.ToString("N0");
 
-                    UpdateTableXuatKhos(_SaleOrderItemScanBPL);
                     XuatKhos.Insert(0, _SaleOrderItemScanBPL);
                      
                     App.Dblocal.UpdateSaleOrderItemScanAsync(_SaleOrderItemScanBPL);
@@ -1086,7 +1087,6 @@ namespace QRMS.ViewModels
                     _ChuyenKhoDungCuModelBPL.sQuantity = _ChuyenKhoDungCuModelBPL.Quantity.ToString("N0");
                     _ChuyenKhoDungCuModelBPL.sSoLuongDaChuyen = _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen.ToString("N0");
 
-                    UpdateTableChuyenKhos(_ChuyenKhoDungCuModelBPL);
                     ChuyenKhos.Insert(0, _ChuyenKhoDungCuModelBPL);
                      
                     App.Dblocal.UpdateTransferInstructionAsync(_ChuyenKhoDungCuModelBPL);
@@ -1256,7 +1256,21 @@ namespace QRMS.ViewModels
 
                     item.Color = "#000000";
 
-                    ViewNhapKhos.Add(item);
+                    ViewNhapKhos.Add(new NhapKhoDungCuModel {
+                        ItemCode = item.ItemCode,
+                        ItemName = item.ItemName,
+                        ItemType = item.ItemType,
+                        Quantity = item.Quantity,
+                        sQuantity = item.sQuantity,
+                        SoLuongDaNhap = item.SoLuongDaNhap,
+                        sSoLuongDaNhap = item.sSoLuongDaNhap,
+                        SoLuongBox = item.SoLuongBox,
+                        sSoLuongBox = item.sSoLuongBox,
+                        Unit = item.Unit,
+                        Serial = item.Serial,
+                        Color = item.Color,
+                        ColorSLDaNhap = item.ColorSLDaNhap
+                    });
                 }
                 else
                 {
@@ -1266,12 +1280,13 @@ namespace QRMS.ViewModels
                         {
                             decimal soluong_ = Convert.ToDecimal(item.SoLuongDaNhap);
                             decimal quantity_ = Convert.ToDecimal(item.Quantity);
+                            int soluongbox_ = Convert.ToInt32(item.SoLuongBox);
 
                             ViewNhapKhos[i].SoLuongDaNhap += soluong_;
                             ViewNhapKhos[i].Quantity += quantity_;
                             ViewNhapKhos[i].sQuantity = ViewNhapKhos[i].Quantity.ToString("N0");
                             ViewNhapKhos[i].sSoLuongDaNhap = ViewNhapKhos[i].SoLuongDaNhap.ToString("N0");
-                            ViewNhapKhos[i].SoLuongBox += 1;
+                            ViewNhapKhos[i].SoLuongBox += soluongbox_;
                             ViewNhapKhos[i].sSoLuongBox = ViewNhapKhos[i].SoLuongBox.ToString("N0");
 
                             if (ViewNhapKhos[i].SoLuongDaNhap >= ViewNhapKhos[i].Quantity)
@@ -1284,20 +1299,19 @@ namespace QRMS.ViewModels
             }    
         }
 
-        private void UpdateTableNhapKhos(NhapKhoDungCuModel item)
+        private void UpdateTableNhapKhos(QRModel item)
         {
             for (int i = 0; i < ViewNhapKhos.Count; i++)
             {
-                if (ViewNhapKhos[i].ItemCode == item.ItemCode)
+                if (ViewNhapKhos[i].ItemCode == item.Code)
                 {
-                    decimal soluong_ = Convert.ToDecimal(item.SoLuongDaNhap);
-                    decimal quantity_ = Convert.ToDecimal(item.Quantity);
+                    decimal soluong_ = Convert.ToDecimal(item.Quantity);
 
                     NhapKhoDungCuModel model_ = ViewNhapKhos[i];
 
                     model_.SoLuongDaNhap += soluong_;
                     model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
-                    model_.SoLuongBox = model_.SoLuongBox + 1;
+                    model_.SoLuongBox += 1;
                     model_.sSoLuongBox = model_.SoLuongBox.ToString("N0");
 
                     if (model_.SoLuongDaNhap >= model_.Quantity)
@@ -1328,7 +1342,22 @@ namespace QRMS.ViewModels
 
                     item.Color = "#000000";
 
-                    ViewXuatKhos.Add(item);
+                    ViewXuatKhos.Add(new SaleOrderItemScanBPL
+                    {
+                        ItemCode = item.ItemCode,
+                        ItemName = item.ItemName,
+                        ItemType = item.ItemType,
+                        Quantity = item.Quantity,
+                        sQuantity = item.sQuantity,
+                        SoLuongDaNhap = item.SoLuongDaNhap,
+                        sSoLuongDaNhap = item.sSoLuongDaNhap,
+                        SoLuongBox = item.SoLuongBox,
+                        sSoLuongBox = item.sSoLuongBox,
+                        Unit = item.Unit,
+                        Serial = item.Serial,
+                        Color = item.Color,
+                        ColorSLDaNhap = item.ColorSLDaNhap
+                    });
                 }
                 else
                 {
@@ -1338,12 +1367,14 @@ namespace QRMS.ViewModels
                         {
                             decimal soluong_ = Convert.ToDecimal(item.SoLuongDaNhap);
                             decimal quantity_ = Convert.ToDecimal(item.Quantity);
+                            int soluongbox_ = Convert.ToInt32(item.SoLuongBox);
+
 
                             ViewXuatKhos[i].Quantity += quantity_;
                             ViewXuatKhos[i].sQuantity = ViewXuatKhos[i].Quantity.ToString("N0");
                             ViewXuatKhos[i].SoLuongDaNhap += soluong_;
                             ViewXuatKhos[i].sSoLuongDaNhap = ViewXuatKhos[i].SoLuongDaNhap.ToString("N0");
-                            ViewXuatKhos[i].SoLuongBox += 1;
+                            ViewXuatKhos[i].SoLuongBox += soluongbox_;
                             ViewXuatKhos[i].sSoLuongBox = ViewXuatKhos[i].SoLuongBox.ToString("N0");
 
                             if (ViewXuatKhos[i].SoLuongDaNhap >= ViewXuatKhos[i].Quantity)
@@ -1356,14 +1387,13 @@ namespace QRMS.ViewModels
             }
         }
 
-        private void UpdateTableXuatKhos(SaleOrderItemScanBPL item)
+        private void UpdateTableXuatKhos(QRModel item)
         {
             for (int i = 0; i < ViewXuatKhos.Count; i++)
             {
-                if (ViewXuatKhos[i].ItemCode == item.ItemCode)
+                if (ViewXuatKhos[i].ItemCode == item.Code)
                 {
-                    decimal soluong_ = Convert.ToDecimal(item.SoLuongDaNhap);
-                    decimal quantity_ = Convert.ToDecimal(item.Quantity);
+                    decimal soluong_ = Convert.ToDecimal(item.Quantity); 
 
                     SaleOrderItemScanBPL model_ = ViewXuatKhos[i];
 
@@ -1401,7 +1431,22 @@ namespace QRMS.ViewModels
 
                     item.Color = "#000000";
 
-                    ViewChuyenKhos.Insert(0, item);
+                    ViewChuyenKhos.Add(new ChuyenKhoDungCuModelBPL
+                    {
+                        ItemCode = item.ItemCode,
+                        ItemName = item.ItemName,
+                        ItemType = item.ItemType,
+                        Quantity = item.Quantity,
+                        sQuantity = item.sQuantity,
+                        SoLuongDaChuyen = item.SoLuongDaChuyen,
+                        sSoLuongDaChuyen = item.sSoLuongDaChuyen,
+                        SoLuongBox = item.SoLuongBox,
+                        sSoLuongBox = item.sSoLuongBox,
+                        Unit = item.Unit,
+                        Serial = item.Serial,
+                        Color = item.Color,
+                        ColorSLDaNhap = item.ColorSLDaNhap
+                    });
                 }
                 else
                 {
@@ -1411,12 +1456,14 @@ namespace QRMS.ViewModels
                         {
                             decimal soluong_ = Convert.ToDecimal(item.SoLuongDaChuyen);
                             decimal quantity_ = Convert.ToDecimal(item.Quantity);
+                            int soluongbox_ = Convert.ToInt32(item.SoLuongBox);
+
 
                             ViewChuyenKhos[i].Quantity += quantity_;
                             ViewChuyenKhos[i].sQuantity = ViewChuyenKhos[i].Quantity.ToString("N0");
                             ViewChuyenKhos[i].SoLuongDaChuyen += soluong_;
                             ViewChuyenKhos[i].sSoLuongDaChuyen = ViewChuyenKhos[i].SoLuongDaChuyen.ToString("N0");
-                            ViewChuyenKhos[i].SoLuongBox = ViewChuyenKhos[i].SoLuongBox + 1;
+                            ViewChuyenKhos[i].SoLuongBox += soluongbox_;
                             ViewChuyenKhos[i].sSoLuongBox = ViewChuyenKhos[i].SoLuongBox.ToString("N0");
 
                             if (ViewChuyenKhos[i].SoLuongDaChuyen >= ViewChuyenKhos[i].Quantity)
@@ -1430,14 +1477,13 @@ namespace QRMS.ViewModels
         }
 
 
-        private void UpdateTableChuyenKhos(ChuyenKhoDungCuModelBPL item)
+        private void UpdateTableChuyenKhos(QRModel item)
         {
             for (int i = 0; i < ViewChuyenKhos.Count; i++)
             {
-                if (ViewChuyenKhos[i].ItemCode == item.ItemCode)
+                if (ViewChuyenKhos[i].ItemCode == item.Code)
                 {
-                    decimal soluong_ = Convert.ToDecimal(item.SoLuongDaChuyen);
-                    decimal quantity_ = Convert.ToDecimal(item.Quantity);
+                    decimal soluong_ = Convert.ToDecimal(item.Quantity); 
 
                     ChuyenKhoDungCuModelBPL model_ = ViewChuyenKhos[i];
 

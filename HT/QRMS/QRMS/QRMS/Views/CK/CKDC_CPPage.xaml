@@ -46,7 +46,7 @@
                 </Label.FormattedText>
             </Label>
             
-            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="12"
+            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="12" IsVisible="False"
                    Text="" Unfocused="CustomEntry_Unfocused"/>
             
             <Label TextColor="Black" VerticalTextAlignment="Center"
