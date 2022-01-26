@@ -39,7 +39,7 @@
                    Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Đơn mua hàng: " TextColor="#B5BCCD" FontSize="12"/>
+                        <Span x:Name="spanPhieu" Text="Đơn mua hàng: " TextColor="#B5BCCD" FontSize="12"/>
                         <Span  Text="{Binding No}" TextColor="Red" FontSize="12" FontAttributes="Bold"/>
                     </FormattedString>
                 </Label.FormattedText>
@@ -223,7 +223,7 @@
             </Grid>
             
            
-            <Grid x:Name="absPopup_DangXuat" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="10"
+            <Grid x:Name="absPopup_DangXuat" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="11"
               ColumnSpacing="0" RowSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition>

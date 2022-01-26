@@ -79,18 +79,21 @@ namespace QRMS.Views
                 grid.Children.Remove(lst_Xuat);
                 grid.Children.Remove(lst_Chuyen);
                 lbTieuDe.Text = "Nhập kho dụng cụ";
+                spanPhieu.Text = "Phiếu nhập kho";
             }
             else if (MySettings.Index_Page == 2)
             {
                 grid.Children.Remove(lst_Nhap);
                 grid.Children.Remove(lst_Chuyen);
                 lbTieuDe.Text = "Xuất kho dụng cụ";
+                spanPhieu.Text = "Phiếu xuất kho";
             }
             else if (MySettings.Index_Page == 3)
             {
                 grid.Children.Remove(lst_Xuat);
                 grid.Children.Remove(lst_Nhap);
                 lbTieuDe.Text = "Chuyển kho dụng cụ";
+                spanPhieu.Text = "Phiếu chuyển kho";
             }
         }
 

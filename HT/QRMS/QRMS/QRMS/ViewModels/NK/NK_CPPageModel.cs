@@ -42,6 +42,7 @@ namespace QRMS.ViewModels
         {
             Color = Color.Red;
             IsThongBao = true;
+
             if (MySettings.Index_Page == 1)
             {
                 ThongBao = "Bạn hãy scan phiếu nhập kho";
@@ -246,13 +247,38 @@ namespace QRMS.ViewModels
                 {
                     Color = Color.Blue;
                     IsThongBao = true;
-                    ThongBao = "Bạn hãy scan phiếu nhập kho";
+
+                    if (MySettings.Index_Page == 1)
+                    {
+                        ThongBao = "Bạn hãy scan phiếu nhập kho";
+                    }
+                    else if (MySettings.Index_Page == 2)
+                    {
+                        ThongBao = "Bạn hãy scan phiếu xuất kho";
+                    }
+                    else if (MySettings.Index_Page == 3)
+                    {
+                        ThongBao = "Bạn hãy scan phiếu chuyển kho";
+                    }
                 }
                 else
                 {
                     Color = Color.Red;
                     IsThongBao = true;
-                    ThongBao = "Bạn hãy scan phiếu nhập kho";
+
+                    if (MySettings.Index_Page == 1)
+                    {
+                        ThongBao = "Bạn hãy scan phiếu nhập kho";
+                    }
+                    else if (MySettings.Index_Page == 2)
+                    {
+                        ThongBao = "Bạn hãy scan phiếu xuất kho";
+                    }
+                    else if (MySettings.Index_Page == 3)
+                    {
+                        ThongBao = "Bạn hãy scan phiếu chuyển kho";
+                    }
+
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");
                 }
@@ -261,7 +287,19 @@ namespace QRMS.ViewModels
             {
                 Color = Color.Red;
                 IsThongBao = true;
-                ThongBao = "Bạn hãy scan phiếu nhập kho";
+
+                if (MySettings.Index_Page == 1)
+                {
+                    ThongBao = "Bạn hãy scan phiếu nhập kho";
+                }
+                else if (MySettings.Index_Page == 2)
+                {
+                    ThongBao = "Bạn hãy scan phiếu xuất kho";
+                }
+                else if (MySettings.Index_Page == 3)
+                {
+                    ThongBao = "Bạn hãy scan phiếu chuyển kho";
+                }
             }
         }
 

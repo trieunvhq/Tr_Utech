@@ -893,7 +893,7 @@ namespace QRMS.ViewModels
                                         _NK_SCANPage.str = str;
                                         temp_ = "11";
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "Huỷ bỏ"); temp_ = "12";
+                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", ""); temp_ = "12";
                                     }
                                     else
                                     {
@@ -934,7 +934,7 @@ namespace QRMS.ViewModels
                                         _NK_SCANPage.qr = qr;
                                         _NK_SCANPage.str = str; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "Huỷ bỏ");
+                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
                                     }
                                     else
                                     {
@@ -973,7 +973,7 @@ namespace QRMS.ViewModels
                                         _NK_SCANPage.qr = qr;
                                         _NK_SCANPage.str = str; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "Huỷ bỏ");
+                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
 
                                     }
                                     else

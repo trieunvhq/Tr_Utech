@@ -466,12 +466,7 @@ namespace QRMS.ViewModels
                     Color = Color.Blue;
                     IsThongBao = true;
 
-                    if (MySettings.Index_Page == 1)
-                        ThongBao = "Bạn hãy scan nhãn nhập kho";
-                    else if (MySettings.Index_Page == 2)
-                        ThongBao = "Bạn hãy scan nhãn xuất kho";
-                    else
-                        ThongBao = "Bạn hãy scan nhãn chuyển kho";
+                    ThongBao = "Bạn hãy scan nhãn kiểm kê";
 
                     //SetScannerAndSymbologySettings();
                 }
@@ -480,12 +475,7 @@ namespace QRMS.ViewModels
                     Color = Color.Red;
                     IsThongBao = true;
 
-                    if (MySettings.Index_Page == 1)
-                        ThongBao = "Bạn hãy scan nhãn nhập kho";
-                    else if (MySettings.Index_Page == 2)
-                        ThongBao = "Bạn hãy scan nhãn xuất kho";
-                    else
-                        ThongBao = "Bạn hãy scan nhãn chuyển kho";
+                    ThongBao = "Bạn hãy scan nhãn kiểm kê";
 
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");

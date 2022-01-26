@@ -75,7 +75,6 @@ namespace QRMS.Views.CK
                     await Controls.LoadingUtility.HideAsync();
                 });
             });
-
         }
 
 
@@ -92,7 +91,7 @@ namespace QRMS.Views.CK
                          , ViewModel._WarehouseCode_To, ViewModel._WarehouseName_To));
                     else
                     {
-                        await Load_popup_DangXuat("Vui lòng scan phiếu chuyển kho kho!", "Đồng ý", "");
+                        await Load_popup_DangXuat("Vui lòng scan phiếu chuyển kho!", "Đồng ý", "");
                     }
                     await Controls.LoadingUtility.HideAsync();
                 });
