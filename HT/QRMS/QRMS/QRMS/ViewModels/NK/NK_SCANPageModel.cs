@@ -830,7 +830,7 @@ namespace QRMS.ViewModels
                     {
                         Color = Color.Red;
                         IsThongBao = true;
-                        ThongBao = "Nhãn không đúng chủng loại";
+                        ThongBao = "Không đúng nhãn dụng cụ";
 
                         return;
                     }
