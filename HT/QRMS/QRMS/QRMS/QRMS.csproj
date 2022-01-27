@@ -40,8 +40,6 @@
     <None Remove="ZXing.Net.Mobile.Forms" />
     <None Remove="Xamarin.Essentials" />
     <None Remove="sqlite-net-pcl" />
-    <None Remove="Views\XKDC\" />
-    <None Remove="Views\NKDC\" />
     <None Remove="Views\Login\" />
     <None Remove="Views\Shares\" />
     <None Remove="Views\Kho\" />
@@ -50,14 +48,10 @@
     <None Remove="Models\XKDC\" />
     <None Remove="Models\Login\" />
     <None Remove="Models\Shares\" />
-    <None Remove="ViewModels\NKDC\" />
-    <None Remove="ViewModels\XKDC\" />
     <None Remove="ViewModels\Shares\" />
     <None Remove="Honeywell.BarcodeReader" />
     <None Remove="Log\" />
     <None Remove="Models\KKDC\" />
-    <None Remove="Views\DC\" />
-    <None Remove="ViewModels\DC\" />
     <None Remove="Views\KK\" />
     <None Remove="ViewModels\KK\" />
     <None Remove="Views\CK\" />
@@ -65,6 +59,8 @@
     <None Remove="ViewModels\NK\" />
     <None Remove="Models\NK\" />
     <None Remove="ViewModels\CK\" />
+    <None Remove="ViewModels\XK\" />
+    <None Remove="Views\XK\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -257,8 +253,6 @@
 
   <ItemGroup>
     <Folder Include="Connected Services\" />
-    <Folder Include="Views\XKDC\" />
-    <Folder Include="Views\NKDC\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Shares\" />
     <Folder Include="Views\Kho\" />
@@ -267,13 +261,9 @@
     <Folder Include="Models\XKDC\" />
     <Folder Include="Models\Login\" />
     <Folder Include="Models\Shares\" />
-    <Folder Include="ViewModels\NKDC\" />
-    <Folder Include="ViewModels\XKDC\" />
     <Folder Include="ViewModels\Shares\" />
     <Folder Include="Log\" />
     <Folder Include="Models\KKDC\" />
-    <Folder Include="Views\DC\" />
-    <Folder Include="ViewModels\DC\" />
     <Folder Include="Views\KK\" />
     <Folder Include="ViewModels\KK\" />
     <Folder Include="Views\CK\" />
@@ -281,6 +271,8 @@
     <Folder Include="ViewModels\NK\" />
     <Folder Include="Models\NK\" />
     <Folder Include="ViewModels\CK\" />
+    <Folder Include="ViewModels\XK\" />
+    <Folder Include="Views\XK\" />
   </ItemGroup>
 
   <ItemGroup>

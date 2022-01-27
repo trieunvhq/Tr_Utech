@@ -1,53 +1,45 @@
-﻿ 
-using System;
-using System.Collections.Generic;
+﻿
 using System.Threading.Tasks;
-using Acr.UserDialogs;
 using QRMS.Constants;
-using QRMS.Helper;
-using QRMS.Models;
-using QRMS.Models.XKDC;
 using QRMS.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using ZXing;
-using ZXing.Mobile;
-using ZXing.Net.Mobile.Forms;
 
 namespace QRMS.Views
 {
-    public partial class XK_XKDCPage : ContentPage
+    public partial class XKDC_CPPage : ContentPage
     {
         //MyScan _MyScan; 
 
-        public string _SaleOrderNo = "";
-        public string _WarehouseCode = "";
-        public string _WarehouseName = "";
-        public DateTime? _SaleOrderDate;
-        public XK_XKDCPageModel ViewModel { get; set; }
-        public XK_XKDCPage(string SaleOrderNo, string WarehouseCode, DateTime? SaleOrderDate, string WarehouseName)
-        { 
+        public XKDC_CPPageModel ViewModel { get; set; }
+        public XKDC_CPPage()
+        {
             InitializeComponent();
 
-            _SaleOrderNo = SaleOrderNo;
-            _WarehouseCode = WarehouseCode;
-            _SaleOrderDate = SaleOrderDate;
-            _WarehouseName = WarehouseName;
-
             grid.Children.Remove(absPopup_DangXuat);
+
+            if (MySettings.Index_Page==1)
+            {
+                lbTieuDe.Text = "CHỌN PHIẾU NHẬP";
+            }
+            else if (MySettings.Index_Page == 2)
+            {
+                lbTieuDe.Text = "CHỌN PHIẾU XUẤT";
+            }
+            else if (MySettings.Index_Page == 3)
+            {
+                lbTieuDe.Text = "CHỌN PHIẾU CHUYỂN";
+            }
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new XK_XKDCPageModel(this);
+            ViewModel = new XKDC_CPPageModel();
             ViewModel.Initialize();
             BindingContext = ViewModel;
-            ViewModel._XK_XKDCPage = this;
-            //_MyScan = new MyScan(1, ViewModel);
-            //
-
+            ViewModel._NK_CPPage = this;
             //_MyScan = new MyScan();
-            //_MyScan._XK_XKDCPageModel = ViewModel;
+            //_MyScan._NK_CPPageModel = ViewModel;
 
             row_trencung.Height = 20;
 
@@ -91,17 +83,8 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if ((ViewModel.Historys != null && ViewModel.Historys.Count > 0)
-                       || (ViewModel.DonHangs != null && ViewModel.DonHangs.Count > 0))
-                    {
-                        await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?", "Có lưu", "không lưu");
-
-                    }
-                    else
-                    {
-                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                        await Controls.LoadingUtility.HideAsync();
-                    } 
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+                    await Controls.LoadingUtility.HideAsync();
                 });
             });
 
@@ -114,15 +97,29 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-
-                    ViewModel.LuuLais();
+                    if (!string.IsNullOrWhiteSpace(ViewModel._No))
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_SCANPage(
+                         ViewModel._No, ViewModel._Date
+                         , ViewModel._WarehouseCode, ViewModel._WarehouseName
+                         , ViewModel._WarehouseCode_To, ViewModel._WarehouseName_To));
+                    else
+                    {
+                        if (MySettings.Index_Page == 1)
+                        {
+                            await Load_popup_DangXuat("Vui lòng scan phiếu nhập kho!", "Đồng ý", "");
+                        }
+                        else if (MySettings.Index_Page == 2)
+                        {
+                            await Load_popup_DangXuat("Vui lòng scan phiếu xuất kho!", "Đồng ý", "");
+                        }
+                        else if (MySettings.Index_Page == 3)
+                        {
+                            await Load_popup_DangXuat("Vui lòng scan phiếu chuyển kho!", "Đồng ý", "");
+                        }
+                    }    
                     await Controls.LoadingUtility.HideAsync();
                 });
             });
-        }
-
-        void lst_combobox_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
-        {
         }
 
         protected override void OnAppearing()
@@ -130,47 +127,52 @@ namespace QRMS.Views
             base.OnAppearing();
             ViewModel.OnAppearing();
         }
-           
 
-        public SaleOrderItemScanBPL model_;
-        public decimal soluong_;
-        public int i;
-        public QRModel qr;
-        public string str;
+        void CustomEntry_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
+        {
+            ViewModel.ScanComplate(txtTest.Text);
+        }
+
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         {
-            await Controls.LoadingUtility.HideAsync();
-            if (huybo == "")
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                btnHuyBo_absPopup.IsVisible = false;
-            }
-            else
-            {
-                btnHuyBo_absPopup.IsVisible = true;
-            }
-            //
-            btnDongY_absPopup.Text = nutdongy;
-            btnHuyBo_absPopup.Text = huybo;
-            lbTieuDe_absPopup.Text = tieude;
-            if (!grid.Children.Contains(absPopup_DangXuat))
-                grid.Children.Add(absPopup_DangXuat);
-            grid.RaiseChild(absPopup_DangXuat);
-            await absPopup_DangXuat.FadeTo(1, 200);
-            grid.RaiseChild(absPopup_DangXuat);
+                await Controls.LoadingUtility.HideAsync();
+                if (huybo == "")
+                {
+                    btnHuyBo_absPopup.IsVisible = false;
+                }
+                else
+                {
+                    btnHuyBo_absPopup.IsVisible = true;
+                }
+                //
+                btnDongY_absPopup.Text = nutdongy;
+                btnHuyBo_absPopup.Text = huybo;
+                lbTieuDe_absPopup.Text = tieude;
+                if (!grid.Children.Contains(absPopup_DangXuat))
+                    grid.Children.Add(absPopup_DangXuat);
+                grid.RaiseChild(absPopup_DangXuat);
+                await absPopup_DangXuat.FadeTo(1, 200);
+                grid.RaiseChild(absPopup_DangXuat);
+            });
         }
-        private async void BtnDongY_popup_DangXuat_Clicked(object sender, EventArgs e)
+
+
+        async void BtnDongY_popup_DangXuat_Clicked(System.Object sender, System.EventArgs e)
         {
             await absPopup_DangXuat.FadeTo(0, 200);
             if (grid.Children.Contains(absPopup_DangXuat))
                 _ = grid.Children.Remove(absPopup_DangXuat);
+
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
             }
-            else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
+            else if (lbTieuDe_absPopup.Text == "Đã đủ số lượng")
             {
-                ViewModel.XuLyTiepLuu(true, model_, soluong_, i, qr, str);
+                //ViewModel.XuLyTiepLuu(true, soluong_, i, qr, str);
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
             {
@@ -179,8 +181,14 @@ namespace QRMS.Views
             {
             }
 
+            if (MySettings.To_Page == "homepage")
+            {
+                MySettings.To_Page = "";
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+            }
         }
-        private async void BtnHuyBo_popup_DangXuat_Clicked(object sender, EventArgs e)
+
+        async void BtnHuyBo_popup_DangXuat_Clicked(System.Object sender, System.EventArgs e)
         {
             await absPopup_DangXuat.FadeTo(0, 200);
             if (grid.Children.Contains(absPopup_DangXuat))
@@ -188,15 +196,11 @@ namespace QRMS.Views
 
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
-                App.Dblocal.DeleteHistoryAll();
-                //App.Dblocal.DeletePurchaseOrderAsyncWithKey(_SaleOrderNo);
-
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
             }
-            else if (lbTieuDe_absPopup.Text == "Bạn đã nhập kho vượt quá số lượng đơn mua")
+            else if (lbTieuDe_absPopup.Text == "Đã đủ số lượng")
             {
-                ViewModel.XuLyTiepLuu(false, model_, soluong_, i, qr, str);
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thất bại")
             {
@@ -205,7 +209,5 @@ namespace QRMS.Views
             {
             }
         }
-
     }
 }
-

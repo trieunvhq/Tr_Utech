@@ -16,11 +16,7 @@ namespace PIAMA.Views.Shared
         public ObservableCollection<ComboModel> _ModelDonHangs { get; set; } = new ObservableCollection<ComboModel>();
        
         public KhoPageModel _KhoPageModel;
-        public ChonDonMuaHangPageModel _ChonDonMuaHangPageModel;
         public ChonKhoKiemKePageModel _ChonKhoKiemKePageModel;
-        public ChonChiThiXuatHangViewModel _ChonChiThiXuatHangViewModel;
-        public XK_CCTXHPageModel _XK_CCTXHPageModel;
-        public XKDC_CKKKPageModel _XKDC_CKKKPageModel;
         public DC_ChoKhoPageModel _DC_ChoKhoPageModel;
         public KK_ChonKhoPageModel _KK_ChonKhoPageModel;
         public T_ComboboxPage(ObservableCollection<WarehouseBPLModel> ModelKhos_
@@ -108,25 +104,9 @@ namespace PIAMA.Views.Shared
                 {
                     _KhoPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
                 }
-                else if (_ChonDonMuaHangPageModel != null)
-                {
-                    _ChonDonMuaHangPageModel.LoadDataCombobox(((ComboModel)e.Item));
-                }
                 else if (_ChonKhoKiemKePageModel != null)
                 {
                     _ChonKhoKiemKePageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
-                }
-                else if (_ChonChiThiXuatHangViewModel != null)
-                {
-                    _ChonChiThiXuatHangViewModel.LoadDataCombobox(((ComboModel)e.Item));
-                }
-                else if (_XK_CCTXHPageModel != null)
-                {
-                    _XK_CCTXHPageModel.LoadDataCombobox(((ComboModel)e.Item));
-                }
-                else if (_XKDC_CKKKPageModel != null)
-                {
-                    _XKDC_CKKKPageModel.LoadDataCombobox(((WarehouseBPLModel)e.Item));
                 }
                 else if (_KK_ChonKhoPageModel != null)
                 {

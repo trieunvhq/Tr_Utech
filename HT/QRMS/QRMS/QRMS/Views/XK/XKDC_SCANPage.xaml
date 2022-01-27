@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:helper="clr-namespace:QRMS.Helper"
     xmlns:control="clr-namespace:QRMS.Controls" xmlns:forms1="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
-    x:Class="QRMS.Views.NhapKhoDungCuPage">
+    x:Class="QRMS.Views.XKDC_SCANPage">
     <ContentPage.Content>
         <Grid x:Name="grid" RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
@@ -26,6 +26,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
@@ -38,8 +39,8 @@
                    Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="3">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Đơn mua hàng: " TextColor="#B5BCCD" FontSize="12"/>
-                        <Span  Text="{Binding PurchaseOrderNo}" TextColor="Red" FontSize="12" FontAttributes="Bold"/>
+                        <Span x:Name="spanPhieu" Text="Đơn mua hàng: " TextColor="#B5BCCD" FontSize="12"/>
+                        <Span  Text="{Binding No}" TextColor="Red" FontSize="12" FontAttributes="Bold"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -53,10 +54,13 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
+            
+            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" IsVisible="False"
+                   Text="" Unfocused="txtTest_Unfocused"/>
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.Row="6" TextColor="Black" FontSize="14"/>
-            <Label Text="Số lượng &#x0a;đơn mua" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            <Label Text="Số lượng phiếu" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="2" Grid.Row="6" TextColor="Black" FontSize="14"/>
             <Label Text="Số lượng &#x0a;đã nhập" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="6" TextColor="Black" FontSize="14"/>
@@ -71,8 +75,9 @@
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="7"/>
 
 
+            
             <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
-               ItemsSource="{Binding DonHangs}" x:Name="lst_combobox" SeparatorVisibility="None"
+               ItemsSource="{Binding ViewNhapKhos}" x:Name="lst_Nhap" SeparatorVisibility="None"
                   HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -99,7 +104,7 @@
                    Grid.Column="2" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
                                 <Label Text="{Binding sSoLuongDaNhap}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                    Grid.Column="4" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}" Margin="3,5,3,5"/>
-                                <Label Text="{Binding sSoLuongBox}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                                <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                    Grid.Column="6" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
 
 
@@ -113,7 +118,92 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" Margin="0,0,0,10">
+            
+            <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
+               ItemsSource="{Binding ViewXuatKhos}" x:Name="lst_Xuat" SeparatorVisibility="None"
+                  HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+
+                            <Grid RowSpacing="0" BackgroundColor="White">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="1"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding ItemCode}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
+                                <Label Text="{Binding sQuantity}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                   Grid.Column="2" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
+                                <Label Text="{Binding sSoLuongDaNhap}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                   Grid.Column="4" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}" Margin="3,5,3,5"/>
+                                <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                   Grid.Column="6" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
+
+
+                                <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,0,0"/>
+                                <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,0,0"/>
+                                <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,0,0"/>
+                                <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Margin="0,0,0,0"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <ListView Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="8" BackgroundColor="White"
+               ItemsSource="{Binding ViewChuyenKhos}" x:Name="lst_Chuyen" SeparatorVisibility="None"
+                  HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+
+                            <Grid RowSpacing="0" BackgroundColor="White">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="1"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding ItemCode}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                   Grid.Column="0" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
+                                <Label Text="{Binding sQuantity}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                   Grid.Column="2" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
+                                <Label Text="{Binding sSoLuongDaChuyen}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                   Grid.Column="4" Grid.Row="0" FontSize="14" TextColor="{Binding ColorSLDaNhap}" Margin="3,5,3,5"/>
+                                <Label Text="{Binding SoLuongBox}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                   Grid.Column="6" Grid.Row="0" TextColor="{Binding Color}" FontSize="14" Margin="3,5,3,5"/>
+
+
+                                <Label BackgroundColor="Black" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,0,0"/>
+                                <Label BackgroundColor="Black" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,0,0"/>
+                                <Label BackgroundColor="Black" Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,0,0"/>
+                                <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" Margin="0,0,0,0"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Grid Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="10" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
@@ -133,8 +223,8 @@
             </Grid>
             
            
-            <Grid x:Name="absPopup_DangXuat" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="10"
-              ColumnSpacing="0" RowSpacing="0" Opacity="0">
+            <Grid x:Name="absPopup_DangXuat" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="11"
+              ColumnSpacing="0" RowSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition>
                         <ColumnDefinition.Width>
