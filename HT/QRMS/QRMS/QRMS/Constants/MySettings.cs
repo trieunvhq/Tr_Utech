@@ -641,7 +641,7 @@ namespace QRMS.Constants
                             else
                                 orderno_ = ht.OrderNo;
 
-                            QRModel qr = QRRead(items[5]);
+                            QRModel qr = QRRead(items[5], false);
 
                             TransactionHistoryModel history = new TransactionHistoryModel
                             {
@@ -752,12 +752,18 @@ namespace QRMS.Constants
             }
         }
 
-        public static QRModel QRRead(string str)
+        public static QRModel QRRead(string str, bool isTransfer = true)
         {
             try
             {
                 QRModel qr = new QRModel();
-                string[] temp_ = DecodeFromUtf8(str).Split(';');
+                string[] temp_;
+
+                if (isTransfer)
+                    temp_ = DecodeFromUtf8(str).Split(';');
+                else
+                    temp_ = str.Split(';');
+
                 DateTime? mfdate_;
                 DateTime? Recdate_;
                 DateTime? Expdate_;

@@ -12,8 +12,15 @@ namespace QRMS.Views
     {
         public KKDC_CLPageModel ViewModel { get; set; }
 
-        public KKDC_CLPage()
+        private string _WarehouesCode = "";
+        private string _WarehouesName = "";
+
+
+        public KKDC_CLPage(string WarehouesCode, string WarehouesName)
         {
+            _WarehouesCode = WarehouesCode;
+            _WarehouesName = WarehouesName;
+
             InitializeComponent();
 
             grid.Children.Remove(absPopup_DangXuat);
@@ -66,7 +73,7 @@ namespace QRMS.Views
 
         async void BtnKiemKeDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_ChonKhoPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_SCANPage(_WarehouesCode, _WarehouesName));
         }
 
 

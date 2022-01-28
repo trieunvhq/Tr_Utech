@@ -302,6 +302,23 @@ namespace QRMS
             return _database.Query<TransactionHistoryModel>(Sql);
         }
 
+        public List<TransactionHistoryModel> GetAllHistorySaveServerNoKey_KKDC()
+        {
+            string Sql = $"Select * From TransactionHistoryModel ";
+            Sql += $"Where ItemType = 'DC' and TransactionType = 'K' and page = 0";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
+        }
+
+        public int UpdateAllHistorySavedNoKey_KKDC()
+        {
+            string Sql = $"Update TransactionHistoryModel set ";
+            Sql += $"page = 1 ";
+            Sql += $"Where ItemType = 'DC' and TransactionType = 'K' ";
+
+            return _database.Execute(Sql);
+        }
+
 
         public void DeleteHistoryNoKey_KKDC()
         {

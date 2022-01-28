@@ -42,7 +42,7 @@ namespace QRMS.ViewModels
             {
                 Historys.Clear();
                 
-                List<TransactionHistoryModel> history_ = App.Dblocal.GetAllHistoryNoKey_KKDC();
+                List<TransactionHistoryModel> history_ = App.Dblocal.GetAllHistorySaveServerNoKey_KKDC();
                 foreach (TransactionHistoryModel item in history_)
                 {
                     if (!Historys.Contains(item))
@@ -130,8 +130,9 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
+                                App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
                                 await Controls.LoadingUtility.HideAsync();
-                                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu dữ liệu server thành công", "Đồng ý", ""); 
+                                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", ""); 
                             }
                             else
                             {

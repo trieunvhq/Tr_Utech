@@ -59,7 +59,7 @@ namespace QRMS.Views
 
         async void BtnKiemKeDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KKDC_CLPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_ChonKhoPage());
         }
 
         void BtnKiemKeNguyenLieu_CLicked(System.Object sender, System.EventArgs e)

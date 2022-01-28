@@ -38,6 +38,7 @@ namespace QRMS.AppLIB.Common
             public const string getpurchaseorderscan = "api-ht/purchaseorder/getpurchaseorderscan";
             public const string getsaleorderscan = "api-ht/saleorders/getsaleorderscan";
             public const string gethistory = "api-ht/transactionHistori/gethistory";
+            public const string gethistoryxml = "api-ht/transactionHistori/gethistoryxml";
             public const string getsaleorderitemscanbarcode = "api-ht/saleorderitem/getsaleorderitemscanbarcode";
             public const string gettransferinstructionitem = "api-ht/transferinstructionitem/gettransferinstructionitem";
             public const string gethistoryckdc = "api-ht/transactionHistori/gethistoryckdc";
