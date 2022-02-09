@@ -24,10 +24,19 @@ namespace QRMS.ViewModels
         public KKDC_CLPage _KKDC_CLPage; 
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
 
+        public string _StartColor { get; set; } = "#00a79d";
+        public string _EndColor { get; set; } = "#05aff2";
+
         public KKDC_CLPageModel(KKDC_CLPage fd)
         {
             _KKDC_CLPage = fd;
-            LoadDbLocal();          
+            LoadDbLocal();
+
+            if (Historys.Count == 0)
+            {
+                _StartColor = "#A0A0A0";
+                _EndColor = "#E0E0E0";
+            }
         }
 
         public override void OnAppearing()
@@ -69,6 +78,9 @@ namespace QRMS.ViewModels
 
                         await Controls.LoadingUtility.HideAsync();
                         await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã xoá dữ liệu thành công", "Đồng ý", "");
+
+                        _StartColor = "#A0A0A0";
+                        _EndColor = "#E0E0E0";
                     });
                 });
             }
@@ -88,7 +100,11 @@ namespace QRMS.ViewModels
                 LoadDbLocal();
 
                 if (Historys.Count == 0)
+                {
+                    _StartColor = "#A0A0A0";
+                    _EndColor = "#E0E0E0";
                     return;
+                }
 
                 string xml_ = "";
                 int count = 0;
@@ -132,7 +148,9 @@ namespace QRMS.ViewModels
                             {
                                 App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
                                 await Controls.LoadingUtility.HideAsync();
-                                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", ""); 
+                                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                _StartColor = "#A0A0A0";
+                                _EndColor = "#E0E0E0";
                             }
                             else
                             {

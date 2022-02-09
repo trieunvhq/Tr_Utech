@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="vn.trieunv.qrms" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="vn.utech.qrms" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 	<application android:icon="@mipmap/icon" android:usesCleartextTraffic="true" android:label="QRMS">
 		<provider android:name="android.support.v4.content.FileProvider" android:authorities="vn.trieunv.qrms.provider" android:exported="false" android:grantUriPermissions="true">

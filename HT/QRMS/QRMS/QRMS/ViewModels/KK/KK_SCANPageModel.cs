@@ -284,6 +284,7 @@ namespace QRMS.ViewModels
                         }
 
                         _isDaLuu = true;
+                        MySettings.To_Page = "KKDC_CLPage";
                         await Controls.LoadingUtility.HideAsync();
                         await _KK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
                           

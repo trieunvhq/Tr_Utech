@@ -37,7 +37,7 @@
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="2"/>
 
-            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="9" IsVisible="True"
+            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="9" IsVisible="False"
                    Text="" Unfocused="txtTest_Unfocused"/>
 
             <Grid Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="3" Margin="0,10,0,0">

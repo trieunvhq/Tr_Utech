@@ -156,6 +156,11 @@ namespace QRMS.Views
                 MySettings.To_Page = "";
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HomePage());
             }
+            else if (MySettings.To_Page == "KKDC_CLPage")
+            {
+                MySettings.To_Page = "";
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KKDC_CLPage(WarehouseCode, WarehouseName));
+            }
         }
 
 
