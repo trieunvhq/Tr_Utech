@@ -194,16 +194,16 @@ namespace QRMS.Constants
                 AppSettings.AddOrUpdateValue<string>(CodeKho_QRMS_KHKey, value);
             }
         }//
-        private const string MaKho_QRMS_KHKey = "last_MaKho_QRMS_KHKey";
-        public static string MaKho
+        private const string NameKho_QRMS_KHKey = "last_NameKho_QRMS_KHKey";
+        public static string NameKho
         {
             get
             {
-                return AppSettings.GetValueOrDefault<string>(MaKho_QRMS_KHKey, "");
+                return AppSettings.GetValueOrDefault<string>(NameKho_QRMS_KHKey, "");
             }
             set
             {
-                AppSettings.AddOrUpdateValue<string>(MaKho_QRMS_KHKey, value);
+                AppSettings.AddOrUpdateValue<string>(NameKho_QRMS_KHKey, value);
             }
         }//
 

@@ -73,6 +73,9 @@ namespace QRMS.ViewModels
         public bool isDangQuet = false;
         public void ScanComplate(string BarcodeScan)
         {
+            if (_NK_CPPage.isDisconnect())
+                return;
+
             string str_ = "0"; 
             try
             {

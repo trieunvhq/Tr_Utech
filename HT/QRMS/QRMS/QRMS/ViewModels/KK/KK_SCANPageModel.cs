@@ -27,7 +27,7 @@ namespace QRMS.ViewModels
         public List<string> Itemcode_Serials = new List<string>();
         public ComboModel SelectedDonHang { get; set; }
 
-        private List<string> _daQuetQR;
+        private List<string> _daQuetQR = new List<string>();
          
         public bool IsThongBao { get; set; } = true;
         public string ThongBao { get; set; } = ""; 
@@ -51,7 +51,6 @@ namespace QRMS.ViewModels
             if (mSelectedReader == null)
                 OpenBarcodeReader();
 
-            _daQuetQR = new List<string>();
             base.OnAppearing();
             LoadModels();
         }

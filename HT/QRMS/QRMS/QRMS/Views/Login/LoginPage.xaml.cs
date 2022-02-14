@@ -8,7 +8,7 @@ using QRMS.Helper;
 using QRMS.interfaces;
 using QRMS.Models;
 using System;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,10 +17,22 @@ namespace QRMS.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        private bool _isDisconnect = true;
+
         public LoginPage()
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }    
         }
 
         protected override void OnAppearing()
@@ -28,6 +40,26 @@ namespace QRMS.Views
             base.OnAppearing();
             txtPassword.Text = MySettings.Password;
             txtUserName.Text = MySettings.UserName;
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
 
 
@@ -55,10 +87,16 @@ namespace QRMS.Views
             lblUserEmptyError.IsVisible = false;
         }
 
-        void btnLogin_Clicked(System.Object sender, System.EventArgs e)
+        async void btnLogin_Clicked(System.Object sender, System.EventArgs e)
         {
             try
             {
+                if (_isDisconnect)
+                {
+                    await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                    return;
+                }
+                
                 _ = Controls.LoadingUtility.ShowAsync().ContinueWith(bb =>
                 {
                     Device.BeginInvokeOnMainThread(async () =>

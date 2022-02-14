@@ -29,16 +29,19 @@
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>
 
             <Label TextColor="Black" VerticalTextAlignment="Center"
-                   Margin="10,0,10,0" Text="Chọn kho" FontSize="16"
+                   Margin="10,0,10,0" Text="Nhập kho" FontSize="16"
                    Grid.Column="0" Grid.Row="4"/>
+
+            <control:CustomEntry x:Name="inputModel" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4"
+                   Text="{Binding WarehouseCode}"/>
          
-            <control:ComboboxView Margin="0,0,10,0"
-                x:Name="inputModel" Text="{Binding WarehouesName}"
+            <!--<control:ComboboxView Margin="0,0,10,0"
+                x:Name="inputModel" Text="{Binding WarehouseCode}"
                 Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" >
                 <control:ComboboxView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SoLoai_Tapped" />
                 </control:ComboboxView.GestureRecognizers>
-            </control:ComboboxView>
+            </control:ComboboxView>-->
 
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="8" CornerRadius="0"
                 Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal"

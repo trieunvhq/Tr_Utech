@@ -16,7 +16,7 @@ namespace QRMS.ViewModels
 {
     public class CKDC_CPPageModel : BaseViewModel
     {
-        public CKDC_CPPage _NK_CPPage;
+        public CKDC_CPPage _CKDC_CPPage;
 
         public bool IsTat { get; set; } = false;
         public bool IsQuet { get; set; } = false;
@@ -62,6 +62,9 @@ namespace QRMS.ViewModels
         public bool isDangQuet = false;
         public void ScanComplate(string BarcodeScan)
         {
+            if (_CKDC_CPPage.isDisconnect())
+                return;
+
             string str_ = "0"; 
             try
             {

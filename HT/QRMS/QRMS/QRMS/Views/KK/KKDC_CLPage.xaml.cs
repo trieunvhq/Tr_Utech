@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using QRMS.Constants;
 using QRMS.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -14,7 +15,7 @@ namespace QRMS.Views
 
         private string _WarehouesCode = "";
         private string _WarehouesName = "";
-
+        private bool _isDisconnect = true;
 
         public KKDC_CLPage(string WarehouesCode, string WarehouesName)
         {
@@ -62,17 +63,54 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
 
 
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
-        {
+        { 
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
          
 
         async void BtnKiemKeDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_SCANPage(_WarehouesCode, _WarehouesName));
         }
 
@@ -82,8 +120,14 @@ namespace QRMS.Views
             ViewModel.DeleteDBLocal();
         }
 
-        void BtnLuuDataSever_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnLuuDataSever_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             ViewModel.SaveDBServer();
         }
 

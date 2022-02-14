@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using QRMS.Constants;
 using QRMS.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -11,6 +12,7 @@ namespace QRMS.Views
 {
     public partial class KK_ChonKhoPage : ContentPage
     {
+        private bool _isDisconnect = true;
         public KK_ChonKhoPageModel ViewModel { get; set; }
         public KK_ChonKhoPage()
         {
@@ -56,8 +58,41 @@ namespace QRMS.Views
                 }
             }
 
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }    
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+        }
 
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
@@ -67,6 +102,12 @@ namespace QRMS.Views
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KKDC_CLPage(ViewModel.WarehouesCode, ViewModel.WarehouesName));
         }
 

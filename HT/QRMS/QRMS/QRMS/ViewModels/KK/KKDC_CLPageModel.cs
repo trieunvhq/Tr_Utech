@@ -171,5 +171,70 @@ namespace QRMS.ViewModels
                 });
             }
         }
+
+
+        private bool InsertToServer()
+        {
+            try
+            {
+                LoadDbLocal();
+
+                if (Historys.Count == 0)
+                {
+                    _StartColor = "#A0A0A0";
+                    _EndColor = "#E0E0E0";
+                    return false;
+                }
+
+                string xml_ = "";
+                int count = 0;
+
+                foreach (TransactionHistoryModel item in Historys)
+                {
+                    string temp_ = MySettings.MyToString(item) + "❖";
+                    if (item.ID == 0 && temp_ != null)
+                    {
+                        xml_ += temp_;
+                        count++;
+                    }
+                }
+
+                if (count == 0)
+                    return false;
+
+                xml_ = xml_.Trim('❖');
+
+                TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                {
+                    TransactionType = "K",
+                    OrderNo = Historys[0].OrderNo,
+                    ExportStatus = "N",
+                    RecordStatus = "N",
+                    WarehouseCode_From = Historys[0].WarehouseCode_From,
+                    WarehouseName_From = Historys[0].WarehouseName_From,
+                    DATA = xml_
+                };
+
+                var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                Histori_);
+                if (result != null && result.Result != null)
+                {
+                    if (result.Result.data == 1)
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
     }
 }

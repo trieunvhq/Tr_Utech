@@ -31,7 +31,7 @@
             <Label TextColor="Black" VerticalTextAlignment="Center"
                    Margin="10,0,0,0" Text="Kho kiểm kê" FontSize="16"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"/>
-            <Entry x:Name="txtMaKho" BackgroundColor="Transparent" TextColor="Black" FontSize="16" MaxLength="50"
+            <Entry x:Name="txtNameKho" BackgroundColor="Transparent" TextColor="Black" FontSize="16" MaxLength="50"
                    Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4"/>
 
           

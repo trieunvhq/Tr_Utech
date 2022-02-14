@@ -1,6 +1,7 @@
 ﻿  
 using QRMS.Constants;
 using QRMS.Views.CK;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -9,6 +10,7 @@ namespace QRMS.Views
 {
     public partial class NK_HOMEPage : ContentPage
     {
+        private bool _isDisconnect = true;
         public NK_HOMEPage()
         {
             InitializeComponent();
@@ -71,6 +73,37 @@ namespace QRMS.Views
                 lbThanhPham.Text = "3. CHUYỂN KHO THÀNH PHẨM"; 
             }
 
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
 
 
@@ -81,6 +114,12 @@ namespace QRMS.Views
 
         async void BtnDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             if (MySettings.Index_Page == 1 || MySettings.Index_Page == 2)
             {
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_CPPage());
@@ -95,12 +134,22 @@ namespace QRMS.Views
 
         async void BtnNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
         {
+            //if (_isDisconnect)
+            //{
+            //    await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            //    return;
+            //}
             //await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKePage());
 
         }
 
         async void BtnThanhPham_CLicked(System.Object sender, System.EventArgs e)
         {
+            //if (_isDisconnect)
+            //{
+            //    await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            //    return;
+            //}
             //await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new ChonKhoKiemKe2Page());
 
         }

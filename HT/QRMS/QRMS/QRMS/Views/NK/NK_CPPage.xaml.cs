@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using QRMS.Constants;
 using QRMS.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -11,7 +12,7 @@ namespace QRMS.Views
     public partial class NK_CPPage : ContentPage
     {
         //MyScan _MyScan; 
-
+        private bool _isDisconnect = true;
         public NK_CPPageModel ViewModel { get; set; }
         public NK_CPPage()
         {
@@ -70,6 +71,38 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
 
         protected override bool OnBackButtonPressed()
@@ -93,6 +126,12 @@ namespace QRMS.Views
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
@@ -121,16 +160,11 @@ namespace QRMS.Views
                 });
             });
         }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.OnAppearing();
-        }
+         
 
         void CustomEntry_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
-            ViewModel.ScanComplate(txtTest.Text);
+            ViewModel.ScanComplate(txtTest.Text.Trim().ToUpper());
         }
 
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
@@ -207,6 +241,19 @@ namespace QRMS.Views
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
             {
+            }
+        }
+
+        public bool isDisconnect()
+        {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

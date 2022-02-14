@@ -1,13 +1,16 @@
 ﻿ 
 using QRMS.Constants;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
-{
+{ 
     public partial class KKPage : ContentPage
     {
+        private bool _isDisconnect = true;
+
         public KKPage()
         {
             InitializeComponent();
@@ -46,28 +49,73 @@ namespace QRMS.Views
                 }
             }
 
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+        }
 
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
-        {
+        { 
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
         }
-
-
          
 
         async void BtnKiemKeDungCu_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_ChonKhoPage());
         }
 
-        void BtnKiemKeNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnKiemKeNguyenLieu_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
         }
 
-        void BtnKiemKeThanhPham_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnKiemKeThanhPham_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
         }
     }
 }

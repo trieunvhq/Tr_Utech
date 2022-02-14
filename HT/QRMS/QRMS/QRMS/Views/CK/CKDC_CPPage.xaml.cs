@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using QRMS.Constants;
 using QRMS.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -12,6 +13,7 @@ namespace QRMS.Views.CK
     {
         //MyScan _MyScan; 
 
+        private bool _isDisconnect = true;
         public CKDC_CPPageModel ViewModel { get; set; }
         public CKDC_CPPage()
         {
@@ -25,7 +27,7 @@ namespace QRMS.Views.CK
             ViewModel = new CKDC_CPPageModel();
             ViewModel.Initialize();
             BindingContext = ViewModel;
-            ViewModel._NK_CPPage = this;
+            ViewModel._CKDC_CPPage = this;
             //_MyScan = new MyScan();
             //_MyScan._NK_CPPageModel = ViewModel;
 
@@ -58,6 +60,38 @@ namespace QRMS.Views.CK
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
 
         protected override bool OnBackButtonPressed()
@@ -80,6 +114,12 @@ namespace QRMS.Views.CK
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
@@ -96,12 +136,6 @@ namespace QRMS.Views.CK
                     await Controls.LoadingUtility.HideAsync();
                 });
             });
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.OnAppearing();
         }
 
         void CustomEntry_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
@@ -183,6 +217,19 @@ namespace QRMS.Views.CK
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
             {
+            }
+        }
+
+        public bool isDisconnect()
+        {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

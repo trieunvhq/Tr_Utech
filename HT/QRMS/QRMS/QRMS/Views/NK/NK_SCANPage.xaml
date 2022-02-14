@@ -55,7 +55,7 @@
                 </Label.FormattedText>
             </Label>
             
-            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" IsVisible="False"
+            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" IsVisible="True"
                    Text="" Unfocused="txtTest_Unfocused"/>
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"

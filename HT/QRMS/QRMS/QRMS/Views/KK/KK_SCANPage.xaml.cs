@@ -7,6 +7,7 @@ using QRMS.Helper;
 using QRMS.Models;
 using QRMS.Models.KKDC;
 using QRMS.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific; 
@@ -21,6 +22,7 @@ namespace QRMS.Views
 
         public string WarehouseCode;
         public string WarehouseName;
+        private bool _isDisconnect = true;
 
         public KK_SCANPage(string WarehouseCode_, string WarehouseName_)
         {
@@ -71,6 +73,38 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
 
         protected override bool OnBackButtonPressed()
@@ -78,6 +112,8 @@ namespace QRMS.Views
             BtnQuayLai_CLicked(null, null);
             return true;
         }
+
+
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
@@ -110,12 +146,6 @@ namespace QRMS.Views
             });
         }
          
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.OnAppearing();
-        }
-
 
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         {
@@ -178,7 +208,6 @@ namespace QRMS.Views
         void txtTest_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
             ViewModel.ScanComplate(txtTest.Text);
-        }
-
+        } 
     }
 }

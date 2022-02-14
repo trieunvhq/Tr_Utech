@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Acr.UserDialogs;
 using QRMS.Constants;
 using QRMS.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -12,6 +13,7 @@ namespace QRMS.Views
 {
     public partial class KhoPage : ContentPage
     {
+        private bool _isDisconnect = true;
         public KhoPageModel ViewModel { get; set; }
         public KhoPage()
         {
@@ -53,8 +55,38 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+        }
 
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
@@ -64,15 +96,31 @@ namespace QRMS.Views
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
-            if(ViewModel.SelectedKho != null)
+            if (!string.IsNullOrWhiteSpace(inputModel.Text.Trim()))
             {
-                MySettings.MaKho = ViewModel.SelectedKho.WarehouesName;
-                MySettings.CodeKho = ViewModel.SelectedKho.WarehouseCode;
-            } 
-            await UserDialogs.Instance.ConfirmAsync("", "Thành công!", "Đồng ý","");
-        } 
+                MySettings.NameKho = inputModel.Text.Trim();
+                MySettings.CodeKho = inputModel.Text.Trim();
+
+                await UserDialogs.Instance.ConfirmAsync("", "Thành công!", "Đồng ý", "");
+            }
+            //if(ViewModel.SelectedKho != null)
+            //{
+            //    MySettings.NameKho = ViewModel.SelectedKho.WarehouesName;
+            //    MySettings.CodeKho = ViewModel.SelectedKho.WarehouseCode;
+
+            //    await UserDialogs.Instance.ConfirmAsync("", "Thành công!", "Đồng ý", "");
+            //}
+        }
+
+
         async void SoLoai_Tapped(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
             {
                 Device.BeginInvokeOnMainThread(async () =>

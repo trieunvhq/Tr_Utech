@@ -23,7 +23,7 @@
                 <RowDefinition Height="60"/> 
             </Grid.RowDefinitions>
 
-            <Label Text="CHỌN KHO KIỂM KÊ" Margin="10,0,0,0" VerticalTextAlignment="Center"
+            <Label Text="NHẬP KHO KIỂM KÊ" Margin="10,0,0,0" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
             
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"/>
@@ -32,13 +32,16 @@
                    Margin="10,0,0,0" Text="Kho kiểm kê" FontSize="16"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"/>
       
-             <control:ComboboxView Margin="0,0,10,0"
+            <control:CustomEntry x:Name="inputModel" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4"
+                   Text="{Binding WarehouesCode}"/>
+
+            <!--<control:ComboboxView Margin="0,0,10,0"
                 x:Name="inputModel" Text="{Binding WarehouesCode}"
                  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4">
                 <control:ComboboxView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SoLoai_Tapped" />
                 </control:ComboboxView.GestureRecognizers>
-            </control:ComboboxView>
+            </control:ComboboxView>-->
 
 
             <helper:ButtonCustoms Text="Quay lại" Grid.Column="0" Grid.Row="8" CornerRadius="0"

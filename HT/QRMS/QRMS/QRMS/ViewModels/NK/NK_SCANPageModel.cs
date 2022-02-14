@@ -63,7 +63,6 @@ namespace QRMS.ViewModels
         {
             if (mSelectedReader == null)
                 OpenBarcodeReader();
-            _daQuetQR = new List<string>();
             base.OnAppearing();
         }
 
@@ -92,11 +91,12 @@ namespace QRMS.ViewModels
                     List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                     foreach (TransactionHistoryModel item in historys)
                     {
-                        if (!isTrungNhanQR(item.EXT_QRCode))
+                        if (!_daQuetQR.Contains(item.EXT_QRCode))
                         {
                             item.token = MySettings.Token;
                             item.page = 0;
                             Historys.Add(item);
+                            _daQuetQR.Add(item.EXT_QRCode);
                             _indexHistory++;
                         }
                     }
@@ -147,11 +147,12 @@ namespace QRMS.ViewModels
                     List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                     foreach (TransactionHistoryModel item in historys)
                     {
-                        if (!isTrungNhanQR(item.EXT_QRCode))
+                        if (!_daQuetQR.Contains(item.EXT_QRCode))
                         {
                             item.token = MySettings.Token;
                             item.page = 0;
                             Historys.Add(item);
+                            _daQuetQR.Add(item.EXT_QRCode);
                             _indexHistory++;
                         }
                     }
@@ -198,11 +199,12 @@ namespace QRMS.ViewModels
                     List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
                     foreach (TransactionHistoryModel item in historys)
                     {
-                        if (!isTrungNhanQR(item.EXT_QRCode))
+                        if (!_daQuetQR.Contains(item.EXT_QRCode))
                         {
                             item.token = MySettings.Token;
                             item.page = 0;
                             Historys.Add(item);
+                            _daQuetQR.Add(item.EXT_QRCode);
                             _indexHistory++;
                         }
                     }
@@ -335,10 +337,11 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             { 
-                                if (!isTrungNhanQR(result.Result.data[i].EXT_QRCode))
+                                if (!_daQuetQR.Contains(result.Result.data[i].EXT_QRCode))
                                 {
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
+                                    _daQuetQR.Add(result.Result.data[i].EXT_QRCode);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
                                 }
                             }
@@ -438,10 +441,11 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             { 
-                                if (!isTrungNhanQR(result.Result.data[i].EXT_QRCode))
+                                if (!_daQuetQR.Contains(result.Result.data[i].EXT_QRCode))
                                 {
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
+                                    _daQuetQR.Add(result.Result.data[i].EXT_QRCode);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
                                 }
                             }
@@ -542,10 +546,11 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             { 
-                                if (!isTrungNhanQR(result.Result.data[i].EXT_QRCode))
+                                if (!_daQuetQR.Contains(result.Result.data[i].EXT_QRCode))
                                 {
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
+                                    _daQuetQR.Add(result.Result.data[i].EXT_QRCode);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
                                 }
                             }
@@ -647,6 +652,7 @@ namespace QRMS.ViewModels
                             {
                                 Historys.Clear();
                                 NhapKhos.Clear();
+                                _daQuetQR.Clear();
                                 App.Dblocal.DeleteAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                                 App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                                 //MySettings.InsertLogs(0, DateTime.Now, "2inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
@@ -709,7 +715,7 @@ namespace QRMS.ViewModels
                             {
                                 Historys.Clear();
                                 XuatKhos.Clear();
-
+                                _daQuetQR.Clear();
                                 App.Dblocal.DeleteAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
                                 App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
 
@@ -773,6 +779,7 @@ namespace QRMS.ViewModels
                             {
                                 Historys.Clear();
                                 ChuyenKhos.Clear();
+                                _daQuetQR.Clear();
 
                                 App.Dblocal.DeleteHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
                                 App.Dblocal.DeleteTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
@@ -835,39 +842,48 @@ namespace QRMS.ViewModels
                         return;
                     }
 
-                    if (_daQuetQR.Contains(str)) 
-                    {
-                        IsThongBao = true;
-                        Color = Color.Red;
-                        ThongBao = "Nhãn đã được quét"; 
-                        return;
-                    }
+                    string str_decode = MySettings.DecodeFromUtf8(str);
 
-                    temp_ = "14";
-                    for (int i = 0; i < Historys.Count; ++i)
+                    if (_daQuetQR.Contains(str_decode)) 
                     {
-                        if ((Historys[i].EXT_Serial == null || Historys[i].EXT_Serial == qr.Serial) &&
-                            Historys[i].ItemCode == qr.Code)
-                        {
-                            IsTonTai_ = true;
-                            index_ = i;
-                            break;
-                        }
-                    }
-                    temp_ = "5";
-                    if (IsTonTai_)
-                    {
-                        Color = Color.Red;
                         IsThongBao = true;
-                        temp_ = "6";
+                        Color = Color.Red;
 
                         if (MySettings.Index_Page == 1)
-                            ThongBao = "Nhãn đã được nhập"; 
+                            ThongBao = "Nhãn đã được nhập";
                         else if (MySettings.Index_Page == 2)
                             ThongBao = "Nhãn đã được xuất";
                         else
                             ThongBao = "Nhãn đã được chuyển";
+
+                        return;
                     }
+
+                    //temp_ = "14";
+                    //for (int i = 0; i < Historys.Count; ++i)
+                    //{
+                    //    if ((Historys[i].EXT_Serial == null || Historys[i].EXT_Serial == qr.Serial) &&
+                    //        Historys[i].ItemCode == qr.Code)
+                    //    {
+                    //        IsTonTai_ = true;
+                    //        index_ = i;
+                    //        break;
+                    //    }
+                    //}
+                    //temp_ = "5";
+                    //if (IsTonTai_)
+                    //{
+                    //    Color = Color.Red;
+                    //    IsThongBao = true;
+                    //    temp_ = "6";
+
+                    //    if (MySettings.Index_Page == 1)
+                    //        ThongBao = "Nhãn đã được nhập"; 
+                    //    else if (MySettings.Index_Page == 2)
+                    //        ThongBao = "Nhãn đã được xuất";
+                    //    else
+                    //        ThongBao = "Nhãn đã được chuyển";
+                    //}
                     else
                     {
                         if (MySettings.Index_Page == 1)
@@ -890,16 +906,21 @@ namespace QRMS.ViewModels
                                         _NK_SCANPage.soluong_ = soluong_;
                                         _NK_SCANPage.i = i;
                                         _NK_SCANPage.qr = qr;
-                                        _NK_SCANPage.str = str;
+                                        _NK_SCANPage.str = str_decode;
                                         temp_ = "11";
-                                        //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
+
+                                        //var ans = await UserDialogs.Instance.ConfirmAsync("Thông báo", "Vượt sl", "OK");
+
+                                        //if (ans)
+                                        //    await Application.Current.MainPage.DisplayAlert("Thông báo", "Vượt số lượng", "OK");
+
                                         await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", ""); temp_ = "12";
                                     }
                                     else
                                     {
                                         temp_ = "13";
                                         UpdateTableNhapKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
                                     }
 
 
@@ -932,14 +953,14 @@ namespace QRMS.ViewModels
                                         _NK_SCANPage.soluong_ = soluong_;
                                         _NK_SCANPage.i = i;
                                         _NK_SCANPage.qr = qr;
-                                        _NK_SCANPage.str = str; 
+                                        _NK_SCANPage.str = str_decode; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
                                         await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
                                     }
                                     else
                                     {
                                         UpdateTableXuatKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
                                     }
 
                                     //
@@ -971,7 +992,7 @@ namespace QRMS.ViewModels
                                         _NK_SCANPage.soluong_ = soluong_;
                                         _NK_SCANPage.i = i;
                                         _NK_SCANPage.qr = qr;
-                                        _NK_SCANPage.str = str; 
+                                        _NK_SCANPage.str = str_decode; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
                                         await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
 
@@ -979,7 +1000,7 @@ namespace QRMS.ViewModels
                                     else
                                     {
                                         UpdateTableChuyenKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
                                     }
 
                                     //
@@ -1113,7 +1134,7 @@ namespace QRMS.ViewModels
                     EXT_MfDate = qr.MfDate,
                     EXT_RecDate = qr.RecDate,
                     EXT_ExpDate = qr.ExpDate,
-                    EXT_QRCode = MySettings.DecodeFromUtf8(str),
+                    EXT_QRCode = str,
                     CustomerCode = qr.CustomerCode,
                     ExportStatus = ExportStatus_,
                     RecordStatus = RecordStatus_,
