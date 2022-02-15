@@ -140,7 +140,7 @@ namespace QRMS.Views.CK
 
         void CustomEntry_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
-            ViewModel.ScanComplate(txtTest.Text);
+            ViewModel.ScanComplate(txtTest.Text.Trim().ToUpper());
         }
 
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)

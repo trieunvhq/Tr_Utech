@@ -56,6 +56,9 @@ namespace QRMS
             {
                 MySettings.Vi_En = true;
             }
+
+            MySettings.IsVisible_Test = true;
+
             InitializeComponent();
 
             Device.SetFlags(new[] {

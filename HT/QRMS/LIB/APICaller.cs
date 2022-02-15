@@ -180,7 +180,7 @@ namespace LIB
 
                 }
 
-                var _APIClient = await url.WithTimeout(90)
+                var _APIClient = await url.WithTimeout(600)
                     .AllowAnyHttpStatus()
                     .AppendPathSegment(method)
                     .WithOAuthBearerToken(AccessToken)

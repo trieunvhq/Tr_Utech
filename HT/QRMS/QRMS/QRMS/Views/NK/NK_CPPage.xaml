@@ -2,6 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:QRMS.Constants"
     xmlns:helper="clr-namespace:QRMS.Helper"
     xmlns:control="clr-namespace:QRMS.Controls" xmlns:forms1="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
     x:Class="QRMS.Views.NK_CPPage">
@@ -46,8 +47,9 @@
                 </Label.FormattedText>
             </Label>
             
-            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="12" IsVisible="True"
-                   Text="" Unfocused="CustomEntry_Unfocused"/>
+            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="12"
+                                 IsVisible="{x:Static constants:MySettings.IsVisible_Test}"
+                                 Text="" Unfocused="CustomEntry_Unfocused"/>
             
             <Label TextColor="Black" VerticalTextAlignment="Center"
                    Margin="10,0,0,0" Text="Số phiếu" FontSize="16"

@@ -21,5 +21,7 @@ namespace QRMS.Models.Shares
         public string ExportStatus { get; set; }
         public string RecordStatus { get; set; }
         public string DATA { get; set; }
+        public string Key { get; set; }
+        public string Status { get; set; }
     }
 }

@@ -100,6 +100,7 @@ namespace QRMS.Views
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         { 
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+            //await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_ChonKhoPage());
         }
          
 
@@ -111,7 +112,17 @@ namespace QRMS.Views
                 return;
             }
 
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_SCANPage(_WarehouesCode, _WarehouesName));
+            await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    App.Dblocal.DeleteHistoryNoKey_KKDC();
+
+                    await Controls.LoadingUtility.HideAsync();
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_SCANPage(_WarehouesCode, _WarehouesName));
+                });
+            });
+
         }
 
 

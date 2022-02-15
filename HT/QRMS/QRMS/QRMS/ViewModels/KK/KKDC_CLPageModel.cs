@@ -21,11 +21,34 @@ namespace QRMS.ViewModels
 {
     public class KKDC_CLPageModel : BaseViewModel
     {
+        private const int _Part = 10000;
         public KKDC_CLPage _KKDC_CLPage; 
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
 
-        public string _StartColor { get; set; } = "#00a79d";
-        public string _EndColor { get; set; } = "#05aff2";
+
+        private string _StartColor = "#00a79d";
+        public string StartColor
+        {
+            get => _StartColor;
+
+            set
+            {
+                _StartColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string _EndColor = "#05aff2";
+        public string EndColor
+        {
+            get => _EndColor;
+
+            set
+            {
+                _EndColor = value;
+                OnPropertyChanged();
+            }
+        }
 
         public KKDC_CLPageModel(KKDC_CLPage fd)
         {
@@ -99,6 +122,13 @@ namespace QRMS.ViewModels
             {
                 LoadDbLocal();
 
+                for (int i = 0; i < 1000; i++)
+                {
+                    TransactionHistoryModel his_ = Historys[0];
+                    his_.ItemCode = "ABC" + i.ToString();
+                    Historys.Add(his_);
+                }    
+
                 if (Historys.Count == 0)
                 {
                     _StartColor = "#A0A0A0";
@@ -106,60 +136,89 @@ namespace QRMS.ViewModels
                     return;
                 }
 
-                string xml_ = "";
-                int count = 0;
-
-                foreach (TransactionHistoryModel item in Historys)
-                {
-                    string temp_ = MySettings.MyToString(item) + "❖";
-                    if (item.ID == 0 && temp_ != null)
-                    {
-                        xml_ += temp_;
-                        count++;
-                    }
-                }
-
-                if (count == 0)
-                    return;
-
-                xml_ = xml_.Trim('❖');
-
-                TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                {
-                    TransactionType = "K",
-                    OrderNo = Historys[0].OrderNo,
-                    ExportStatus = "N",
-                    RecordStatus = "N",
-                    WarehouseCode_From = Historys[0].WarehouseCode_From,
-                    WarehouseName_From = Historys[0].WarehouseName_From,
-                    DATA = xml_
-                };
-
                 await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
-                                                Histori_);
-                    if (result != null && result.Result != null)
+                    var result = InsertToServer();
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        Device.BeginInvokeOnMainThread(async () =>
+                        if (result)
                         {
-                            if (result.Result.data == 1)
-                            {
-                                App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
-                                await Controls.LoadingUtility.HideAsync();
-                                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
-                                _StartColor = "#A0A0A0";
-                                _EndColor = "#E0E0E0";
-                            }
-                            else
-                            {
-                                await Controls.LoadingUtility.HideAsync();
-                                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", ""); 
-                            }
-                        });
-                    }
+                            _StartColor = "#A0A0A0";
+                            _EndColor = "#E0E0E0";
+                            App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
+                            await Controls.LoadingUtility.HideAsync();
+                            await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                        }
+                        else
+                        {
+                            await Controls.LoadingUtility.HideAsync();
+                            await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                        }
+                    });
                 });
+                //LoadDbLocal();
+
+                //if (Historys.Count == 0)
+                //{
+                //    _StartColor = "#A0A0A0";
+                //    _EndColor = "#E0E0E0";
+                //    return;
+                //}
+
+                //string xml_ = "";
+                //int count = 0;
+
+                //foreach (TransactionHistoryModel item in Historys)
+                //{
+                //    string temp_ = MySettings.MyToString(item) + "❖";
+                //    if (item.ID == 0 && temp_ != null)
+                //    {
+                //        xml_ += temp_;
+                //        count++;
+                //    }
+                //}
+
+                //if (count == 0)
+                //    return;
+
+                //xml_ = xml_.Trim('❖');
+
+                //TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                //{
+                //    TransactionType = "K",
+                //    OrderNo = Historys[0].OrderNo,
+                //    ExportStatus = "N",
+                //    RecordStatus = "N",
+                //    WarehouseCode_From = Historys[0].WarehouseCode_From,
+                //    WarehouseName_From = Historys[0].WarehouseName_From,
+                //    DATA = xml_
+                //};
+
+                //await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+                //{
+                //    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                //                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                //                                Histori_);
+                //    if (result != null && result.Result != null)
+                //    {
+                //        Device.BeginInvokeOnMainThread(async () =>
+                //        {
+                //            if (result.Result.data == 1)
+                //            {
+                //                App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
+                //                await Controls.LoadingUtility.HideAsync();
+                //                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                //                _StartColor = "#A0A0A0";
+                //                _EndColor = "#E0E0E0";
+                //            }
+                //            else
+                //            {
+                //                await Controls.LoadingUtility.HideAsync();
+                //                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", ""); 
+                //            }
+                //        });
+                //    }
+                //});
             }
             catch (Exception ex)
             {
@@ -175,65 +234,83 @@ namespace QRMS.ViewModels
 
         private bool InsertToServer()
         {
+            bool Result_ = true;
             try
-            {
-                LoadDbLocal();
+            { 
+                bool isSending = true;
+                int NumSended = 0;
+                int index_his = 0;
 
-                if (Historys.Count == 0)
+                while (isSending)
                 {
-                    _StartColor = "#A0A0A0";
-                    _EndColor = "#E0E0E0";
-                    return false;
-                }
+                    string xml_ = "";
+                    int count = 0;
+                    string status_ = "";
 
-                string xml_ = "";
-                int count = 0;
+                    if (NumSended == 0)
+                        status_ = "start";
+                    else
+                        status_ = "sending";
 
-                foreach (TransactionHistoryModel item in Historys)
-                {
-                    string temp_ = MySettings.MyToString(item) + "❖";
-                    if (item.ID == 0 && temp_ != null)
+                    for (int i = 0; i < _Part; i++)
                     {
-                        xml_ += temp_;
-                        count++;
+                        string temp_ = MySettings.MyToString(Historys[index_his]) + "❖";
+                        if (Historys[index_his].ID == 0 && temp_ != null)
+                        {
+                            xml_ += temp_;
+                            count++;
+                        }
+
+                        if (index_his == Historys.Count - 1)
+                        {
+                            status_ = "end";
+                            isSending = false;
+                            break;
+                        }
+
+                        index_his++;
                     }
-                }
 
-                if (count == 0)
-                    return false;
+                    if (count == 0)
+                        return false;
 
-                xml_ = xml_.Trim('❖');
+                    xml_ = xml_.Trim('❖');
 
-                TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                {
-                    TransactionType = "K",
-                    OrderNo = Historys[0].OrderNo,
-                    ExportStatus = "N",
-                    RecordStatus = "N",
-                    WarehouseCode_From = Historys[0].WarehouseCode_From,
-                    WarehouseName_From = Historys[0].WarehouseName_From,
-                    DATA = xml_
-                };
-
-                var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
-                                                Histori_);
-                if (result != null && result.Result != null)
-                {
-                    if (result.Result.data == 1)
+                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
                     {
-                        return true;
+                        TransactionType = "K",
+                        OrderNo = Historys[0].OrderNo,
+                        ExportStatus = "N",
+                        RecordStatus = "N",
+                        WarehouseCode_From = Historys[0].WarehouseCode_From,
+                        WarehouseName_From = Historys[0].WarehouseName_From,
+                        Key = MySettings.Token,
+                        Status = status_,
+                        DATA = xml_
+                    };
+
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                    (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                    Histori_);
+                    if (result != null && result.Result != null)
+                    {
+                        if (result.Result.data != 1)
+                        {
+                            Result_ = false;
+                        }
                     }
                     else
-                        return false;
-                }
-                else
-                    return false;
+                        Result_ = false;
+
+                    NumSended++;
+                }    
             }
             catch (Exception ex)
             {
-                return false;
+                Result_ = false;
             }
+
+            return Result_;
         }
 
     }

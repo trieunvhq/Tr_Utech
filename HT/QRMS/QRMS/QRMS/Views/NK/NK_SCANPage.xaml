@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:helper="clr-namespace:QRMS.Helper"
+    xmlns:constants="clr-namespace:QRMS.Constants"
     xmlns:control="clr-namespace:QRMS.Controls" xmlns:forms1="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
     x:Class="QRMS.Views.NK_SCANPage">
     <ContentPage.Content>
@@ -55,7 +56,8 @@
                 </Label.FormattedText>
             </Label>
             
-            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9" IsVisible="True"
+            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="9"
+                   IsVisible="{x:Static constants:MySettings.IsVisible_Test}"
                    Text="" Unfocused="txtTest_Unfocused"/>
 
             <Label Text="Dụng cụ" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
