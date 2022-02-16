@@ -1,6 +1,7 @@
 ﻿
 using System.Threading.Tasks;
 using QRMS.Constants;
+using QRMS.Helper;
 using QRMS.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -78,6 +79,7 @@ namespace QRMS.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            ViewModel.OnAppearing();
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
         }
 
@@ -88,6 +90,8 @@ namespace QRMS.Views
                 _isDisconnect = true;
                 await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
             }
+            else
+                _isDisconnect = false;
         }
 
         protected override void OnDisappearing()
@@ -116,8 +120,6 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    App.Dblocal.DeleteHistoryNoKey_KKDC();
-
                     await Controls.LoadingUtility.HideAsync();
                     await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KK_SCANPage(_WarehouesCode, _WarehouesName));
                 });
@@ -142,6 +144,32 @@ namespace QRMS.Views
             ViewModel.SaveDBServer();
         }
 
+        public void LoadColor(int tt)
+        {
+            Color StartColor = Color.FromHex("#00a79d");
+            Color EndColor = Color.FromHex("#05aff2");
+            if (tt == 0)
+            {
+                StartColor = Color.FromHex("#A0A0A0");
+                EndColor = Color.FromHex("#E0E0E0");
+            }
+            else if (tt == 1)
+            {
+                StartColor = Color.FromHex("#00a79d");
+                EndColor = Color.FromHex("#05aff2");
+            }
+            grid.Children.Remove(btnLuu);
+            ButtonCustoms btn_ = new ButtonCustoms
+            {
+                Text = "2. LƯU DỮ LIỆU SERVER",
+                StartColor = StartColor,
+                EndColor = EndColor,
+                GradientOrientation = ButtonCustoms.GradientOrientationStates.Horizontal,
+                CornerRadius = 0
+            };
+            btn_.Clicked += BtnLuuDataSever_CLicked;
+            grid.Children.Add(btn_, 0, 3, 6, 7);
+        }
 
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
         {

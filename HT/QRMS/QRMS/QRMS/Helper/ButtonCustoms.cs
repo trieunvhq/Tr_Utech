@@ -24,21 +24,24 @@ namespace QRMS.Helper
                 nameof(StartColor),
                 typeof(Color),
                 typeof(ButtonCustoms),
-                default(Color));
+                default(Color),
+                BindingMode.TwoWay);
 
         public static readonly BindableProperty EndColorProperty =
             BindableProperty.Create(
                 nameof(EndColor),
                 typeof(Color),
                 typeof(ButtonCustoms),
-                default(Color));
+                default(Color),
+                BindingMode.TwoWay);
 
         public static readonly BindableProperty GradientOrientationProperty =
             BindableProperty.Create(
                 nameof(GradientOrientation),
                 typeof(GradientOrientationStates),
                 typeof(ButtonCustoms),
-                default(GradientOrientationStates));
+                default(GradientOrientationStates),
+                BindingMode.TwoWay);
         #endregion
 
         #region properties

@@ -99,6 +99,8 @@ namespace QRMS.Views
                 _isDisconnect = true;
                 await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
             }
+            else
+                _isDisconnect = false;
         }
 
         protected override void OnDisappearing()
@@ -138,8 +140,7 @@ namespace QRMS.Views
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
-                {
-
+                { 
                     ViewModel.SaveDBlocal();
                     await Controls.LoadingUtility.HideAsync();
                 });

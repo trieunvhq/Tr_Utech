@@ -22,7 +22,7 @@ namespace QRMS.AppLIB.Common
 
             public const string getitem = "api-ht/purchaseorderitem/getitem";
             public const string transfergetitem = "api-ht/transferinstructionitem/getitem";
-            //public const string inserthistory = "api-ht/transactionHistori/inserthistory";
+            public const string inserthistorylagsplit = "api-ht/transactionHistori/inserthistorylagsplit";
             public const string inserthistory = "api-ht/transactionHistori/inserthistorylag";
             public const string updateitem = "api-ht/purchaseorderitem/updateitem";
             public const string transferupdateitem = "api-ht/transferinstructionitem/updateitem";

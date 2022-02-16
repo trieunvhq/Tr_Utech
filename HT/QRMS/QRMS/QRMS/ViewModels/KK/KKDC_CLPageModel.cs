@@ -25,46 +25,20 @@ namespace QRMS.ViewModels
         public KKDC_CLPage _KKDC_CLPage; 
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
 
-
-        private string _StartColor = "#00a79d";
-        public string StartColor
-        {
-            get => _StartColor;
-
-            set
-            {
-                _StartColor = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string _EndColor = "#05aff2";
-        public string EndColor
-        {
-            get => _EndColor;
-
-            set
-            {
-                _EndColor = value;
-                OnPropertyChanged();
-            }
-        }
-
         public KKDC_CLPageModel(KKDC_CLPage fd)
         {
             _KKDC_CLPage = fd;
-            LoadDbLocal();
-
-            if (Historys.Count == 0)
-            {
-                _StartColor = "#A0A0A0";
-                _EndColor = "#E0E0E0";
-            }
         }
 
         public override void OnAppearing()
         {
             base.OnAppearing();
+            LoadDbLocal();
+
+            if (Historys.Count == 0)
+                _KKDC_CLPage.LoadColor(0);
+            else
+                _KKDC_CLPage.LoadColor(1);
         }
 
 
@@ -98,12 +72,9 @@ namespace QRMS.ViewModels
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         App.Dblocal.DeleteHistoryNoKey_KKDC();
-
+                        _KKDC_CLPage.LoadColor(0);
                         await Controls.LoadingUtility.HideAsync();
                         await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã xoá dữ liệu thành công", "Đồng ý", "");
-
-                        _StartColor = "#A0A0A0";
-                        _EndColor = "#E0E0E0";
                     });
                 });
             }
@@ -120,105 +91,100 @@ namespace QRMS.ViewModels
         {
             try
             {
-                LoadDbLocal();
-
-                for (int i = 0; i < 1000; i++)
-                {
-                    TransactionHistoryModel his_ = Historys[0];
-                    his_.ItemCode = "ABC" + i.ToString();
-                    Historys.Add(his_);
-                }    
-
-                if (Historys.Count == 0)
-                {
-                    _StartColor = "#A0A0A0";
-                    _EndColor = "#E0E0E0";
-                    return;
-                }
-
-                await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
-                {
-                    var result = InsertToServer();
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        if (result)
-                        {
-                            _StartColor = "#A0A0A0";
-                            _EndColor = "#E0E0E0";
-                            App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
-                            await Controls.LoadingUtility.HideAsync();
-                            await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
-                        }
-                        else
-                        {
-                            await Controls.LoadingUtility.HideAsync();
-                            await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
-                        }
-                    });
-                });
                 //LoadDbLocal();
+
+                //for (int i = 0; i < 10; i++)
+                //{
+                //    TransactionHistoryModel his_ = Historys[0];
+                //    Historys.Add(his_);
+                //}    
 
                 //if (Historys.Count == 0)
                 //{
-                //    _StartColor = "#A0A0A0";
-                //    _EndColor = "#E0E0E0";
+                //    _KKDC_CLPage.LoadColor(0);
                 //    return;
                 //}
-
-                //string xml_ = "";
-                //int count = 0;
-
-                //foreach (TransactionHistoryModel item in Historys)
-                //{
-                //    string temp_ = MySettings.MyToString(item) + "❖";
-                //    if (item.ID == 0 && temp_ != null)
-                //    {
-                //        xml_ += temp_;
-                //        count++;
-                //    }
-                //}
-
-                //if (count == 0)
-                //    return;
-
-                //xml_ = xml_.Trim('❖');
-
-                //TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                //{
-                //    TransactionType = "K",
-                //    OrderNo = Historys[0].OrderNo,
-                //    ExportStatus = "N",
-                //    RecordStatus = "N",
-                //    WarehouseCode_From = Historys[0].WarehouseCode_From,
-                //    WarehouseName_From = Historys[0].WarehouseName_From,
-                //    DATA = xml_
-                //};
 
                 //await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 //{
-                //    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
-                //                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
-                //                                Histori_);
-                //    if (result != null && result.Result != null)
+                //    var result = InsertToServer();
+                //    Device.BeginInvokeOnMainThread(async () =>
                 //    {
-                //        Device.BeginInvokeOnMainThread(async () =>
+                //        if (result)
                 //        {
-                //            if (result.Result.data == 1)
-                //            {
-                //                App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
-                //                await Controls.LoadingUtility.HideAsync();
-                //                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
-                //                _StartColor = "#A0A0A0";
-                //                _EndColor = "#E0E0E0";
-                //            }
-                //            else
-                //            {
-                //                await Controls.LoadingUtility.HideAsync();
-                //                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", ""); 
-                //            }
-                //        });
-                //    }
+                //            _KKDC_CLPage.LoadColor(0);
+                //            App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
+                //            await Controls.LoadingUtility.HideAsync();
+                //            await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                //        }
+                //        else
+                //        {
+                //            await Controls.LoadingUtility.HideAsync();
+                //            await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                //        }
+                //    });
                 //});
+                LoadDbLocal();
+
+                if (Historys.Count == 0)
+                {
+                    _KKDC_CLPage.LoadColor(0);
+                    return;
+                }
+
+                string xml_ = "";
+                int count = 0;
+
+                foreach (TransactionHistoryModel item in Historys)
+                {
+                    string temp_ = MySettings.MyToString(item) + "❖";
+                    if (item.ID == 0 && temp_ != null)
+                    {
+                        xml_ += temp_;
+                        count++;
+                    }
+                }
+
+                if (count == 0)
+                    return;
+
+                xml_ = xml_.Trim('❖');
+
+                TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                {
+                    TransactionType = "K",
+                    OrderNo = Historys[0].OrderNo,
+                    ExportStatus = "N",
+                    RecordStatus = "N",
+                    WarehouseCode_From = Historys[0].WarehouseCode_From,
+                    WarehouseName_From = Historys[0].WarehouseName_From,
+                    DATA = xml_
+                };
+
+                await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
+                {
+                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
+                                                (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
+                                                Histori_);
+                    if (result != null && result.Result != null)
+                    {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            if (result.Result.data == 1)
+                            {
+                                _KKDC_CLPage.LoadColor(0);
+                                App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
+                                await Controls.LoadingUtility.HideAsync();
+                                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                            }
+                            else
+                            {
+                                await Controls.LoadingUtility.HideAsync();
+                                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                            }
+                        });
+                    }
+                });
             }
             catch (Exception ex)
             {

@@ -33,9 +33,9 @@
                 Clicked="BtnKiemKeDungCu_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             
-            <helper:ButtonCustoms Text="2. LƯU DỮ LIỆU SERVER" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
+            <helper:ButtonCustoms x:Name="btnLuu" Text="2. LƯU DỮ LIỆU SERVER" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
                 Clicked="BtnLuuDataSever_CLicked" GradientOrientation="Horizontal"
-                StartColor="{Binding StartColor}" EndColor="{Binding EndColor}"/>
+                StartColor="#00a79d" EndColor="#05aff2"/>
 
               <helper:ButtonCustoms Text="3. XOÁ DỮ LIỆU LƯU TRÊN MÁY" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" CornerRadius="0"
                 Clicked="BtnXoaDuLieuLocal_CLicked" GradientOrientation="Horizontal"

@@ -156,111 +156,123 @@ namespace QRMS.ViewModels
 
         }
 
-        public void LoadModels()
+        public async void LoadModels()
         {
             try
             {
-                Historys.Clear();
-                _daQuetQR.Clear();
-
-                //
-                LoadDbLocal();
-
-                //
-                var result = APIHelper.PostObjectToAPIAsync<BaseModel<TransactionHistoryShortModel>>
-                                            (Constaint.ServiceAddress, Constaint.APIurl.gethistoryxml,
-                                            new
-                                            {
-                                                OrderNo = MySettings.LenhKiemKe,
-                                                TransactionType = "K",
-                                                WarehouseCode_From = _KK_SCANPage.WarehouseCode
-                                            });
-                if (result != null && result.Result != null && result.Result.data != null)
+                await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
-                    //
-                    var historys_ = MySettings.ToHistoryModel(result.Result.data);
-
-                    if (historys_ == null)
-                        return;
-
-                    foreach (TransactionHistoryModel item in historys_)
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        if (!_daQuetQR.Contains(item.EXT_QRCode))
+                        Historys.Clear();
+                        _daQuetQR.Clear();
+
+                        //
+                        LoadDbLocal();
+
+                        //
+                        var result = APIHelper.PostObjectToAPIAsync<BaseModel<TransactionHistoryShortModel>>
+                                                    (Constaint.ServiceAddress, Constaint.APIurl.gethistoryxml,
+                                                    new
+                                                    {
+                                                        OrderNo = MySettings.LenhKiemKe,
+                                                        TransactionType = "K",
+                                                        WarehouseCode_From = _KK_SCANPage.WarehouseCode
+                                                    });
+                        if (result != null && result.Result != null && result.Result.data != null)
                         {
-                            item.token = MySettings.Token;
-                            item.page = 1;
-                            Historys.Add(item);
-                            _daQuetQR.Add(item.EXT_QRCode);
-                            _indexHistory += 1;
-
                             //
-                            decimal soluong_ = 0;
-                            bool isTonTaiItemCode = false;
+                            var historys_ = MySettings.ToHistoryModel(result.Result.data);
 
-                            soluong_ = Convert.ToDecimal(item.Quantity);
+                            if (historys_ == null)
+                                return;
 
-                            for (int i = 0; i < TongQuats.Count; ++i)
+                            foreach (TransactionHistoryModel item in historys_)
                             {
-                                if (TongQuats[i].ItemCode == item.ItemCode
-                                    && (TongQuats[i].EXT_Serial == null
-                                        || TongQuats[i].EXT_Serial == ""
-                                        || TongQuats[i].EXT_Serial == "None"
-                                        || (TongQuats[i].EXT_Serial == item.EXT_Serial)))
+                                if (!_daQuetQR.Contains(item.EXT_QRCode))
                                 {
-                                    isTonTaiItemCode = true;
+                                    item.token = MySettings.Token;
+                                    item.page = 1;
+                                    Historys.Add(item);
+                                    _daQuetQR.Add(item.EXT_QRCode);
+                                    _indexHistory += 1;
 
-                                    KKDCModel model_ = TongQuats[i];
+                                    //
+                                    decimal soluong_ = 0;
+                                    bool isTonTaiItemCode = false;
 
                                     soluong_ = Convert.ToDecimal(item.Quantity);
 
-                                    model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
-                                    model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
-                                    model_.SoNhan = model_.SoNhan + 1;
-                                    model_.sSoNhan = model_.SoNhan.ToString("N0");
-                                    model_.ColorSLDaNhap = "#000000";
-                                    model_.Color = "#000000";
+                                    for (int i = 0; i < TongQuats.Count; ++i)
+                                    {
+                                        if (TongQuats[i].ItemCode == item.ItemCode
+                                            && (TongQuats[i].EXT_Serial == null
+                                                || TongQuats[i].EXT_Serial == ""
+                                                || TongQuats[i].EXT_Serial == "None"
+                                                || (TongQuats[i].EXT_Serial == item.EXT_Serial)))
+                                        {
+                                            isTonTaiItemCode = true;
 
-                                    TongQuats.RemoveAt(i);
-                                    TongQuats.Insert(0, model_);
+                                            KKDCModel model_ = TongQuats[i];
 
-                                    //
-                                    break;
+                                            soluong_ = Convert.ToDecimal(item.Quantity);
+
+                                            model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
+                                            model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
+                                            model_.SoNhan = model_.SoNhan + 1;
+                                            model_.sSoNhan = model_.SoNhan.ToString("N0");
+                                            model_.ColorSLDaNhap = "#000000";
+                                            model_.Color = "#000000";
+
+                                            TongQuats.RemoveAt(i);
+                                            TongQuats.Insert(0, model_);
+
+                                            //
+                                            break;
+                                        }
+                                        else if (i == TongQuats.Count - 1)
+                                        {
+
+                                        }
+                                    }
+
+                                    if (!isTonTaiItemCode)
+                                    {
+                                        TongQuats.Insert(0, new KKDCModel
+                                        {
+                                            TransactionType = "K",
+                                            OrderNo = _LenhKiemKe,
+                                            WarehouseCode_From = _KK_SCANPage.WarehouseCode,
+                                            ItemCode = item.ItemCode,
+                                            ItemName = item.ItemName,
+                                            ItemType = item.ItemType,
+                                            SoLuongQuet = soluong_,
+                                            sSoLuongQuet = soluong_.ToString("N0"),
+                                            SoNhan = 1,
+                                            sSoNhan = "1",
+                                            Unit = item.Unit,
+                                            EXT_Serial = item.EXT_Serial,
+                                            EXT_PartNo = item.EXT_PartNo,
+                                            EXT_LotNo = item.EXT_LotNo,
+                                            Color = "#000000",
+                                            ColorSLDaNhap = "#000000"
+                                        });
+                                    }
                                 }
-                                else if (i == TongQuats.Count - 1)
-                                {
-
-                                }
-                            }
-
-                            if (!isTonTaiItemCode)
-                            {
-                                TongQuats.Insert(0, new KKDCModel
-                                {
-                                    TransactionType = "K",
-                                    OrderNo = _LenhKiemKe,
-                                    WarehouseCode_From = _KK_SCANPage.WarehouseCode,
-                                    ItemCode = item.ItemCode,
-                                    ItemName = item.ItemName,
-                                    ItemType = item.ItemType,
-                                    SoLuongQuet = soluong_,
-                                    sSoLuongQuet = soluong_.ToString("N0"),
-                                    SoNhan = 1,
-                                    sSoNhan = "1",
-                                    Unit = item.Unit,
-                                    EXT_Serial = item.EXT_Serial,
-                                    EXT_PartNo = item.EXT_PartNo,
-                                    EXT_LotNo = item.EXT_LotNo,
-                                    Color = "#000000",
-                                    ColorSLDaNhap = "#000000"
-                                });
                             }
                         }
-                    }
-                }
+
+                        await Controls.LoadingUtility.HideAsync();
+                    });
+                });
             }
             catch (Exception ex)
             {
-                MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "KKDC_SCANPageModel", MySettings.UserName);
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Controls.LoadingUtility.HideAsync();
+                    MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "KKDC_SCANPageModel", MySettings.UserName);
+                });
             }
 
         }
