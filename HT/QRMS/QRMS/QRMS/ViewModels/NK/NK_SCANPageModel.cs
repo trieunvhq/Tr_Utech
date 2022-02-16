@@ -601,47 +601,47 @@ namespace QRMS.ViewModels
             {
                 if (MySettings.Index_Page == 1 && Historys.Count >= _indexHistory)
                 {
-                    string xml_ = "";
-                    int count = 0;
-
-                    foreach (TransactionHistoryModel item in Historys)
-                    {
-                        string temp_ = MySettings.MyToString(item) + "❖";
-                        if (item.ID == 0 && temp_ != null)
-                        {
-                            xml_ += temp_;
-                            count++;
-                        }
-                    }
-
-                    //for (int i = 0; i < 2000; i++)
-                    //{
-                    //    Historys[0].ItemCode = Historys[0].ItemCode + i.ToString();
-                    //    string temp_ = MySettings.MyToString(Historys[0]) + "❖";
-
-                    //    xml_ += temp_;
-                    //    count++;
-                    //}
-
-                    if (count == 0)
-                        return;
-
-                    xml_ = xml_.Trim('❖');
-
-                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel {
-                        TransactionType = "I",
-                        OrderNo = _NK_SCANPage.No,
-                        ExportStatus = "N",
-                        RecordStatus = "N",
-                        WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                        WarehouseName_From = _NK_SCANPage.WarehouseName,
-                        WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
-                        WarehouseName_To = _NK_SCANPage.WarehouseName_To,
-                        DATA = xml_
-                    };
-
                     await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                     {
+                        string xml_ = "";
+                        int count = 0;
+
+                        foreach (TransactionHistoryModel item in Historys)
+                        {
+                            string temp_ = MySettings.MyToString(item) + "❖";
+                            if (item.ID == 0 && temp_ != null)
+                            {
+                                xml_ += temp_;
+                                count++;
+                            }
+                        }
+
+                        //for (int i = 0; i < 2000; i++)
+                        //{
+                        //    Historys[0].ItemCode = Historys[0].ItemCode + i.ToString();
+                        //    string temp_ = MySettings.MyToString(Historys[0]) + "❖";
+
+                        //    xml_ += temp_;
+                        //    count++;
+                        //}
+
+                        if (count == 0)
+                            return;
+
+                        xml_ = xml_.Trim('❖');
+
+                        TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel {
+                            TransactionType = "I",
+                            OrderNo = _NK_SCANPage.No,
+                            ExportStatus = "N",
+                            RecordStatus = "N",
+                            WarehouseCode_From = _NK_SCANPage.WarehouseCode,
+                            WarehouseName_From = _NK_SCANPage.WarehouseName,
+                            WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
+                            WarehouseName_To = _NK_SCANPage.WarehouseName_To,
+                            DATA = xml_
+                        };
+
                         var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                     (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                     Histori_);
@@ -673,39 +673,40 @@ namespace QRMS.ViewModels
                 }
                 else if (MySettings.Index_Page == 2 && Historys.Count >= _indexHistory)
                 {
-                    string xml_ = "";
-                    int count = 0;
-
-                    foreach (TransactionHistoryModel item in Historys)
-                    {
-                        string temp_ = MySettings.MyToString(item) + "❖";
-                        if (item.ID == 0 && temp_ != null)
-                        {
-                            xml_ += temp_;
-                            count++;
-                        }
-                    }
-
-                    if (count == 0)
-                        return;
-
-                    xml_ = xml_.Trim('❖');
-
-                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                    {
-                        TransactionType = "O",
-                        OrderNo = _NK_SCANPage.No,
-                        ExportStatus = "N",
-                        RecordStatus = "N",
-                        WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                        WarehouseName_From = _NK_SCANPage.WarehouseName,
-                        WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
-                        WarehouseName_To = _NK_SCANPage.WarehouseName_To,
-                        DATA = xml_
-                    };
-
                     await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                     {
+                        string xml_ = "";
+                        int count = 0;
+
+                        foreach (TransactionHistoryModel item in Historys)
+                        {
+                            string temp_ = MySettings.MyToString(item) + "❖";
+                            if (item.ID == 0 && temp_ != null)
+                            {
+                                xml_ += temp_;
+                                count++;
+                            }
+                        }
+
+                        if (count == 0)
+                            return;
+
+                        xml_ = xml_.Trim('❖');
+
+                        TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                        {
+                            TransactionType = "O",
+                            OrderNo = _NK_SCANPage.No,
+                            ExportStatus = "N",
+                            RecordStatus = "N",
+                            WarehouseCode_From = _NK_SCANPage.WarehouseCode,
+                            WarehouseName_From = _NK_SCANPage.WarehouseName,
+                            WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
+                            WarehouseName_To = _NK_SCANPage.WarehouseName_To,
+                            DATA = xml_
+                        };
+
+                    
                         var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                     (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                     Histori_);
@@ -737,39 +738,40 @@ namespace QRMS.ViewModels
                 }
                 else if (MySettings.Index_Page == 3 && Historys.Count >= _indexHistory)
                 {
-                    string xml_ = "";
-                    int count = 0;
-
-                    foreach (TransactionHistoryModel item in Historys)
-                    {
-                        string temp_ = MySettings.MyToString(item) + "❖";
-                        if (item.ID == 0 && temp_ != null)
-                        {
-                            xml_ += temp_;
-                            count++;
-                        }
-                    }
-
-                    if (count == 0)
-                        return;
-
-                    xml_ = xml_.Trim('❖');
-
-                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                    {
-                        TransactionType = "C",
-                        OrderNo = _NK_SCANPage.No,
-                        ExportStatus = "N",
-                        RecordStatus = "N",
-                        WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                        WarehouseName_From = _NK_SCANPage.WarehouseName,
-                        WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
-                        WarehouseName_To = _NK_SCANPage.WarehouseName_To,
-                        DATA = xml_
-                    };
-
                     await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                     {
+                        string xml_ = "";
+                        int count = 0;
+
+                        foreach (TransactionHistoryModel item in Historys)
+                        {
+                            string temp_ = MySettings.MyToString(item) + "❖";
+                            if (item.ID == 0 && temp_ != null)
+                            {
+                                xml_ += temp_;
+                                count++;
+                            }
+                        }
+
+                        if (count == 0)
+                            return;
+
+                        xml_ = xml_.Trim('❖');
+
+                        TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                        {
+                            TransactionType = "C",
+                            OrderNo = _NK_SCANPage.No,
+                            ExportStatus = "N",
+                            RecordStatus = "N",
+                            WarehouseCode_From = _NK_SCANPage.WarehouseCode,
+                            WarehouseName_From = _NK_SCANPage.WarehouseName,
+                            WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
+                            WarehouseName_To = _NK_SCANPage.WarehouseName_To,
+                            DATA = xml_
+                        };
+
+        
                         var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                     (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                     Histori_);

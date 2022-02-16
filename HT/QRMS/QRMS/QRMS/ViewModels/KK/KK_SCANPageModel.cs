@@ -315,40 +315,40 @@ namespace QRMS.ViewModels
         {
             try
             {
-                if (Historys.Count == 0)
-                    return;
-
-                string xml_ = "";
-                int count = 0;
-
-                foreach (TransactionHistoryModel item in Historys)
-                {
-                    string temp_ = MySettings.MyToString(item) + "❖";
-                    if (item.ID == 0 && temp_ != null)
-                    {
-                        xml_ += temp_;
-                        count++;
-                    }
-                }
-
-                if (count == 0)
-                    return;
-
-                xml_ = xml_.Trim('❖');
-
-                TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                {
-                    TransactionType = "K",
-                    OrderNo = _LenhKiemKe,
-                    ExportStatus = "N",
-                    RecordStatus = "N",
-                    WarehouseCode_From = _KK_SCANPage.WarehouseCode,
-                    WarehouseName_From = _KK_SCANPage.WarehouseName,
-                    DATA = xml_
-                };
-
                 await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
+                    if (Historys.Count == 0)
+                    return;
+
+                    string xml_ = "";
+                    int count = 0;
+
+                    foreach (TransactionHistoryModel item in Historys)
+                    {
+                        string temp_ = MySettings.MyToString(item) + "❖";
+                        if (item.ID == 0 && temp_ != null)
+                        {
+                            xml_ += temp_;
+                            count++;
+                        }
+                    }
+
+                    if (count == 0)
+                        return;
+
+                    xml_ = xml_.Trim('❖');
+
+                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                    {
+                        TransactionType = "K",
+                        OrderNo = _LenhKiemKe,
+                        ExportStatus = "N",
+                        RecordStatus = "N",
+                        WarehouseCode_From = _KK_SCANPage.WarehouseCode,
+                        WarehouseName_From = _KK_SCANPage.WarehouseName,
+                        DATA = xml_
+                    };
+
                     var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                 Histori_);

@@ -22,7 +22,10 @@ namespace QRMS.ViewModels
     public class KKDC_CLPageModel : BaseViewModel
     {
         private const int _Part = 10000;
-        public KKDC_CLPage _KKDC_CLPage; 
+        public KKDC_CLPage _KKDC_CLPage;
+        public string _StartColor { get; set; }
+        public string _EndColor { get; set; }
+
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
 
         public KKDC_CLPageModel(KKDC_CLPage fd)
@@ -124,45 +127,52 @@ namespace QRMS.ViewModels
                 //        }
                 //    });
                 //});
-                LoadDbLocal();
-
-                if (Historys.Count == 0)
-                {
-                    _KKDC_CLPage.LoadColor(0);
-                    return;
-                }
-
-                string xml_ = "";
-                int count = 0;
-
-                foreach (TransactionHistoryModel item in Historys)
-                {
-                    string temp_ = MySettings.MyToString(item) + "❖";
-                    if (item.ID == 0 && temp_ != null)
-                    {
-                        xml_ += temp_;
-                        count++;
-                    }
-                }
-
-                if (count == 0)
-                    return;
-
-                xml_ = xml_.Trim('❖');
-
-                TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                {
-                    TransactionType = "K",
-                    OrderNo = Historys[0].OrderNo,
-                    ExportStatus = "N",
-                    RecordStatus = "N",
-                    WarehouseCode_From = Historys[0].WarehouseCode_From,
-                    WarehouseName_From = Historys[0].WarehouseName_From,
-                    DATA = xml_
-                };
 
                 await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
+                    LoadDbLocal();
+
+                    for (int i = 0; i < 500; i++)
+                    {
+                        TransactionHistoryModel his_ = Historys[0];
+                        Historys.Add(his_);
+                    }
+
+                    if (Historys.Count == 0)
+                    {
+                        _KKDC_CLPage.LoadColor(0);
+                        return;
+                    }
+
+                    string xml_ = "";
+                    int count = 0;
+
+                    foreach (TransactionHistoryModel item in Historys)
+                    {
+                        string temp_ = MySettings.MyToString(item) + "❖";
+                        if (item.ID == 0 && temp_ != null)
+                        {
+                            xml_ += temp_;
+                            count++;
+                        }
+                    }
+
+                    if (count == 0)
+                        return;
+
+                    xml_ = xml_.Trim('❖');
+
+                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                    {
+                        TransactionType = "K",
+                        OrderNo = Historys[0].OrderNo,
+                        ExportStatus = "N",
+                        RecordStatus = "N",
+                        WarehouseCode_From = Historys[0].WarehouseCode_From,
+                        WarehouseName_From = Historys[0].WarehouseName_From,
+                        DATA = xml_
+                    };
+
                     var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                 (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                 Histori_);
