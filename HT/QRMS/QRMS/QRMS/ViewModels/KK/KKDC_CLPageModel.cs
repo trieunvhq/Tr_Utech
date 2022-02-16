@@ -23,8 +23,6 @@ namespace QRMS.ViewModels
     {
         private const int _Part = 10000;
         public KKDC_CLPage _KKDC_CLPage;
-        public string _StartColor { get; set; }
-        public string _EndColor { get; set; }
 
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
 
@@ -83,10 +81,12 @@ namespace QRMS.ViewModels
             }
             catch (Exception ex)
             {
-                await Controls.LoadingUtility.HideAsync();
-                await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
-
-                MySettings.InsertLogs(0, DateTime.Now, "DeleteDBLocal", ex.Message, "KK_SCANPageModel", MySettings.UserName);
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Controls.LoadingUtility.HideAsync();
+                    await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                    MySettings.InsertLogs(0, DateTime.Now, "DeleteDBLocal", ex.Message, "KK_SCANPageModel", MySettings.UserName);
+                });
             }
         }
 
@@ -132,17 +132,21 @@ namespace QRMS.ViewModels
                 {
                     LoadDbLocal();
 
-                    for (int i = 0; i < 500; i++)
-                    {
-                        TransactionHistoryModel his_ = Historys[0];
-                        Historys.Add(his_);
-                    }
-
                     if (Historys.Count == 0)
                     {
-                        _KKDC_CLPage.LoadColor(0);
-                        return;
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            _KKDC_CLPage.LoadColor(0);
+                            Controls.LoadingUtility.HideAsync();
+                            return;
+                        });
                     }
+
+                    //for (int i = 0; i < 10000; i++)
+                    //{
+                    //    TransactionHistoryModel his_ = Historys[0];
+                    //    Historys.Add(his_);
+                    //}
 
                     string xml_ = "";
                     int count = 0;
@@ -158,7 +162,13 @@ namespace QRMS.ViewModels
                     }
 
                     if (count == 0)
-                        return;
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            Controls.LoadingUtility.HideAsync();
+                            return;
+                        });
+                    }
 
                     xml_ = xml_.Trim('❖');
 
@@ -201,7 +211,6 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Controls.LoadingUtility.HideAsync();
-                     
                     MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "KK_SCANPageModel", MySettings.UserName);
                 });
             }

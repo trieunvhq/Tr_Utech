@@ -54,9 +54,6 @@ namespace QRMS.Views
                     {
                         row_trencung.Height = 40;
                     }
-                    else
-                    {
-                    }
                 }
                 else
                 {

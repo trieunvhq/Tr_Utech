@@ -616,17 +616,14 @@ namespace QRMS.ViewModels
                             }
                         }
 
-                        //for (int i = 0; i < 2000; i++)
-                        //{
-                        //    Historys[0].ItemCode = Historys[0].ItemCode + i.ToString();
-                        //    string temp_ = MySettings.MyToString(Historys[0]) + "❖";
-
-                        //    xml_ += temp_;
-                        //    count++;
-                        //}
-
                         if (count == 0)
-                            return;
+                        {
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                Controls.LoadingUtility.HideAsync();
+                                return;
+                            });
+                        }
 
                         xml_ = xml_.Trim('❖');
 
@@ -689,7 +686,13 @@ namespace QRMS.ViewModels
                         }
 
                         if (count == 0)
-                            return;
+                        {
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                Controls.LoadingUtility.HideAsync();
+                                return;
+                            });
+                        }
 
                         xml_ = xml_.Trim('❖');
 
@@ -754,7 +757,13 @@ namespace QRMS.ViewModels
                         }
 
                         if (count == 0)
-                            return;
+                        {
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                Controls.LoadingUtility.HideAsync();
+                                return;
+                            });
+                        }
 
                         xml_ = xml_.Trim('❖');
 
@@ -806,7 +815,11 @@ namespace QRMS.ViewModels
             }
             catch (Exception ex)
             {
-                await Controls.LoadingUtility.HideAsync();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Controls.LoadingUtility.HideAsync();
+                    MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "NK_SCANPageModel", MySettings.UserName);
+                });
             }
         }
 
@@ -822,8 +835,8 @@ namespace QRMS.ViewModels
 
                 if (Historys != null)
                 { 
-                    bool IsTonTai_ = false;
-                    int index_ = 0;
+                    //bool IsTonTai_ = false;
+                    //int index_ = 0;
                     temp_ = "3";
                     var qr = MySettings.QRRead(str); temp_ = "4";
                     if (qr == null)

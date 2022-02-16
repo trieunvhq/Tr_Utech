@@ -318,7 +318,10 @@ namespace QRMS.ViewModels
                 await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
                     if (Historys.Count == 0)
-                    return;
+                    {
+                        await Controls.LoadingUtility.HideAsync();
+                        return;
+                    }
 
                     string xml_ = "";
                     int count = 0;
@@ -334,7 +337,10 @@ namespace QRMS.ViewModels
                     }
 
                     if (count == 0)
+                    {
+                        await Controls.LoadingUtility.HideAsync();
                         return;
+                    }
 
                     xml_ = xml_.Trim('❖');
 
@@ -380,7 +386,6 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Controls.LoadingUtility.HideAsync();
-                     
                     MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "KK_SCANPageModel", MySettings.UserName);
                 });
             }
