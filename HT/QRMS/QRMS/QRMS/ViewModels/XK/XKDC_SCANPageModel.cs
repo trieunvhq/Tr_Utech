@@ -24,7 +24,7 @@ namespace QRMS.ViewModels
 {
     public class XKDC_SCANPageModel : BaseViewModel
     {
-        public XKDC_SCANPage _NK_SCANPage;
+        public XKDC_SCANPage _XKDC_SCANPage;
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
         public ObservableCollection<NhapKhoDungCuModel> NhapKhos { get; set; } = new ObservableCollection<NhapKhoDungCuModel>();
         public ObservableCollection<SaleOrderItemScanBPL> XuatKhos { get; set; } = new ObservableCollection<SaleOrderItemScanBPL>();
@@ -55,7 +55,7 @@ namespace QRMS.ViewModels
         public XKDC_SCANPageModel(XKDC_SCANPage fd)
         {
             No = fd.No;
-            _NK_SCANPage = fd;
+            _XKDC_SCANPage = fd;
             LoadModels("");
         }
 
@@ -63,7 +63,6 @@ namespace QRMS.ViewModels
         {
             if (mSelectedReader == null)
                 OpenBarcodeReader();
-            _daQuetQR = new List<string>();
             base.OnAppearing();
         }
 
@@ -89,20 +88,21 @@ namespace QRMS.ViewModels
 
                 if (MySettings.Index_Page == 1)
                 {
-                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_NKDC(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
                     foreach (TransactionHistoryModel item in historys)
                     {
-                        if (!isTrungNhanQR(item.EXT_QRCode))
+                        if (!_daQuetQR.Contains(item.EXT_QRCode))
                         {
                             item.token = MySettings.Token;
                             item.page = 0;
                             Historys.Add(item);
+                            _daQuetQR.Add(item.EXT_QRCode);
                             _indexHistory++;
                         }
                     }
 
                     //Lấy trạng thái màu từ lịch sử dblocal:
-                    List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                    List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
 
                     for (int i = 0; i < NhapKhos.Count; i++)
                     {
@@ -144,20 +144,21 @@ namespace QRMS.ViewModels
                 }
                 else if (MySettings.Index_Page == 2)
                 {
-                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
                     foreach (TransactionHistoryModel item in historys)
                     {
-                        if (!isTrungNhanQR(item.EXT_QRCode))
+                        if (!_daQuetQR.Contains(item.EXT_QRCode))
                         {
                             item.token = MySettings.Token;
                             item.page = 0;
                             Historys.Add(item);
+                            _daQuetQR.Add(item.EXT_QRCode);
                             _indexHistory++;
                         }
                     }
 
                     //Lấy trạng thái màu từ lịch sử dblocal:
-                    List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                    List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
 
                     for (int i = 0; i < XuatKhos.Count; i++)
                     {
@@ -195,20 +196,21 @@ namespace QRMS.ViewModels
                 }
                 else if (MySettings.Index_Page == 3)
                 {
-                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode, _XKDC_SCANPage.WarehouseCode_To);
                     foreach (TransactionHistoryModel item in historys)
                     {
-                        if (!isTrungNhanQR(item.EXT_QRCode))
+                        if (!_daQuetQR.Contains(item.EXT_QRCode))
                         {
                             item.token = MySettings.Token;
                             item.page = 0;
                             Historys.Add(item);
+                            _daQuetQR.Add(item.EXT_QRCode);
                             _indexHistory++;
                         }
                     }
 
                     //Lấy trạng thái màu từ lịch sử dblocal:
-                    List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+                    List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode, _XKDC_SCANPage.WarehouseCode_To);
 
                     for (int i = 0; i < ChuyenKhos.Count; i++)
                     {
@@ -281,8 +283,8 @@ namespace QRMS.ViewModels
                                                      (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorderitem,
                                                      new
                                                      {
-                                                         PurchaseOrderNo = _NK_SCANPage.No,
-                                                         WarehouseCode = _NK_SCANPage.WarehouseCode
+                                                         PurchaseOrderNo = _XKDC_SCANPage.No,
+                                                         WarehouseCode = _XKDC_SCANPage.WarehouseCode
                                                      });
                         if (result2 != null && result2.Result != null && result2.Result.data != null)
                         { 
@@ -324,9 +326,9 @@ namespace QRMS.ViewModels
                                                  (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
                                                  new
                                                  {
-                                                     OrderNo = _NK_SCANPage.No,
+                                                     OrderNo = _XKDC_SCANPage.No,
                                                      TransactionType = "I",
-                                                     WarehouseCode_From = _NK_SCANPage.WarehouseCode
+                                                     WarehouseCode_From = _XKDC_SCANPage.WarehouseCode
                                                  });
                         if (result != null && result.Result != null && result.Result.data != null)
                         {
@@ -335,10 +337,11 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             { 
-                                if (!isTrungNhanQR(result.Result.data[i].EXT_QRCode))
+                                if (!_daQuetQR.Contains(result.Result.data[i].EXT_QRCode))
                                 {
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
+                                    _daQuetQR.Add(result.Result.data[i].EXT_QRCode);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
                                 }
                             }
@@ -382,8 +385,8 @@ namespace QRMS.ViewModels
                                                      (Constaint.ServiceAddress, Constaint.APIurl.getsaleorderitemscanbarcode,
                                                      new
                                                      {
-                                                         SaleOrderNo = _NK_SCANPage.No,
-                                                         WarehouseCode = _NK_SCANPage.WarehouseCode
+                                                         SaleOrderNo = _XKDC_SCANPage.No,
+                                                         WarehouseCode = _XKDC_SCANPage.WarehouseCode
                                                      });
                         if (result2 != null && result2.Result != null && result2.Result.data != null)
                         {
@@ -427,9 +430,9 @@ namespace QRMS.ViewModels
                                                  (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
                                                  new
                                                  {
-                                                     OrderNo = _NK_SCANPage.No,
+                                                     OrderNo = _XKDC_SCANPage.No,
                                                      TransactionType = "O",
-                                                     WarehouseCode_From = _NK_SCANPage.WarehouseCode
+                                                     WarehouseCode_From = _XKDC_SCANPage.WarehouseCode
                                                  });
                         if (result != null && result.Result != null && result.Result.data != null)
                         {
@@ -438,10 +441,11 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             { 
-                                if (!isTrungNhanQR(result.Result.data[i].EXT_QRCode))
+                                if (!_daQuetQR.Contains(result.Result.data[i].EXT_QRCode))
                                 {
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
+                                    _daQuetQR.Add(result.Result.data[i].EXT_QRCode);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
                                 }
                             }
@@ -483,9 +487,9 @@ namespace QRMS.ViewModels
                                                      (Constaint.ServiceAddress, Constaint.APIurl.gettransferinstructionitem,
                                                      new
                                                      {
-                                                         TransferOrderNo = _NK_SCANPage.No,
-                                                         WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                                                         WarehouseCode_To = _NK_SCANPage.WarehouseCode_To
+                                                         TransferOrderNo = _XKDC_SCANPage.No,
+                                                         WarehouseCode_From = _XKDC_SCANPage.WarehouseCode,
+                                                         WarehouseCode_To = _XKDC_SCANPage.WarehouseCode_To
                                                      });
                         if (result2 != null && result2.Result != null && result2.Result.data != null)
                         {
@@ -530,10 +534,10 @@ namespace QRMS.ViewModels
                                                  (Constaint.ServiceAddress, Constaint.APIurl.gethistoryckdc,
                                                  new
                                                  {
-                                                     OrderNo = _NK_SCANPage.No,
+                                                     OrderNo = _XKDC_SCANPage.No,
                                                      TransactionType = "C",
-                                                     WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                                                     WarehouseCode_To = _NK_SCANPage.WarehouseCode_To
+                                                     WarehouseCode_From = _XKDC_SCANPage.WarehouseCode,
+                                                     WarehouseCode_To = _XKDC_SCANPage.WarehouseCode_To
                                                  });
                         if (result != null && result.Result != null && result.Result.data != null)
                         {
@@ -542,10 +546,11 @@ namespace QRMS.ViewModels
 
                             for (int i = 0; i < result.Result.data.Count; ++i)
                             { 
-                                if (!isTrungNhanQR(result.Result.data[i].EXT_QRCode))
+                                if (!_daQuetQR.Contains(result.Result.data[i].EXT_QRCode))
                                 {
                                     result.Result.data[i].token = MySettings.Token;
                                     Historys.Add(result.Result.data[i]);
+                                    _daQuetQR.Add(result.Result.data[i].EXT_QRCode);
                                     App.Dblocal.SaveHistoryAsync(result.Result.data[i]);
                                 }
                             }
@@ -596,47 +601,44 @@ namespace QRMS.ViewModels
             {
                 if (MySettings.Index_Page == 1 && Historys.Count >= _indexHistory)
                 {
-                    string xml_ = "";
-                    int count = 0;
-
-                    foreach (TransactionHistoryModel item in Historys)
-                    {
-                        string temp_ = MySettings.MyToString(item) + "❖";
-                        if (item.ID == 0 && temp_ != null)
-                        {
-                            xml_ += temp_;
-                            count++;
-                        }
-                    }
-
-                    //for (int i = 0; i < 2000; i++)
-                    //{
-                    //    Historys[0].ItemCode = Historys[0].ItemCode + i.ToString();
-                    //    string temp_ = MySettings.MyToString(Historys[0]) + "❖";
-
-                    //    xml_ += temp_;
-                    //    count++;
-                    //}
-
-                    if (count == 0)
-                        return;
-
-                    xml_ = xml_.Trim('❖');
-
-                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel {
-                        TransactionType = "I",
-                        OrderNo = _NK_SCANPage.No,
-                        ExportStatus = "N",
-                        RecordStatus = "N",
-                        WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                        WarehouseName_From = _NK_SCANPage.WarehouseName,
-                        WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
-                        WarehouseName_To = _NK_SCANPage.WarehouseName_To,
-                        DATA = xml_
-                    };
-
                     await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                     {
+                        string xml_ = "";
+                        int count = 0;
+
+                        foreach (TransactionHistoryModel item in Historys)
+                        {
+                            string temp_ = MySettings.MyToString(item) + "❖";
+                            if (item.ID == 0 && temp_ != null)
+                            {
+                                xml_ += temp_;
+                                count++;
+                            }
+                        }
+
+                        if (count == 0)
+                        {
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                Controls.LoadingUtility.HideAsync();
+                                return;
+                            });
+                        }
+
+                        xml_ = xml_.Trim('❖');
+
+                        TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel {
+                            TransactionType = "I",
+                            OrderNo = _XKDC_SCANPage.No,
+                            ExportStatus = "N",
+                            RecordStatus = "N",
+                            WarehouseCode_From = _XKDC_SCANPage.WarehouseCode,
+                            WarehouseName_From = _XKDC_SCANPage.WarehouseName,
+                            WarehouseCode_To = _XKDC_SCANPage.WarehouseCode_To,
+                            WarehouseName_To = _XKDC_SCANPage.WarehouseName_To,
+                            DATA = xml_
+                        };
+
                         var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                     (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                     Histori_);
@@ -647,59 +649,67 @@ namespace QRMS.ViewModels
                             {
                                 Historys.Clear();
                                 NhapKhos.Clear();
-                                App.Dblocal.DeleteAllHistory_NKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                                _daQuetQR.Clear();
+                                App.Dblocal.DeleteAllHistory_NKDC(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
+                                App.Dblocal.DeletePurchaseOrderAsyncWithKey(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
                                 //MySettings.InsertLogs(0, DateTime.Now, "2inserthistory", APICaller.myjson, "NK_SCANPageModel", MySettings.UserName);
 
                                 MySettings.To_Page = "homepage";
                                 await Controls.LoadingUtility.HideAsync();
-                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                await _XKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
 
                                 //LoadModels("");
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                                await _XKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         }
                     });
                 }
                 else if (MySettings.Index_Page == 2 && Historys.Count >= _indexHistory)
                 {
-                    string xml_ = "";
-                    int count = 0;
-
-                    foreach (TransactionHistoryModel item in Historys)
-                    {
-                        string temp_ = MySettings.MyToString(item) + "❖";
-                        if (item.ID == 0 && temp_ != null)
-                        {
-                            xml_ += temp_;
-                            count++;
-                        }
-                    }
-
-                    if (count == 0)
-                        return;
-
-                    xml_ = xml_.Trim('❖');
-
-                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                    {
-                        TransactionType = "O",
-                        OrderNo = _NK_SCANPage.No,
-                        ExportStatus = "N",
-                        RecordStatus = "N",
-                        WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                        WarehouseName_From = _NK_SCANPage.WarehouseName,
-                        WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
-                        WarehouseName_To = _NK_SCANPage.WarehouseName_To,
-                        DATA = xml_
-                    };
-
                     await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                     {
+                        string xml_ = "";
+                        int count = 0;
+
+                        foreach (TransactionHistoryModel item in Historys)
+                        {
+                            string temp_ = MySettings.MyToString(item) + "❖";
+                            if (item.ID == 0 && temp_ != null)
+                            {
+                                xml_ += temp_;
+                                count++;
+                            }
+                        }
+
+                        if (count == 0)
+                        {
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                Controls.LoadingUtility.HideAsync();
+                                return;
+                            });
+                        }
+
+                        xml_ = xml_.Trim('❖');
+
+                        TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                        {
+                            TransactionType = "O",
+                            OrderNo = _XKDC_SCANPage.No,
+                            ExportStatus = "N",
+                            RecordStatus = "N",
+                            WarehouseCode_From = _XKDC_SCANPage.WarehouseCode,
+                            WarehouseName_From = _XKDC_SCANPage.WarehouseName,
+                            WarehouseCode_To = _XKDC_SCANPage.WarehouseCode_To,
+                            WarehouseName_To = _XKDC_SCANPage.WarehouseName_To,
+                            DATA = xml_
+                        };
+
+                    
                         var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                     (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                     Histori_);
@@ -709,61 +719,68 @@ namespace QRMS.ViewModels
                             {
                                 Historys.Clear();
                                 XuatKhos.Clear();
-
-                                App.Dblocal.DeleteAllHistory_XKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
-                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode);
+                                _daQuetQR.Clear();
+                                App.Dblocal.DeleteAllHistory_XKDC(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
+                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
 
                                 MySettings.To_Page = "homepage";
 
                                 await Controls.LoadingUtility.HideAsync();
 
                                 //
-                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                await _XKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
                                 //LoadModels("");
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                                await _XKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         }
                     });
                 }
                 else if (MySettings.Index_Page == 3 && Historys.Count >= _indexHistory)
                 {
-                    string xml_ = "";
-                    int count = 0;
-
-                    foreach (TransactionHistoryModel item in Historys)
-                    {
-                        string temp_ = MySettings.MyToString(item) + "❖";
-                        if (item.ID == 0 && temp_ != null)
-                        {
-                            xml_ += temp_;
-                            count++;
-                        }
-                    }
-
-                    if (count == 0)
-                        return;
-
-                    xml_ = xml_.Trim('❖');
-
-                    TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
-                    {
-                        TransactionType = "C",
-                        OrderNo = _NK_SCANPage.No,
-                        ExportStatus = "N",
-                        RecordStatus = "N",
-                        WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                        WarehouseName_From = _NK_SCANPage.WarehouseName,
-                        WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
-                        WarehouseName_To = _NK_SCANPage.WarehouseName_To,
-                        DATA = xml_
-                    };
-
                     await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                     {
+                        string xml_ = "";
+                        int count = 0;
+
+                        foreach (TransactionHistoryModel item in Historys)
+                        {
+                            string temp_ = MySettings.MyToString(item) + "❖";
+                            if (item.ID == 0 && temp_ != null)
+                            {
+                                xml_ += temp_;
+                                count++;
+                            }
+                        }
+
+                        if (count == 0)
+                        {
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                Controls.LoadingUtility.HideAsync();
+                                return;
+                            });
+                        }
+
+                        xml_ = xml_.Trim('❖');
+
+                        TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
+                        {
+                            TransactionType = "C",
+                            OrderNo = _XKDC_SCANPage.No,
+                            ExportStatus = "N",
+                            RecordStatus = "N",
+                            WarehouseCode_From = _XKDC_SCANPage.WarehouseCode,
+                            WarehouseName_From = _XKDC_SCANPage.WarehouseName,
+                            WarehouseCode_To = _XKDC_SCANPage.WarehouseCode_To,
+                            WarehouseName_To = _XKDC_SCANPage.WarehouseName_To,
+                            DATA = xml_
+                        };
+
+        
                         var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                     (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                     Histori_);
@@ -773,22 +790,23 @@ namespace QRMS.ViewModels
                             {
                                 Historys.Clear();
                                 ChuyenKhos.Clear();
+                                _daQuetQR.Clear();
 
-                                App.Dblocal.DeleteHistory_CKDC(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
-                                App.Dblocal.DeleteTransferInstructionAsyncWithKey(_NK_SCANPage.No, _NK_SCANPage.WarehouseCode, _NK_SCANPage.WarehouseCode_To);
+                                App.Dblocal.DeleteHistory_CKDC(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode, _XKDC_SCANPage.WarehouseCode_To);
+                                App.Dblocal.DeleteTransferInstructionAsyncWithKey(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode, _XKDC_SCANPage.WarehouseCode_To);
 
                                 MySettings.To_Page = "homepage";
 
                                 await Controls.LoadingUtility.HideAsync();
 
                                 //
-                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                await _XKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
                                 //LoadModels("");
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await _NK_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                                await _XKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         }
                     });
@@ -797,7 +815,11 @@ namespace QRMS.ViewModels
             }
             catch (Exception ex)
             {
-                await Controls.LoadingUtility.HideAsync();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Controls.LoadingUtility.HideAsync();
+                    MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "NK_SCANPageModel", MySettings.UserName);
+                });
             }
         }
 
@@ -813,8 +835,8 @@ namespace QRMS.ViewModels
 
                 if (Historys != null)
                 { 
-                    bool IsTonTai_ = false;
-                    int index_ = 0;
+                    //bool IsTonTai_ = false;
+                    //int index_ = 0;
                     temp_ = "3";
                     var qr = MySettings.QRRead(str); temp_ = "4";
                     if (qr == null)
@@ -835,39 +857,48 @@ namespace QRMS.ViewModels
                         return;
                     }
 
-                    if (_daQuetQR.Contains(str)) 
-                    {
-                        IsThongBao = true;
-                        Color = Color.Red;
-                        ThongBao = "Nhãn đã được quét"; 
-                        return;
-                    }
+                    string str_decode = MySettings.DecodeFromUtf8(str);
 
-                    temp_ = "14";
-                    for (int i = 0; i < Historys.Count; ++i)
+                    if (_daQuetQR.Contains(str_decode)) 
                     {
-                        if ((Historys[i].EXT_Serial == null || Historys[i].EXT_Serial == qr.Serial) &&
-                            Historys[i].ItemCode == qr.Code)
-                        {
-                            IsTonTai_ = true;
-                            index_ = i;
-                            break;
-                        }
-                    }
-                    temp_ = "5";
-                    if (IsTonTai_)
-                    {
-                        Color = Color.Red;
                         IsThongBao = true;
-                        temp_ = "6";
+                        Color = Color.Red;
 
                         if (MySettings.Index_Page == 1)
-                            ThongBao = "Nhãn đã được nhập"; 
+                            ThongBao = "Nhãn đã được nhập";
                         else if (MySettings.Index_Page == 2)
                             ThongBao = "Nhãn đã được xuất";
                         else
                             ThongBao = "Nhãn đã được chuyển";
+
+                        return;
                     }
+
+                    //temp_ = "14";
+                    //for (int i = 0; i < Historys.Count; ++i)
+                    //{
+                    //    if ((Historys[i].EXT_Serial == null || Historys[i].EXT_Serial == qr.Serial) &&
+                    //        Historys[i].ItemCode == qr.Code)
+                    //    {
+                    //        IsTonTai_ = true;
+                    //        index_ = i;
+                    //        break;
+                    //    }
+                    //}
+                    //temp_ = "5";
+                    //if (IsTonTai_)
+                    //{
+                    //    Color = Color.Red;
+                    //    IsThongBao = true;
+                    //    temp_ = "6";
+
+                    //    if (MySettings.Index_Page == 1)
+                    //        ThongBao = "Nhãn đã được nhập"; 
+                    //    else if (MySettings.Index_Page == 2)
+                    //        ThongBao = "Nhãn đã được xuất";
+                    //    else
+                    //        ThongBao = "Nhãn đã được chuyển";
+                    //}
                     else
                     {
                         if (MySettings.Index_Page == 1)
@@ -887,19 +918,24 @@ namespace QRMS.ViewModels
                                     if (_NhapKhoDungCuModel.Quantity < _NhapKhoDungCuModel.SoLuongDaNhap + soluong_)
                                     {
                                         temp_ = "10";
-                                        _NK_SCANPage.soluong_ = soluong_;
-                                        _NK_SCANPage.i = i;
-                                        _NK_SCANPage.qr = qr;
-                                        _NK_SCANPage.str = str;
+                                        _XKDC_SCANPage.soluong_ = soluong_;
+                                        _XKDC_SCANPage.i = i;
+                                        _XKDC_SCANPage.qr = qr;
+                                        _XKDC_SCANPage.str = str_decode;
                                         temp_ = "11";
-                                        //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", ""); temp_ = "12";
+
+                                        //var ans = await UserDialogs.Instance.ConfirmAsync("Thông báo", "Vượt sl", "OK");
+
+                                        //if (ans)
+                                        //    await Application.Current.MainPage.DisplayAlert("Thông báo", "Vượt số lượng", "OK");
+
+                                        await _XKDC_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", ""); temp_ = "12";
                                     }
                                     else
                                     {
                                         temp_ = "13";
                                         UpdateTableNhapKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
                                     }
 
 
@@ -929,17 +965,17 @@ namespace QRMS.ViewModels
 
                                     if (_SaleOrderItemScanBPL.Quantity < _SaleOrderItemScanBPL.SoLuongDaNhap + soluong_)
                                     { 
-                                        _NK_SCANPage.soluong_ = soluong_;
-                                        _NK_SCANPage.i = i;
-                                        _NK_SCANPage.qr = qr;
-                                        _NK_SCANPage.str = str; 
+                                        _XKDC_SCANPage.soluong_ = soluong_;
+                                        _XKDC_SCANPage.i = i;
+                                        _XKDC_SCANPage.qr = qr;
+                                        _XKDC_SCANPage.str = str_decode; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
+                                        await _XKDC_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
                                     }
                                     else
                                     {
                                         UpdateTableXuatKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
                                     }
 
                                     //
@@ -968,18 +1004,18 @@ namespace QRMS.ViewModels
 
                                     if (_ChuyenKhoDungCuModelBPL.Quantity < _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen + soluong_)
                                     { 
-                                        _NK_SCANPage.soluong_ = soluong_;
-                                        _NK_SCANPage.i = i;
-                                        _NK_SCANPage.qr = qr;
-                                        _NK_SCANPage.str = str; 
+                                        _XKDC_SCANPage.soluong_ = soluong_;
+                                        _XKDC_SCANPage.i = i;
+                                        _XKDC_SCANPage.qr = qr;
+                                        _XKDC_SCANPage.str = str_decode; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                        await _NK_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
+                                        await _XKDC_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
 
                                     }
                                     else
                                     {
                                         UpdateTableChuyenKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
                                     }
 
                                     //
@@ -1099,8 +1135,8 @@ namespace QRMS.ViewModels
                 {
                     ID = 0,
                     TransactionType = TransactionType_,
-                    OrderNo = _NK_SCANPage.No,
-                    OrderDate = _NK_SCANPage.Date,
+                    OrderNo = _XKDC_SCANPage.No,
+                    OrderDate = _XKDC_SCANPage.Date,
                     ItemCode = qr.Code,
                     ItemName = qr.Name,
                     ItemType = qr.Type,
@@ -1113,14 +1149,14 @@ namespace QRMS.ViewModels
                     EXT_MfDate = qr.MfDate,
                     EXT_RecDate = qr.RecDate,
                     EXT_ExpDate = qr.ExpDate,
-                    EXT_QRCode = MySettings.DecodeFromUtf8(str),
+                    EXT_QRCode = str,
                     CustomerCode = qr.CustomerCode,
                     ExportStatus = ExportStatus_,
                     RecordStatus = RecordStatus_,
-                    WarehouseCode_From = _NK_SCANPage.WarehouseCode,
-                    WarehouseName_From = _NK_SCANPage.WarehouseName,
-                    WarehouseCode_To = _NK_SCANPage.WarehouseCode_To,
-                    WarehouseName_To = _NK_SCANPage.WarehouseName_To,
+                    WarehouseCode_From = _XKDC_SCANPage.WarehouseCode,
+                    WarehouseName_From = _XKDC_SCANPage.WarehouseName,
+                    WarehouseCode_To = _XKDC_SCANPage.WarehouseCode_To,
+                    WarehouseName_To = _XKDC_SCANPage.WarehouseName_To,
                     CreateDate = DateTime.Now,
                     UserCreate = MySettings.UserName,
                     page = 0,

@@ -6,6 +6,7 @@ using QRMS.Constants;
 using QRMS.Models;
 using QRMS.Models.XKDC;
 using QRMS.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific; 
@@ -21,6 +22,7 @@ namespace QRMS.Views
         public string WarehouseName;
         public string WarehouseCode_To;
         public string WarehouseName_To;
+        private bool _isDisconnect = true;
 
         public XKDC_SCANPageModel ViewModel { get; set; }
         public XKDC_SCANPage(string No_, DateTime? Date_
@@ -79,22 +81,55 @@ namespace QRMS.Views
                 grid.Children.Remove(lst_Xuat);
                 grid.Children.Remove(lst_Chuyen);
                 lbTieuDe.Text = "Nhập kho dụng cụ";
-                spanPhieu.Text = "Phiếu nhập kho";
+                spanPhieu.Text = "Phiếu nhập kho: ";
             }
             else if (MySettings.Index_Page == 2)
             {
                 grid.Children.Remove(lst_Nhap);
                 grid.Children.Remove(lst_Chuyen);
                 lbTieuDe.Text = "Xuất kho dụng cụ";
-                spanPhieu.Text = "Phiếu xuất kho";
+                spanPhieu.Text = "Phiếu xuất kho: ";
             }
             else if (MySettings.Index_Page == 3)
             {
                 grid.Children.Remove(lst_Xuat);
                 grid.Children.Remove(lst_Nhap);
                 lbTieuDe.Text = "Chuyển kho dụng cụ";
-                spanPhieu.Text = "Phiếu chuyển kho";
+                spanPhieu.Text = "Phiếu chuyển kho: ";
             }
+
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
 
         protected override bool OnBackButtonPressed()
@@ -116,18 +151,16 @@ namespace QRMS.Views
         }
 
 
-        void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
+        async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             ViewModel.LuuLais();
         }
-
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.OnAppearing();
-        }
-
 
         public NhapKhoDungCuModel model_;
         public decimal soluong_;
