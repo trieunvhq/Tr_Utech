@@ -310,6 +310,14 @@ namespace QRMS
             return _database.Query<TransactionHistoryModel>(Sql);
         }
 
+        public List<TransactionHistoryModel> GetAllHistoryLocalNoKey_KKDC()
+        {
+            string Sql = $"Select * From TransactionHistoryModel ";
+            Sql += $"Where ItemType = 'DC' and TransactionType = 'K' ";
+
+            return _database.Query<TransactionHistoryModel>(Sql);
+        }
+
         public int UpdateAllHistorySavedNoKey_KKDC()
         {
             string Sql = $"Update TransactionHistoryModel set ";

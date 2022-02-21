@@ -144,31 +144,77 @@ namespace QRMS.Views
             ViewModel.SaveDBServer();
         }
 
-        public void LoadColor(int tt)
+        public void LoadColor(int tt, string btnName)
         {
             Color StartColor = Color.FromHex("#00a79d");
             Color EndColor = Color.FromHex("#05aff2");
             if (tt == 0)
             {
+                if (btnName == "btnLuu")
+                {
+                    if (btnLuu.StartColor.ToHex().ToString() == "#FFA0A0A0")
+                        return;
+                }
+                else if (btnName == "btnXoa")
+                {
+                    if (btnXoa.StartColor.ToHex().ToString() == "#FFA0A0A0")
+                        return;
+                }    
+
                 StartColor = Color.FromHex("#A0A0A0");
                 EndColor = Color.FromHex("#E0E0E0");
             }
             else if (tt == 1)
             {
+                if (btnName == "btnLuu")
+                {
+                    if (btnLuu.StartColor.ToHex().ToString() == "#FF00A79D")
+                        return;
+                }
+                else if (btnName == "btnXoa")
+                {
+                    if (btnXoa.StartColor.ToHex().ToString() == "#FF00A79D")
+                        return;
+                }
+
                 StartColor = Color.FromHex("#00a79d");
                 EndColor = Color.FromHex("#05aff2");
             }
-            grid.Children.Remove(btnLuu);
-            ButtonCustoms btn_ = new ButtonCustoms
+
+            if (btnName == "btnLuu")
             {
-                Text = "2. LƯU DỮ LIỆU SERVER",
-                StartColor = StartColor,
-                EndColor = EndColor,
-                GradientOrientation = ButtonCustoms.GradientOrientationStates.Horizontal,
-                CornerRadius = 0
-            };
-            btn_.Clicked += BtnLuuDataSever_CLicked;
-            grid.Children.Add(btn_, 0, 3, 6, 7);
+                btnLuu.StartColor = StartColor;
+                btnLuu.EndColor = EndColor;
+                grid.Children.Remove(btnLuu);
+                ButtonCustoms btn_ = new ButtonCustoms
+                {
+                    Text = "2. LƯU DỮ LIỆU SERVER",
+                    StartColor = StartColor,
+                    EndColor = EndColor,
+                    GradientOrientation = ButtonCustoms.GradientOrientationStates.Horizontal,
+                    CornerRadius = 0
+                };
+                btn_.Clicked += BtnLuuDataSever_CLicked;
+                grid.Children.Add(btn_, 0, 3, 6, 7); 
+            }
+            else if (btnName == "btnXoa")
+            {
+               
+
+                btnXoa.StartColor = StartColor;
+                btnXoa.EndColor = EndColor;
+                grid.Children.Remove(btnXoa);
+                ButtonCustoms btn_ = new ButtonCustoms
+                {
+                    Text = "3. XOÁ DỮ LIỆU LƯU TRÊN MÁY",
+                    StartColor = StartColor,
+                    EndColor = EndColor,
+                    GradientOrientation = ButtonCustoms.GradientOrientationStates.Horizontal,
+                    CornerRadius = 0
+                };
+                btn_.Clicked += BtnXoaDuLieuLocal_CLicked;
+                grid.Children.Add(btn_, 0, 3, 8, 9);  
+            }
         }
 
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)

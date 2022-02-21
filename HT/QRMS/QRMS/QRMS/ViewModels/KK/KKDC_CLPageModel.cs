@@ -37,9 +37,23 @@ namespace QRMS.ViewModels
             LoadDbLocal();
 
             if (Historys.Count == 0)
-                _KKDC_CLPage.LoadColor(0);
+            {
+                _KKDC_CLPage.LoadColor(0, "btnLuu");
+            }    
             else
-                _KKDC_CLPage.LoadColor(1);
+            {
+                _KKDC_CLPage.LoadColor(1, "btnLuu");
+            }
+
+            List<TransactionHistoryModel> AllHistory_ = App.Dblocal.GetAllHistoryLocalNoKey_KKDC();
+            if (AllHistory_.Count == 0)
+            {
+                _KKDC_CLPage.LoadColor(0, "btnXoa");
+            }
+            else
+            {
+                _KKDC_CLPage.LoadColor(1, "btnXoa");
+            }
         }
 
 
@@ -48,7 +62,7 @@ namespace QRMS.ViewModels
             try
             {
                 Historys.Clear();
-                
+
                 List<TransactionHistoryModel> history_ = App.Dblocal.GetAllHistorySaveServerNoKey_KKDC();
                 foreach (TransactionHistoryModel item in history_)
                 {
@@ -70,13 +84,26 @@ namespace QRMS.ViewModels
             {
                 await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
                 {
+                    List<TransactionHistoryModel> AllHistory_ = App.Dblocal.GetAllHistoryLocalNoKey_KKDC();
+
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        App.Dblocal.DeleteHistoryNoKey_KKDC();
-                        _KKDC_CLPage.LoadColor(0);
-                        await Controls.LoadingUtility.HideAsync();
-                        await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã xoá dữ liệu thành công", "Đồng ý", "");
+                        if (AllHistory_.Count == 0)
+                        {
+                            _KKDC_CLPage.LoadColor(0, "btnXoa");
+                            await Controls.LoadingUtility.HideAsync();
+                        }
+                        else
+                        {
+                            App.Dblocal.DeleteHistoryNoKey_KKDC();
+                            _KKDC_CLPage.LoadColor(0, "btnLuu");
+                            _KKDC_CLPage.LoadColor(0, "btnXoa");
+
+                            await Controls.LoadingUtility.HideAsync();
+                            await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã xoá dữ liệu thành công", "Đồng ý", "");
+                        }
                     });
+
                 });
             }
             catch (Exception ex)
@@ -136,7 +163,7 @@ namespace QRMS.ViewModels
                     {
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            _KKDC_CLPage.LoadColor(0);
+                            _KKDC_CLPage.LoadColor(0, "btnLuu");
                             Controls.LoadingUtility.HideAsync();
                             return;
                         });
@@ -192,7 +219,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                _KKDC_CLPage.LoadColor(0);
+                                _KKDC_CLPage.LoadColor(0, "btnLuu");
                                 App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
                                 await Controls.LoadingUtility.HideAsync();
                                 await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
