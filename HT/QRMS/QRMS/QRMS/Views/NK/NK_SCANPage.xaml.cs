@@ -216,7 +216,14 @@ namespace QRMS.Views
             if (MySettings.To_Page == "homepage")
             {
                 MySettings.To_Page = "";
-                await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+
+                while (Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack.Count > 3)
+                {
+                    Xamarin.Forms.Application.Current.MainPage.Navigation.RemovePage(Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack[Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack.Count - 2]);
+                }
+                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+
+                //await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new HomePage());
             }
         }
         private async void BtnHuyBo_popup_DangXuat_Clicked(object sender, EventArgs e)
@@ -260,7 +267,7 @@ namespace QRMS.Views
 
         void txtTest_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
-            ViewModel.ScanComplate(txtTest.Text);
+            ViewModel.ScanComplate(txtTest.Text.Trim().ToUpper());
         }
 
         private bool Checklocal()

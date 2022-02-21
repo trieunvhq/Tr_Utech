@@ -18,7 +18,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Xamarin.Forms; 
+using Xamarin.Forms;
+using ZXing.Mobile;
+using ZXing.Net.Mobile.Forms;
 
 namespace QRMS.ViewModels
 {
@@ -34,6 +36,10 @@ namespace QRMS.ViewModels
         public ObservableCollection<SaleOrderItemScanBPL> ViewXuatKhos { get; set; } = new ObservableCollection<SaleOrderItemScanBPL>();
         public ObservableCollection<ChuyenKhoDungCuModelBPL> ViewChuyenKhos { get; set; } = new ObservableCollection<ChuyenKhoDungCuModelBPL>();
 
+        public Command ScanCommand { get; }
+
+        private ZXingScannerPage scanPage;
+        private MobileBarcodeScanningOptions options;
 
         NhapKhoDungCuModel _NhapKhoDungCuModel;
         SaleOrderItemScanBPL _SaleOrderItemScanBPL;
@@ -42,7 +48,9 @@ namespace QRMS.ViewModels
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR = new List<string>();
-
+        private List<string> NKItemCode = new List<string>();
+        private List<string> XKItemCode = new List<string>();
+        private List<string> CKItemCode = new List<string>();
 
         public bool IsThongBao { get; set; } = true;
         public string ThongBao { get; set; } = "";
@@ -56,6 +64,7 @@ namespace QRMS.ViewModels
         {
             No = fd.No;
             _NK_SCANPage = fd;
+            ScanCommand = new Command(Scan_Clicked);
             LoadModels("");
         }
 
@@ -825,7 +834,7 @@ namespace QRMS.ViewModels
         }
 
 
-
+        //Xử lý nhãn khi scan:
         public async void ScanComplate(string str)
         {
             string temp_ = "";
@@ -1057,7 +1066,52 @@ namespace QRMS.ViewModels
                 MySettings.InsertLogs(0, DateTime.Now, temp_+". ScanComplate", ex.Message, "NK_SCANPageModel", MySettings.UserName);
             }
         }
+         
+        //Scan bằng camera sau điện thoại:
+        private void Scan_Clicked()
+        {
+            try
+            {
+                string barcode = string.Empty;
+
+                options = new MobileBarcodeScanningOptions
+                {
+                    AutoRotate = false,
+                    UseFrontCameraIfAvailable = false,
+                    TryHarder = true,
+                    PossibleFormats = new List<ZXing.BarcodeFormat>()
+                };
+
+                scanPage = new ZXingScannerPage(options);
+                scanPage.OnScanResult += (result) =>
+                {
+                    scanPage.IsScanning = false;
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Application.Current.MainPage.Navigation.PopModalAsync();
+
+                        barcode = result.Text;
+
+                        ScanComplate(barcode);
+                    });
+                };
+
+                Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
+            }
+            catch (Exception ex)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Application.Current.MainPage.DisplayAlert("Thông báo", "Không thể quét", "OK");
+                    MySettings.InsertLogs(0, DateTime.Now, "Scan_Clicked", ex.Message, "NK_SCANPageModel", MySettings.UserName);
+                });
+            }
+        }
+
         private string indet = "";
+
+        //Xử lý lưu khi scan:
         public void XuLyTiepLuu(bool iscoluu, decimal soluong_, int i, QRModel qr, string str)
         {
             if (iscoluu)
@@ -1280,11 +1334,8 @@ namespace QRMS.ViewModels
         }
         #endregion
 
-        private List<string> NKItemCode = new List<string>();
-        private List<string> XKItemCode = new List<string>();
-        private List<string> CKItemCode = new List<string>();
 
-
+        //Xử lý hiển thị bảng nhập kho theo ItemCode:
         private void ViewTableNhapKhos()
         {
             foreach (NhapKhoDungCuModel item in NhapKhos)
@@ -1343,6 +1394,7 @@ namespace QRMS.ViewModels
             }    
         }
 
+        //Update hiển thị bảng nhập kho theo ItemCode:
         private void UpdateTableNhapKhos(QRModel item)
         {
             for (int i = 0; i < ViewNhapKhos.Count; i++)
@@ -1371,6 +1423,7 @@ namespace QRMS.ViewModels
             }
         }
 
+        //Xử lý hiển thị bảng xuất kho theo ItemCode:
         private void ViewTableXuatKhos()
         {
             foreach (SaleOrderItemScanBPL item in XuatKhos)
@@ -1431,6 +1484,7 @@ namespace QRMS.ViewModels
             }
         }
 
+        //Update hiển thị bảng xuất kho theo ItemCode:
         private void UpdateTableXuatKhos(QRModel item)
         {
             for (int i = 0; i < ViewXuatKhos.Count; i++)
@@ -1459,7 +1513,7 @@ namespace QRMS.ViewModels
             }
         }
 
-
+        //Xử lý hiển thị bảng chuyển kho theo ItemCode:
         private void ViewTableChuyenKhos()
         {
             foreach (ChuyenKhoDungCuModelBPL item in ChuyenKhos)
@@ -1521,6 +1575,7 @@ namespace QRMS.ViewModels
         }
 
 
+        //Update hiển thị bảng chuyển kho theo ItemCode:
         private void UpdateTableChuyenKhos(QRModel item)
         {
             for (int i = 0; i < ViewChuyenKhos.Count; i++)

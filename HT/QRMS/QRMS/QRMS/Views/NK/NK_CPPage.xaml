@@ -89,16 +89,17 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 <helper:ButtonCustoms Text="Quay lại" Grid.Column="0"
-                Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                            Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
+                            StartColor="#00a79d" EndColor="#05aff2"/>
                  
-                <!--<helper:ButtonCustoms Text="Camera" Grid.Column="2" CornerRadius="0"
-                Clicked="BtnCamera_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>-->
+               <helper:ButtonCustoms Text="Camera" Grid.Column="2" CornerRadius="0"
+                            Command="{Binding ScanCommand}" GradientOrientation="Horizontal"
+                            IsVisible="{x:Static constants:MySettings.IsVisible_btnQuet}"
+                            StartColor="#00a79d" EndColor="#05aff2"/>
 
                 <helper:ButtonCustoms Text="Tiếp tục" Grid.Column="4" CornerRadius="0"
-                Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                            Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
+                            StartColor="#00a79d" EndColor="#05aff2"/>
             </Grid>
 
 

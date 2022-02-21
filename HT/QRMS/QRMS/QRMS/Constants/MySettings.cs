@@ -17,6 +17,8 @@ namespace QRMS.Constants
 
         public static string ItemContract_Status { get; set; }
         public static bool IsVisible_Test { get; set; }
+        public static bool IsVisible_btnQuet { get; set; }
+
 
         private static ISettings AppSettings
         {

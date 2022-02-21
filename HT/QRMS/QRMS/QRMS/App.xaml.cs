@@ -57,6 +57,7 @@ namespace QRMS
                 MySettings.Vi_En = true;
             }
 
+            MySettings.IsVisible_btnQuet = true;
             MySettings.IsVisible_Test = false;
 
             InitializeComponent();

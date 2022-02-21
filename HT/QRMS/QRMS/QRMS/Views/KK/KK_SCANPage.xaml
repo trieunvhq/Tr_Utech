@@ -38,8 +38,9 @@
 
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="2"/>
 
-            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="9" IsVisible="{x:Static constants:MySettings.IsVisible_Test}"
-                   Text="" Unfocused="txtTest_Unfocused"/>
+            <control:CustomEntry x:Name="txtTest" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="9"
+                                 IsVisible="{x:Static constants:MySettings.IsVisible_Test}"
+                                 Text="" Unfocused="txtTest_Unfocused"/>
 
             <Grid Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="3" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
@@ -159,12 +160,17 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 <helper:ButtonCustoms Text="Quay lại" Grid.Column="0"
-                Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
-                StartColor="#00a79d" EndColor="#05aff2"/>
-                 
+                            Clicked="BtnQuayLai_CLicked" GradientOrientation="Horizontal" CornerRadius="0"
+                            StartColor="#00a79d" EndColor="#05aff2"/>
+
+                <helper:ButtonCustoms Text="Camera" Grid.Column="2" Grid.ColumnSpan="3" CornerRadius="0"
+                            Command="{Binding ScanCommand}" GradientOrientation="Horizontal"
+                            IsVisible="{x:Static constants:MySettings.IsVisible_btnQuet}"
+                            StartColor="#00a79d" EndColor="#05aff2"/>
+
                 <helper:ButtonCustoms Text="Lưu lại" Grid.Column="6" CornerRadius="0"
-                Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
-                StartColor="#00a79d" EndColor="#05aff2"/>
+                            Clicked="BtnLuuLai_CLicked" GradientOrientation="Horizontal"
+                            StartColor="#00a79d" EndColor="#05aff2"/>
             </Grid>
             
             <Grid x:Name="absPopup_DangXuat" Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="0" Grid.RowSpan="10"

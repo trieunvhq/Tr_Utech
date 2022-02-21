@@ -16,7 +16,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Xamarin.Forms; 
+using Xamarin.Forms;
+using ZXing.Mobile;
+using ZXing.Net.Mobile.Forms;
 
 namespace QRMS.ViewModels
 {
@@ -39,12 +41,18 @@ namespace QRMS.ViewModels
         public int _indexHistory = 0;
         public bool _isDaLuu = true;
 
+        public Command ScanCommand { get; }
+
+        private ZXingScannerPage scanPage;
+        private MobileBarcodeScanningOptions options;
+
         KKDCModel _KKDCModel;
 
 
         public KK_SCANPageModel(KK_SCANPage fd)
         {
             _KK_SCANPage = fd;
+            ScanCommand = new Command(Scan_Clicked);
             LoadModels();
         }
 
@@ -198,7 +206,7 @@ namespace QRMS.ViewModels
                                     _daQuetQR.Add(item.EXT_QRCode);
                                     _indexHistory += 1;
 
-                                    //
+                                    //Load lại dữ liệu từ server show lên bảng tổng quát:
                                     decimal soluong_ = 0;
                                     bool isTonTaiItemCode = false;
 
@@ -392,6 +400,7 @@ namespace QRMS.ViewModels
             }
         }
 
+        //Xử lý khi scan nhãn:
         public async void ScanComplate(string str)
         {
             string temp_ = "";
@@ -581,8 +590,49 @@ namespace QRMS.ViewModels
                 ThongBao = "ex: " + ex.Message; 
                 MySettings.InsertLogs(0, DateTime.Now, temp_ + ". ScanComplate", ex.Message, "NK_SCANPageModel", MySettings.UserName);
             }
-        } 
+        }
 
+        //Scan bằng camera sau điện thoại:
+        private void Scan_Clicked()
+        {
+            try
+            {
+                string barcode = string.Empty;
+
+                options = new MobileBarcodeScanningOptions
+                {
+                    AutoRotate = false,
+                    UseFrontCameraIfAvailable = false,
+                    TryHarder = true,
+                    PossibleFormats = new List<ZXing.BarcodeFormat>()
+                };
+
+                scanPage = new ZXingScannerPage(options);
+                scanPage.OnScanResult += (result) =>
+                {
+                    scanPage.IsScanning = false;
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Application.Current.MainPage.Navigation.PopModalAsync();
+
+                        barcode = result.Text;
+
+                        ScanComplate(barcode);
+                    });
+                };
+
+                Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
+            }
+            catch (Exception ex)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Application.Current.MainPage.DisplayAlert("Thông báo", "Không thể quét", "OK");
+                    MySettings.InsertLogs(0, DateTime.Now, "Scan_Clicked", ex.Message, "NK_SCANPageModel", MySettings.UserName);
+                });
+            }
+        }
 
         #region BarcodeReader Action
         private BarcodeReader mSelectedReader = null;
