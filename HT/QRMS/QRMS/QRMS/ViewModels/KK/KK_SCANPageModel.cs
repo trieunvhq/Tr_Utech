@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel; 
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Xamarin.Forms; 
 
@@ -44,6 +45,7 @@ namespace QRMS.ViewModels
         public KK_SCANPageModel(KK_SCANPage fd)
         {
             _KK_SCANPage = fd;
+            LoadModels();
         }
 
         public override void OnAppearing()
@@ -52,7 +54,6 @@ namespace QRMS.ViewModels
                 OpenBarcodeReader();
 
             base.OnAppearing();
-            LoadModels();
         }
 
 
@@ -93,9 +94,9 @@ namespace QRMS.ViewModels
                                     soluong_ = Convert.ToDecimal(item.Quantity);
 
                                     model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
-                                    model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
+                                    model_.sSoLuongQuet = model_.SoLuongQuet.ConvertToString();
                                     model_.SoNhan = model_.SoNhan + 1;
-                                    model_.sSoNhan = model_.SoNhan.ToString("N0");
+                                    model_.sSoNhan = model_.SoNhan.ConvertToString();
                                     model_.ColorSLDaNhap = "#000000";
                                     model_.Color = "#000000";
 
@@ -218,9 +219,9 @@ namespace QRMS.ViewModels
                                             soluong_ = Convert.ToDecimal(item.Quantity);
 
                                             model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
-                                            model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
+                                            model_.sSoLuongQuet = model_.SoLuongQuet.ConvertToString();
                                             model_.SoNhan = model_.SoNhan + 1;
-                                            model_.sSoNhan = model_.SoNhan.ToString("N0");
+                                            model_.sSoNhan = model_.SoNhan.ConvertToString();
                                             model_.ColorSLDaNhap = "#000000";
                                             model_.Color = "#000000";
 
@@ -452,9 +453,9 @@ namespace QRMS.ViewModels
                     //    IsThongBao = true;
                     //    ThongBao = "Dụng cụ đã được kiểm kê"; temp_ = "6";
                     //}
-                    string str_decode = MySettings.DecodeFromUtf8(str);
+                    //string str_decode = MySettings.DecodeFromUtf8(str);
 
-                    if (_daQuetQR.Contains(str_decode))
+                    if (_daQuetQR.Contains(str))
                     {
                         IsThongBao = true;
                         Color = Color.Red;
@@ -482,9 +483,9 @@ namespace QRMS.ViewModels
                                 KKDCModel model_ = TongQuats[i];
 
                                 model_.SoLuongQuet = model_.SoLuongQuet + soluong_;
-                                model_.sSoLuongQuet = model_.SoLuongQuet.ToString("N0");
+                                model_.sSoLuongQuet = model_.SoLuongQuet.ConvertToString();
                                 model_.SoNhan = model_.SoNhan + 1;
-                                model_.sSoNhan = model_.SoNhan.ToString("N0");
+                                model_.sSoNhan = model_.SoNhan.ConvertToString();
                                 model_.ColorSLDaNhap = "#0008ff";
                                 model_.Color = "#0008ff";
 
@@ -542,7 +543,7 @@ namespace QRMS.ViewModels
                             EXT_MfDate = qr.MfDate,
                             EXT_RecDate = qr.RecDate,
                             EXT_ExpDate = qr.ExpDate,
-                            EXT_QRCode = str_decode,
+                            EXT_QRCode = str,
                             CustomerCode = qr.CustomerCode,
                             ExportStatus = "N",
                             RecordStatus = "N",
@@ -555,7 +556,7 @@ namespace QRMS.ViewModels
                         };
 
                         Historys.Add(history);
-                        _daQuetQR.Add(str_decode);
+                        _daQuetQR.Add(str);
                         _isDaLuu = false;
 
 
@@ -638,7 +639,20 @@ namespace QRMS.ViewModels
             {
                 mUIContext.Post(_ =>
                 {
-                    ScanComplate(e.Data);
+                    byte[] utf8Bytes = new byte[(e.Data).Length];
+                    for (int i = 0; i < (e.Data).Length; ++i)
+                    {
+                        utf8Bytes[i] = (byte)(e.Data)[i];
+                    }
+
+                    string str_ = Encoding.UTF8.GetString(utf8Bytes, 0, utf8Bytes.Length);
+
+                    //MySettings.InsertLogs(0, DateTime.Now, "MBarcodeReader_BarcodeDataReady", str_ + "|==>|" + e.Data, "NK_SCANPageModel", MySettings.UserName);
+
+                    if (str_.Contains("�"))
+                        ScanComplate(e.Data);
+                    else
+                        ScanComplate(str_);
                 }
                          , null);
             }

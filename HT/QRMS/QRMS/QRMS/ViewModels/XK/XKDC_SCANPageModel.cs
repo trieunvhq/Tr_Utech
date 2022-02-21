@@ -127,9 +127,9 @@ namespace QRMS.ViewModels
                                                 || NhapKhos[i].Serial == "None"
                                                 || (NhapKhos[i].Serial == hs.EXT_Serial)))
                             {
-                                NhapKhos[i].sQuantity = NhapKhos[i].Quantity.ToString("N0");
+                                NhapKhos[i].sQuantity = NhapKhos[i].Quantity.ConvertToString();
                                 NhapKhos[i].SoLuongDaNhap += hs.Quantity;
-                                NhapKhos[i].sSoLuongDaNhap = NhapKhos[i].SoLuongDaNhap.ToString("N0");
+                                NhapKhos[i].sSoLuongDaNhap = NhapKhos[i].SoLuongDaNhap.ConvertToString();
                                 NhapKhos[i].SoLuongBox += 1;
 
                                 if (NhapKhos[i].SoLuongDaNhap >= NhapKhos[i].Quantity)
@@ -181,9 +181,9 @@ namespace QRMS.ViewModels
                                                 || XuatKhos[i].Serial == "None"
                                                 || (XuatKhos[i].Serial == hs.EXT_Serial)))
                             {
-                                XuatKhos[i].sQuantity = XuatKhos[i].Quantity.ToString("N0");
+                                XuatKhos[i].sQuantity = XuatKhos[i].Quantity.ConvertToString();
                                 XuatKhos[i].SoLuongDaNhap += hs.Quantity;
-                                XuatKhos[i].sSoLuongDaNhap = XuatKhos[i].SoLuongDaNhap.ToString("N0");
+                                XuatKhos[i].sSoLuongDaNhap = XuatKhos[i].SoLuongDaNhap.ConvertToString();
                                 XuatKhos[i].SoLuongBox += 1;
 
                                 if (XuatKhos[i].SoLuongDaNhap >= XuatKhos[i].Quantity)
@@ -233,9 +233,9 @@ namespace QRMS.ViewModels
                                                 || ChuyenKhos[i].Serial == "None"
                                                 || (ChuyenKhos[i].Serial == hs.EXT_Serial)))
                             {
-                                ChuyenKhos[i].sQuantity = ChuyenKhos[i].Quantity.ToString("N0");
+                                ChuyenKhos[i].sQuantity = ChuyenKhos[i].Quantity.ConvertToString();
                                 ChuyenKhos[i].SoLuongDaChuyen += hs.Quantity;
-                                ChuyenKhos[i].sSoLuongDaChuyen = ChuyenKhos[i].SoLuongDaChuyen.ToString("N0");
+                                ChuyenKhos[i].sSoLuongDaChuyen = ChuyenKhos[i].SoLuongDaChuyen.ConvertToString();
                                 ChuyenKhos[i].SoLuongBox += 1;
 
                                 if (ChuyenKhos[i].SoLuongDaChuyen >= ChuyenKhos[i].Quantity)
@@ -300,8 +300,8 @@ namespace QRMS.ViewModels
                                 result2.Result.data[i].Color = "#000000";
                                 //
 
-                                result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ToString("N0");
-                                result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ToString("N0");  
+                                result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ConvertToString();
+                                result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ConvertToString();  
                                 if (result2.Result.data[i].ItemCode == id)
                                 {
                                     NhapKhos.Insert(0, result2.Result.data[i]);
@@ -356,9 +356,9 @@ namespace QRMS.ViewModels
                                                 || NhapKhos[i].Serial == "None"
                                                 || (NhapKhos[i].Serial == hs.EXT_Serial)))
                                     {
-                                        NhapKhos[i].sQuantity = NhapKhos[i].Quantity.ToString("N0");
+                                        NhapKhos[i].sQuantity = NhapKhos[i].Quantity.ConvertToString();
                                         NhapKhos[i].SoLuongDaNhap += hs.Quantity;
-                                        NhapKhos[i].sSoLuongDaNhap = NhapKhos[i].SoLuongDaNhap.ToString("N0");
+                                        NhapKhos[i].sSoLuongDaNhap = NhapKhos[i].SoLuongDaNhap.ConvertToString();
                                         NhapKhos[i].SoLuongBox += 1;
 
                                         if (NhapKhos[i].SoLuongDaNhap >= NhapKhos[i].Quantity)
@@ -404,8 +404,8 @@ namespace QRMS.ViewModels
                                 result2.Result.data[i].Color = "#000000";
                                 //
 
-                                result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ToString("N0");
-                                result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ToString("N0");
+                                result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ConvertToString();
+                                result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ConvertToString();
                                 if (result2.Result.data[i].ItemCode == id)
                                 {
                                     XuatKhos.Insert(0, result2.Result.data[i]);
@@ -460,9 +460,9 @@ namespace QRMS.ViewModels
                                                 || item.Serial == "None"
                                                 || (item.Serial == hs.EXT_Serial)))
                                     {
-                                        item.sQuantity = item.Quantity.ToString("N0");
+                                        item.sQuantity = item.Quantity.ConvertToString();
                                         item.SoLuongDaNhap += hs.Quantity;
-                                        item.sSoLuongDaNhap = item.SoLuongDaNhap.ToString("N0");
+                                        item.sSoLuongDaNhap = item.SoLuongDaNhap.ConvertToString();
                                         item.SoLuongBox += 1;
 
                                         if (item.SoLuongDaNhap >= item.Quantity)
@@ -507,8 +507,8 @@ namespace QRMS.ViewModels
                                 result2.Result.data[i].Color = "#000000";
                                 //
 
-                                result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ToString("N0");
-                                result2.Result.data[i].sSoLuongDaChuyen = result2.Result.data[i].SoLuongDaChuyen.ToString("N0");
+                                result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ConvertToString();
+                                result2.Result.data[i].sSoLuongDaChuyen = result2.Result.data[i].SoLuongDaChuyen.ConvertToString();
                                 if (result2.Result.data[i].ItemCode == id)
                                 {
                                     ChuyenKhos.Insert(0, result2.Result.data[i]);
@@ -565,9 +565,9 @@ namespace QRMS.ViewModels
                                                 || ChuyenKhos[i].Serial == "None"
                                                 || (ChuyenKhos[i].Serial == hs.EXT_Serial)))
                                     {
-                                        ChuyenKhos[i].sQuantity = ChuyenKhos[i].Quantity.ToString("N0");
+                                        ChuyenKhos[i].sQuantity = ChuyenKhos[i].Quantity.ConvertToString();
                                         ChuyenKhos[i].SoLuongDaChuyen += hs.Quantity;
-                                        ChuyenKhos[i].sSoLuongDaChuyen = ChuyenKhos[i].SoLuongDaChuyen.ToString("N0");
+                                        ChuyenKhos[i].sSoLuongDaChuyen = ChuyenKhos[i].SoLuongDaChuyen.ConvertToString();
                                         ChuyenKhos[i].SoLuongBox += 1;
 
                                         if (ChuyenKhos[i].SoLuongDaChuyen >= ChuyenKhos[i].Quantity)
@@ -857,9 +857,9 @@ namespace QRMS.ViewModels
                         return;
                     }
 
-                    string str_decode = MySettings.DecodeFromUtf8(str);
+                    //string str_decode = MySettings.DecodeFromUtf8(str);
 
-                    if (_daQuetQR.Contains(str_decode)) 
+                    if (_daQuetQR.Contains(str)) 
                     {
                         IsThongBao = true;
                         Color = Color.Red;
@@ -921,7 +921,7 @@ namespace QRMS.ViewModels
                                         _XKDC_SCANPage.soluong_ = soluong_;
                                         _XKDC_SCANPage.i = i;
                                         _XKDC_SCANPage.qr = qr;
-                                        _XKDC_SCANPage.str = str_decode;
+                                        _XKDC_SCANPage.str = str;
                                         temp_ = "11";
 
                                         //var ans = await UserDialogs.Instance.ConfirmAsync("Thông báo", "Vượt sl", "OK");
@@ -935,7 +935,7 @@ namespace QRMS.ViewModels
                                     {
                                         temp_ = "13";
                                         UpdateTableNhapKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str);
                                     }
 
 
@@ -968,14 +968,14 @@ namespace QRMS.ViewModels
                                         _XKDC_SCANPage.soluong_ = soluong_;
                                         _XKDC_SCANPage.i = i;
                                         _XKDC_SCANPage.qr = qr;
-                                        _XKDC_SCANPage.str = str_decode; 
+                                        _XKDC_SCANPage.str = str; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
                                         await _XKDC_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
                                     }
                                     else
                                     {
                                         UpdateTableXuatKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str);
                                     }
 
                                     //
@@ -1007,7 +1007,7 @@ namespace QRMS.ViewModels
                                         _XKDC_SCANPage.soluong_ = soluong_;
                                         _XKDC_SCANPage.i = i;
                                         _XKDC_SCANPage.qr = qr;
-                                        _XKDC_SCANPage.str = str_decode; 
+                                        _XKDC_SCANPage.str = str; 
                                         //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
                                         await _XKDC_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
 
@@ -1015,7 +1015,7 @@ namespace QRMS.ViewModels
                                     else
                                     {
                                         UpdateTableChuyenKhos(qr);
-                                        XuLyTiepLuu(true, soluong_, i, qr, str_decode);
+                                        XuLyTiepLuu(true, soluong_, i, qr, str);
                                     }
 
                                     //
@@ -1071,9 +1071,9 @@ namespace QRMS.ViewModels
                         _NhapKhoDungCuModel.ColorSLDaNhap = "#0008ff";
 
                     _NhapKhoDungCuModel.Color = "#0008ff";
-                    _NhapKhoDungCuModel.sQuantity = _NhapKhoDungCuModel.Quantity.ToString("N0");
-                    _NhapKhoDungCuModel.sSoLuongDaNhap = _NhapKhoDungCuModel.SoLuongDaNhap.ToString("N0");
-                    _NhapKhoDungCuModel.sSoLuongBox = _NhapKhoDungCuModel.SoLuongBox.ToString("N0");
+                    _NhapKhoDungCuModel.sQuantity = _NhapKhoDungCuModel.Quantity.ConvertToString();
+                    _NhapKhoDungCuModel.sSoLuongDaNhap = _NhapKhoDungCuModel.SoLuongDaNhap.ConvertToString();
+                    _NhapKhoDungCuModel.sSoLuongBox = _NhapKhoDungCuModel.SoLuongBox.ConvertToString();
 
                     NhapKhos.Insert(0, _NhapKhoDungCuModel);
                      
@@ -1095,8 +1095,8 @@ namespace QRMS.ViewModels
                         _SaleOrderItemScanBPL.ColorSLDaNhap = "#0008ff";
 
                     _SaleOrderItemScanBPL.Color = "#0008ff";
-                    _SaleOrderItemScanBPL.sQuantity = _SaleOrderItemScanBPL.Quantity.ToString("N0");
-                    _SaleOrderItemScanBPL.sSoLuongDaNhap = _SaleOrderItemScanBPL.SoLuongDaNhap.ToString("N0");
+                    _SaleOrderItemScanBPL.sQuantity = _SaleOrderItemScanBPL.Quantity.ConvertToString();
+                    _SaleOrderItemScanBPL.sSoLuongDaNhap = _SaleOrderItemScanBPL.SoLuongDaNhap.ConvertToString();
 
                     XuatKhos.Insert(0, _SaleOrderItemScanBPL);
                      
@@ -1120,8 +1120,8 @@ namespace QRMS.ViewModels
                         _ChuyenKhoDungCuModelBPL.ColorSLDaNhap = "#0008ff";
 
                     _ChuyenKhoDungCuModelBPL.Color = "#0008ff";
-                    _ChuyenKhoDungCuModelBPL.sQuantity = _ChuyenKhoDungCuModelBPL.Quantity.ToString("N0");
-                    _ChuyenKhoDungCuModelBPL.sSoLuongDaChuyen = _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen.ToString("N0");
+                    _ChuyenKhoDungCuModelBPL.sQuantity = _ChuyenKhoDungCuModelBPL.Quantity.ConvertToString();
+                    _ChuyenKhoDungCuModelBPL.sSoLuongDaChuyen = _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen.ConvertToString();
 
                     ChuyenKhos.Insert(0, _ChuyenKhoDungCuModelBPL);
                      
@@ -1238,17 +1238,20 @@ namespace QRMS.ViewModels
             {
                 mUIContext.Post(_ =>
                 {
-                    //byte[] utf8Bytes = new byte[e.Data.Length];
-                    //for (int i = 0; i < e.Data.Length; ++i)
-                    //{
-                    //    //Debug.Assert( 0 <= utf8String[i] && utf8String[i] <= 255, "the char must be in byte's range");
-                    //    utf8Bytes[i] = (byte)e.Data[i];
-                    //}
+                    byte[] utf8Bytes = new byte[(e.Data).Length];
+                    for (int i = 0; i < (e.Data).Length; ++i)
+                    {
+                        utf8Bytes[i] = (byte)(e.Data)[i];
+                    }
 
+                    string str_ = Encoding.UTF8.GetString(utf8Bytes, 0, utf8Bytes.Length);
 
-                    //ScanComplate(Encoding.UTF8.GetString(utf8Bytes, 0, utf8Bytes.Length));
+                    //MySettings.InsertLogs(0, DateTime.Now, "MBarcodeReader_BarcodeDataReady", str_ + "|==>|" + e.Data, "NK_SCANPageModel", MySettings.UserName);
 
-                    ScanComplate(e.Data);
+                    if (str_.Contains("�"))
+                        ScanComplate(e.Data);
+                    else
+                        ScanComplate(str_);
                 }
                          , null);
             }
@@ -1320,10 +1323,10 @@ namespace QRMS.ViewModels
 
                             ViewNhapKhos[i].SoLuongDaNhap += soluong_;
                             ViewNhapKhos[i].Quantity += quantity_;
-                            ViewNhapKhos[i].sQuantity = ViewNhapKhos[i].Quantity.ToString("N0");
-                            ViewNhapKhos[i].sSoLuongDaNhap = ViewNhapKhos[i].SoLuongDaNhap.ToString("N0");
+                            ViewNhapKhos[i].sQuantity = ViewNhapKhos[i].Quantity.ConvertToString();
+                            ViewNhapKhos[i].sSoLuongDaNhap = ViewNhapKhos[i].SoLuongDaNhap.ConvertToString();
                             ViewNhapKhos[i].SoLuongBox += soluongbox_;
-                            ViewNhapKhos[i].sSoLuongBox = ViewNhapKhos[i].SoLuongBox.ToString("N0");
+                            ViewNhapKhos[i].sSoLuongBox = ViewNhapKhos[i].SoLuongBox.ConvertToString();
 
                             if (ViewNhapKhos[i].SoLuongDaNhap >= ViewNhapKhos[i].Quantity)
                                 ViewNhapKhos[i].ColorSLDaNhap = "#ff0000";
@@ -1346,9 +1349,9 @@ namespace QRMS.ViewModels
                     NhapKhoDungCuModel model_ = ViewNhapKhos[i];
 
                     model_.SoLuongDaNhap += soluong_;
-                    model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
+                    model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ConvertToString();
                     model_.SoLuongBox += 1;
-                    model_.sSoLuongBox = model_.SoLuongBox.ToString("N0");
+                    model_.sSoLuongBox = model_.SoLuongBox.ConvertToString();
 
                     if (model_.SoLuongDaNhap >= model_.Quantity)
                         model_.ColorSLDaNhap = "#ff0000";
@@ -1407,11 +1410,11 @@ namespace QRMS.ViewModels
 
 
                             ViewXuatKhos[i].Quantity += quantity_;
-                            ViewXuatKhos[i].sQuantity = ViewXuatKhos[i].Quantity.ToString("N0");
+                            ViewXuatKhos[i].sQuantity = ViewXuatKhos[i].Quantity.ConvertToString();
                             ViewXuatKhos[i].SoLuongDaNhap += soluong_;
-                            ViewXuatKhos[i].sSoLuongDaNhap = ViewXuatKhos[i].SoLuongDaNhap.ToString("N0");
+                            ViewXuatKhos[i].sSoLuongDaNhap = ViewXuatKhos[i].SoLuongDaNhap.ConvertToString();
                             ViewXuatKhos[i].SoLuongBox += soluongbox_;
-                            ViewXuatKhos[i].sSoLuongBox = ViewXuatKhos[i].SoLuongBox.ToString("N0");
+                            ViewXuatKhos[i].sSoLuongBox = ViewXuatKhos[i].SoLuongBox.ConvertToString();
 
                             if (ViewXuatKhos[i].SoLuongDaNhap >= ViewXuatKhos[i].Quantity)
                                 ViewXuatKhos[i].ColorSLDaNhap = "#ff0000";
@@ -1434,9 +1437,9 @@ namespace QRMS.ViewModels
                     SaleOrderItemScanBPL model_ = ViewXuatKhos[i];
 
                     model_.SoLuongDaNhap += soluong_;
-                    model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ToString("N0");
+                    model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ConvertToString();
                     model_.SoLuongBox += 1;
-                    model_.sSoLuongBox = model_.SoLuongBox.ToString("N0");
+                    model_.sSoLuongBox = model_.SoLuongBox.ConvertToString();
 
                     if (model_.SoLuongDaNhap >= model_.Quantity)
                         model_.ColorSLDaNhap = "#ff0000";
@@ -1496,11 +1499,11 @@ namespace QRMS.ViewModels
 
 
                             ViewChuyenKhos[i].Quantity += quantity_;
-                            ViewChuyenKhos[i].sQuantity = ViewChuyenKhos[i].Quantity.ToString("N0");
+                            ViewChuyenKhos[i].sQuantity = ViewChuyenKhos[i].Quantity.ConvertToString();
                             ViewChuyenKhos[i].SoLuongDaChuyen += soluong_;
-                            ViewChuyenKhos[i].sSoLuongDaChuyen = ViewChuyenKhos[i].SoLuongDaChuyen.ToString("N0");
+                            ViewChuyenKhos[i].sSoLuongDaChuyen = ViewChuyenKhos[i].SoLuongDaChuyen.ConvertToString();
                             ViewChuyenKhos[i].SoLuongBox += soluongbox_;
-                            ViewChuyenKhos[i].sSoLuongBox = ViewChuyenKhos[i].SoLuongBox.ToString("N0");
+                            ViewChuyenKhos[i].sSoLuongBox = ViewChuyenKhos[i].SoLuongBox.ConvertToString();
 
                             if (ViewChuyenKhos[i].SoLuongDaChuyen >= ViewChuyenKhos[i].Quantity)
                                 ViewChuyenKhos[i].ColorSLDaNhap = "#ff0000";
@@ -1524,9 +1527,9 @@ namespace QRMS.ViewModels
                     ChuyenKhoDungCuModelBPL model_ = ViewChuyenKhos[i];
 
                     model_.SoLuongDaChuyen += soluong_;
-                    model_.sSoLuongDaChuyen = model_.SoLuongDaChuyen.ToString("N0");
+                    model_.sSoLuongDaChuyen = model_.SoLuongDaChuyen.ConvertToString();
                     model_.SoLuongBox += 1;
-                    model_.sSoLuongBox = model_.SoLuongBox.ToString("N0");
+                    model_.sSoLuongBox = model_.SoLuongBox.ConvertToString();
 
                     if (model_.SoLuongDaChuyen >= model_.Quantity)
                         model_.ColorSLDaNhap = "#ff0000";

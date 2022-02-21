@@ -569,6 +569,8 @@ namespace QRMS.Constants
             , "Ý" , "à" , "á" , "â"
         , "ã" , "è" , "é" , "ê" ,
             "ì", "í", "ò", "ó", "ô", "õ", "ù", "ú", "ý", "Ð", "…"};
+
+
         public static string ConvertHtmlToGlyph(string str)
         {
             for (int i = 0; i < _lsthtml.Count; ++i)
@@ -762,7 +764,7 @@ namespace QRMS.Constants
                 string[] temp_;
 
                 if (isTransfer)
-                    temp_ = DecodeFromUtf8(str).Split(';');
+                    temp_ = str.Split(';');
                 else
                     temp_ = str.Split(';');
 
@@ -991,6 +993,25 @@ namespace QRMS.Constants
                 }
             }
             return temp_;
+        }
+
+        public static string ConvertToString(this object str)
+        {
+            string result_ = "0";
+            try
+            {
+                Decimal tmp_ = ConvertToDecimal(str);
+
+                result_ = tmp_.ToString("N3").TrimEnd('0').TrimEnd('.');
+
+                if (result_ == "")
+                    result_ = "0";
+            }
+            catch
+            {
+                result_ = "0";
+            }
+            return result_;
         }
 
         public static void InsertLogs(int id, DateTime date, string funtion, string exception, string my_view, string username)
