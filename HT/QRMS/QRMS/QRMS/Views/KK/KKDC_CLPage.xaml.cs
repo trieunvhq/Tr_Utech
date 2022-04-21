@@ -25,6 +25,7 @@ namespace QRMS.Views
 
             InitializeComponent();
 
+            btnLuu.IsEnabled = true;
             grid.Children.Remove(absPopup_DangXuat);
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
@@ -141,7 +142,11 @@ namespace QRMS.Views
                 return;
             }
 
+            btnLuu.IsEnabled = false;
+            LoadColor(0, "btnLuu");
+
             ViewModel.SaveDBServer();
+            await Controls.LoadingUtility.HideAsync();
         }
 
         public void LoadColor(int tt, string btnName)

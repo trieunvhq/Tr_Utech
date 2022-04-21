@@ -1,13 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QRMS.AppLIB.Common;
+﻿using QRMS.AppLIB.Common;
 using QRMS.Constants;
-using QRMS.Helper;
-using QRMS.Models;
 using QRMS.Views;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -43,9 +38,6 @@ namespace QRMS
 
         public App()
         {
-            // Todo resource language initial selection
-            // QRMS.Resources.AppResources.Culture = new CultureInfo("vi");
-
             Thread.CurrentThread.CurrentCulture = Constaint.cultureInfo;
             Thread.CurrentThread.CurrentUICulture = Constaint.cultureInfo;
             if (Constaint.cultureInfo.Name.Contains("en"))
@@ -57,7 +49,7 @@ namespace QRMS
                 MySettings.Vi_En = true;
             }
 
-            MySettings.IsVisible_btnQuet = true;
+            MySettings.IsVisible_btnQuet = false;
             MySettings.IsVisible_Test = false;
 
             InitializeComponent();

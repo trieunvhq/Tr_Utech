@@ -56,25 +56,21 @@ namespace QRMS.Views
 
         async void BtnNhapKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            MySettings.Index_Page = 1;
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_HOMEPage()); 
         }
 
         async void BtnDieuChuyenKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            MySettings.Index_Page = 3;
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_HOMEPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new CKDC_HOMEPage());
         }
 
         async void BtnXuatKho_CLicked(System.Object sender, System.EventArgs e)
         {
-            MySettings.Index_Page = 2;
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_HOMEPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_HOMEPage());
         }
 
         async void BtnKiemKe_CLicked(System.Object sender, System.EventArgs e)
         {
-            MySettings.Index_Page = 4;
             await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new KKPage());
         }
     }

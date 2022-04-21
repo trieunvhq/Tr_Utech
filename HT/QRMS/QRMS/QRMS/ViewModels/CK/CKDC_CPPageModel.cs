@@ -5,7 +5,6 @@ using QRMS.AppLIB.Common;
 using QRMS.Constants; 
 using QRMS.Models;
 using QRMS.Models.NK;
-using QRMS.Views;
 using QRMS.Views.CK;
 using System;
 using System.Collections.Generic; 
@@ -66,7 +65,7 @@ namespace QRMS.ViewModels
         }
 
 
-
+        //Xử lý nhãn khi scan thành công:
         public bool isDangQuet = false;
         public void ScanComplate(string BarcodeScan)
         {
@@ -107,8 +106,6 @@ namespace QRMS.ViewModels
                         str_ = "6";
                         ThongBao = "Thành công";
                         str_ = "7";
-                        //CloseBarcodeReader();
-                        //OpenBarcodeReader();
                     });
                 }
                 else
@@ -119,16 +116,12 @@ namespace QRMS.ViewModels
                         IsThongBao = true;
                         ThongBao = "Mã phiếu không tồn tại!";
                     });
-                    //CloseBarcodeReader();
-                    //OpenBarcodeReader();
                 }
             }
             catch (Exception ex)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    //CloseBarcodeReader();
-                    //OpenBarcodeReader();
                     Color = Color.Red;
                     IsThongBao = true;
                     ThongBao = "Mã phiếu không tồn tại!";
@@ -175,12 +168,12 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Application.Current.MainPage.DisplayAlert("Thông báo", "Không thể quét", "OK");
-                    MySettings.InsertLogs(0, DateTime.Now, "Scan_Clicked", ex.Message, "NK_SCANPageModel", MySettings.UserName);
+                    MySettings.InsertLogs(0, DateTime.Now, "Scan_Clicked", ex.Message, "CKDC_CPPageModel", MySettings.UserName);
                 });
             }
         }
 
-        //
+        //Scan bằng mắt riêng của máy scan:
         #region BarcodeReader Action
         private BarcodeReader mSelectedReader = null;
         private SynchronizationContext mUIContext = SynchronizationContext.Current;

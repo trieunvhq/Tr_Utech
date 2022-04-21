@@ -11,8 +11,6 @@ namespace QRMS.Views.CK
 {
     public partial class CKDC_CPPage : ContentPage
     {
-        //MyScan _MyScan; 
-
         private bool _isDisconnect = true;
         public CKDC_CPPageModel ViewModel { get; set; }
         public CKDC_CPPage()
@@ -28,8 +26,6 @@ namespace QRMS.Views.CK
             ViewModel.Initialize();
             BindingContext = ViewModel;
             ViewModel._CKDC_CPPage = this;
-            //_MyScan = new MyScan();
-            //_MyScan._NK_CPPageModel = ViewModel;
 
             row_trencung.Height = 20;
 
@@ -86,6 +82,10 @@ namespace QRMS.Views.CK
                 _isDisconnect = true;
                 await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
             }
+            else
+            {
+                _isDisconnect = false;
+            }
         }
 
         protected override void OnDisappearing()
@@ -125,7 +125,7 @@ namespace QRMS.Views.CK
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     if (!string.IsNullOrWhiteSpace(ViewModel._No))
-                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_SCANPage(
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new CKDC_SCANPage(
                          ViewModel._No, ViewModel._Date
                          , ViewModel._WarehouseCode, ViewModel._WarehouseName
                          , ViewModel._WarehouseCode_To, ViewModel._WarehouseName_To));

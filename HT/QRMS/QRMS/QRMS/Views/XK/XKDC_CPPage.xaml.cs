@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using QRMS.Constants;
 using QRMS.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -10,36 +11,21 @@ namespace QRMS.Views
 {
     public partial class XKDC_CPPage : ContentPage
     {
-        //MyScan _MyScan; 
-
+        private bool _isDisconnect = true;
         public XKDC_CPPageModel ViewModel { get; set; }
         public XKDC_CPPage()
         {
             InitializeComponent();
 
             grid.Children.Remove(absPopup_DangXuat);
-
-            if (MySettings.Index_Page==1)
-            {
-                lbTieuDe.Text = "CHỌN PHIẾU NHẬP";
-            }
-            else if (MySettings.Index_Page == 2)
-            {
-                lbTieuDe.Text = "CHỌN PHIẾU XUẤT";
-            }
-            else if (MySettings.Index_Page == 3)
-            {
-                lbTieuDe.Text = "CHỌN PHIẾU CHUYỂN";
-            }
+             
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
             ViewModel = new XKDC_CPPageModel();
             ViewModel.Initialize();
             BindingContext = ViewModel;
-            ViewModel._NK_CPPage = this;
-            //_MyScan = new MyScan();
-            //_MyScan._NK_CPPageModel = ViewModel;
+            ViewModel._XKDC_CPPage = this; 
 
             row_trencung.Height = 20;
 
@@ -70,6 +56,40 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                _isDisconnect = true;
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+                _isDisconnect = false;
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
 
         protected override bool OnBackButtonPressed()
@@ -77,6 +97,7 @@ namespace QRMS.Views
             BtnQuayLai_CLicked(null, null);
             return true;
         }
+
         async void BtnQuayLai_CLicked(System.Object sender, System.EventArgs e)
         {
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
@@ -93,44 +114,34 @@ namespace QRMS.Views
 
         async void BtnLuuLai_CLicked(System.Object sender, System.EventArgs e)
         {
+            if (_isDisconnect)
+            {
+                await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return;
+            }
+
             await Controls.LoadingUtility.ShowAsync().ContinueWith(async a =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     if (!string.IsNullOrWhiteSpace(ViewModel._No))
-                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_SCANPage(
+                        await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_SCANPage(
                          ViewModel._No, ViewModel._Date
                          , ViewModel._WarehouseCode, ViewModel._WarehouseName
                          , ViewModel._WarehouseCode_To, ViewModel._WarehouseName_To));
                     else
                     {
-                        if (MySettings.Index_Page == 1)
-                        {
-                            await Load_popup_DangXuat("Vui lòng scan phiếu nhập kho!", "Đồng ý", "");
-                        }
-                        else if (MySettings.Index_Page == 2)
-                        {
-                            await Load_popup_DangXuat("Vui lòng scan phiếu xuất kho!", "Đồng ý", "");
-                        }
-                        else if (MySettings.Index_Page == 3)
-                        {
-                            await Load_popup_DangXuat("Vui lòng scan phiếu chuyển kho!", "Đồng ý", "");
-                        }
-                    }    
+                        await Load_popup_DangXuat("Vui lòng scan phiếu xuất kho!", "Đồng ý", "");
+                    }
                     await Controls.LoadingUtility.HideAsync();
                 });
             });
         }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.OnAppearing();
-        }
+         
 
         void CustomEntry_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
-            ViewModel.ScanComplate(txtTest.Text);
+            ViewModel.ScanComplate(txtTest.Text.Trim().ToUpper());
         }
 
         public async Task Load_popup_DangXuat(string tieude, string nutdongy, string huybo)
@@ -207,6 +218,19 @@ namespace QRMS.Views
             }
             else if (lbTieuDe_absPopup.Text == "Bạn đã lưu thành công")
             {
+            }
+        }
+
+        public bool isDisconnect()
+        {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

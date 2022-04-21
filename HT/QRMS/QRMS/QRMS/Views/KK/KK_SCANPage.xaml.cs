@@ -84,9 +84,17 @@ namespace QRMS.Views
 
         protected override void OnAppearing()
         {
+            txtMaKK.Completed += (sender, e) => EntryCompleted(sender, e);
+
             base.OnAppearing();
             ViewModel.OnAppearing();
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+
+        }
+
+        void EntryCompleted(object sender, EventArgs e)
+        {
+            ViewModel.LoadModels();
         }
 
         async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
@@ -119,7 +127,7 @@ namespace QRMS.Views
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if (!ViewModel._isDaLuu)
+                    if (ViewModel._Historys_NewScan.Count > 0)
                         await Load_popup_DangXuat("Chưa lưu dữ liệu quét. Bạn có muốn quay lại không?", "Có", "Huỷ bỏ");
                     else
                     {
@@ -207,6 +215,11 @@ namespace QRMS.Views
         void txtTest_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
             ViewModel.ScanComplate(txtTest.Text);
-        } 
+        }
+
+        void txtMaKK_Focused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
+        {
+            
+        }
     }
 }

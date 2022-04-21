@@ -762,6 +762,12 @@ namespace QRMS.Constants
         {
             try
             {
+                if (str.Length > 200)
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, str, "str.Length > 200", "MySettings.cs", MySettings.UserName);
+                    return null;
+                }
+
                 QRModel qr = new QRModel();
                 string[] temp_;
 
@@ -769,6 +775,12 @@ namespace QRMS.Constants
                     temp_ = str.Split(';');
                 else
                     temp_ = str.Split(';');
+
+                if (temp_.Length != 12)
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, str, "(temp_.Length != 12)", "MySettings.cs", MySettings.UserName);
+                    return null;
+                }
 
                 DateTime? mfdate_;
                 DateTime? Recdate_;
@@ -942,19 +954,59 @@ namespace QRMS.Constants
                 qr.Quantity = ConvertToDecimal(temp_[10]);
                 qr.Unit = temp_[11];
 
-                if (qr.Type.Length > 2)
+                if (qr.Code.Length > 50)
                 {
+                    MySettings.InsertLogs(0, DateTime.Now, qr.Code, "(qr.Code.Length > 50)", "MySettings.cs", MySettings.UserName);
                     return null;
                 }
-                else if (qr.Name.Length > 200)
+
+                if (qr.Type.Length > 2)
                 {
+                    MySettings.InsertLogs(0, DateTime.Now, qr.Type, "(qr.Type.Length > 50)", "MySettings.cs", MySettings.UserName);
+                    return null;
+                }
+
+                if (qr.Name.Length > 200)
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, qr.Name, "(qr.Name.Length > 50)", "MySettings.cs", MySettings.UserName);
+                    return null;
+                }
+
+                if (qr.CustomerCode.Length > 50)
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, qr.CustomerCode, "(qr.CustomerCode.Length > 50)", "MySettings.cs", MySettings.UserName);
+                    return null;
+                }
+
+                if (qr.Serial.Length > 50)
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, qr.Serial, "(qr.Serial.Length > 50)", "MySettings.cs", MySettings.UserName);
+                    return null;
+                }
+
+                if (qr.PartNo.Length > 50)
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, qr.PartNo, "(qr.PartNo.Length > 50)", "MySettings.cs", MySettings.UserName);
+                    return null;
+                }
+
+                if (qr.LotNo.Length > 50)
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, qr.LotNo, "(qr.LotNo.Length > 50)", "MySettings.cs", MySettings.UserName);
+                    return null;
+                }
+
+                if (qr.Unit.Length > 50)
+                {
+                    MySettings.InsertLogs(0, DateTime.Now, qr.Unit, "(qr.Unit.Length > 50)", "MySettings.cs", MySettings.UserName);
                     return null;
                 }
 
                 return qr;
             }
-            catch
+            catch (Exception ee)
             {
+                MySettings.InsertLogs(0, DateTime.Now, ee.Message, "catch (Exception ee)", "MySettings.cs", MySettings.UserName);
                 return null;
             }
         }
@@ -1032,7 +1084,7 @@ namespace QRMS.Constants
                                                 username = username
                                             });
             }
-            catch (Exception ex)
+            catch
             {
             }
         }

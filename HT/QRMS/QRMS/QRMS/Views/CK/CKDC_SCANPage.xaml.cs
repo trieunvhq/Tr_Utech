@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks; 
 using QRMS.Constants; 
 using QRMS.Models;
-using QRMS.Models.XKDC;
 using QRMS.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -13,7 +12,7 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
-    public partial class XKDC_SCANPage : ContentPage
+    public partial class CKDC_SCANPage : ContentPage
     {
         public string No;
         public DateTime? Date;
@@ -23,8 +22,8 @@ namespace QRMS.Views
         public string WarehouseName_To;
         private bool _isDisconnect = true;
 
-        public XKDC_SCANPageModel ViewModel { get; set; }
-        public XKDC_SCANPage(string No_, DateTime? Date_
+        public CKDC_SCANPageModel ViewModel { get; set; }
+        public CKDC_SCANPage(string No_, DateTime? Date_
             , string WarehouseCode_, string WarehouseName_
             , string WarehouseCode_To_, string WarehouseName_To_)
         {
@@ -40,7 +39,7 @@ namespace QRMS.Views
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             On<iOS>().SetUseSafeArea(true);
             Shell.SetTabBarIsVisible(this, false);
-            ViewModel = new XKDC_SCANPageModel(this);
+            ViewModel = new CKDC_SCANPageModel(this);
             ViewModel.Initialize();
             BindingContext = ViewModel;
 
@@ -213,8 +212,8 @@ namespace QRMS.Views
 
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
-                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(No, WarehouseCode);
-                App.Dblocal.DeleteAllHistory_XKDC(No, WarehouseCode);
+                App.Dblocal.DeleteTransferInstructionAsyncWithKey(No, WarehouseCode, WarehouseCode_To);
+                App.Dblocal.DeleteHistory_CKDC(No, WarehouseCode, WarehouseCode_To);
 
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
@@ -240,7 +239,8 @@ namespace QRMS.Views
         {
             try
             {
-                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(No, WarehouseCode);
+                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(No, WarehouseCode, WarehouseCode_To);
+
                 if (historys != null && historys.Count > 0)
                     return true;
                 else

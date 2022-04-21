@@ -1,20 +1,13 @@
 ﻿
-using Acr.UserDialogs;
-using Honeywell.AIDC.CrossPlatform;
-using PIAMA.Views.Shared;
 using QRMS.API;
 using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Models;
-using QRMS.Models.KKDC;
 using QRMS.Models.Shares;
-using QRMS.Resources;
 using QRMS.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel; 
-using System.Linq;
-using System.Threading;
 using Xamarin.Forms; 
 
 namespace QRMS.ViewModels
@@ -111,8 +104,8 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await Controls.LoadingUtility.HideAsync();
-                    await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
-                    MySettings.InsertLogs(0, DateTime.Now, "DeleteDBLocal", ex.Message, "KK_SCANPageModel", MySettings.UserName);
+                    await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã xoá thất bại", "Đồng ý", "");
+                    MySettings.InsertLogs(0, DateTime.Now, "DeleteDBLocal", ex.Message, "KKDC_CLPageModel", MySettings.UserName);
                 });
             }
         }
@@ -182,6 +175,7 @@ namespace QRMS.ViewModels
                     {
                         string temp_ = MySettings.MyToString(item) + "❖";
                         if (item.ID == 0 && temp_ != null)
+                            if (temp_ != null)
                         {
                             xml_ += temp_;
                             count++;
@@ -219,7 +213,7 @@ namespace QRMS.ViewModels
                         {
                             if (result.Result.data == 1)
                             {
-                                _KKDC_CLPage.LoadColor(0, "btnLuu");
+                                //_KKDC_CLPage.LoadColor(0, "btnLuu");
                                 App.Dblocal.UpdateAllHistorySavedNoKey_KKDC();
                                 await Controls.LoadingUtility.HideAsync();
                                 await _KKDC_CLPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");

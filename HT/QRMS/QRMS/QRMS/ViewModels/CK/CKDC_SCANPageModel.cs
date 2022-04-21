@@ -5,7 +5,6 @@ using QRMS.AppLIB.Common;
 using QRMS.Constants;
 using QRMS.Models;
 using QRMS.Models.Shares;
-using QRMS.Models.XKDC;
 using QRMS.Views;
 using System;
 using System.Collections.Generic;
@@ -18,25 +17,25 @@ using ZXing.Net.Mobile.Forms;
 
 namespace QRMS.ViewModels
 {
-    public class XKDC_SCANPageModel : BaseViewModel
+    public class CKDC_SCANPageModel : BaseViewModel
     {
-        public XKDC_SCANPage _XKDC_SCANPage;
+        public CKDC_SCANPage _CKDC_SCANPage;
         public ObservableCollection<TransactionHistoryModel> Historys { get; set; } = new ObservableCollection<TransactionHistoryModel>();
-        public ObservableCollection<SaleOrderItemScanBPL> XuatKhos { get; set; } = new ObservableCollection<SaleOrderItemScanBPL>();
+        public ObservableCollection<ChuyenKhoDungCuModelBPL> ChuyenKhos { get; set; } = new ObservableCollection<ChuyenKhoDungCuModelBPL>();
 
-        public ObservableCollection<SaleOrderItemScanBPL> ViewXuatKhos { get; set; } = new ObservableCollection<SaleOrderItemScanBPL>();
+        public ObservableCollection<ChuyenKhoDungCuModelBPL> ViewChuyenKhos { get; set; } = new ObservableCollection<ChuyenKhoDungCuModelBPL>();
 
         public Command ScanCommand { get; }
 
         private ZXingScannerPage scanPage;
         private MobileBarcodeScanningOptions options;
 
-        SaleOrderItemScanBPL _SaleOrderItemScanBPL;
+        ChuyenKhoDungCuModelBPL _ChuyenKhoDungCuModelBPL;
 
         public ComboModel SelectedDonHang { get; set; }
 
         private List<string> _daQuetQR = new List<string>();
-        private List<string> XKItemCode = new List<string>();
+        private List<string> CKItemCode = new List<string>();
 
         public bool IsThongBao { get; set; } = true;
         public string ThongBao { get; set; } = "";
@@ -46,10 +45,10 @@ namespace QRMS.ViewModels
         public int _indexHistory = 0;
 
 
-        public XKDC_SCANPageModel(XKDC_SCANPage fd)
+        public CKDC_SCANPageModel(CKDC_SCANPage fd)
         {
             No = fd.No;
-            _XKDC_SCANPage = fd;
+            _CKDC_SCANPage = fd;
             ScanCommand = new Command(Scan_Clicked);
             LoadModels("");
         }
@@ -84,7 +83,7 @@ namespace QRMS.ViewModels
                 Historys.Clear();
 
                 //Lấy bảng lịch sử theo mã đơn và mã kho:
-                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
+                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(_CKDC_SCANPage.No, _CKDC_SCANPage.WarehouseCode, _CKDC_SCANPage.WarehouseCode_To);
                 foreach (TransactionHistoryModel item in historys)
                 {
                     if (!_daQuetQR.Contains(item.EXT_QRCode))
@@ -98,43 +97,38 @@ namespace QRMS.ViewModels
                 }
 
                 //Lấy trạng thái màu từ lịch sử dblocal:
-                List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
+                List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(_CKDC_SCANPage.No, _CKDC_SCANPage.WarehouseCode, _CKDC_SCANPage.WarehouseCode_To);
 
-                for (int i = 0; i < XuatKhos.Count; i++)
+                for (int i = 0; i < ChuyenKhos.Count; i++)
                 {
-                    foreach (SaleOrderItemScanBPL dh in donhang_)
+                    foreach (ChuyenKhoDungCuModelBPL dh in donhang_)
                     {
-                        //if (XuatKhos[i].ItemCode == dh.ItemCode && XuatKhos[i].Serial == dh.Serial)
-                        //{
-                        //    XuatKhos[i].Color = dh.Color;
-                        //}
-                        if (XuatKhos[i].ItemCode == dh.ItemCode)
+                        if (ChuyenKhos[i].ItemCode == dh.ItemCode && ChuyenKhos[i].Serial == dh.Serial)
                         {
-                            XuatKhos[i].Color = dh.Color;
+                            ChuyenKhos[i].Color = dh.Color;
                         }
                     }
                 }
 
                 //Lấy dữ liệu số lượng đã scan được từ dblocal:
-                for (int i = 0; i < XuatKhos.Count; i++)
+                for (int i = 0; i < ChuyenKhos.Count; i++)
                 {
                     foreach (TransactionHistoryModel hs in Historys)
                     {
-                        //if (XuatKhos[i].ItemCode == hs.ItemCode && (XuatKhos[i].Serial == null
-                        //                    || XuatKhos[i].Serial == ""
-                        //                    || XuatKhos[i].Serial == "None"
-                        //                    || (XuatKhos[i].Serial == hs.EXT_Serial)))
-                        if (XuatKhos[i].ItemCode == hs.ItemCode)
+                        if (ChuyenKhos[i].ItemCode == hs.ItemCode && (ChuyenKhos[i].Serial == null
+                                            || ChuyenKhos[i].Serial == ""
+                                            || ChuyenKhos[i].Serial == "None"
+                                            || (ChuyenKhos[i].Serial == hs.EXT_Serial)))
                         {
-                            XuatKhos[i].sQuantity = XuatKhos[i].Quantity.ConvertToString();
-                            XuatKhos[i].SoLuongDaNhap += hs.Quantity;
-                            XuatKhos[i].sSoLuongDaNhap = XuatKhos[i].SoLuongDaNhap.ConvertToString();
-                            XuatKhos[i].SoLuongBox += 1;
+                            ChuyenKhos[i].sQuantity = ChuyenKhos[i].Quantity.ConvertToString();
+                            ChuyenKhos[i].SoLuongDaChuyen += hs.Quantity;
+                            ChuyenKhos[i].sSoLuongDaChuyen = ChuyenKhos[i].SoLuongDaChuyen.ConvertToString();
+                            ChuyenKhos[i].SoLuongBox += 1;
 
-                            if (XuatKhos[i].SoLuongDaNhap >= XuatKhos[i].Quantity)
-                                XuatKhos[i].ColorSLDaNhap = "#ff0000";
+                            if (ChuyenKhos[i].SoLuongDaChuyen >= ChuyenKhos[i].Quantity)
+                                ChuyenKhos[i].ColorSLDaNhap = "#ff0000";
                             else
-                                XuatKhos[i].ColorSLDaNhap = "#000000";
+                                ChuyenKhos[i].ColorSLDaNhap = "#000000";
                         }
                     }
                 }
@@ -145,7 +139,7 @@ namespace QRMS.ViewModels
             }
             catch (Exception ex)
             {
-                MySettings.InsertLogs(0, DateTime.Now, "LoadDbLocal", ex.Message, "XKDC_SCANPageModel", MySettings.UserName);
+                MySettings.InsertLogs(0, DateTime.Now, "LoadDbLocal", ex.Message, "CKDC_SCANPageModel", MySettings.UserName);
             }
         }
 
@@ -155,28 +149,29 @@ namespace QRMS.ViewModels
         {
             try
             {
-                XuatKhos.Clear();
-                ViewXuatKhos.Clear();
+                ChuyenKhos.Clear();
+                ViewChuyenKhos.Clear();
                 Historys.Clear();
                 _daQuetQR.Clear();
-                XKItemCode.Clear();
+                CKItemCode.Clear();
 
-                var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<List<SaleOrderItemScanBPL>>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.getsaleorderitemscanbarcode,
+                var result2 = APIHelper.PostObjectToAPIAsync<BaseModel<List<ChuyenKhoDungCuModelBPL>>>
+                                                (Constaint.ServiceAddress, Constaint.APIurl.gettransferinstructionitem,
                                                 new
                                                 {
-                                                    SaleOrderNo = _XKDC_SCANPage.No,
-                                                    WarehouseCode = _XKDC_SCANPage.WarehouseCode
+                                                    TransferOrderNo = _CKDC_SCANPage.No,
+                                                    WarehouseCode_From = _CKDC_SCANPage.WarehouseCode,
+                                                    WarehouseCode_To = _CKDC_SCANPage.WarehouseCode_To
                                                 });
                 if (result2 != null && result2.Result != null && result2.Result.data != null)
                 {
                     //
 
-                    XuatKhos = new ObservableCollection<SaleOrderItemScanBPL>();
+                    ChuyenKhos = new ObservableCollection<ChuyenKhoDungCuModelBPL>();
 
                     for (int i = 0; i < result2.Result.data.Count; ++i)
                     {
-                        if (result2.Result.data[i].SoLuongDaNhap >= result2.Result.data[i].Quantity)
+                        if (result2.Result.data[i].SoLuongDaChuyen >= result2.Result.data[i].Quantity)
                             result2.Result.data[i].ColorSLDaNhap = "#ff0000";
                         else
                             result2.Result.data[i].ColorSLDaNhap = "#000000";
@@ -185,17 +180,17 @@ namespace QRMS.ViewModels
                         //
 
                         result2.Result.data[i].sQuantity = result2.Result.data[i].Quantity.ConvertToString();
-                        result2.Result.data[i].sSoLuongDaNhap = result2.Result.data[i].SoLuongDaNhap.ConvertToString();
+                        result2.Result.data[i].sSoLuongDaChuyen = result2.Result.data[i].SoLuongDaChuyen.ConvertToString();
                         if (result2.Result.data[i].ItemCode == id)
                         {
-                            XuatKhos.Insert(0, result2.Result.data[i]);
+                            ChuyenKhos.Insert(0, result2.Result.data[i]);
                         }
                         else
                         {
-                            XuatKhos.Add(result2.Result.data[i]);
+                            ChuyenKhos.Add(result2.Result.data[i]);
                         }
 
-                        App.Dblocal.SaveSaleOrderItemScanAsync(result2.Result.data[i]);
+                        App.Dblocal.SaveTransferInstructionAsync(result2.Result.data[i]);
                     }
                 }
 
@@ -206,12 +201,13 @@ namespace QRMS.ViewModels
                 if (Historys.Count == 0)
                 {
                     var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<TransactionHistoryModel>>>
-                                                (Constaint.ServiceAddress, Constaint.APIurl.gethistory,
+                                                (Constaint.ServiceAddress, Constaint.APIurl.gethistoryckdc,
                                                 new
                                                 {
-                                                    OrderNo = _XKDC_SCANPage.No,
-                                                    TransactionType = "O",
-                                                    WarehouseCode_From = _XKDC_SCANPage.WarehouseCode
+                                                    OrderNo = _CKDC_SCANPage.No,
+                                                    TransactionType = "C",
+                                                    WarehouseCode_From = _CKDC_SCANPage.WarehouseCode,
+                                                    WarehouseCode_To = _CKDC_SCANPage.WarehouseCode_To
                                                 });
                     if (result != null && result.Result != null && result.Result.data != null)
                     {
@@ -230,41 +226,40 @@ namespace QRMS.ViewModels
                         }
 
                         //Cộng số lượng đã get được từ server:
-                        foreach (SaleOrderItemScanBPL item in XuatKhos)
+                        for (int i = 0; i < ChuyenKhos.Count; i++)
                         {
                             foreach (TransactionHistoryModel hs in Historys)
                             {
-                                //if (item.ItemCode == hs.ItemCode && (item.Serial == null
-                                //            || item.Serial == ""
-                                //            || item.Serial == "None"
-                                //            || (item.Serial == hs.EXT_Serial)))
-                                if (item.ItemCode == hs.ItemCode)
+                                if (ChuyenKhos[i].ItemCode == hs.ItemCode && (ChuyenKhos[i].Serial == null
+                                            || ChuyenKhos[i].Serial == ""
+                                            || ChuyenKhos[i].Serial == "None"
+                                            || (ChuyenKhos[i].Serial == hs.EXT_Serial)))
                                 {
-                                    item.sQuantity = item.Quantity.ConvertToString();
-                                    item.SoLuongDaNhap += hs.Quantity;
-                                    item.sSoLuongDaNhap = item.SoLuongDaNhap.ConvertToString();
-                                    item.SoLuongBox += 1;
+                                    ChuyenKhos[i].sQuantity = ChuyenKhos[i].Quantity.ConvertToString();
+                                    ChuyenKhos[i].SoLuongDaChuyen += hs.Quantity;
+                                    ChuyenKhos[i].sSoLuongDaChuyen = ChuyenKhos[i].SoLuongDaChuyen.ConvertToString();
+                                    ChuyenKhos[i].SoLuongBox += 1;
 
-                                    if (item.SoLuongDaNhap >= item.Quantity)
-                                        item.ColorSLDaNhap = "#ff0000";
+                                    if (ChuyenKhos[i].SoLuongDaChuyen >= ChuyenKhos[i].Quantity)
+                                        ChuyenKhos[i].ColorSLDaNhap = "#ff0000";
                                     else
-                                        item.ColorSLDaNhap = "#000000";
+                                        ChuyenKhos[i].ColorSLDaNhap = "#000000";
 
-                                    item.Color = "#000000";
+                                    ChuyenKhos[i].Color = "#000000";
                                 }
                             }
                         }
                     }
                 }
 
-                ViewTableXuatKhos();
+                ViewTableChuyenKhos();
 
                 IsThongBao = true;
                 Color = Color.Red;
             }
             catch (Exception ex)
             {
-                MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "XKDC_SCANPageModel", MySettings.UserName);
+                MySettings.InsertLogs(0, DateTime.Now, "LoadModels", ex.Message, "CKDC_SCANPageModel", MySettings.UserName);
             }
 
         }
@@ -304,18 +299,18 @@ namespace QRMS.ViewModels
 
                         TransactionHistoryShortModel Histori_ = new TransactionHistoryShortModel
                         {
-                            TransactionType = "O",
-                            OrderNo = _XKDC_SCANPage.No,
+                            TransactionType = "C",
+                            OrderNo = _CKDC_SCANPage.No,
                             ExportStatus = "N",
                             RecordStatus = "N",
-                            WarehouseCode_From = _XKDC_SCANPage.WarehouseCode,
-                            WarehouseName_From = _XKDC_SCANPage.WarehouseName,
-                            WarehouseCode_To = _XKDC_SCANPage.WarehouseCode_To,
-                            WarehouseName_To = _XKDC_SCANPage.WarehouseName_To,
+                            WarehouseCode_From = _CKDC_SCANPage.WarehouseCode,
+                            WarehouseName_From = _CKDC_SCANPage.WarehouseName,
+                            WarehouseCode_To = _CKDC_SCANPage.WarehouseCode_To,
+                            WarehouseName_To = _CKDC_SCANPage.WarehouseName_To,
                             DATA = xml_
                         };
 
-                    
+        
                         var result = APIHelper.PostObjectToAPIAsync<BaseModel<int>>
                                                     (Constaint.ServiceAddress, Constaint.APIurl.inserthistory,
                                                     Histori_);
@@ -324,34 +319,36 @@ namespace QRMS.ViewModels
                             if (result.Result.data == 1)
                             {
                                 Historys.Clear();
-                                XuatKhos.Clear();
+                                ChuyenKhos.Clear();
                                 _daQuetQR.Clear();
-                                App.Dblocal.DeleteAllHistory_XKDC(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
-                                App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(_XKDC_SCANPage.No, _XKDC_SCANPage.WarehouseCode);
+
+                                App.Dblocal.DeleteHistory_CKDC(_CKDC_SCANPage.No, _CKDC_SCANPage.WarehouseCode, _CKDC_SCANPage.WarehouseCode_To);
+                                App.Dblocal.DeleteTransferInstructionAsyncWithKey(_CKDC_SCANPage.No, _CKDC_SCANPage.WarehouseCode, _CKDC_SCANPage.WarehouseCode_To);
 
                                 MySettings.To_Page = "homepage";
 
                                 await Controls.LoadingUtility.HideAsync();
 
                                 //
-                                await _XKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
+                                await _CKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thành công", "Đồng ý", "");
                                 //LoadModels("");
                             }
                             else
                             {
                                 await Controls.LoadingUtility.HideAsync();
-                                await _XKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
+                                await _CKDC_SCANPage.Load_popup_DangXuat("Bạn đã lưu thất bại", "Đồng ý", "");
                             }
                         }
                     });
                 }
+                
             }
             catch (Exception ex)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Controls.LoadingUtility.HideAsync();
-                    MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "XKDC_SCANPageModel", MySettings.UserName);
+                    MySettings.InsertLogs(0, DateTime.Now, "LuuLais", ex.Message, "CKDC_SCANPageModel", MySettings.UserName);
                 });
             }
         }
@@ -393,47 +390,51 @@ namespace QRMS.ViewModels
                         IsThongBao = true;
                         Color = Color.Red;
 
-                        ThongBao = "Nhãn đã được xuất";
+                         ThongBao = "Nhãn đã được chuyển";
 
                         return;
                     }
                     else
                     {
-                        for (int i = 0; i < XuatKhos.Count; ++i)
+                        for (int i = 0; i < ChuyenKhos.Count; ++i)
                         {
-                            //if (XuatKhos[i].ItemCode == qr.Code
-                            //    && (XuatKhos[i].Serial == null
-                            //        || XuatKhos[i].Serial == ""
-                            //        || XuatKhos[i].Serial == "None"
-                            //        || (XuatKhos[i].Serial == qr.Serial)))
-                            if (XuatKhos[i].ItemCode == qr.Code)
+                            if (ChuyenKhos[i].ItemCode == qr.Code
+                                && (ChuyenKhos[i].Serial == null
+                                    || ChuyenKhos[i].Serial == ""
+                                    || ChuyenKhos[i].Serial == "None"
+                                    || (ChuyenKhos[i].Serial == qr.Serial)))
                             {
                                 decimal soluong_ = Convert.ToDecimal(qr.Quantity);
-                                _SaleOrderItemScanBPL = XuatKhos[i];
+                                _ChuyenKhoDungCuModelBPL = ChuyenKhos[i];
 
-                                if (_SaleOrderItemScanBPL.Quantity < _SaleOrderItemScanBPL.SoLuongDaNhap + soluong_)
+                                if (_ChuyenKhoDungCuModelBPL.Quantity < _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen + soluong_)
                                 { 
-                                    _XKDC_SCANPage.soluong_ = soluong_;
-                                    _XKDC_SCANPage.i = i;
-                                    _XKDC_SCANPage.qr = qr;
-                                    _XKDC_SCANPage.str = str; 
+                                    _CKDC_SCANPage.soluong_ = soluong_;
+                                    _CKDC_SCANPage.i = i;
+                                    _CKDC_SCANPage.qr = qr;
+                                    _CKDC_SCANPage.str = str; 
                                     //var answer = await UserDialogs.Instance.ConfirmAsync(, "Vượt quá số lượng", );
-                                    await _XKDC_SCANPage.Load_popup_DangXuat("Đã đủ số lượng", "Đồng ý", "");
+                                    await _CKDC_SCANPage.Load_popup_DangXuat("Đã đủ số lượng" + "\nSố lượng chỉ thị: "
+                                        + _ChuyenKhoDungCuModelBPL.Quantity.ToString("N0")
+                                        + "\n Số lượng đã nhập: "
+                                        + (_ChuyenKhoDungCuModelBPL.SoLuongDaChuyen + soluong_).ToString("N0")
+                                        , "Đồng ý", "");
+
                                 }
                                 else
                                 {
-                                    UpdateTableXuatKhos(qr);
+                                    UpdateTableChuyenKhos(qr);
                                     XuLyTiepLuu(true, soluong_, i, qr, str);
                                 }
 
                                 //
                                 break;
                             }
-                            else if (i == XuatKhos.Count - 1)
+                            else if (i == ChuyenKhos.Count - 1)
                             {
                                 Color = Color.Red;
                                 IsThongBao = true;
-                                ThongBao = "Dụng cụ không có trong phiếu xuất!";
+                                ThongBao = "Dụng cụ không có trong phiếu chuyển!";
                             }
                         }
                     }
@@ -443,16 +444,15 @@ namespace QRMS.ViewModels
                     Color = Color.Red;
                     IsThongBao = true;
                     ThongBao = "Mã không hợp lệ!";
-                    MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "XKDC_SCANPageModel", MySettings.UserName);
-                } 
+                    MySettings.InsertLogs(0, DateTime.Now, "ScanComplate", "Historys == null", "CKDC_SCANPageModel", MySettings.UserName);
+                }
             }
             catch (Exception ex)
             {
                 Color = Color.Red;
                 IsThongBao = true;
                 ThongBao = "ex: "+ex.Message;
-                
-                MySettings.InsertLogs(0, DateTime.Now, temp_+". ScanComplate", ex.Message, "XKDC_SCANPageModel", MySettings.UserName);
+                MySettings.InsertLogs(0, DateTime.Now, temp_+". ScanComplate", ex.Message, "CKDC_SCANPageModel", MySettings.UserName);
             }
         }
          
@@ -493,39 +493,42 @@ namespace QRMS.ViewModels
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     Application.Current.MainPage.DisplayAlert("Thông báo", "Không thể quét", "OK");
-                    MySettings.InsertLogs(0, DateTime.Now, "Scan_Clicked", ex.Message, "XKDC_SCANPageModel", MySettings.UserName);
+                    MySettings.InsertLogs(0, DateTime.Now, "Scan_Clicked", ex.Message, "CKDC_SCANPageModel", MySettings.UserName);
                 });
             }
         }
+
+        private string indet = "";
 
         //Xử lý lưu khi scan:
         public void XuLyTiepLuu(bool iscoluu, decimal soluong_, int i, QRModel qr, string str)
         {
             if (iscoluu)
-            { 
-                _SaleOrderItemScanBPL.SoLuongDaNhap = _SaleOrderItemScanBPL.SoLuongDaNhap + soluong_;
-                _SaleOrderItemScanBPL.SoLuongBox = _SaleOrderItemScanBPL.SoLuongBox + 1;
-                XuatKhos.RemoveAt(i);
-                if (_SaleOrderItemScanBPL.SoLuongDaNhap >= _SaleOrderItemScanBPL.Quantity)
-                    _SaleOrderItemScanBPL.ColorSLDaNhap = "#ff0000";
+            {
+               
+                _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen = _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen + soluong_;
+                _ChuyenKhoDungCuModelBPL.SoLuongBox = _ChuyenKhoDungCuModelBPL.SoLuongBox + 1;
+                ChuyenKhos.RemoveAt(i);
+                if (_ChuyenKhoDungCuModelBPL.SoLuongDaChuyen >= _ChuyenKhoDungCuModelBPL.Quantity)
+                    _ChuyenKhoDungCuModelBPL.ColorSLDaNhap = "#ff0000";
                 else
-                    _SaleOrderItemScanBPL.ColorSLDaNhap = "#0008ff";
+                    _ChuyenKhoDungCuModelBPL.ColorSLDaNhap = "#0008ff";
 
-                _SaleOrderItemScanBPL.Color = "#0008ff";
-                _SaleOrderItemScanBPL.sQuantity = _SaleOrderItemScanBPL.Quantity.ConvertToString();
-                _SaleOrderItemScanBPL.sSoLuongDaNhap = _SaleOrderItemScanBPL.SoLuongDaNhap.ConvertToString();
+                _ChuyenKhoDungCuModelBPL.Color = "#0008ff";
+                _ChuyenKhoDungCuModelBPL.sQuantity = _ChuyenKhoDungCuModelBPL.Quantity.ConvertToString();
+                _ChuyenKhoDungCuModelBPL.sSoLuongDaChuyen = _ChuyenKhoDungCuModelBPL.SoLuongDaChuyen.ConvertToString();
 
-                XuatKhos.Insert(0, _SaleOrderItemScanBPL);
+                ChuyenKhos.Insert(0, _ChuyenKhoDungCuModelBPL);
                      
-                App.Dblocal.UpdateSaleOrderItemScanAsync(_SaleOrderItemScanBPL);
+                App.Dblocal.UpdateTransferInstructionAsync(_ChuyenKhoDungCuModelBPL);
 
-
+                
                 TransactionHistoryModel history = new TransactionHistoryModel
                 {
                     ID = 0,
-                    TransactionType = "O",
-                    OrderNo = _XKDC_SCANPage.No,
-                    OrderDate = _XKDC_SCANPage.Date,
+                    TransactionType = "C",
+                    OrderNo = _CKDC_SCANPage.No,
+                    OrderDate = _CKDC_SCANPage.Date,
                     ItemCode = qr.Code,
                     ItemName = qr.Name,
                     ItemType = qr.Type,
@@ -542,10 +545,10 @@ namespace QRMS.ViewModels
                     CustomerCode = qr.CustomerCode,
                     ExportStatus = "N",
                     RecordStatus = "N",
-                    WarehouseCode_From = _XKDC_SCANPage.WarehouseCode,
-                    WarehouseName_From = _XKDC_SCANPage.WarehouseName,
-                    WarehouseCode_To = _XKDC_SCANPage.WarehouseCode_To,
-                    WarehouseName_To = _XKDC_SCANPage.WarehouseName_To,
+                    WarehouseCode_From = _CKDC_SCANPage.WarehouseCode,
+                    WarehouseName_From = _CKDC_SCANPage.WarehouseName,
+                    WarehouseCode_To = _CKDC_SCANPage.WarehouseCode_To,
+                    WarehouseName_To = _CKDC_SCANPage.WarehouseName_To,
                     CreateDate = DateTime.Now,
                     UserCreate = MySettings.UserName,
                     page = 0,
@@ -579,14 +582,14 @@ namespace QRMS.ViewModels
                     Color = Color.Blue;
                     IsThongBao = true;
 
-                    ThongBao = "Bạn hãy scan nhãn xuất kho";
+                    ThongBao = "Bạn hãy scan nhãn chuyển kho";
                 }
                 else
                 {
                     Color = Color.Red;
                     IsThongBao = true;
 
-                    ThongBao = "Bạn hãy scan nhãn xuất kho";
+                    ThongBao = "Bạn hãy scan nhãn chuyển kho";
 
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");
@@ -596,7 +599,7 @@ namespace QRMS.ViewModels
             {
                 Color = Color.Red;
                 IsThongBao = true;
-                ThongBao = "3";
+                ThongBao = "Bạn hãy scan nhãn chuyển kho";
             }
         }
 
@@ -623,7 +626,7 @@ namespace QRMS.ViewModels
 
                     string str_ = Encoding.UTF8.GetString(utf8Bytes, 0, utf8Bytes.Length);
 
-                    //MySettings.InsertLogs(0, DateTime.Now, "MBarcodeReader_BarcodeDataReady", str_ + "|==>|" + e.Data, "XKDC_SCANPageModel", MySettings.UserName);
+                    //MySettings.InsertLogs(0, DateTime.Now, "MBarcodeReader_BarcodeDataReady", str_ + "|==>|" + e.Data, "CKDC_SCANPageModel", MySettings.UserName);
 
                     if (str_.Contains("�"))
                         ScanComplate(e.Data);
@@ -652,33 +655,32 @@ namespace QRMS.ViewModels
         }
         #endregion
 
-         
 
-        //Xử lý hiển thị bảng xuất kho theo ItemCode:
-        private void ViewTableXuatKhos()
+        //Xử lý hiển thị bảng chuyển kho theo ItemCode:
+        private void ViewTableChuyenKhos()
         {
-            foreach (SaleOrderItemScanBPL item in XuatKhos)
+            foreach (ChuyenKhoDungCuModelBPL item in ChuyenKhos)
             {
-                if (!XKItemCode.Contains(item.ItemCode))
+                if (!CKItemCode.Contains(item.ItemCode))
                 {
-                    XKItemCode.Add(item.ItemCode);
+                    CKItemCode.Add(item.ItemCode);
 
-                    if (item.SoLuongDaNhap >= item.Quantity)
+                    if (item.SoLuongDaChuyen >= item.Quantity)
                         item.ColorSLDaNhap = "#ff0000";
                     else
                         item.ColorSLDaNhap = "#000000";
 
                     item.Color = "#000000";
 
-                    ViewXuatKhos.Add(new SaleOrderItemScanBPL
+                    ViewChuyenKhos.Add(new ChuyenKhoDungCuModelBPL
                     {
                         ItemCode = item.ItemCode,
                         ItemName = item.ItemName,
                         ItemType = item.ItemType,
                         Quantity = item.Quantity,
                         sQuantity = item.sQuantity,
-                        SoLuongDaNhap = item.SoLuongDaNhap,
-                        sSoLuongDaNhap = item.sSoLuongDaNhap,
+                        SoLuongDaChuyen = item.SoLuongDaChuyen,
+                        sSoLuongDaChuyen = item.sSoLuongDaChuyen,
                         SoLuongBox = item.SoLuongBox,
                         sSoLuongBox = item.sSoLuongBox,
                         Unit = item.Unit,
@@ -689,59 +691,59 @@ namespace QRMS.ViewModels
                 }
                 else
                 {
-                    for (int i = 0; i < ViewXuatKhos.Count; i++)
+                    for (int i = 0; i < ViewChuyenKhos.Count; i++)
                     {
-                        if (ViewXuatKhos[i].ItemCode == item.ItemCode)
+                        if (ViewChuyenKhos[i].ItemCode == item.ItemCode)
                         {
-                            decimal soluong_ = Convert.ToDecimal(item.SoLuongDaNhap);
+                            decimal soluong_ = Convert.ToDecimal(item.SoLuongDaChuyen);
                             decimal quantity_ = Convert.ToDecimal(item.Quantity);
                             int soluongbox_ = Convert.ToInt32(item.SoLuongBox);
 
+                            ViewChuyenKhos[i].Quantity += quantity_;
+                            ViewChuyenKhos[i].sQuantity = ViewChuyenKhos[i].Quantity.ConvertToString();
+                            ViewChuyenKhos[i].SoLuongDaChuyen += soluong_;
+                            ViewChuyenKhos[i].sSoLuongDaChuyen = ViewChuyenKhos[i].SoLuongDaChuyen.ConvertToString();
+                            ViewChuyenKhos[i].SoLuongBox += soluongbox_;
+                            ViewChuyenKhos[i].sSoLuongBox = ViewChuyenKhos[i].SoLuongBox.ConvertToString();
 
-                            ViewXuatKhos[i].Quantity += quantity_;
-                            ViewXuatKhos[i].sQuantity = ViewXuatKhos[i].Quantity.ConvertToString();
-                            ViewXuatKhos[i].SoLuongDaNhap += soluong_;
-                            ViewXuatKhos[i].sSoLuongDaNhap = ViewXuatKhos[i].SoLuongDaNhap.ConvertToString();
-                            ViewXuatKhos[i].SoLuongBox += soluongbox_;
-                            ViewXuatKhos[i].sSoLuongBox = ViewXuatKhos[i].SoLuongBox.ConvertToString();
-
-                            if (ViewXuatKhos[i].SoLuongDaNhap >= ViewXuatKhos[i].Quantity)
-                                ViewXuatKhos[i].ColorSLDaNhap = "#ff0000";
+                            if (ViewChuyenKhos[i].SoLuongDaChuyen >= ViewChuyenKhos[i].Quantity)
+                                ViewChuyenKhos[i].ColorSLDaNhap = "#ff0000";
                             else
-                                ViewXuatKhos[i].ColorSLDaNhap = "#000000";
+                                ViewChuyenKhos[i].ColorSLDaNhap = "#000000";
                         }
                     }
                 }
             }
         }
 
-        //Update hiển thị bảng xuất kho theo ItemCode:
-        private void UpdateTableXuatKhos(QRModel item)
+
+        //Update hiển thị bảng chuyển kho theo ItemCode:
+        private void UpdateTableChuyenKhos(QRModel item)
         {
-            for (int i = 0; i < ViewXuatKhos.Count; i++)
+            for (int i = 0; i < ViewChuyenKhos.Count; i++)
             {
-                if (ViewXuatKhos[i].ItemCode == item.Code)
+                if (ViewChuyenKhos[i].ItemCode == item.Code)
                 {
                     decimal soluong_ = Convert.ToDecimal(item.Quantity); 
 
-                    SaleOrderItemScanBPL model_ = ViewXuatKhos[i];
+                    ChuyenKhoDungCuModelBPL model_ = ViewChuyenKhos[i];
 
-                    model_.SoLuongDaNhap += soluong_;
-                    model_.sSoLuongDaNhap = model_.SoLuongDaNhap.ConvertToString();
+                    model_.SoLuongDaChuyen += soluong_;
+                    model_.sSoLuongDaChuyen = model_.SoLuongDaChuyen.ConvertToString();
                     model_.SoLuongBox += 1;
                     model_.sSoLuongBox = model_.SoLuongBox.ConvertToString();
 
-                    if (model_.SoLuongDaNhap >= model_.Quantity)
+                    if (model_.SoLuongDaChuyen >= model_.Quantity)
                         model_.ColorSLDaNhap = "#ff0000";
                     else
                         model_.ColorSLDaNhap = "#0008ff";
 
                     model_.Color = "#0008ff";
 
-                    ViewXuatKhos.RemoveAt(i);
-                    ViewXuatKhos.Insert(0, model_);
+                    ViewChuyenKhos.RemoveAt(i);
+                    ViewChuyenKhos.Insert(0, model_);
                 }
             }
-        } 
+        }
     }
 }

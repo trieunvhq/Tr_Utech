@@ -47,18 +47,7 @@ namespace QRMS.ViewModels
             Color = Color.Red;
             IsThongBao = true;
 
-            if (MySettings.Index_Page == 1)
-            {
-                ThongBao = "Bạn hãy scan phiếu nhập kho";
-            }
-            else if (MySettings.Index_Page == 2)
-            {
-                ThongBao = "Bạn hãy scan phiếu xuất kho";
-            }
-            else if (MySettings.Index_Page == 3)
-            {
-                ThongBao = "Bạn hãy scan phiếu chuyển kho";
-            }
+            ThongBao = "Bạn hãy scan phiếu nhập kho";
         }
 
         public override void OnAppearing()
@@ -86,152 +75,49 @@ namespace QRMS.ViewModels
             string str_ = "0"; 
             try
             {
-                if (MySettings.Index_Page == 1)
+                var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PhieuNhapKhoModel>>>
+                                                    (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorderscan,
+                                                    new
+                                                    {
+                                                        BarcodeScan = BarcodeScan
+                                                    });
+                if (result != null && result.Result != null && result.Result.data != null
+                    && result.Result.data.Count > 0)
                 {
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PhieuNhapKhoModel>>>
-                                                        (Constaint.ServiceAddress, Constaint.APIurl.getpurchaseorderscan,
-                                                        new
-                                                        {
-                                                            BarcodeScan = BarcodeScan
-                                                        });
-                    if (result != null && result.Result != null && result.Result.data != null
-                        && result.Result.data.Count > 0)
+                    Device.BeginInvokeOnMainThread(() =>
                     {
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            _No = result.Result.data[0].PurchaseOrderNo;
-                            str_ = "1";
-                            _Date = result.Result.data[0].PurchaseOrderDate;//2
-                            str_ = "2";
-                            _WarehouseCode = result.Result.data[0].WarehouseCode;//3
-                            str_ = "3";
-                            _WarehouseName = result.Result.data[0].WarehouseName;//4
-                            str_ = "4";
+                        _No = result.Result.data[0].PurchaseOrderNo;
+                        str_ = "1";
+                        _Date = result.Result.data[0].PurchaseOrderDate;//2
+                        str_ = "2";
+                        _WarehouseCode = result.Result.data[0].WarehouseCode;//3
+                        str_ = "3";
+                        _WarehouseName = result.Result.data[0].WarehouseName;//4
+                        str_ = "4";
 
-                            // 
-                            Color = Color.Blue;
-                            str_ = "5";
-                            IsThongBao = true;
-                            str_ = "6";
-                            ThongBao = "Thành công";
-                            str_ = "7";
-                            //CloseBarcodeReader();
-                            //OpenBarcodeReader();
-                        });
-                    }
-                    else
-                    {
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            Color = Color.Red;
-                            IsThongBao = true;
-                            ThongBao = "Mã phiếu không tồn tại!";
-                        });
-                        //CloseBarcodeReader();
-                        //OpenBarcodeReader();
-                    }
+                        // 
+                        Color = Color.Blue;
+                        str_ = "5";
+                        IsThongBao = true;
+                        str_ = "6";
+                        ThongBao = "Thành công";
+                        str_ = "7";
+                    });
                 }
-                else if (MySettings.Index_Page == 2)
+                else
                 {
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PhieuXuatKhoModel>>>
-                                                           (Constaint.ServiceAddress, Constaint.APIurl.getsaleorderscan,
-                                                           new
-                                                           {
-                                                               BarcodeScan = BarcodeScan
-                                                           });
-                    if (result != null && result.Result != null && result.Result.data != null
-                        && result.Result.data.Count > 0)
+                    Device.BeginInvokeOnMainThread(() =>
                     {
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            _No = result.Result.data[0].SaleOrderNo;
-                            str_ = "1";
-                            _Date = result.Result.data[0].SaleOrderDate;//2
-                            str_ = "2";
-                            _WarehouseCode = result.Result.data[0].WarehouseCode;//3
-                            str_ = "3";
-                            _WarehouseName = result.Result.data[0].WarehouseName;//4
-                            str_ = "4";
-
-                            // 
-                            Color = Color.Blue;
-                            str_ = "5";
-                            IsThongBao = true;
-                            str_ = "6";
-                            ThongBao = "Thành công";
-                            str_ = "7";
-                            //CloseBarcodeReader();
-                            //OpenBarcodeReader();
-                        });
-                    }
-                    else
-                    {
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            Color = Color.Red;
-                            IsThongBao = true;
-                            ThongBao = "Mã phiếu không tồn tại!";
-                        });
-                        //CloseBarcodeReader();
-                        //OpenBarcodeReader();
-                    }
-                }
-                else if (MySettings.Index_Page == 3)
-                {
-                    var result = APIHelper.PostObjectToAPIAsync<BaseModel<List<PhieuChuyenKhoModel>>>
-                                                           (Constaint.ServiceAddress, Constaint.APIurl.gettransferinstruction,
-                                                           new
-                                                           {
-                                                               BarcodeScan = BarcodeScan
-                                                           });
-                    if (result != null && result.Result != null && result.Result.data != null
-                        && result.Result.data.Count > 0)
-                    {
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            _No = result.Result.data[0].TransferOrderNo;
-                            str_ = "1";
-                            _Date = result.Result.data[0].InstructionDate;//2
-                            str_ = "2";
-                            _WarehouseCode = result.Result.data[0].WarehouseCode_From;//3
-                            str_ = "3";
-                            _WarehouseName = result.Result.data[0].WarehouseName_From;//4
-                            str_ = "4";
-                            _WarehouseCode_To = result.Result.data[0].WarehouseCode_To;//3
-                            str_ = "3";
-                            _WarehouseName_To = result.Result.data[0].WarehouseName_To;//4
-                            str_ = "4";
-
-                            // 
-                            Color = Color.Blue;
-                            str_ = "5";
-                            IsThongBao = true;
-                            str_ = "6";
-                            ThongBao = "Thành công";
-                            str_ = "7";
-                            //CloseBarcodeReader();
-                            //OpenBarcodeReader();
-                        });
-                    }
-                    else
-                    {
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            Color = Color.Red;
-                            IsThongBao = true;
-                            ThongBao = "Mã phiếu không tồn tại!";
-                        });
-                        //CloseBarcodeReader();
-                        //OpenBarcodeReader();
-                    }
+                        Color = Color.Red;
+                        IsThongBao = true;
+                        ThongBao = "Mã phiếu không tồn tại!";
+                    });
                 }
             }
             catch (Exception ex)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    //CloseBarcodeReader();
-                    //OpenBarcodeReader();
                     Color = Color.Red;
                     IsThongBao = true;
                     ThongBao = "Mã phiếu không tồn tại!";
@@ -301,36 +187,14 @@ namespace QRMS.ViewModels
                     Color = Color.Blue;
                     IsThongBao = true;
 
-                    if (MySettings.Index_Page == 1)
-                    {
-                        ThongBao = "Bạn hãy scan phiếu nhập kho";
-                    }
-                    else if (MySettings.Index_Page == 2)
-                    {
-                        ThongBao = "Bạn hãy scan phiếu xuất kho";
-                    }
-                    else if (MySettings.Index_Page == 3)
-                    {
-                        ThongBao = "Bạn hãy scan phiếu chuyển kho";
-                    }
+                    ThongBao = "Bạn hãy scan phiếu nhập kho";
                 }
                 else
                 {
                     Color = Color.Red;
                     IsThongBao = true;
 
-                    if (MySettings.Index_Page == 1)
-                    {
-                        ThongBao = "Bạn hãy scan phiếu nhập kho";
-                    }
-                    else if (MySettings.Index_Page == 2)
-                    {
-                        ThongBao = "Bạn hãy scan phiếu xuất kho";
-                    }
-                    else if (MySettings.Index_Page == 3)
-                    {
-                        ThongBao = "Bạn hãy scan phiếu chuyển kho";
-                    }
+                    ThongBao = "Bạn hãy scan phiếu nhập kho";
 
                     await Application.Current.MainPage.DisplayAlert("Error", "OpenAsync failed, Code:" + result.Code +
                         " Message:" + result.Message, "OK");
@@ -341,18 +205,7 @@ namespace QRMS.ViewModels
                 Color = Color.Red;
                 IsThongBao = true;
 
-                if (MySettings.Index_Page == 1)
-                {
-                    ThongBao = "Bạn hãy scan phiếu nhập kho";
-                }
-                else if (MySettings.Index_Page == 2)
-                {
-                    ThongBao = "Bạn hãy scan phiếu xuất kho";
-                }
-                else if (MySettings.Index_Page == 3)
-                {
-                    ThongBao = "Bạn hãy scan phiếu chuyển kho";
-                }
+                ThongBao = "Bạn hãy scan phiếu nhập kho";
             }
         }
 

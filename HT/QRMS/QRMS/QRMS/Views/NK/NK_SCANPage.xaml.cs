@@ -15,7 +15,6 @@ namespace QRMS.Views
 {
     public partial class NK_SCANPage : ContentPage
     {
-        //MyScan _MyScan;
         public string No;
         public DateTime? Date;
         public string WarehouseCode;
@@ -44,8 +43,6 @@ namespace QRMS.Views
             ViewModel = new NK_SCANPageModel(this);
             ViewModel.Initialize();
             BindingContext = ViewModel;
-            //_MyScan = new MyScan();
-            //_MyScan._NK_SCANPageModel = ViewModel;
 
             row_trencung.Height = 20;
 
@@ -76,28 +73,7 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
-            if (MySettings.Index_Page == 1)
-            {
-                grid.Children.Remove(lst_Xuat);
-                grid.Children.Remove(lst_Chuyen);
-                lbTieuDe.Text = "Nhập kho dụng cụ";
-                spanPhieu.Text = "Phiếu nhập kho: ";
-            }
-            else if (MySettings.Index_Page == 2)
-            {
-                grid.Children.Remove(lst_Nhap);
-                grid.Children.Remove(lst_Chuyen);
-                lbTieuDe.Text = "Xuất kho dụng cụ";
-                spanPhieu.Text = "Phiếu xuất kho: ";
-            }
-            else if (MySettings.Index_Page == 3)
-            {
-                grid.Children.Remove(lst_Xuat);
-                grid.Children.Remove(lst_Nhap);
-                lbTieuDe.Text = "Chuyển kho dụng cụ";
-                spanPhieu.Text = "Phiếu chuyển kho: ";
-            }
-
+            
 
             if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             {
@@ -123,6 +99,10 @@ namespace QRMS.Views
             {
                 _isDisconnect = true;
                 await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
+            }
+            else
+            {
+                _isDisconnect = false;
             }
         }
 
@@ -234,21 +214,8 @@ namespace QRMS.Views
 
             if (lbTieuDe_absPopup.Text == "Chưa lưu dữ liệu quét. Bạn có muốn lưu dữ liệu tạm thời trên thiết bị quét không?")
             {
-                if (MySettings.Index_Page == 1)
-                {  
-                    App.Dblocal.DeletePurchaseOrderAsyncWithKey(No,WarehouseCode);
-                    App.Dblocal.DeleteAllHistory_NKDC(No, WarehouseCode);
-                }
-                else if (MySettings.Index_Page == 2)
-                {
-                    App.Dblocal.DeleteSaleOrderItemScanBPLAsyncWithKey(No,WarehouseCode);
-                    App.Dblocal.DeleteAllHistory_XKDC(No, WarehouseCode);
-                }
-                else if (MySettings.Index_Page == 3)
-                {
-                    App.Dblocal.DeleteTransferInstructionAsyncWithKey(No, WarehouseCode, WarehouseCode_To);
-                    App.Dblocal.DeleteHistory_CKDC(No, WarehouseCode,WarehouseCode_To);
-                } 
+                App.Dblocal.DeletePurchaseOrderAsyncWithKey(No, WarehouseCode);
+                App.Dblocal.DeleteAllHistory_NKDC(No, WarehouseCode);
 
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
                 await Controls.LoadingUtility.HideAsync();
@@ -274,39 +241,11 @@ namespace QRMS.Views
         {
             try
             {
-                
-                if (MySettings.Index_Page == 1)
-                {
-                    List<NhapKhoDungCuModel> donhang_ = App.Dblocal.GetPurchaseOrderAsyncWithKey(No, WarehouseCode);
-                   
-                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_NKDC(No, WarehouseCode);
-                    if (historys != null && historys.Count > 0)
-                        return true;
-                    else
-                        return false;
-                }
-                else if (MySettings.Index_Page == 2)
-                {
-                    List<SaleOrderItemScanBPL> donhang_ = App.Dblocal.GetSaleOrderItemScanAsyncWithKey(No, WarehouseCode);
-                    
-                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_XKDC(No, WarehouseCode);
-                    if (historys != null && historys.Count > 0)
-                        return true;
-                    else
-                        return false;
-                }
-                else if (MySettings.Index_Page == 3)
-                {
-                    List<ChuyenKhoDungCuModelBPL> donhang_ = App.Dblocal.GetTransferInstructionAsyncWithKey(No, WarehouseCode, WarehouseCode_To);
-
-                    List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_CKDC(No, WarehouseCode, WarehouseCode_To);
-
-                    if (historys != null && historys.Count > 0)
-                        return true;
-                    else
-                        return false;
-                }
-                return true;
+                List<TransactionHistoryModel> historys = App.Dblocal.GetAllHistory_NKDC(No, WarehouseCode);
+                if (historys != null && historys.Count > 0)
+                    return true;
+                else
+                    return false;
             }
             catch (Exception ex)
             {

@@ -8,10 +8,10 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace QRMS.Views
 {
-    public partial class NK_HOMEPage : ContentPage
+    public partial class XKDC_HOMEPage : ContentPage
     {
         private bool _isDisconnect = true;
-        public NK_HOMEPage()
+        public XKDC_HOMEPage()
         {
             InitializeComponent();
 
@@ -48,7 +48,6 @@ namespace QRMS.Views
                     row_trencung.Height = 10 + MySettings.Height_Notch;
                 }
             }
- 
 
             if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             {
@@ -74,6 +73,8 @@ namespace QRMS.Views
                 _isDisconnect = true;
                 await DisplayAlert("Thông báo", "Mất kết nối!", "OK");
             }
+            else
+                _isDisconnect = false;
         }
 
         protected override void OnDisappearing()
@@ -96,7 +97,7 @@ namespace QRMS.Views
                 return;
             }
 
-            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new NK_CPPage());
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushAsync(new XKDC_CPPage());
         }
 
         async void BtnNguyenLieu_CLicked(System.Object sender, System.EventArgs e)

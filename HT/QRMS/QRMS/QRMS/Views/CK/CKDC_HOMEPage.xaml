@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:helper="clr-namespace:QRMS.Helper"
-    x:Class="QRMS.Views.NK_HOMEPage">
+    x:Class="QRMS.Views.CKDC_HOMEPage">
     <ContentPage.Content>
         <Grid RowSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
@@ -24,20 +24,20 @@
                 <RowDefinition Height="60"/> 
             </Grid.RowDefinitions>
 
-            <Label x:Name="lbTieuDe" Text="NHẬP KHO" Margin="10,0,0,0" VerticalTextAlignment="Center"
+            <Label x:Name="lbTieuDe" Text="CHUYỂN KHO" Margin="10,0,0,0" VerticalTextAlignment="Center"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" FontAttributes="Bold" FontSize="16"/>
             
             <Label BackgroundColor="Black" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2"/>
 
-            <helper:ButtonCustoms x:Name="lbDungCu" Text="1. NHẬP KHO DỤNG CỤ" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4" CornerRadius="0"
+            <helper:ButtonCustoms x:Name="lbDungCu" Text="1. CHUYỂN KHO DỤNG CỤ" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4" CornerRadius="0"
                 Clicked="BtnDungCu_CLicked" GradientOrientation="Horizontal"
                 StartColor="#00a79d" EndColor="#05aff2"/>
             
-            <helper:ButtonCustoms x:Name="lbNguyenLieu" Text="2. NHẬP KHO NGUYÊN LIỆU" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
+            <helper:ButtonCustoms x:Name="lbNguyenLieu" Text="2. CHUYỂN KHO NGUYÊN LIỆU" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" CornerRadius="0"
                 Clicked="BtnNguyenLieu_CLicked" GradientOrientation="Horizontal"
                 StartColor="#A0A0A0" EndColor="#E0E0E0"/>
 
-              <helper:ButtonCustoms x:Name="lbThanhPham" Text="3. NHẬP KHO THÀNH PHẨM" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" CornerRadius="0"
+              <helper:ButtonCustoms x:Name="lbThanhPham" Text="3. CHUYỂN KHO THÀNH PHẨM" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" CornerRadius="0"
                 Clicked="BtnThanhPham_CLicked" GradientOrientation="Horizontal"
                 StartColor="#A0A0A0" EndColor="#E0E0E0"/>
 
